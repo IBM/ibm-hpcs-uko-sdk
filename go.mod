@@ -1,4 +1,4 @@
-module github.ibm.com/CloudEngineering/go-sdk-template
+module github.com/IBM/ibm-hpcs-uko-sdk
 
 go 1.16
 
