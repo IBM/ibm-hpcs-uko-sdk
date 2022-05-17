@@ -176,10 +176,22 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
+					Expect(req.URL.Query()["label"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["activation_date"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["dectivation_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date_max"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["created_at"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["size"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["size_min"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["size_max"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprint(res, `} this is not valid json {`)
@@ -200,13 +212,26 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysOptionsModel.State = []string{"pre_activation", "active"}
 				listManagedKeysOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listManagedKeysOptionsModel.Offset = core.Int64Ptr(int64(0))
-				listManagedKeysOptionsModel.Sort = []string{"updated_at"}
+				listManagedKeysOptionsModel.Sort = []string{"-updated_at"}
+				listManagedKeysOptionsModel.Label = core.StringPtr("testString")
 				listManagedKeysOptionsModel.ActivationDate = core.StringPtr("testString")
-				listManagedKeysOptionsModel.DectivationDate = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ActivationDateMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ActivationDateMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.DeactivationDate = core.StringPtr("testString")
+				listManagedKeysOptionsModel.DeactivationDateMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.DeactivationDateMax = core.StringPtr("testString")
 				listManagedKeysOptionsModel.CreatedAt = core.StringPtr("testString")
-				listManagedKeysOptionsModel.Size = core.StringPtr("testString")
+				listManagedKeysOptionsModel.CreatedAtMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.CreatedAtMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.UpdatedAt = core.StringPtr("testString")
+				listManagedKeysOptionsModel.UpdatedAtMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.UpdatedAtMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.Size = core.Int64Ptr(int64(38))
+				listManagedKeysOptionsModel.SizeMin = core.Int64Ptr(int64(38))
+				listManagedKeysOptionsModel.SizeMax = core.Int64Ptr(int64(38))
 				listManagedKeysOptionsModel.ReferencedKeystoresType = []string{"ibm_cloud_kms"}
 				listManagedKeysOptionsModel.ReferencedKeystoresName = []string{"testString"}
+				listManagedKeysOptionsModel.InstancesKeystoreType = []string{"ibm_cloud_kms"}
 				listManagedKeysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := ukoService.ListManagedKeys(listManagedKeysOptionsModel)
@@ -239,10 +264,22 @@ var _ = Describe(`UkoV4`, func() {
 
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
+					Expect(req.URL.Query()["label"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["activation_date"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["dectivation_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date_max"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["created_at"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["size"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["size_min"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["size_max"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
@@ -268,13 +305,26 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysOptionsModel.State = []string{"pre_activation", "active"}
 				listManagedKeysOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listManagedKeysOptionsModel.Offset = core.Int64Ptr(int64(0))
-				listManagedKeysOptionsModel.Sort = []string{"updated_at"}
+				listManagedKeysOptionsModel.Sort = []string{"-updated_at"}
+				listManagedKeysOptionsModel.Label = core.StringPtr("testString")
 				listManagedKeysOptionsModel.ActivationDate = core.StringPtr("testString")
-				listManagedKeysOptionsModel.DectivationDate = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ActivationDateMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ActivationDateMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.DeactivationDate = core.StringPtr("testString")
+				listManagedKeysOptionsModel.DeactivationDateMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.DeactivationDateMax = core.StringPtr("testString")
 				listManagedKeysOptionsModel.CreatedAt = core.StringPtr("testString")
-				listManagedKeysOptionsModel.Size = core.StringPtr("testString")
+				listManagedKeysOptionsModel.CreatedAtMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.CreatedAtMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.UpdatedAt = core.StringPtr("testString")
+				listManagedKeysOptionsModel.UpdatedAtMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.UpdatedAtMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.Size = core.Int64Ptr(int64(38))
+				listManagedKeysOptionsModel.SizeMin = core.Int64Ptr(int64(38))
+				listManagedKeysOptionsModel.SizeMax = core.Int64Ptr(int64(38))
 				listManagedKeysOptionsModel.ReferencedKeystoresType = []string{"ibm_cloud_kms"}
 				listManagedKeysOptionsModel.ReferencedKeystoresName = []string{"testString"}
+				listManagedKeysOptionsModel.InstancesKeystoreType = []string{"ibm_cloud_kms"}
 				listManagedKeysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -313,10 +363,22 @@ var _ = Describe(`UkoV4`, func() {
 
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
+					Expect(req.URL.Query()["label"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["activation_date"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["dectivation_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date_max"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["created_at"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["size"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["size_min"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["size_max"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -344,13 +406,26 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysOptionsModel.State = []string{"pre_activation", "active"}
 				listManagedKeysOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listManagedKeysOptionsModel.Offset = core.Int64Ptr(int64(0))
-				listManagedKeysOptionsModel.Sort = []string{"updated_at"}
+				listManagedKeysOptionsModel.Sort = []string{"-updated_at"}
+				listManagedKeysOptionsModel.Label = core.StringPtr("testString")
 				listManagedKeysOptionsModel.ActivationDate = core.StringPtr("testString")
-				listManagedKeysOptionsModel.DectivationDate = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ActivationDateMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ActivationDateMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.DeactivationDate = core.StringPtr("testString")
+				listManagedKeysOptionsModel.DeactivationDateMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.DeactivationDateMax = core.StringPtr("testString")
 				listManagedKeysOptionsModel.CreatedAt = core.StringPtr("testString")
-				listManagedKeysOptionsModel.Size = core.StringPtr("testString")
+				listManagedKeysOptionsModel.CreatedAtMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.CreatedAtMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.UpdatedAt = core.StringPtr("testString")
+				listManagedKeysOptionsModel.UpdatedAtMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.UpdatedAtMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.Size = core.Int64Ptr(int64(38))
+				listManagedKeysOptionsModel.SizeMin = core.Int64Ptr(int64(38))
+				listManagedKeysOptionsModel.SizeMax = core.Int64Ptr(int64(38))
 				listManagedKeysOptionsModel.ReferencedKeystoresType = []string{"ibm_cloud_kms"}
 				listManagedKeysOptionsModel.ReferencedKeystoresName = []string{"testString"}
+				listManagedKeysOptionsModel.InstancesKeystoreType = []string{"ibm_cloud_kms"}
 				listManagedKeysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -375,13 +450,26 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysOptionsModel.State = []string{"pre_activation", "active"}
 				listManagedKeysOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listManagedKeysOptionsModel.Offset = core.Int64Ptr(int64(0))
-				listManagedKeysOptionsModel.Sort = []string{"updated_at"}
+				listManagedKeysOptionsModel.Sort = []string{"-updated_at"}
+				listManagedKeysOptionsModel.Label = core.StringPtr("testString")
 				listManagedKeysOptionsModel.ActivationDate = core.StringPtr("testString")
-				listManagedKeysOptionsModel.DectivationDate = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ActivationDateMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ActivationDateMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.DeactivationDate = core.StringPtr("testString")
+				listManagedKeysOptionsModel.DeactivationDateMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.DeactivationDateMax = core.StringPtr("testString")
 				listManagedKeysOptionsModel.CreatedAt = core.StringPtr("testString")
-				listManagedKeysOptionsModel.Size = core.StringPtr("testString")
+				listManagedKeysOptionsModel.CreatedAtMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.CreatedAtMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.UpdatedAt = core.StringPtr("testString")
+				listManagedKeysOptionsModel.UpdatedAtMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.UpdatedAtMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.Size = core.Int64Ptr(int64(38))
+				listManagedKeysOptionsModel.SizeMin = core.Int64Ptr(int64(38))
+				listManagedKeysOptionsModel.SizeMax = core.Int64Ptr(int64(38))
 				listManagedKeysOptionsModel.ReferencedKeystoresType = []string{"ibm_cloud_kms"}
 				listManagedKeysOptionsModel.ReferencedKeystoresName = []string{"testString"}
+				listManagedKeysOptionsModel.InstancesKeystoreType = []string{"ibm_cloud_kms"}
 				listManagedKeysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := ukoService.SetServiceURL("")
@@ -420,13 +508,26 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysOptionsModel.State = []string{"pre_activation", "active"}
 				listManagedKeysOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listManagedKeysOptionsModel.Offset = core.Int64Ptr(int64(0))
-				listManagedKeysOptionsModel.Sort = []string{"updated_at"}
+				listManagedKeysOptionsModel.Sort = []string{"-updated_at"}
+				listManagedKeysOptionsModel.Label = core.StringPtr("testString")
 				listManagedKeysOptionsModel.ActivationDate = core.StringPtr("testString")
-				listManagedKeysOptionsModel.DectivationDate = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ActivationDateMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ActivationDateMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.DeactivationDate = core.StringPtr("testString")
+				listManagedKeysOptionsModel.DeactivationDateMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.DeactivationDateMax = core.StringPtr("testString")
 				listManagedKeysOptionsModel.CreatedAt = core.StringPtr("testString")
-				listManagedKeysOptionsModel.Size = core.StringPtr("testString")
+				listManagedKeysOptionsModel.CreatedAtMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.CreatedAtMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.UpdatedAt = core.StringPtr("testString")
+				listManagedKeysOptionsModel.UpdatedAtMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.UpdatedAtMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.Size = core.Int64Ptr(int64(38))
+				listManagedKeysOptionsModel.SizeMin = core.Int64Ptr(int64(38))
+				listManagedKeysOptionsModel.SizeMax = core.Int64Ptr(int64(38))
 				listManagedKeysOptionsModel.ReferencedKeystoresType = []string{"ibm_cloud_kms"}
 				listManagedKeysOptionsModel.ReferencedKeystoresName = []string{"testString"}
+				listManagedKeysOptionsModel.InstancesKeystoreType = []string{"ibm_cloud_kms"}
 				listManagedKeysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -2605,6 +2706,7 @@ var _ = Describe(`UkoV4`, func() {
 				listKeyTemplatesOptionsModel := new(ukov4.ListKeyTemplatesOptions)
 				listKeyTemplatesOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
 				listKeyTemplatesOptionsModel.KeyAlgorithm = core.StringPtr("aes")
+				listKeyTemplatesOptionsModel.Sort = []string{"-updated_at"}
 				listKeyTemplatesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listKeyTemplatesOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listKeyTemplatesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -2662,6 +2764,7 @@ var _ = Describe(`UkoV4`, func() {
 				listKeyTemplatesOptionsModel := new(ukov4.ListKeyTemplatesOptions)
 				listKeyTemplatesOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
 				listKeyTemplatesOptionsModel.KeyAlgorithm = core.StringPtr("aes")
+				listKeyTemplatesOptionsModel.Sort = []string{"-updated_at"}
 				listKeyTemplatesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listKeyTemplatesOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listKeyTemplatesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -2727,6 +2830,7 @@ var _ = Describe(`UkoV4`, func() {
 				listKeyTemplatesOptionsModel := new(ukov4.ListKeyTemplatesOptions)
 				listKeyTemplatesOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
 				listKeyTemplatesOptionsModel.KeyAlgorithm = core.StringPtr("aes")
+				listKeyTemplatesOptionsModel.Sort = []string{"-updated_at"}
 				listKeyTemplatesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listKeyTemplatesOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listKeyTemplatesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -2750,6 +2854,7 @@ var _ = Describe(`UkoV4`, func() {
 				listKeyTemplatesOptionsModel := new(ukov4.ListKeyTemplatesOptions)
 				listKeyTemplatesOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
 				listKeyTemplatesOptionsModel.KeyAlgorithm = core.StringPtr("aes")
+				listKeyTemplatesOptionsModel.Sort = []string{"-updated_at"}
 				listKeyTemplatesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listKeyTemplatesOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listKeyTemplatesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -2787,6 +2892,7 @@ var _ = Describe(`UkoV4`, func() {
 				listKeyTemplatesOptionsModel := new(ukov4.ListKeyTemplatesOptions)
 				listKeyTemplatesOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
 				listKeyTemplatesOptionsModel.KeyAlgorithm = core.StringPtr("aes")
+				listKeyTemplatesOptionsModel.Sort = []string{"-updated_at"}
 				listKeyTemplatesOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listKeyTemplatesOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listKeyTemplatesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -3850,7 +3956,7 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["name"]).To(Equal([]string{"Main IBM Cloud"}))
 					Expect(req.URL.Query()["description"]).To(Equal([]string{"My Example Keystore Description"}))
-					Expect(req.URL.Query()["group"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["groups[]"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					res.Header().Set("Content-type", "application/json")
@@ -3871,11 +3977,11 @@ var _ = Describe(`UkoV4`, func() {
 				listKeystoresOptionsModel.Type = []string{"ibm_cloud_kms"}
 				listKeystoresOptionsModel.Name = core.StringPtr("Main IBM Cloud")
 				listKeystoresOptionsModel.Description = core.StringPtr("My Example Keystore Description")
-				listKeystoresOptionsModel.Group = core.StringPtr("testString")
+				listKeystoresOptionsModel.Groups = core.StringPtr("testString")
 				listKeystoresOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
 				listKeystoresOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listKeystoresOptionsModel.Offset = core.Int64Ptr(int64(0))
-				listKeystoresOptionsModel.Sort = []string{"updated_at"}
+				listKeystoresOptionsModel.Sort = []string{"-updated_at"}
 				listKeystoresOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := ukoService.ListKeystores(listKeystoresOptionsModel)
@@ -3908,7 +4014,7 @@ var _ = Describe(`UkoV4`, func() {
 
 					Expect(req.URL.Query()["name"]).To(Equal([]string{"Main IBM Cloud"}))
 					Expect(req.URL.Query()["description"]).To(Equal([]string{"My Example Keystore Description"}))
-					Expect(req.URL.Query()["group"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["groups[]"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					// Sleep a short time to support a timeout test
@@ -3934,11 +4040,11 @@ var _ = Describe(`UkoV4`, func() {
 				listKeystoresOptionsModel.Type = []string{"ibm_cloud_kms"}
 				listKeystoresOptionsModel.Name = core.StringPtr("Main IBM Cloud")
 				listKeystoresOptionsModel.Description = core.StringPtr("My Example Keystore Description")
-				listKeystoresOptionsModel.Group = core.StringPtr("testString")
+				listKeystoresOptionsModel.Groups = core.StringPtr("testString")
 				listKeystoresOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
 				listKeystoresOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listKeystoresOptionsModel.Offset = core.Int64Ptr(int64(0))
-				listKeystoresOptionsModel.Sort = []string{"updated_at"}
+				listKeystoresOptionsModel.Sort = []string{"-updated_at"}
 				listKeystoresOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -3977,7 +4083,7 @@ var _ = Describe(`UkoV4`, func() {
 
 					Expect(req.URL.Query()["name"]).To(Equal([]string{"Main IBM Cloud"}))
 					Expect(req.URL.Query()["description"]).To(Equal([]string{"My Example Keystore Description"}))
-					Expect(req.URL.Query()["group"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["groups[]"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					// Set mock response
@@ -4005,11 +4111,11 @@ var _ = Describe(`UkoV4`, func() {
 				listKeystoresOptionsModel.Type = []string{"ibm_cloud_kms"}
 				listKeystoresOptionsModel.Name = core.StringPtr("Main IBM Cloud")
 				listKeystoresOptionsModel.Description = core.StringPtr("My Example Keystore Description")
-				listKeystoresOptionsModel.Group = core.StringPtr("testString")
+				listKeystoresOptionsModel.Groups = core.StringPtr("testString")
 				listKeystoresOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
 				listKeystoresOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listKeystoresOptionsModel.Offset = core.Int64Ptr(int64(0))
-				listKeystoresOptionsModel.Sort = []string{"updated_at"}
+				listKeystoresOptionsModel.Sort = []string{"-updated_at"}
 				listKeystoresOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -4032,11 +4138,11 @@ var _ = Describe(`UkoV4`, func() {
 				listKeystoresOptionsModel.Type = []string{"ibm_cloud_kms"}
 				listKeystoresOptionsModel.Name = core.StringPtr("Main IBM Cloud")
 				listKeystoresOptionsModel.Description = core.StringPtr("My Example Keystore Description")
-				listKeystoresOptionsModel.Group = core.StringPtr("testString")
+				listKeystoresOptionsModel.Groups = core.StringPtr("testString")
 				listKeystoresOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
 				listKeystoresOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listKeystoresOptionsModel.Offset = core.Int64Ptr(int64(0))
-				listKeystoresOptionsModel.Sort = []string{"updated_at"}
+				listKeystoresOptionsModel.Sort = []string{"-updated_at"}
 				listKeystoresOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := ukoService.SetServiceURL("")
@@ -4073,11 +4179,11 @@ var _ = Describe(`UkoV4`, func() {
 				listKeystoresOptionsModel.Type = []string{"ibm_cloud_kms"}
 				listKeystoresOptionsModel.Name = core.StringPtr("Main IBM Cloud")
 				listKeystoresOptionsModel.Description = core.StringPtr("My Example Keystore Description")
-				listKeystoresOptionsModel.Group = core.StringPtr("testString")
+				listKeystoresOptionsModel.Groups = core.StringPtr("testString")
 				listKeystoresOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
 				listKeystoresOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listKeystoresOptionsModel.Offset = core.Int64Ptr(int64(0))
-				listKeystoresOptionsModel.Sort = []string{"updated_at"}
+				listKeystoresOptionsModel.Sort = []string{"-updated_at"}
 				listKeystoresOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -4132,8 +4238,166 @@ var _ = Describe(`UkoV4`, func() {
 		})
 	})
 	})
+	Describe(`CreateKeystore(createKeystoreOptions *CreateKeystoreOptions) - Operation response error`, func() {
+		createKeystorePath := "/v4/keystores"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createKeystorePath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
+					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// TODO: Add check for dry_run query parameter
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke CreateKeystore with error: Operation response processing error`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Construct an instance of the VaultReferenceInCreationRequest model
+				vaultReferenceInCreationRequestModel := new(ukov4.VaultReferenceInCreationRequest)
+				vaultReferenceInCreationRequestModel.ID = core.StringPtr("5295ad47-2ce9-43c3-b9e7-e5a9482c362b")
+
+				// Construct an instance of the KeystoreCreationRequestKeystoreTypeAwsKmsCreate model
+				keystoreCreationRequestModel := new(ukov4.KeystoreCreationRequestKeystoreTypeAwsKmsCreate)
+				keystoreCreationRequestModel.Type = core.StringPtr("aws_kms")
+				keystoreCreationRequestModel.Vault = vaultReferenceInCreationRequestModel
+				keystoreCreationRequestModel.Name = core.StringPtr("IBM Cloud Keystore Name")
+				keystoreCreationRequestModel.Description = core.StringPtr("Azure keystore")
+				keystoreCreationRequestModel.Groups = []string{"Production"}
+				keystoreCreationRequestModel.AwsRegion = core.StringPtr("af_south_1")
+				keystoreCreationRequestModel.AwsAccessKeyID = core.StringPtr("BSDFWERUANLKJDN54AAS")
+				keystoreCreationRequestModel.AwsSecretAccessKey = core.StringPtr("6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs")
+
+				// Construct an instance of the CreateKeystoreOptions model
+				createKeystoreOptionsModel := new(ukov4.CreateKeystoreOptions)
+				createKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
+				createKeystoreOptionsModel.KeystoreBody = keystoreCreationRequestModel
+				createKeystoreOptionsModel.DryRun = core.BoolPtr(false)
+				createKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := ukoService.CreateKeystore(createKeystoreOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				ukoService.EnableRetries(0, 0)
+				result, response, operationErr = ukoService.CreateKeystore(createKeystoreOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`CreateKeystore(createKeystoreOptions *CreateKeystoreOptions)`, func() {
 		createKeystorePath := "/v4/keystores"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(createKeystorePath))
+					Expect(req.Method).To(Equal("POST"))
+
+					// For gzip-disabled operation, verify Content-Encoding is not set.
+					Expect(req.Header.Get("Content-Encoding")).To(BeEmpty())
+
+					// If there is a body, then make sure we can read it
+					bodyBuf := new(bytes.Buffer)
+					if req.Header.Get("Content-Encoding") == "gzip" {
+						body, err := core.NewGzipDecompressionReader(req.Body)
+						Expect(err).To(BeNil())
+						_, err = bodyBuf.ReadFrom(body)
+						Expect(err).To(BeNil())
+					} else {
+						_, err := bodyBuf.ReadFrom(req.Body)
+						Expect(err).To(BeNil())
+					}
+					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
+
+					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
+					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// TODO: Add check for dry_run query parameter
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "aws_region": "af_south_1", "aws_access_key_id": "BSDFWERUANLKJDN54AAS", "aws_secret_access_key": "6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs"}`)
+				}))
+			})
+			It(`Invoke CreateKeystore successfully with retries`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+				ukoService.EnableRetries(0, 0)
+
+				// Construct an instance of the VaultReferenceInCreationRequest model
+				vaultReferenceInCreationRequestModel := new(ukov4.VaultReferenceInCreationRequest)
+				vaultReferenceInCreationRequestModel.ID = core.StringPtr("5295ad47-2ce9-43c3-b9e7-e5a9482c362b")
+
+				// Construct an instance of the KeystoreCreationRequestKeystoreTypeAwsKmsCreate model
+				keystoreCreationRequestModel := new(ukov4.KeystoreCreationRequestKeystoreTypeAwsKmsCreate)
+				keystoreCreationRequestModel.Type = core.StringPtr("aws_kms")
+				keystoreCreationRequestModel.Vault = vaultReferenceInCreationRequestModel
+				keystoreCreationRequestModel.Name = core.StringPtr("IBM Cloud Keystore Name")
+				keystoreCreationRequestModel.Description = core.StringPtr("Azure keystore")
+				keystoreCreationRequestModel.Groups = []string{"Production"}
+				keystoreCreationRequestModel.AwsRegion = core.StringPtr("af_south_1")
+				keystoreCreationRequestModel.AwsAccessKeyID = core.StringPtr("BSDFWERUANLKJDN54AAS")
+				keystoreCreationRequestModel.AwsSecretAccessKey = core.StringPtr("6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs")
+
+				// Construct an instance of the CreateKeystoreOptions model
+				createKeystoreOptionsModel := new(ukov4.CreateKeystoreOptions)
+				createKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
+				createKeystoreOptionsModel.KeystoreBody = keystoreCreationRequestModel
+				createKeystoreOptionsModel.DryRun = core.BoolPtr(false)
+				createKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := ukoService.CreateKeystoreWithContext(ctx, createKeystoreOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				ukoService.DisableRetries()
+				result, response, operationErr := ukoService.CreateKeystore(createKeystoreOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = ukoService.CreateKeystoreWithContext(ctx, createKeystoreOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
@@ -4162,7 +4426,10 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
 					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// TODO: Add check for dry_run query parameter
-					res.WriteHeader(200)
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(201)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "aws_region": "af_south_1", "aws_access_key_id": "BSDFWERUANLKJDN54AAS", "aws_secret_access_key": "6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs"}`)
 				}))
 			})
 			It(`Invoke CreateKeystore successfully`, func() {
@@ -4174,9 +4441,10 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(ukoService).ToNot(BeNil())
 
 				// Invoke operation with nil options model (negative test)
-				response, operationErr := ukoService.CreateKeystore(nil)
+				result, response, operationErr := ukoService.CreateKeystore(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
 
 				// Construct an instance of the VaultReferenceInCreationRequest model
 				vaultReferenceInCreationRequestModel := new(ukov4.VaultReferenceInCreationRequest)
@@ -4201,9 +4469,11 @@ var _ = Describe(`UkoV4`, func() {
 				createKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				response, operationErr = ukoService.CreateKeystore(createKeystoreOptionsModel)
+				result, response, operationErr = ukoService.CreateKeystore(createKeystoreOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
 			})
 			It(`Invoke CreateKeystore with error: Operation validation and request error`, func() {
 				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
@@ -4237,16 +4507,69 @@ var _ = Describe(`UkoV4`, func() {
 				// Invoke operation with empty URL (negative test)
 				err := ukoService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				response, operationErr := ukoService.CreateKeystore(createKeystoreOptionsModel)
+				result, response, operationErr := ukoService.CreateKeystore(createKeystoreOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
 				// Construct a second instance of the CreateKeystoreOptions model with no property values
 				createKeystoreOptionsModelNew := new(ukov4.CreateKeystoreOptions)
 				// Invoke operation with invalid model (negative test)
-				response, operationErr = ukoService.CreateKeystore(createKeystoreOptionsModelNew)
+				result, response, operationErr = ukoService.CreateKeystore(createKeystoreOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(201)
+				}))
+			})
+			It(`Invoke CreateKeystore successfully`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Construct an instance of the VaultReferenceInCreationRequest model
+				vaultReferenceInCreationRequestModel := new(ukov4.VaultReferenceInCreationRequest)
+				vaultReferenceInCreationRequestModel.ID = core.StringPtr("5295ad47-2ce9-43c3-b9e7-e5a9482c362b")
+
+				// Construct an instance of the KeystoreCreationRequestKeystoreTypeAwsKmsCreate model
+				keystoreCreationRequestModel := new(ukov4.KeystoreCreationRequestKeystoreTypeAwsKmsCreate)
+				keystoreCreationRequestModel.Type = core.StringPtr("aws_kms")
+				keystoreCreationRequestModel.Vault = vaultReferenceInCreationRequestModel
+				keystoreCreationRequestModel.Name = core.StringPtr("IBM Cloud Keystore Name")
+				keystoreCreationRequestModel.Description = core.StringPtr("Azure keystore")
+				keystoreCreationRequestModel.Groups = []string{"Production"}
+				keystoreCreationRequestModel.AwsRegion = core.StringPtr("af_south_1")
+				keystoreCreationRequestModel.AwsAccessKeyID = core.StringPtr("BSDFWERUANLKJDN54AAS")
+				keystoreCreationRequestModel.AwsSecretAccessKey = core.StringPtr("6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs")
+
+				// Construct an instance of the CreateKeystoreOptions model
+				createKeystoreOptionsModel := new(ukov4.CreateKeystoreOptions)
+				createKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
+				createKeystoreOptionsModel.KeystoreBody = keystoreCreationRequestModel
+				createKeystoreOptionsModel.DryRun = core.BoolPtr(false)
+				createKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := ukoService.CreateKeystore(createKeystoreOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
 			})
 			AfterEach(func() {
 				testServer.Close()
@@ -4268,6 +4591,7 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["mode"]).To(Equal([]string{"restrict"}))
 					res.WriteHeader(204)
 				}))
 			})
@@ -4289,6 +4613,7 @@ var _ = Describe(`UkoV4`, func() {
 				deleteKeystoreOptionsModel.ID = core.StringPtr("testString")
 				deleteKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				deleteKeystoreOptionsModel.IfMatch = core.StringPtr("testString")
+				deleteKeystoreOptionsModel.Mode = core.StringPtr("restrict")
 				deleteKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -4309,6 +4634,7 @@ var _ = Describe(`UkoV4`, func() {
 				deleteKeystoreOptionsModel.ID = core.StringPtr("testString")
 				deleteKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				deleteKeystoreOptionsModel.IfMatch = core.StringPtr("testString")
+				deleteKeystoreOptionsModel.Mode = core.StringPtr("restrict")
 				deleteKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := ukoService.SetServiceURL("")
@@ -5105,6 +5431,22 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
+					Expect(req.URL.Query()["label"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["size_min"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["size_max"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprint(res, `} this is not valid json {`)
@@ -5126,6 +5468,23 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysFromKeystoreOptionsModel.State = []string{"pre_activation", "active"}
 				listManagedKeysFromKeystoreOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listManagedKeysFromKeystoreOptionsModel.Offset = core.Int64Ptr(int64(0))
+				listManagedKeysFromKeystoreOptionsModel.Sort = []string{"-updated_at"}
+				listManagedKeysFromKeystoreOptionsModel.Label = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ActivationDate = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ActivationDateMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ActivationDateMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.DeactivationDate = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.DeactivationDateMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.DeactivationDateMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.CreatedAt = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.CreatedAtMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.CreatedAtMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.UpdatedAt = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.UpdatedAtMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.UpdatedAtMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.Size = core.Int64Ptr(int64(38))
+				listManagedKeysFromKeystoreOptionsModel.SizeMin = core.Int64Ptr(int64(38))
+				listManagedKeysFromKeystoreOptionsModel.SizeMax = core.Int64Ptr(int64(38))
 				listManagedKeysFromKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := ukoService.ListManagedKeysFromKeystore(listManagedKeysFromKeystoreOptionsModel)
@@ -5160,6 +5519,22 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
+					Expect(req.URL.Query()["label"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["size_min"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["size_max"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
@@ -5186,6 +5561,23 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysFromKeystoreOptionsModel.State = []string{"pre_activation", "active"}
 				listManagedKeysFromKeystoreOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listManagedKeysFromKeystoreOptionsModel.Offset = core.Int64Ptr(int64(0))
+				listManagedKeysFromKeystoreOptionsModel.Sort = []string{"-updated_at"}
+				listManagedKeysFromKeystoreOptionsModel.Label = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ActivationDate = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ActivationDateMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ActivationDateMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.DeactivationDate = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.DeactivationDateMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.DeactivationDateMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.CreatedAt = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.CreatedAtMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.CreatedAtMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.UpdatedAt = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.UpdatedAtMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.UpdatedAtMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.Size = core.Int64Ptr(int64(38))
+				listManagedKeysFromKeystoreOptionsModel.SizeMin = core.Int64Ptr(int64(38))
+				listManagedKeysFromKeystoreOptionsModel.SizeMax = core.Int64Ptr(int64(38))
 				listManagedKeysFromKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -5226,6 +5618,22 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(1))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
+					Expect(req.URL.Query()["label"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["size_min"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["size_max"]).To(Equal([]string{fmt.Sprint(int64(38))}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -5254,6 +5662,23 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysFromKeystoreOptionsModel.State = []string{"pre_activation", "active"}
 				listManagedKeysFromKeystoreOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listManagedKeysFromKeystoreOptionsModel.Offset = core.Int64Ptr(int64(0))
+				listManagedKeysFromKeystoreOptionsModel.Sort = []string{"-updated_at"}
+				listManagedKeysFromKeystoreOptionsModel.Label = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ActivationDate = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ActivationDateMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ActivationDateMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.DeactivationDate = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.DeactivationDateMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.DeactivationDateMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.CreatedAt = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.CreatedAtMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.CreatedAtMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.UpdatedAt = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.UpdatedAtMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.UpdatedAtMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.Size = core.Int64Ptr(int64(38))
+				listManagedKeysFromKeystoreOptionsModel.SizeMin = core.Int64Ptr(int64(38))
+				listManagedKeysFromKeystoreOptionsModel.SizeMax = core.Int64Ptr(int64(38))
 				listManagedKeysFromKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -5279,6 +5704,23 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysFromKeystoreOptionsModel.State = []string{"pre_activation", "active"}
 				listManagedKeysFromKeystoreOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listManagedKeysFromKeystoreOptionsModel.Offset = core.Int64Ptr(int64(0))
+				listManagedKeysFromKeystoreOptionsModel.Sort = []string{"-updated_at"}
+				listManagedKeysFromKeystoreOptionsModel.Label = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ActivationDate = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ActivationDateMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ActivationDateMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.DeactivationDate = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.DeactivationDateMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.DeactivationDateMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.CreatedAt = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.CreatedAtMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.CreatedAtMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.UpdatedAt = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.UpdatedAtMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.UpdatedAtMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.Size = core.Int64Ptr(int64(38))
+				listManagedKeysFromKeystoreOptionsModel.SizeMin = core.Int64Ptr(int64(38))
+				listManagedKeysFromKeystoreOptionsModel.SizeMax = core.Int64Ptr(int64(38))
 				listManagedKeysFromKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := ukoService.SetServiceURL("")
@@ -5325,6 +5767,23 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysFromKeystoreOptionsModel.State = []string{"pre_activation", "active"}
 				listManagedKeysFromKeystoreOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listManagedKeysFromKeystoreOptionsModel.Offset = core.Int64Ptr(int64(0))
+				listManagedKeysFromKeystoreOptionsModel.Sort = []string{"-updated_at"}
+				listManagedKeysFromKeystoreOptionsModel.Label = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ActivationDate = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ActivationDateMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ActivationDateMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.DeactivationDate = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.DeactivationDateMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.DeactivationDateMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.CreatedAt = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.CreatedAtMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.CreatedAtMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.UpdatedAt = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.UpdatedAtMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.UpdatedAtMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.Size = core.Int64Ptr(int64(38))
+				listManagedKeysFromKeystoreOptionsModel.SizeMin = core.Int64Ptr(int64(38))
+				listManagedKeysFromKeystoreOptionsModel.SizeMax = core.Int64Ptr(int64(38))
 				listManagedKeysFromKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -5410,6 +5869,7 @@ var _ = Describe(`UkoV4`, func() {
 				listVaultsOptionsModel := new(ukov4.ListVaultsOptions)
 				listVaultsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVaultsOptionsModel.Offset = core.Int64Ptr(int64(0))
+				listVaultsOptionsModel.Sort = []string{"-updated_at"}
 				listVaultsOptionsModel.Name = core.StringPtr("My Example Vault")
 				listVaultsOptionsModel.Description = core.StringPtr("My Example Vault Description")
 				listVaultsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -5468,6 +5928,7 @@ var _ = Describe(`UkoV4`, func() {
 				listVaultsOptionsModel := new(ukov4.ListVaultsOptions)
 				listVaultsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVaultsOptionsModel.Offset = core.Int64Ptr(int64(0))
+				listVaultsOptionsModel.Sort = []string{"-updated_at"}
 				listVaultsOptionsModel.Name = core.StringPtr("My Example Vault")
 				listVaultsOptionsModel.Description = core.StringPtr("My Example Vault Description")
 				listVaultsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -5534,6 +5995,7 @@ var _ = Describe(`UkoV4`, func() {
 				listVaultsOptionsModel := new(ukov4.ListVaultsOptions)
 				listVaultsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVaultsOptionsModel.Offset = core.Int64Ptr(int64(0))
+				listVaultsOptionsModel.Sort = []string{"-updated_at"}
 				listVaultsOptionsModel.Name = core.StringPtr("My Example Vault")
 				listVaultsOptionsModel.Description = core.StringPtr("My Example Vault Description")
 				listVaultsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -5557,6 +6019,7 @@ var _ = Describe(`UkoV4`, func() {
 				listVaultsOptionsModel := new(ukov4.ListVaultsOptions)
 				listVaultsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVaultsOptionsModel.Offset = core.Int64Ptr(int64(0))
+				listVaultsOptionsModel.Sort = []string{"-updated_at"}
 				listVaultsOptionsModel.Name = core.StringPtr("My Example Vault")
 				listVaultsOptionsModel.Description = core.StringPtr("My Example Vault Description")
 				listVaultsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -5594,6 +6057,7 @@ var _ = Describe(`UkoV4`, func() {
 				listVaultsOptionsModel := new(ukov4.ListVaultsOptions)
 				listVaultsOptionsModel.Limit = core.Int64Ptr(int64(1))
 				listVaultsOptionsModel.Offset = core.Int64Ptr(int64(0))
+				listVaultsOptionsModel.Sort = []string{"-updated_at"}
 				listVaultsOptionsModel.Name = core.StringPtr("My Example Vault")
 				listVaultsOptionsModel.Description = core.StringPtr("My Example Vault Description")
 				listVaultsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -6785,12 +7249,14 @@ var _ = Describe(`UkoV4`, func() {
 				listKeyTemplatesOptionsModel := ukoService.NewListKeyTemplatesOptions()
 				listKeyTemplatesOptionsModel.SetVaultID([]string{"123e4567-e89b-12d3-a456-426614174000"})
 				listKeyTemplatesOptionsModel.SetKeyAlgorithm("aes")
+				listKeyTemplatesOptionsModel.SetSort([]string{"-updated_at"})
 				listKeyTemplatesOptionsModel.SetLimit(int64(1))
 				listKeyTemplatesOptionsModel.SetOffset(int64(0))
 				listKeyTemplatesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listKeyTemplatesOptionsModel).ToNot(BeNil())
 				Expect(listKeyTemplatesOptionsModel.VaultID).To(Equal([]string{"123e4567-e89b-12d3-a456-426614174000"}))
 				Expect(listKeyTemplatesOptionsModel.KeyAlgorithm).To(Equal(core.StringPtr("aes")))
+				Expect(listKeyTemplatesOptionsModel.Sort).To(Equal([]string{"-updated_at"}))
 				Expect(listKeyTemplatesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listKeyTemplatesOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(0))))
 				Expect(listKeyTemplatesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
@@ -6801,21 +7267,21 @@ var _ = Describe(`UkoV4`, func() {
 				listKeystoresOptionsModel.SetType([]string{"ibm_cloud_kms"})
 				listKeystoresOptionsModel.SetName("Main IBM Cloud")
 				listKeystoresOptionsModel.SetDescription("My Example Keystore Description")
-				listKeystoresOptionsModel.SetGroup("testString")
+				listKeystoresOptionsModel.SetGroups("testString")
 				listKeystoresOptionsModel.SetVaultID([]string{"123e4567-e89b-12d3-a456-426614174000"})
 				listKeystoresOptionsModel.SetLimit(int64(1))
 				listKeystoresOptionsModel.SetOffset(int64(0))
-				listKeystoresOptionsModel.SetSort([]string{"updated_at"})
+				listKeystoresOptionsModel.SetSort([]string{"-updated_at"})
 				listKeystoresOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listKeystoresOptionsModel).ToNot(BeNil())
 				Expect(listKeystoresOptionsModel.Type).To(Equal([]string{"ibm_cloud_kms"}))
 				Expect(listKeystoresOptionsModel.Name).To(Equal(core.StringPtr("Main IBM Cloud")))
 				Expect(listKeystoresOptionsModel.Description).To(Equal(core.StringPtr("My Example Keystore Description")))
-				Expect(listKeystoresOptionsModel.Group).To(Equal(core.StringPtr("testString")))
+				Expect(listKeystoresOptionsModel.Groups).To(Equal(core.StringPtr("testString")))
 				Expect(listKeystoresOptionsModel.VaultID).To(Equal([]string{"123e4567-e89b-12d3-a456-426614174000"}))
 				Expect(listKeystoresOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listKeystoresOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(0))))
-				Expect(listKeystoresOptionsModel.Sort).To(Equal([]string{"updated_at"}))
+				Expect(listKeystoresOptionsModel.Sort).To(Equal([]string{"-updated_at"}))
 				Expect(listKeystoresOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListManagedKeysFromKeystoreOptions successfully`, func() {
@@ -6829,6 +7295,23 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysFromKeystoreOptionsModel.SetState([]string{"pre_activation", "active"})
 				listManagedKeysFromKeystoreOptionsModel.SetLimit(int64(1))
 				listManagedKeysFromKeystoreOptionsModel.SetOffset(int64(0))
+				listManagedKeysFromKeystoreOptionsModel.SetSort([]string{"-updated_at"})
+				listManagedKeysFromKeystoreOptionsModel.SetLabel("testString")
+				listManagedKeysFromKeystoreOptionsModel.SetActivationDate("testString")
+				listManagedKeysFromKeystoreOptionsModel.SetActivationDateMin("testString")
+				listManagedKeysFromKeystoreOptionsModel.SetActivationDateMax("testString")
+				listManagedKeysFromKeystoreOptionsModel.SetDeactivationDate("testString")
+				listManagedKeysFromKeystoreOptionsModel.SetDeactivationDateMin("testString")
+				listManagedKeysFromKeystoreOptionsModel.SetDeactivationDateMax("testString")
+				listManagedKeysFromKeystoreOptionsModel.SetCreatedAt("testString")
+				listManagedKeysFromKeystoreOptionsModel.SetCreatedAtMin("testString")
+				listManagedKeysFromKeystoreOptionsModel.SetCreatedAtMax("testString")
+				listManagedKeysFromKeystoreOptionsModel.SetUpdatedAt("testString")
+				listManagedKeysFromKeystoreOptionsModel.SetUpdatedAtMin("testString")
+				listManagedKeysFromKeystoreOptionsModel.SetUpdatedAtMax("testString")
+				listManagedKeysFromKeystoreOptionsModel.SetSize(int64(38))
+				listManagedKeysFromKeystoreOptionsModel.SetSizeMin(int64(38))
+				listManagedKeysFromKeystoreOptionsModel.SetSizeMax(int64(38))
 				listManagedKeysFromKeystoreOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listManagedKeysFromKeystoreOptionsModel).ToNot(BeNil())
 				Expect(listManagedKeysFromKeystoreOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
@@ -6837,6 +7320,23 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(listManagedKeysFromKeystoreOptionsModel.State).To(Equal([]string{"pre_activation", "active"}))
 				Expect(listManagedKeysFromKeystoreOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listManagedKeysFromKeystoreOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(0))))
+				Expect(listManagedKeysFromKeystoreOptionsModel.Sort).To(Equal([]string{"-updated_at"}))
+				Expect(listManagedKeysFromKeystoreOptionsModel.Label).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysFromKeystoreOptionsModel.ActivationDate).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysFromKeystoreOptionsModel.ActivationDateMin).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysFromKeystoreOptionsModel.ActivationDateMax).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysFromKeystoreOptionsModel.DeactivationDate).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysFromKeystoreOptionsModel.DeactivationDateMin).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysFromKeystoreOptionsModel.DeactivationDateMax).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysFromKeystoreOptionsModel.CreatedAt).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysFromKeystoreOptionsModel.CreatedAtMin).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysFromKeystoreOptionsModel.CreatedAtMax).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysFromKeystoreOptionsModel.UpdatedAt).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysFromKeystoreOptionsModel.UpdatedAtMin).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysFromKeystoreOptionsModel.UpdatedAtMax).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysFromKeystoreOptionsModel.Size).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listManagedKeysFromKeystoreOptionsModel.SizeMin).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listManagedKeysFromKeystoreOptionsModel.SizeMax).To(Equal(core.Int64Ptr(int64(38))))
 				Expect(listManagedKeysFromKeystoreOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListManagedKeysOptions successfully`, func() {
@@ -6847,13 +7347,26 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysOptionsModel.SetState([]string{"pre_activation", "active"})
 				listManagedKeysOptionsModel.SetLimit(int64(1))
 				listManagedKeysOptionsModel.SetOffset(int64(0))
-				listManagedKeysOptionsModel.SetSort([]string{"updated_at"})
+				listManagedKeysOptionsModel.SetSort([]string{"-updated_at"})
+				listManagedKeysOptionsModel.SetLabel("testString")
 				listManagedKeysOptionsModel.SetActivationDate("testString")
-				listManagedKeysOptionsModel.SetDectivationDate("testString")
+				listManagedKeysOptionsModel.SetActivationDateMin("testString")
+				listManagedKeysOptionsModel.SetActivationDateMax("testString")
+				listManagedKeysOptionsModel.SetDeactivationDate("testString")
+				listManagedKeysOptionsModel.SetDeactivationDateMin("testString")
+				listManagedKeysOptionsModel.SetDeactivationDateMax("testString")
 				listManagedKeysOptionsModel.SetCreatedAt("testString")
-				listManagedKeysOptionsModel.SetSize("testString")
+				listManagedKeysOptionsModel.SetCreatedAtMin("testString")
+				listManagedKeysOptionsModel.SetCreatedAtMax("testString")
+				listManagedKeysOptionsModel.SetUpdatedAt("testString")
+				listManagedKeysOptionsModel.SetUpdatedAtMin("testString")
+				listManagedKeysOptionsModel.SetUpdatedAtMax("testString")
+				listManagedKeysOptionsModel.SetSize(int64(38))
+				listManagedKeysOptionsModel.SetSizeMin(int64(38))
+				listManagedKeysOptionsModel.SetSizeMax(int64(38))
 				listManagedKeysOptionsModel.SetReferencedKeystoresType([]string{"ibm_cloud_kms"})
 				listManagedKeysOptionsModel.SetReferencedKeystoresName([]string{"testString"})
+				listManagedKeysOptionsModel.SetInstancesKeystoreType([]string{"ibm_cloud_kms"})
 				listManagedKeysOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listManagedKeysOptionsModel).ToNot(BeNil())
 				Expect(listManagedKeysOptionsModel.VaultID).To(Equal([]string{"123e4567-e89b-12d3-a456-426614174000"}))
@@ -6861,13 +7374,26 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(listManagedKeysOptionsModel.State).To(Equal([]string{"pre_activation", "active"}))
 				Expect(listManagedKeysOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listManagedKeysOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(0))))
-				Expect(listManagedKeysOptionsModel.Sort).To(Equal([]string{"updated_at"}))
+				Expect(listManagedKeysOptionsModel.Sort).To(Equal([]string{"-updated_at"}))
+				Expect(listManagedKeysOptionsModel.Label).To(Equal(core.StringPtr("testString")))
 				Expect(listManagedKeysOptionsModel.ActivationDate).To(Equal(core.StringPtr("testString")))
-				Expect(listManagedKeysOptionsModel.DectivationDate).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysOptionsModel.ActivationDateMin).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysOptionsModel.ActivationDateMax).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysOptionsModel.DeactivationDate).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysOptionsModel.DeactivationDateMin).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysOptionsModel.DeactivationDateMax).To(Equal(core.StringPtr("testString")))
 				Expect(listManagedKeysOptionsModel.CreatedAt).To(Equal(core.StringPtr("testString")))
-				Expect(listManagedKeysOptionsModel.Size).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysOptionsModel.CreatedAtMin).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysOptionsModel.CreatedAtMax).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysOptionsModel.UpdatedAt).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysOptionsModel.UpdatedAtMin).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysOptionsModel.UpdatedAtMax).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysOptionsModel.Size).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listManagedKeysOptionsModel.SizeMin).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listManagedKeysOptionsModel.SizeMax).To(Equal(core.Int64Ptr(int64(38))))
 				Expect(listManagedKeysOptionsModel.ReferencedKeystoresType).To(Equal([]string{"ibm_cloud_kms"}))
 				Expect(listManagedKeysOptionsModel.ReferencedKeystoresName).To(Equal([]string{"testString"}))
+				Expect(listManagedKeysOptionsModel.InstancesKeystoreType).To(Equal([]string{"ibm_cloud_kms"}))
 				Expect(listManagedKeysOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListVaultsOptions successfully`, func() {
@@ -6875,12 +7401,14 @@ var _ = Describe(`UkoV4`, func() {
 				listVaultsOptionsModel := ukoService.NewListVaultsOptions()
 				listVaultsOptionsModel.SetLimit(int64(1))
 				listVaultsOptionsModel.SetOffset(int64(0))
+				listVaultsOptionsModel.SetSort([]string{"-updated_at"})
 				listVaultsOptionsModel.SetName("My Example Vault")
 				listVaultsOptionsModel.SetDescription("My Example Vault Description")
 				listVaultsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listVaultsOptionsModel).ToNot(BeNil())
 				Expect(listVaultsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(1))))
 				Expect(listVaultsOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(0))))
+				Expect(listVaultsOptionsModel.Sort).To(Equal([]string{"-updated_at"}))
 				Expect(listVaultsOptionsModel.Name).To(Equal(core.StringPtr("My Example Vault")))
 				Expect(listVaultsOptionsModel.Description).To(Equal(core.StringPtr("My Example Vault Description")))
 				Expect(listVaultsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
@@ -7093,12 +7621,11 @@ var _ = Describe(`UkoV4`, func() {
 				_, err := ukoService.NewKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate(typeVar, vault, name, ibmApiEndpoint, ibmIamEndpoint, ibmApiKey, ibmInstanceID, ibmVariant)
 				Expect(err).ToNot(BeNil())
 			})
-			It(`Invoke NewKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate successfully`, func() {
+			It(`Invoke NewKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate successfully`, func() {
 				typeVar := "ibm_cloud_kms"
 				var vault *ukov4.VaultReferenceInCreationRequest = nil
 				ibmVariant := "hpcs"
-				name := "IBM Cloud Keystore Name"
-				_, err := ukoService.NewKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate(typeVar, vault, ibmVariant, name)
+				_, err := ukoService.NewKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate(typeVar, vault, ibmVariant)
 				Expect(err).ToNot(BeNil())
 			})
 		})

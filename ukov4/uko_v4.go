@@ -38,7 +38,7 @@ import (
 
 // UkoV4 : API for UKO used for key management.
 //
-// API Version: 4.0.1
+// API Version: 4.1.0
 type UkoV4 struct {
 	Service *core.BaseService
 }
@@ -212,23 +212,62 @@ func (uko *UkoV4) ListManagedKeysWithContext(ctx context.Context, listManagedKey
 	if listManagedKeysOptions.Sort != nil {
 		builder.AddQuery("sort", strings.Join(listManagedKeysOptions.Sort, ","))
 	}
+	if listManagedKeysOptions.Label != nil {
+		builder.AddQuery("label", fmt.Sprint(*listManagedKeysOptions.Label))
+	}
 	if listManagedKeysOptions.ActivationDate != nil {
 		builder.AddQuery("activation_date", fmt.Sprint(*listManagedKeysOptions.ActivationDate))
 	}
-	if listManagedKeysOptions.DectivationDate != nil {
-		builder.AddQuery("dectivation_date", fmt.Sprint(*listManagedKeysOptions.DectivationDate))
+	if listManagedKeysOptions.ActivationDateMin != nil {
+		builder.AddQuery("activation_date_min", fmt.Sprint(*listManagedKeysOptions.ActivationDateMin))
+	}
+	if listManagedKeysOptions.ActivationDateMax != nil {
+		builder.AddQuery("activation_date_max", fmt.Sprint(*listManagedKeysOptions.ActivationDateMax))
+	}
+	if listManagedKeysOptions.DeactivationDate != nil {
+		builder.AddQuery("deactivation_date", fmt.Sprint(*listManagedKeysOptions.DeactivationDate))
+	}
+	if listManagedKeysOptions.DeactivationDateMin != nil {
+		builder.AddQuery("deactivation_date_min", fmt.Sprint(*listManagedKeysOptions.DeactivationDateMin))
+	}
+	if listManagedKeysOptions.DeactivationDateMax != nil {
+		builder.AddQuery("deactivation_date_max", fmt.Sprint(*listManagedKeysOptions.DeactivationDateMax))
 	}
 	if listManagedKeysOptions.CreatedAt != nil {
 		builder.AddQuery("created_at", fmt.Sprint(*listManagedKeysOptions.CreatedAt))
 	}
+	if listManagedKeysOptions.CreatedAtMin != nil {
+		builder.AddQuery("created_at_min", fmt.Sprint(*listManagedKeysOptions.CreatedAtMin))
+	}
+	if listManagedKeysOptions.CreatedAtMax != nil {
+		builder.AddQuery("created_at_max", fmt.Sprint(*listManagedKeysOptions.CreatedAtMax))
+	}
+	if listManagedKeysOptions.UpdatedAt != nil {
+		builder.AddQuery("updated_at", fmt.Sprint(*listManagedKeysOptions.UpdatedAt))
+	}
+	if listManagedKeysOptions.UpdatedAtMin != nil {
+		builder.AddQuery("updated_at_min", fmt.Sprint(*listManagedKeysOptions.UpdatedAtMin))
+	}
+	if listManagedKeysOptions.UpdatedAtMax != nil {
+		builder.AddQuery("updated_at_max", fmt.Sprint(*listManagedKeysOptions.UpdatedAtMax))
+	}
 	if listManagedKeysOptions.Size != nil {
 		builder.AddQuery("size", fmt.Sprint(*listManagedKeysOptions.Size))
 	}
+	if listManagedKeysOptions.SizeMin != nil {
+		builder.AddQuery("size_min", fmt.Sprint(*listManagedKeysOptions.SizeMin))
+	}
+	if listManagedKeysOptions.SizeMax != nil {
+		builder.AddQuery("size_max", fmt.Sprint(*listManagedKeysOptions.SizeMax))
+	}
 	if listManagedKeysOptions.ReferencedKeystoresType != nil {
-		builder.AddQuery("referenced_keystores.type", strings.Join(listManagedKeysOptions.ReferencedKeystoresType, ","))
+		builder.AddQuery("referenced_keystores[].type", strings.Join(listManagedKeysOptions.ReferencedKeystoresType, ","))
 	}
 	if listManagedKeysOptions.ReferencedKeystoresName != nil {
-		builder.AddQuery("referenced_keystores.name", strings.Join(listManagedKeysOptions.ReferencedKeystoresName, ","))
+		builder.AddQuery("referenced_keystores[].name", strings.Join(listManagedKeysOptions.ReferencedKeystoresName, ","))
+	}
+	if listManagedKeysOptions.InstancesKeystoreType != nil {
+		builder.AddQuery("instances[].keystore.type", strings.Join(listManagedKeysOptions.InstancesKeystoreType, ","))
 	}
 
 	request, err := builder.Build()
@@ -909,6 +948,9 @@ func (uko *UkoV4) ListKeyTemplatesWithContext(ctx context.Context, listKeyTempla
 	if listKeyTemplatesOptions.KeyAlgorithm != nil {
 		builder.AddQuery("key.algorithm", fmt.Sprint(*listKeyTemplatesOptions.KeyAlgorithm))
 	}
+	if listKeyTemplatesOptions.Sort != nil {
+		builder.AddQuery("sort", strings.Join(listKeyTemplatesOptions.Sort, ","))
+	}
 	if listKeyTemplatesOptions.Limit != nil {
 		builder.AddQuery("limit", fmt.Sprint(*listKeyTemplatesOptions.Limit))
 	}
@@ -1259,8 +1301,8 @@ func (uko *UkoV4) ListKeystoresWithContext(ctx context.Context, listKeystoresOpt
 	if listKeystoresOptions.Description != nil {
 		builder.AddQuery("description", fmt.Sprint(*listKeystoresOptions.Description))
 	}
-	if listKeystoresOptions.Group != nil {
-		builder.AddQuery("group", fmt.Sprint(*listKeystoresOptions.Group))
+	if listKeystoresOptions.Groups != nil {
+		builder.AddQuery("groups[]", fmt.Sprint(*listKeystoresOptions.Groups))
 	}
 	if listKeystoresOptions.VaultID != nil {
 		builder.AddQuery("vault.id", strings.Join(listKeystoresOptions.VaultID, ","))
@@ -1301,12 +1343,12 @@ func (uko *UkoV4) ListKeystoresWithContext(ctx context.Context, listKeystoresOpt
 // query parameter is used, then a new keystore is not created in the database,  only a test is performed to verify if
 // the connection information is correct. It is possible to sort by the following parameters: name, created_at,
 // updated_at, vault.id.
-func (uko *UkoV4) CreateKeystore(createKeystoreOptions *CreateKeystoreOptions) (response *core.DetailedResponse, err error) {
+func (uko *UkoV4) CreateKeystore(createKeystoreOptions *CreateKeystoreOptions) (result KeystoreIntf, response *core.DetailedResponse, err error) {
 	return uko.CreateKeystoreWithContext(context.Background(), createKeystoreOptions)
 }
 
 // CreateKeystoreWithContext is an alternate form of the CreateKeystore method which supports a Context parameter
-func (uko *UkoV4) CreateKeystoreWithContext(ctx context.Context, createKeystoreOptions *CreateKeystoreOptions) (response *core.DetailedResponse, err error) {
+func (uko *UkoV4) CreateKeystoreWithContext(ctx context.Context, createKeystoreOptions *CreateKeystoreOptions) (result KeystoreIntf, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createKeystoreOptions, "createKeystoreOptions cannot be nil")
 	if err != nil {
 		return
@@ -1332,6 +1374,7 @@ func (uko *UkoV4) CreateKeystoreWithContext(ctx context.Context, createKeystoreO
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
+	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/json")
 	if createKeystoreOptions.UKOVault != nil {
 		builder.AddHeader("UKO-Vault", fmt.Sprint(*createKeystoreOptions.UKOVault))
@@ -1351,7 +1394,18 @@ func (uko *UkoV4) CreateKeystoreWithContext(ctx context.Context, createKeystoreO
 		return
 	}
 
-	response, err = uko.Service.Request(request, nil)
+	var rawResponse map[string]json.RawMessage
+	response, err = uko.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalKeystore)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
 
 	return
 }
@@ -1399,6 +1453,10 @@ func (uko *UkoV4) DeleteKeystoreWithContext(ctx context.Context, deleteKeystoreO
 	}
 	if deleteKeystoreOptions.IfMatch != nil {
 		builder.AddHeader("If-Match", fmt.Sprint(*deleteKeystoreOptions.IfMatch))
+	}
+
+	if deleteKeystoreOptions.Mode != nil {
+		builder.AddQuery("mode", fmt.Sprint(*deleteKeystoreOptions.Mode))
 	}
 
 	request, err := builder.Build()
@@ -1664,6 +1722,57 @@ func (uko *UkoV4) ListManagedKeysFromKeystoreWithContext(ctx context.Context, li
 	if listManagedKeysFromKeystoreOptions.Offset != nil {
 		builder.AddQuery("offset", fmt.Sprint(*listManagedKeysFromKeystoreOptions.Offset))
 	}
+	if listManagedKeysFromKeystoreOptions.Sort != nil {
+		builder.AddQuery("sort", strings.Join(listManagedKeysFromKeystoreOptions.Sort, ","))
+	}
+	if listManagedKeysFromKeystoreOptions.Label != nil {
+		builder.AddQuery("label", fmt.Sprint(*listManagedKeysFromKeystoreOptions.Label))
+	}
+	if listManagedKeysFromKeystoreOptions.ActivationDate != nil {
+		builder.AddQuery("activation_date", fmt.Sprint(*listManagedKeysFromKeystoreOptions.ActivationDate))
+	}
+	if listManagedKeysFromKeystoreOptions.ActivationDateMin != nil {
+		builder.AddQuery("activation_date_min", fmt.Sprint(*listManagedKeysFromKeystoreOptions.ActivationDateMin))
+	}
+	if listManagedKeysFromKeystoreOptions.ActivationDateMax != nil {
+		builder.AddQuery("activation_date_max", fmt.Sprint(*listManagedKeysFromKeystoreOptions.ActivationDateMax))
+	}
+	if listManagedKeysFromKeystoreOptions.DeactivationDate != nil {
+		builder.AddQuery("deactivation_date", fmt.Sprint(*listManagedKeysFromKeystoreOptions.DeactivationDate))
+	}
+	if listManagedKeysFromKeystoreOptions.DeactivationDateMin != nil {
+		builder.AddQuery("deactivation_date_min", fmt.Sprint(*listManagedKeysFromKeystoreOptions.DeactivationDateMin))
+	}
+	if listManagedKeysFromKeystoreOptions.DeactivationDateMax != nil {
+		builder.AddQuery("deactivation_date_max", fmt.Sprint(*listManagedKeysFromKeystoreOptions.DeactivationDateMax))
+	}
+	if listManagedKeysFromKeystoreOptions.CreatedAt != nil {
+		builder.AddQuery("created_at", fmt.Sprint(*listManagedKeysFromKeystoreOptions.CreatedAt))
+	}
+	if listManagedKeysFromKeystoreOptions.CreatedAtMin != nil {
+		builder.AddQuery("created_at_min", fmt.Sprint(*listManagedKeysFromKeystoreOptions.CreatedAtMin))
+	}
+	if listManagedKeysFromKeystoreOptions.CreatedAtMax != nil {
+		builder.AddQuery("created_at_max", fmt.Sprint(*listManagedKeysFromKeystoreOptions.CreatedAtMax))
+	}
+	if listManagedKeysFromKeystoreOptions.UpdatedAt != nil {
+		builder.AddQuery("updated_at", fmt.Sprint(*listManagedKeysFromKeystoreOptions.UpdatedAt))
+	}
+	if listManagedKeysFromKeystoreOptions.UpdatedAtMin != nil {
+		builder.AddQuery("updated_at_min", fmt.Sprint(*listManagedKeysFromKeystoreOptions.UpdatedAtMin))
+	}
+	if listManagedKeysFromKeystoreOptions.UpdatedAtMax != nil {
+		builder.AddQuery("updated_at_max", fmt.Sprint(*listManagedKeysFromKeystoreOptions.UpdatedAtMax))
+	}
+	if listManagedKeysFromKeystoreOptions.Size != nil {
+		builder.AddQuery("size", fmt.Sprint(*listManagedKeysFromKeystoreOptions.Size))
+	}
+	if listManagedKeysFromKeystoreOptions.SizeMin != nil {
+		builder.AddQuery("size_min", fmt.Sprint(*listManagedKeysFromKeystoreOptions.SizeMin))
+	}
+	if listManagedKeysFromKeystoreOptions.SizeMax != nil {
+		builder.AddQuery("size_max", fmt.Sprint(*listManagedKeysFromKeystoreOptions.SizeMax))
+	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -1722,6 +1831,9 @@ func (uko *UkoV4) ListVaultsWithContext(ctx context.Context, listVaultsOptions *
 	}
 	if listVaultsOptions.Offset != nil {
 		builder.AddQuery("offset", fmt.Sprint(*listVaultsOptions.Offset))
+	}
+	if listVaultsOptions.Sort != nil {
+		builder.AddQuery("sort", strings.Join(listVaultsOptions.Sort, ","))
 	}
 	if listVaultsOptions.Name != nil {
 		builder.AddQuery("name", fmt.Sprint(*listVaultsOptions.Name))
@@ -2402,9 +2514,21 @@ type DeleteKeystoreOptions struct {
 	// Precondition of the update; Value of the ETag from the header on a GET request.
 	IfMatch *string `json:"If-Match" validate:"required"`
 
+	// Mode of disconnecting from keystore.
+	Mode *string `json:"mode,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
+
+// Constants associated with the DeleteKeystoreOptions.Mode property.
+// Mode of disconnecting from keystore.
+const (
+	DeleteKeystoreOptions_Mode_Deactivate = "deactivate"
+	DeleteKeystoreOptions_Mode_Destroy = "destroy"
+	DeleteKeystoreOptions_Mode_Disconnect = "disconnect"
+	DeleteKeystoreOptions_Mode_Restrict = "restrict"
+)
 
 // NewDeleteKeystoreOptions : Instantiate DeleteKeystoreOptions
 func (*UkoV4) NewDeleteKeystoreOptions(id string, uKOVault string, ifMatch string) *DeleteKeystoreOptions {
@@ -2430,6 +2554,12 @@ func (_options *DeleteKeystoreOptions) SetUKOVault(uKOVault string) *DeleteKeyst
 // SetIfMatch : Allow user to set IfMatch
 func (_options *DeleteKeystoreOptions) SetIfMatch(ifMatch string) *DeleteKeystoreOptions {
 	_options.IfMatch = core.StringPtr(ifMatch)
+	return _options
+}
+
+// SetMode : Allow user to set Mode
+func (_options *DeleteKeystoreOptions) SetMode(mode string) *DeleteKeystoreOptions {
+	_options.Mode = core.StringPtr(mode)
 	return _options
 }
 
@@ -2799,6 +2929,9 @@ type ListKeyTemplatesOptions struct {
 	// The algorithm of a returned key templates.
 	KeyAlgorithm *string `json:"key.algorithm,omitempty"`
 
+	// Define sorting order.
+	Sort []string `json:"sort,omitempty"`
+
 	// The number of resources to retrieve.
 	Limit *int64 `json:"limit,omitempty"`
 
@@ -2833,6 +2966,12 @@ func (_options *ListKeyTemplatesOptions) SetKeyAlgorithm(keyAlgorithm string) *L
 	return _options
 }
 
+// SetSort : Allow user to set Sort
+func (_options *ListKeyTemplatesOptions) SetSort(sort []string) *ListKeyTemplatesOptions {
+	_options.Sort = sort
+	return _options
+}
+
 // SetLimit : Allow user to set Limit
 func (_options *ListKeyTemplatesOptions) SetLimit(limit int64) *ListKeyTemplatesOptions {
 	_options.Limit = core.Int64Ptr(limit)
@@ -2863,7 +3002,7 @@ type ListKeystoresOptions struct {
 	Description *string `json:"description,omitempty"`
 
 	// Keystore group.
-	Group *string `json:"group,omitempty"`
+	Groups *string `json:"groups[],omitempty"`
 
 	// The UUID of the Vault.
 	VaultID []string `json:"vault.id,omitempty"`
@@ -2912,9 +3051,9 @@ func (_options *ListKeystoresOptions) SetDescription(description string) *ListKe
 	return _options
 }
 
-// SetGroup : Allow user to set Group
-func (_options *ListKeystoresOptions) SetGroup(group string) *ListKeystoresOptions {
-	_options.Group = core.StringPtr(group)
+// SetGroups : Allow user to set Groups
+func (_options *ListKeystoresOptions) SetGroups(groups string) *ListKeystoresOptions {
+	_options.Groups = core.StringPtr(groups)
 	return _options
 }
 
@@ -2967,6 +3106,65 @@ type ListManagedKeysFromKeystoreOptions struct {
 
 	// The number of resources to skip.
 	Offset *int64 `json:"offset,omitempty"`
+
+	// Define sorting order.
+	Sort []string `json:"sort,omitempty"`
+
+	// The label of the key.
+	Label *string `json:"label,omitempty"`
+
+	// Return only managed keys whose activation_date matches the parameter.
+	ActivationDate *string `json:"activation_date,omitempty"`
+
+	// Return only managed keys whose activation_date is at or after the parameter value. This query parameter cannot be
+	// used in conjuntion with the 'activation_date' query parameter.
+	ActivationDateMin *string `json:"activation_date_min,omitempty"`
+
+	// Return only managed keys whose activation_date is at or before the parameter value. This query parameter cannot be
+	// used in conjuntion with the 'activation_date' query parameter.
+	ActivationDateMax *string `json:"activation_date_max,omitempty"`
+
+	// Return only managed keys whose deactivation_date matches the parameter.
+	DeactivationDate *string `json:"deactivation_date,omitempty"`
+
+	// Return only managed keys whose deactivation_date is at or after the parameter value. This query parameter cannot be
+	// used in conjuntion with the 'deactivation_date' query parameter.
+	DeactivationDateMin *string `json:"deactivation_date_min,omitempty"`
+
+	// Return only managed keys whose deactivation_date is at or before the parameter value. This query parameter cannot be
+	// used in conjuntion with the 'deactivation_date' query parameter.
+	DeactivationDateMax *string `json:"deactivation_date_max,omitempty"`
+
+	// Return only managed keys whose created_at matches the parameter.
+	CreatedAt *string `json:"created_at,omitempty"`
+
+	// Return only managed keys whose created_at is at or after the parameter value. This query parameter cannot be used in
+	// conjuntion with the 'created_at' query parameter.
+	CreatedAtMin *string `json:"created_at_min,omitempty"`
+
+	// Return only managed keys whose created_at is at or before the parameter value. This query parameter cannot be used
+	// in conjuntion with the 'created_at' query parameter.
+	CreatedAtMax *string `json:"created_at_max,omitempty"`
+
+	// Return only managed keys whose updated_at matches the parameter.
+	UpdatedAt *string `json:"updated_at,omitempty"`
+
+	// Return only managed keys whose updated_at is after the parameter value. This query parameter cannot be used in
+	// conjuntion with the 'updated_at' query parameter.
+	UpdatedAtMin *string `json:"updated_at_min,omitempty"`
+
+	// Return only managed keys whose updated_at is before the parameter value. This query parameter cannot be used in
+	// conjuntion with the 'updated_at' query parameter.
+	UpdatedAtMax *string `json:"updated_at_max,omitempty"`
+
+	// The size of the key.
+	Size *int64 `json:"size,omitempty"`
+
+	// The minimum size of the key. This query parameter cannot be used in conjuntion with the 'size' query parameter.
+	SizeMin *int64 `json:"size_min,omitempty"`
+
+	// The maximum size of the key. This query parameter cannot be used in conjuntion with the 'size' query parameter.
+	SizeMax *int64 `json:"size_max,omitempty"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3032,6 +3230,108 @@ func (_options *ListManagedKeysFromKeystoreOptions) SetOffset(offset int64) *Lis
 	return _options
 }
 
+// SetSort : Allow user to set Sort
+func (_options *ListManagedKeysFromKeystoreOptions) SetSort(sort []string) *ListManagedKeysFromKeystoreOptions {
+	_options.Sort = sort
+	return _options
+}
+
+// SetLabel : Allow user to set Label
+func (_options *ListManagedKeysFromKeystoreOptions) SetLabel(label string) *ListManagedKeysFromKeystoreOptions {
+	_options.Label = core.StringPtr(label)
+	return _options
+}
+
+// SetActivationDate : Allow user to set ActivationDate
+func (_options *ListManagedKeysFromKeystoreOptions) SetActivationDate(activationDate string) *ListManagedKeysFromKeystoreOptions {
+	_options.ActivationDate = core.StringPtr(activationDate)
+	return _options
+}
+
+// SetActivationDateMin : Allow user to set ActivationDateMin
+func (_options *ListManagedKeysFromKeystoreOptions) SetActivationDateMin(activationDateMin string) *ListManagedKeysFromKeystoreOptions {
+	_options.ActivationDateMin = core.StringPtr(activationDateMin)
+	return _options
+}
+
+// SetActivationDateMax : Allow user to set ActivationDateMax
+func (_options *ListManagedKeysFromKeystoreOptions) SetActivationDateMax(activationDateMax string) *ListManagedKeysFromKeystoreOptions {
+	_options.ActivationDateMax = core.StringPtr(activationDateMax)
+	return _options
+}
+
+// SetDeactivationDate : Allow user to set DeactivationDate
+func (_options *ListManagedKeysFromKeystoreOptions) SetDeactivationDate(deactivationDate string) *ListManagedKeysFromKeystoreOptions {
+	_options.DeactivationDate = core.StringPtr(deactivationDate)
+	return _options
+}
+
+// SetDeactivationDateMin : Allow user to set DeactivationDateMin
+func (_options *ListManagedKeysFromKeystoreOptions) SetDeactivationDateMin(deactivationDateMin string) *ListManagedKeysFromKeystoreOptions {
+	_options.DeactivationDateMin = core.StringPtr(deactivationDateMin)
+	return _options
+}
+
+// SetDeactivationDateMax : Allow user to set DeactivationDateMax
+func (_options *ListManagedKeysFromKeystoreOptions) SetDeactivationDateMax(deactivationDateMax string) *ListManagedKeysFromKeystoreOptions {
+	_options.DeactivationDateMax = core.StringPtr(deactivationDateMax)
+	return _options
+}
+
+// SetCreatedAt : Allow user to set CreatedAt
+func (_options *ListManagedKeysFromKeystoreOptions) SetCreatedAt(createdAt string) *ListManagedKeysFromKeystoreOptions {
+	_options.CreatedAt = core.StringPtr(createdAt)
+	return _options
+}
+
+// SetCreatedAtMin : Allow user to set CreatedAtMin
+func (_options *ListManagedKeysFromKeystoreOptions) SetCreatedAtMin(createdAtMin string) *ListManagedKeysFromKeystoreOptions {
+	_options.CreatedAtMin = core.StringPtr(createdAtMin)
+	return _options
+}
+
+// SetCreatedAtMax : Allow user to set CreatedAtMax
+func (_options *ListManagedKeysFromKeystoreOptions) SetCreatedAtMax(createdAtMax string) *ListManagedKeysFromKeystoreOptions {
+	_options.CreatedAtMax = core.StringPtr(createdAtMax)
+	return _options
+}
+
+// SetUpdatedAt : Allow user to set UpdatedAt
+func (_options *ListManagedKeysFromKeystoreOptions) SetUpdatedAt(updatedAt string) *ListManagedKeysFromKeystoreOptions {
+	_options.UpdatedAt = core.StringPtr(updatedAt)
+	return _options
+}
+
+// SetUpdatedAtMin : Allow user to set UpdatedAtMin
+func (_options *ListManagedKeysFromKeystoreOptions) SetUpdatedAtMin(updatedAtMin string) *ListManagedKeysFromKeystoreOptions {
+	_options.UpdatedAtMin = core.StringPtr(updatedAtMin)
+	return _options
+}
+
+// SetUpdatedAtMax : Allow user to set UpdatedAtMax
+func (_options *ListManagedKeysFromKeystoreOptions) SetUpdatedAtMax(updatedAtMax string) *ListManagedKeysFromKeystoreOptions {
+	_options.UpdatedAtMax = core.StringPtr(updatedAtMax)
+	return _options
+}
+
+// SetSize : Allow user to set Size
+func (_options *ListManagedKeysFromKeystoreOptions) SetSize(size int64) *ListManagedKeysFromKeystoreOptions {
+	_options.Size = core.Int64Ptr(size)
+	return _options
+}
+
+// SetSizeMin : Allow user to set SizeMin
+func (_options *ListManagedKeysFromKeystoreOptions) SetSizeMin(sizeMin int64) *ListManagedKeysFromKeystoreOptions {
+	_options.SizeMin = core.Int64Ptr(sizeMin)
+	return _options
+}
+
+// SetSizeMax : Allow user to set SizeMax
+func (_options *ListManagedKeysFromKeystoreOptions) SetSizeMax(sizeMax int64) *ListManagedKeysFromKeystoreOptions {
+	_options.SizeMax = core.Int64Ptr(sizeMax)
+	return _options
+}
+
 // SetHeaders : Allow user to set Headers
 func (options *ListManagedKeysFromKeystoreOptions) SetHeaders(param map[string]string) *ListManagedKeysFromKeystoreOptions {
 	options.Headers = param
@@ -3058,23 +3358,70 @@ type ListManagedKeysOptions struct {
 	// Define sorting order.
 	Sort []string `json:"sort,omitempty"`
 
+	// The label of the key.
+	Label *string `json:"label,omitempty"`
+
 	// Return only managed keys whose activation_date matches the parameter.
 	ActivationDate *string `json:"activation_date,omitempty"`
 
+	// Return only managed keys whose activation_date is at or after the parameter value. This query parameter cannot be
+	// used in conjuntion with the 'activation_date' query parameter.
+	ActivationDateMin *string `json:"activation_date_min,omitempty"`
+
+	// Return only managed keys whose activation_date is at or before the parameter value. This query parameter cannot be
+	// used in conjuntion with the 'activation_date' query parameter.
+	ActivationDateMax *string `json:"activation_date_max,omitempty"`
+
 	// Return only managed keys whose deactivation_date matches the parameter.
-	DectivationDate *string `json:"dectivation_date,omitempty"`
+	DeactivationDate *string `json:"deactivation_date,omitempty"`
+
+	// Return only managed keys whose deactivation_date is at or after the parameter value. This query parameter cannot be
+	// used in conjuntion with the 'deactivation_date' query parameter.
+	DeactivationDateMin *string `json:"deactivation_date_min,omitempty"`
+
+	// Return only managed keys whose deactivation_date is at or before the parameter value. This query parameter cannot be
+	// used in conjuntion with the 'deactivation_date' query parameter.
+	DeactivationDateMax *string `json:"deactivation_date_max,omitempty"`
 
 	// Return only managed keys whose created_at matches the parameter.
 	CreatedAt *string `json:"created_at,omitempty"`
 
+	// Return only managed keys whose created_at is at or after the parameter value. This query parameter cannot be used in
+	// conjuntion with the 'created_at' query parameter.
+	CreatedAtMin *string `json:"created_at_min,omitempty"`
+
+	// Return only managed keys whose created_at is at or before the parameter value. This query parameter cannot be used
+	// in conjuntion with the 'created_at' query parameter.
+	CreatedAtMax *string `json:"created_at_max,omitempty"`
+
+	// Return only managed keys whose updated_at matches the parameter.
+	UpdatedAt *string `json:"updated_at,omitempty"`
+
+	// Return only managed keys whose updated_at is after the parameter value. This query parameter cannot be used in
+	// conjuntion with the 'updated_at' query parameter.
+	UpdatedAtMin *string `json:"updated_at_min,omitempty"`
+
+	// Return only managed keys whose updated_at is before the parameter value. This query parameter cannot be used in
+	// conjuntion with the 'updated_at' query parameter.
+	UpdatedAtMax *string `json:"updated_at_max,omitempty"`
+
 	// The size of the key.
-	Size *string `json:"size,omitempty"`
+	Size *int64 `json:"size,omitempty"`
+
+	// The minimum size of the key. This query parameter cannot be used in conjuntion with the 'size' query parameter.
+	SizeMin *int64 `json:"size_min,omitempty"`
+
+	// The maximum size of the key. This query parameter cannot be used in conjuntion with the 'size' query parameter.
+	SizeMax *int64 `json:"size_max,omitempty"`
 
 	// Type of referenced keystore.
-	ReferencedKeystoresType []string `json:"referenced_keystores.type,omitempty"`
+	ReferencedKeystoresType []string `json:"referenced_keystores[].type,omitempty"`
 
 	// Name of referenced keystore.
-	ReferencedKeystoresName []string `json:"referenced_keystores.name,omitempty"`
+	ReferencedKeystoresName []string `json:"referenced_keystores[].name,omitempty"`
+
+	// Type of keystore supported by one of the instances.
+	InstancesKeystoreType []string `json:"instances[].keystore.type,omitempty"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3102,6 +3449,14 @@ const (
 	ListManagedKeysOptions_ReferencedKeystoresType_AwsKms = "aws_kms"
 	ListManagedKeysOptions_ReferencedKeystoresType_AzureKeyVault = "azure_key_vault"
 	ListManagedKeysOptions_ReferencedKeystoresType_IbmCloudKms = "ibm_cloud_kms"
+)
+
+// Constants associated with the ListManagedKeysOptions.InstancesKeystoreType property.
+// Type of keystore.
+const (
+	ListManagedKeysOptions_InstancesKeystoreType_AwsKms = "aws_kms"
+	ListManagedKeysOptions_InstancesKeystoreType_AzureKeyVault = "azure_key_vault"
+	ListManagedKeysOptions_InstancesKeystoreType_IbmCloudKms = "ibm_cloud_kms"
 )
 
 // NewListManagedKeysOptions : Instantiate ListManagedKeysOptions
@@ -3145,15 +3500,45 @@ func (_options *ListManagedKeysOptions) SetSort(sort []string) *ListManagedKeysO
 	return _options
 }
 
+// SetLabel : Allow user to set Label
+func (_options *ListManagedKeysOptions) SetLabel(label string) *ListManagedKeysOptions {
+	_options.Label = core.StringPtr(label)
+	return _options
+}
+
 // SetActivationDate : Allow user to set ActivationDate
 func (_options *ListManagedKeysOptions) SetActivationDate(activationDate string) *ListManagedKeysOptions {
 	_options.ActivationDate = core.StringPtr(activationDate)
 	return _options
 }
 
-// SetDectivationDate : Allow user to set DectivationDate
-func (_options *ListManagedKeysOptions) SetDectivationDate(dectivationDate string) *ListManagedKeysOptions {
-	_options.DectivationDate = core.StringPtr(dectivationDate)
+// SetActivationDateMin : Allow user to set ActivationDateMin
+func (_options *ListManagedKeysOptions) SetActivationDateMin(activationDateMin string) *ListManagedKeysOptions {
+	_options.ActivationDateMin = core.StringPtr(activationDateMin)
+	return _options
+}
+
+// SetActivationDateMax : Allow user to set ActivationDateMax
+func (_options *ListManagedKeysOptions) SetActivationDateMax(activationDateMax string) *ListManagedKeysOptions {
+	_options.ActivationDateMax = core.StringPtr(activationDateMax)
+	return _options
+}
+
+// SetDeactivationDate : Allow user to set DeactivationDate
+func (_options *ListManagedKeysOptions) SetDeactivationDate(deactivationDate string) *ListManagedKeysOptions {
+	_options.DeactivationDate = core.StringPtr(deactivationDate)
+	return _options
+}
+
+// SetDeactivationDateMin : Allow user to set DeactivationDateMin
+func (_options *ListManagedKeysOptions) SetDeactivationDateMin(deactivationDateMin string) *ListManagedKeysOptions {
+	_options.DeactivationDateMin = core.StringPtr(deactivationDateMin)
+	return _options
+}
+
+// SetDeactivationDateMax : Allow user to set DeactivationDateMax
+func (_options *ListManagedKeysOptions) SetDeactivationDateMax(deactivationDateMax string) *ListManagedKeysOptions {
+	_options.DeactivationDateMax = core.StringPtr(deactivationDateMax)
 	return _options
 }
 
@@ -3163,9 +3548,51 @@ func (_options *ListManagedKeysOptions) SetCreatedAt(createdAt string) *ListMana
 	return _options
 }
 
+// SetCreatedAtMin : Allow user to set CreatedAtMin
+func (_options *ListManagedKeysOptions) SetCreatedAtMin(createdAtMin string) *ListManagedKeysOptions {
+	_options.CreatedAtMin = core.StringPtr(createdAtMin)
+	return _options
+}
+
+// SetCreatedAtMax : Allow user to set CreatedAtMax
+func (_options *ListManagedKeysOptions) SetCreatedAtMax(createdAtMax string) *ListManagedKeysOptions {
+	_options.CreatedAtMax = core.StringPtr(createdAtMax)
+	return _options
+}
+
+// SetUpdatedAt : Allow user to set UpdatedAt
+func (_options *ListManagedKeysOptions) SetUpdatedAt(updatedAt string) *ListManagedKeysOptions {
+	_options.UpdatedAt = core.StringPtr(updatedAt)
+	return _options
+}
+
+// SetUpdatedAtMin : Allow user to set UpdatedAtMin
+func (_options *ListManagedKeysOptions) SetUpdatedAtMin(updatedAtMin string) *ListManagedKeysOptions {
+	_options.UpdatedAtMin = core.StringPtr(updatedAtMin)
+	return _options
+}
+
+// SetUpdatedAtMax : Allow user to set UpdatedAtMax
+func (_options *ListManagedKeysOptions) SetUpdatedAtMax(updatedAtMax string) *ListManagedKeysOptions {
+	_options.UpdatedAtMax = core.StringPtr(updatedAtMax)
+	return _options
+}
+
 // SetSize : Allow user to set Size
-func (_options *ListManagedKeysOptions) SetSize(size string) *ListManagedKeysOptions {
-	_options.Size = core.StringPtr(size)
+func (_options *ListManagedKeysOptions) SetSize(size int64) *ListManagedKeysOptions {
+	_options.Size = core.Int64Ptr(size)
+	return _options
+}
+
+// SetSizeMin : Allow user to set SizeMin
+func (_options *ListManagedKeysOptions) SetSizeMin(sizeMin int64) *ListManagedKeysOptions {
+	_options.SizeMin = core.Int64Ptr(sizeMin)
+	return _options
+}
+
+// SetSizeMax : Allow user to set SizeMax
+func (_options *ListManagedKeysOptions) SetSizeMax(sizeMax int64) *ListManagedKeysOptions {
+	_options.SizeMax = core.Int64Ptr(sizeMax)
 	return _options
 }
 
@@ -3178,6 +3605,12 @@ func (_options *ListManagedKeysOptions) SetReferencedKeystoresType(referencedKey
 // SetReferencedKeystoresName : Allow user to set ReferencedKeystoresName
 func (_options *ListManagedKeysOptions) SetReferencedKeystoresName(referencedKeystoresName []string) *ListManagedKeysOptions {
 	_options.ReferencedKeystoresName = referencedKeystoresName
+	return _options
+}
+
+// SetInstancesKeystoreType : Allow user to set InstancesKeystoreType
+func (_options *ListManagedKeysOptions) SetInstancesKeystoreType(instancesKeystoreType []string) *ListManagedKeysOptions {
+	_options.InstancesKeystoreType = instancesKeystoreType
 	return _options
 }
 
@@ -3194,6 +3627,9 @@ type ListVaultsOptions struct {
 
 	// The number of resources to skip.
 	Offset *int64 `json:"offset,omitempty"`
+
+	// Define sorting order.
+	Sort []string `json:"sort,omitempty"`
 
 	// Return only vaults whose names begin with the string.
 	Name *string `json:"name,omitempty"`
@@ -3219,6 +3655,12 @@ func (_options *ListVaultsOptions) SetLimit(limit int64) *ListVaultsOptions {
 // SetOffset : Allow user to set Offset
 func (_options *ListVaultsOptions) SetOffset(offset int64) *ListVaultsOptions {
 	_options.Offset = core.Int64Ptr(offset)
+	return _options
+}
+
+// SetSort : Allow user to set Sort
+func (_options *ListVaultsOptions) SetSort(sort []string) *ListVaultsOptions {
+	_options.Sort = sort
 	return _options
 }
 
@@ -4557,7 +4999,7 @@ func UnmarshalKeystoreStatus(m map[string]json.RawMessage, result interface{}) (
 // - KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate
 // - KeystoreUpdateRequestKeystoreTypeAzureUpdate
 // - KeystoreUpdateRequestKeystoreTypeIbmCloudKmsUpdate
-// - KeystoreUpdateRequestKeystoreTypeBaseUpdate
+// - KeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdate
 type KeystoreUpdateRequest struct {
 	// Name of a target keystore.
 	Name *string `json:"name,omitempty"`
@@ -6909,9 +7351,11 @@ func UnmarshalKeystoreUpdateRequestKeystoreTypeAzureUpdate(m map[string]json.Raw
 	return
 }
 
-// KeystoreUpdateRequestKeystoreTypeBaseUpdate : Base of a keystore update.
+// KeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdate : KeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdate struct
+// Models which "extend" this model:
+// - KeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate
 // This model "extends" KeystoreUpdateRequest
-type KeystoreUpdateRequestKeystoreTypeBaseUpdate struct {
+type KeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdate struct {
 	// Name of a target keystore.
 	Name *string `json:"name,omitempty"`
 
@@ -6921,14 +7365,22 @@ type KeystoreUpdateRequestKeystoreTypeBaseUpdate struct {
 	// A list of groups that this keystore belongs to.
 	Groups []string `json:"groups,omitempty"`
 }
-
-func (*KeystoreUpdateRequestKeystoreTypeBaseUpdate) isaKeystoreUpdateRequest() bool {
+func (*KeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdate) isaKeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdate() bool {
 	return true
 }
 
-// UnmarshalKeystoreUpdateRequestKeystoreTypeBaseUpdate unmarshals an instance of KeystoreUpdateRequestKeystoreTypeBaseUpdate from the specified map of raw messages.
-func UnmarshalKeystoreUpdateRequestKeystoreTypeBaseUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(KeystoreUpdateRequestKeystoreTypeBaseUpdate)
+type KeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdateIntf interface {
+	KeystoreUpdateRequestIntf
+	isaKeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdate() bool
+}
+
+func (*KeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdate) isaKeystoreUpdateRequest() bool {
+	return true
+}
+
+// UnmarshalKeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdate unmarshals an instance of KeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdate from the specified map of raw messages.
+func UnmarshalKeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(KeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdate)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
 		return
@@ -7147,6 +7599,8 @@ func UnmarshalKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCrea
 
 // KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate : An internal keystore generation request describing all information necessary to generate an internal keystore. It
 // only require name.
+// Models which "extend" this model:
+// - KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate
 // This model "extends" KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate
 type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate struct {
 	// Type of keystore.
@@ -7182,17 +7636,13 @@ const (
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate_IbmVariant_Internal = "internal"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate_IbmVariant_KeyProtect = "key_protect"
 )
+func (*KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate) isaKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate() bool {
+	return true
+}
 
-// NewKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate : Instantiate KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate (Generic Model Constructor)
-func (*UkoV4) NewKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate(typeVar string, vault *VaultReferenceInCreationRequest, ibmVariant string, name string) (_model *KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate, err error) {
-	_model = &KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate{
-		Type: core.StringPtr(typeVar),
-		Vault: vault,
-		IbmVariant: core.StringPtr(ibmVariant),
-		Name: core.StringPtr(name),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	return
+type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateIntf interface {
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateIntf
+	isaKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate() bool
 }
 
 func (*KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate) isaKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate() bool {
@@ -7206,6 +7656,137 @@ func (*KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeyst
 // UnmarshalKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate unmarshals an instance of KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate from the specified map of raw messages.
 func UnmarshalKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "vault", &obj.Vault, UnmarshalVaultReferenceInCreationRequest)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "ibm_variant", &obj.IbmVariant)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "groups", &obj.Groups)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// KeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate : Base of a keystore update.
+// This model "extends" KeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdate
+type KeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate struct {
+	// Name of a target keystore.
+	Name *string `json:"name,omitempty"`
+
+	// Description of the keystore.
+	Description *string `json:"description,omitempty"`
+
+	// A list of groups that this keystore belongs to.
+	Groups []string `json:"groups,omitempty"`
+}
+
+func (*KeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate) isaKeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdate() bool {
+	return true
+}
+
+func (*KeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate) isaKeystoreUpdateRequest() bool {
+	return true
+}
+
+// UnmarshalKeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate unmarshals an instance of KeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate from the specified map of raw messages.
+func UnmarshalKeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(KeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "groups", &obj.Groups)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate : Base of a keystore update.
+// This model "extends" KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate
+type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate struct {
+	// Type of keystore.
+	Type *string `json:"type" validate:"required"`
+
+	Vault *VaultReferenceInCreationRequest `json:"vault" validate:"required"`
+
+	// Possible IBM Cloud KMS variants.
+	IbmVariant *string `json:"ibm_variant" validate:"required"`
+
+	// Name of a target keystore.
+	Name *string `json:"name,omitempty"`
+
+	// Description of the keystore.
+	Description *string `json:"description,omitempty"`
+
+	// A list of groups that this keystore belongs to.
+	Groups []string `json:"groups,omitempty"`
+}
+
+// Constants associated with the KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate.Type property.
+// Type of keystore.
+const (
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_AwsKms = "aws_kms"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_AzureKeyVault = "azure_key_vault"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_IbmCloudKms = "ibm_cloud_kms"
+)
+
+// Constants associated with the KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate.IbmVariant property.
+// Possible IBM Cloud KMS variants.
+const (
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_IbmVariant_Hpcs = "hpcs"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_IbmVariant_Internal = "internal"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_IbmVariant_KeyProtect = "key_protect"
+)
+
+// NewKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate : Instantiate KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate (Generic Model Constructor)
+func (*UkoV4) NewKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate(typeVar string, vault *VaultReferenceInCreationRequest, ibmVariant string) (_model *KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate, err error) {
+	_model = &KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate{
+		Type: core.StringPtr(typeVar),
+		Vault: vault,
+		IbmVariant: core.StringPtr(ibmVariant),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate) isaKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate() bool {
+	return true
+}
+
+func (*KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate) isaKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate() bool {
+	return true
+}
+
+func (*KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate) isaKeystoreCreationRequest() bool {
+	return true
+}
+
+// UnmarshalKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate unmarshals an instance of KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate from the specified map of raw messages.
+func UnmarshalKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate)
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
 		return
