@@ -4307,7 +4307,7 @@ type KeyVerificationPattern struct {
 	Method *string `json:"method" validate:"required"`
 
 	// The calculated value.
-	Value *[]byte `json:"value" validate:"required"`
+	Value *string `json:"value" validate:"required"`
 }
 
 // UnmarshalKeyVerificationPattern unmarshals an instance of KeyVerificationPattern from the specified map of raw messages.
