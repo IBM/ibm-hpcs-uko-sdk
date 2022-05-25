@@ -19,6 +19,7 @@ package ukov4_test
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -35,6 +36,152 @@ import (
 )
 
 var _ = Describe(`UkoV4`, func() {
+	Describe(`Unmarshall key properties update tests`, func() {
+		It(`Invoke NewKeyProperties successfully`, func() {
+			rawJsonData := []byte(`{"size": "256", "activation_date": "P5Y1M1W2D", "expiration_date":  "P1Y2M1W4D", "state": "active"}`)
+			var m map[string]json.RawMessage
+			_ = json.Unmarshal(rawJsonData, &m)
+			var result interface{}
+			err := ukov4.UnmarshalKeyPropertiesUpdate(m, &result)
+			Expect(err).To(BeNil())
+		})
+	})
+	Describe(`Unmarshall key store create request type aws`, func() {
+		It(`Invoke NewKeyProperties successfully`, func() {
+			rawJsonData := []byte(`{"type": "type", "vault": {"id":"vault"}, "name":  "name", "description": "active", "groups": ["groups"],"description": "active", "description": "active", "description": "active", "aws_region": "af_south_1", "aws_access_key_id": "BSDFWERUANLKJDN54AAS", "aws_secret_access_key": "6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs" }`)
+			var m map[string]json.RawMessage
+			_ = json.Unmarshal(rawJsonData, &m)
+			var result interface{}
+			err := ukov4.UnmarshalKeystoreCreationRequestKeystoreTypeAwsKmsCreate(m, &result)
+			Expect(err).To(BeNil())
+		})
+	})
+	Describe(`Unmarshall key store create request type aws`, func() {
+		It(`Unmarshall key store create request for aws successfully`, func() {
+			rawJsonData := []byte(`{"type": "aws_kms"}`)
+			var m map[string]json.RawMessage
+			_ = json.Unmarshal(rawJsonData, &m)
+			var result interface{}
+			err := ukov4.UnmarshalKeystoreCreationRequest(m, &result)
+			Expect(err).To(BeNil())
+		})
+		It(`Unmarshall key store create request for azure successfully`, func() {
+			rawJsonData := []byte(`{"type": "azure_key_vault"}`)
+			var m map[string]json.RawMessage
+			_ = json.Unmarshal(rawJsonData, &m)
+			var result interface{}
+			err := ukov4.UnmarshalKeystoreCreationRequest(m, &result)
+			Expect(err).To(BeNil())
+		})
+		It(`Unmarshall key store create request for ibm cloud kms successfully`, func() {
+			rawJsonData := []byte(`{"type": "ibm_cloud_kms"}`)
+			var m map[string]json.RawMessage
+			_ = json.Unmarshal(rawJsonData, &m)
+			var result interface{}
+			err := ukov4.UnmarshalKeystoreCreationRequest(m, &result)
+			Expect(err).To(BeNil())
+		})
+	})
+
+	Describe(`Unmarshall key store update tests`, func() {
+		It(`Unmarshal keystore update request`, func() {
+			rawJsonData := []byte(`{"name":  "name", "description": "active", "groups": ["groups"], "aws_region": "af_south_1",  "aws_access_key_id": "BSDFWERUANLKJDN54AAS", "aws_secret_access_key": "6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs", "azure_service_name": "azure_service_name", "azure_resource_group": "azure_resource_group", "azure_location": "azure_location", "azure_service_principal_client_id": "azure_service_principal_client_id", "azure_service_principal_password": "azure_service_principal_password", "azure_tenant": "azure_tenant", "azure_subscription_id": "azure_subscription_id"}`)
+			var m map[string]json.RawMessage
+			_ = json.Unmarshal(rawJsonData, &m)
+			var result interface{}
+			err := ukov4.UnmarshalKeystoreUpdateRequest(m, &result)
+			Expect(err).To(BeNil())
+		})
+	})
+
+	Describe(`Unmarshall key store properties update tests`, func() {
+		It(`Unmarshal keystores properties update successfully`, func() {
+			rawJsonData := []byte(`{"group": "group"}`)
+			var m map[string]json.RawMessage
+			_ = json.Unmarshal(rawJsonData, &m)
+			var result interface{}
+			err := ukov4.UnmarshalKeystoresPropertiesUpdate(m, &result)
+			Expect(err).To(BeNil())
+		})
+	})
+
+	Describe(`Unmarshall key store type aws tests`, func() {
+		It(`Unmarshal keystore type for aws successfully`, func() {
+			rawJsonData := []byte(`{"vault": {"id": "id", "name": "name", "href": "href"}, "name": "name", "location": "location", "description": "description", "groups": ["groups"], "type": "type", "aws_region": "aws_region", "aws_access_key_id": "aws_access_key_id", "aws_secret_access_key": "aws_secret_access_key" }`)
+			var m map[string]json.RawMessage
+			_ = json.Unmarshal(rawJsonData, &m)
+			var result interface{}
+			err := ukov4.UnmarshalKeystoreTypeAwsKms(m, &result)
+			Expect(err).To(BeNil())
+		})
+	})
+
+	Describe(`Unmarshall key store type azure tests`, func() {
+		It(`Unmarshal keystore type for azure successfully`, func() {
+			rawJsonData := []byte(`{"vault": {"id": "id", "name": "name", "href": "href"}, "name": "name", "location": "location", "description": "description", "groups": ["groups"], "type": "type", "azure_service_name": "azure_service_name", "azure_resource_group": "azure_resource_group", "azure_location": "azure_location", "azure_service_principal_client_id": "azure_service_principal_client_id", "azure_service_principal_password": "azure_service_principal_password", "azure_tenant": "azure_tenant", "azure_subscription_id": "azure_subscription_id", "azure_environment": "azure_environment" }`)
+			var m map[string]json.RawMessage
+			_ = json.Unmarshal(rawJsonData, &m)
+			var result interface{}
+			err := ukov4.UnmarshalKeystoreTypeAzure(m, &result)
+			Expect(err).To(BeNil())
+		})
+	})
+
+	Describe(`Unmarshall key store type Ibm cloud kms tests`, func() {
+		It(`Unmarshal keystore type for Ibm cloud kms successfully`, func() {
+			rawJsonData := []byte(`{"vault": {"id": "id", "name": "name", "href": "href"}, "name": "name", "location": "location", "description": "description", "groups": ["groups"], "type": "type", "ibm_api_endpoint": "ibm_api_endpoint", "ibm_iam_endpoint": "ibm_iam_endpoint", "ibm_api_key": "ibm_api_key", "ibm_instance_id": "ibm_instance_id", "ibm_variant": "ibm_variant"}`)
+			var m map[string]json.RawMessage
+			_ = json.Unmarshal(rawJsonData, &m)
+			var result interface{}
+			err := ukov4.UnmarshalKeystoreTypeIbmCloudKms(m, &result)
+			Expect(err).To(BeNil())
+		})
+	})
+
+	Describe(`Unmarshall key store update request keystore type for awskms tests`, func() {
+		It(`Unmarshal key store update request keystore type for awskms successfully`, func() {
+			rawJsonData := []byte(`{"name":  "name", "description": "active", "groups": ["groups"], "aws_region": "aws_region", "aws_access_key_id": "aws_access_key_id", "aws_secret_access_key": "aws_dummy_access_key"}`)
+			var m map[string]json.RawMessage
+			_ = json.Unmarshal(rawJsonData, &m)
+			var result interface{}
+			err := ukov4.UnmarshalKeystoreUpdateRequestKeystoreTypeAwsKmsUpdate(m, &result)
+			Expect(err).To(BeNil())
+		})
+	})
+
+	Describe(`Unmarshall key store update request keystore type for Ibm cloud kms internal update tests`, func() {
+		It(`Unmarshal key store update request keystore type for IbmcloudKms updated successfully`, func() {
+			rawJsonData := []byte(`{"name":  "name", "description": "active", "groups": ["groups"]}`)
+			var m map[string]json.RawMessage
+			_ = json.Unmarshal(rawJsonData, &m)
+			var result interface{}
+			err := ukov4.UnmarshalKeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdate(m, &result)
+			Expect(err).To(BeNil())
+		})
+	})
+
+	Describe(`Unmarshall key store update request keystore type for Ibm cloud kms update tests`, func() {
+		It(`Unmarshal key store update request keystore type for Ibmcloud updated successfully`, func() {
+			rawJsonData := []byte(`{"name":  "name", "description": "active", "groups": ["groups"], "ibm_api_endpoint": "ibm_api_endpoint", "ibm_iam_endpoint": "ibm_iam_endpoint", "ibm_api_key": "ibm_api_key", "ibm_instance_id": "ibm_instance_id"}`)
+			var m map[string]json.RawMessage
+			_ = json.Unmarshal(rawJsonData, &m)
+			var result interface{}
+			err := ukov4.UnmarshalKeystoreUpdateRequestKeystoreTypeIbmCloudKmsUpdate(m, &result)
+			Expect(err).To(BeNil())
+		})
+	})
+
+	Describe(`Unmarshall key store creation request for the keystore type for Ibm cloud kms tests`, func() {
+		It(`Unmarshal key store creation request for the keystore for Ibmcloud updated successfully`, func() {
+			rawJsonData := []byte(`{"type": "type", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b"}, "name":  "name", "description": "active", "groups": ["groups"], "ibm_api_endpoint": "ibm_api_endpoint", "ibm_iam_endpoint": "ibm_iam_endpoint", "ibm_api_key": "ibm_api_key", "ibm_instance_id": "ibm_instance_id", "ibm_api_key": "asfasffnkewf67679scbsdvbz"}`)
+			var m map[string]json.RawMessage
+			_ = json.Unmarshal(rawJsonData, &m)
+			var result interface{}
+			err := ukov4.UnmarshalKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate(m, &result)
+			Expect(err).To(BeNil())
+		})
+	})
+
 	var testServer *httptest.Server
 	Describe(`Service constructor tests`, func() {
 		It(`Instantiate service client`, func() {
@@ -67,14 +214,13 @@ var _ = Describe(`UkoV4`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"UKO_URL": "https://ukov4/api",
+				"UKO_URL":       "https://ukov4/api",
 				"UKO_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				ukoService, serviceErr := ukov4.NewUkoV4UsingExternalConfig(&ukov4.UkoV4Options{
-				})
+				ukoService, serviceErr := ukov4.NewUkoV4UsingExternalConfig(&ukov4.UkoV4Options{})
 				Expect(ukoService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
@@ -103,8 +249,7 @@ var _ = Describe(`UkoV4`, func() {
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				ukoService, serviceErr := ukov4.NewUkoV4UsingExternalConfig(&ukov4.UkoV4Options{
-				})
+				ukoService, serviceErr := ukov4.NewUkoV4UsingExternalConfig(&ukov4.UkoV4Options{})
 				err := ukoService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
 				Expect(ukoService).ToNot(BeNil())
@@ -122,13 +267,12 @@ var _ = Describe(`UkoV4`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"UKO_URL": "https://ukov4/api",
+				"UKO_URL":       "https://ukov4/api",
 				"UKO_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			ukoService, serviceErr := ukov4.NewUkoV4UsingExternalConfig(&ukov4.UkoV4Options{
-			})
+			ukoService, serviceErr := ukov4.NewUkoV4UsingExternalConfig(&ukov4.UkoV4Options{})
 
 			It(`Instantiate service client with error`, func() {
 				Expect(ukoService).To(BeNil())
@@ -139,7 +283,7 @@ var _ = Describe(`UkoV4`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"UKO_AUTH_TYPE":   "NOAuth",
+				"UKO_AUTH_TYPE": "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
@@ -542,45 +686,45 @@ var _ = Describe(`UkoV4`, func() {
 				testServer.Close()
 			})
 		})
-	Context(`Test pagination helper method on response`, func() {
-		It(`Invoke GetNextOffset successfully`, func() {
-			responseObject := new(ukov4.ManagedKeyList)
-			nextObject := new(ukov4.HrefObject)
-			nextObject.Href = core.StringPtr("ibm.com?offset=135")
-			responseObject.Next = nextObject
+		Context(`Test pagination helper method on response`, func() {
+			It(`Invoke GetNextOffset successfully`, func() {
+				responseObject := new(ukov4.ManagedKeyList)
+				nextObject := new(ukov4.HrefObject)
+				nextObject.Href = core.StringPtr("ibm.com?offset=135")
+				responseObject.Next = nextObject
 
-			value, err := responseObject.GetNextOffset()
-			Expect(err).To(BeNil())
-			Expect(value).To(Equal(core.Int64Ptr(int64(135))))
-		})
-		It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
-			responseObject := new(ukov4.ManagedKeyList)
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
+			})
+			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
+				responseObject := new(ukov4.ManagedKeyList)
 
-			value, err := responseObject.GetNextOffset()
-			Expect(err).To(BeNil())
-			Expect(value).To(BeNil())
-		})
-		It(`Invoke GetNextOffset without any query params in the "Next" URL`, func() {
-			responseObject := new(ukov4.ManagedKeyList)
-			nextObject := new(ukov4.HrefObject)
-			nextObject.Href = core.StringPtr("ibm.com")
-			responseObject.Next = nextObject
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset without any query params in the "Next" URL`, func() {
+				responseObject := new(ukov4.ManagedKeyList)
+				nextObject := new(ukov4.HrefObject)
+				nextObject.Href = core.StringPtr("ibm.com")
+				responseObject.Next = nextObject
 
-			value, err := responseObject.GetNextOffset()
-			Expect(err).To(BeNil())
-			Expect(value).To(BeNil())
-		})
-		It(`Invoke GetNextOffset with a non-integer query param in the "Next" URL`, func() {
-			responseObject := new(ukov4.ManagedKeyList)
-			nextObject := new(ukov4.HrefObject)
-			nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
-			responseObject.Next = nextObject
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset with a non-integer query param in the "Next" URL`, func() {
+				responseObject := new(ukov4.ManagedKeyList)
+				nextObject := new(ukov4.HrefObject)
+				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
+				responseObject.Next = nextObject
 
-			value, err := responseObject.GetNextOffset()
-			Expect(err).NotTo(BeNil())
-			Expect(value).To(BeNil())
+				value, err := responseObject.GetNextOffset()
+				Expect(err).NotTo(BeNil())
+				Expect(value).To(BeNil())
+			})
 		})
-	})
 	})
 	Describe(`CreateManagedKey(createManagedKeyOptions *CreateManagedKeyOptions) - Operation response error`, func() {
 		createManagedKeyPath := "/v4/managed_keys"
@@ -2909,45 +3053,45 @@ var _ = Describe(`UkoV4`, func() {
 				testServer.Close()
 			})
 		})
-	Context(`Test pagination helper method on response`, func() {
-		It(`Invoke GetNextOffset successfully`, func() {
-			responseObject := new(ukov4.TemplateList)
-			nextObject := new(ukov4.HrefObject)
-			nextObject.Href = core.StringPtr("ibm.com?offset=135")
-			responseObject.Next = nextObject
+		Context(`Test pagination helper method on response`, func() {
+			It(`Invoke GetNextOffset successfully`, func() {
+				responseObject := new(ukov4.TemplateList)
+				nextObject := new(ukov4.HrefObject)
+				nextObject.Href = core.StringPtr("ibm.com?offset=135")
+				responseObject.Next = nextObject
 
-			value, err := responseObject.GetNextOffset()
-			Expect(err).To(BeNil())
-			Expect(value).To(Equal(core.Int64Ptr(int64(135))))
-		})
-		It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
-			responseObject := new(ukov4.TemplateList)
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
+			})
+			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
+				responseObject := new(ukov4.TemplateList)
 
-			value, err := responseObject.GetNextOffset()
-			Expect(err).To(BeNil())
-			Expect(value).To(BeNil())
-		})
-		It(`Invoke GetNextOffset without any query params in the "Next" URL`, func() {
-			responseObject := new(ukov4.TemplateList)
-			nextObject := new(ukov4.HrefObject)
-			nextObject.Href = core.StringPtr("ibm.com")
-			responseObject.Next = nextObject
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset without any query params in the "Next" URL`, func() {
+				responseObject := new(ukov4.TemplateList)
+				nextObject := new(ukov4.HrefObject)
+				nextObject.Href = core.StringPtr("ibm.com")
+				responseObject.Next = nextObject
 
-			value, err := responseObject.GetNextOffset()
-			Expect(err).To(BeNil())
-			Expect(value).To(BeNil())
-		})
-		It(`Invoke GetNextOffset with a non-integer query param in the "Next" URL`, func() {
-			responseObject := new(ukov4.TemplateList)
-			nextObject := new(ukov4.HrefObject)
-			nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
-			responseObject.Next = nextObject
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset with a non-integer query param in the "Next" URL`, func() {
+				responseObject := new(ukov4.TemplateList)
+				nextObject := new(ukov4.HrefObject)
+				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
+				responseObject.Next = nextObject
 
-			value, err := responseObject.GetNextOffset()
-			Expect(err).NotTo(BeNil())
-			Expect(value).To(BeNil())
+				value, err := responseObject.GetNextOffset()
+				Expect(err).NotTo(BeNil())
+				Expect(value).To(BeNil())
+			})
 		})
-	})
 	})
 	Describe(`CreateKeyTemplate(createKeyTemplateOptions *CreateKeyTemplateOptions) - Operation response error`, func() {
 		createKeyTemplatePath := "/v4/templates"
@@ -4198,45 +4342,45 @@ var _ = Describe(`UkoV4`, func() {
 				testServer.Close()
 			})
 		})
-	Context(`Test pagination helper method on response`, func() {
-		It(`Invoke GetNextOffset successfully`, func() {
-			responseObject := new(ukov4.KeystoreList)
-			nextObject := new(ukov4.HrefObject)
-			nextObject.Href = core.StringPtr("ibm.com?offset=135")
-			responseObject.Next = nextObject
+		Context(`Test pagination helper method on response`, func() {
+			It(`Invoke GetNextOffset successfully`, func() {
+				responseObject := new(ukov4.KeystoreList)
+				nextObject := new(ukov4.HrefObject)
+				nextObject.Href = core.StringPtr("ibm.com?offset=135")
+				responseObject.Next = nextObject
 
-			value, err := responseObject.GetNextOffset()
-			Expect(err).To(BeNil())
-			Expect(value).To(Equal(core.Int64Ptr(int64(135))))
-		})
-		It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
-			responseObject := new(ukov4.KeystoreList)
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
+			})
+			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
+				responseObject := new(ukov4.KeystoreList)
 
-			value, err := responseObject.GetNextOffset()
-			Expect(err).To(BeNil())
-			Expect(value).To(BeNil())
-		})
-		It(`Invoke GetNextOffset without any query params in the "Next" URL`, func() {
-			responseObject := new(ukov4.KeystoreList)
-			nextObject := new(ukov4.HrefObject)
-			nextObject.Href = core.StringPtr("ibm.com")
-			responseObject.Next = nextObject
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset without any query params in the "Next" URL`, func() {
+				responseObject := new(ukov4.KeystoreList)
+				nextObject := new(ukov4.HrefObject)
+				nextObject.Href = core.StringPtr("ibm.com")
+				responseObject.Next = nextObject
 
-			value, err := responseObject.GetNextOffset()
-			Expect(err).To(BeNil())
-			Expect(value).To(BeNil())
-		})
-		It(`Invoke GetNextOffset with a non-integer query param in the "Next" URL`, func() {
-			responseObject := new(ukov4.KeystoreList)
-			nextObject := new(ukov4.HrefObject)
-			nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
-			responseObject.Next = nextObject
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset with a non-integer query param in the "Next" URL`, func() {
+				responseObject := new(ukov4.KeystoreList)
+				nextObject := new(ukov4.HrefObject)
+				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
+				responseObject.Next = nextObject
 
-			value, err := responseObject.GetNextOffset()
-			Expect(err).NotTo(BeNil())
-			Expect(value).To(BeNil())
+				value, err := responseObject.GetNextOffset()
+				Expect(err).NotTo(BeNil())
+				Expect(value).To(BeNil())
+			})
 		})
-	})
 	})
 	Describe(`CreateKeystore(createKeystoreOptions *CreateKeystoreOptions) - Operation response error`, func() {
 		createKeystorePath := "/v4/keystores"
@@ -5798,45 +5942,45 @@ var _ = Describe(`UkoV4`, func() {
 				testServer.Close()
 			})
 		})
-	Context(`Test pagination helper method on response`, func() {
-		It(`Invoke GetNextOffset successfully`, func() {
-			responseObject := new(ukov4.ManagedKeyList)
-			nextObject := new(ukov4.HrefObject)
-			nextObject.Href = core.StringPtr("ibm.com?offset=135")
-			responseObject.Next = nextObject
+		Context(`Test pagination helper method on response`, func() {
+			It(`Invoke GetNextOffset successfully`, func() {
+				responseObject := new(ukov4.ManagedKeyList)
+				nextObject := new(ukov4.HrefObject)
+				nextObject.Href = core.StringPtr("ibm.com?offset=135")
+				responseObject.Next = nextObject
 
-			value, err := responseObject.GetNextOffset()
-			Expect(err).To(BeNil())
-			Expect(value).To(Equal(core.Int64Ptr(int64(135))))
-		})
-		It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
-			responseObject := new(ukov4.ManagedKeyList)
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
+			})
+			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
+				responseObject := new(ukov4.ManagedKeyList)
 
-			value, err := responseObject.GetNextOffset()
-			Expect(err).To(BeNil())
-			Expect(value).To(BeNil())
-		})
-		It(`Invoke GetNextOffset without any query params in the "Next" URL`, func() {
-			responseObject := new(ukov4.ManagedKeyList)
-			nextObject := new(ukov4.HrefObject)
-			nextObject.Href = core.StringPtr("ibm.com")
-			responseObject.Next = nextObject
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset without any query params in the "Next" URL`, func() {
+				responseObject := new(ukov4.ManagedKeyList)
+				nextObject := new(ukov4.HrefObject)
+				nextObject.Href = core.StringPtr("ibm.com")
+				responseObject.Next = nextObject
 
-			value, err := responseObject.GetNextOffset()
-			Expect(err).To(BeNil())
-			Expect(value).To(BeNil())
-		})
-		It(`Invoke GetNextOffset with a non-integer query param in the "Next" URL`, func() {
-			responseObject := new(ukov4.ManagedKeyList)
-			nextObject := new(ukov4.HrefObject)
-			nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
-			responseObject.Next = nextObject
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset with a non-integer query param in the "Next" URL`, func() {
+				responseObject := new(ukov4.ManagedKeyList)
+				nextObject := new(ukov4.HrefObject)
+				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
+				responseObject.Next = nextObject
 
-			value, err := responseObject.GetNextOffset()
-			Expect(err).NotTo(BeNil())
-			Expect(value).To(BeNil())
+				value, err := responseObject.GetNextOffset()
+				Expect(err).NotTo(BeNil())
+				Expect(value).To(BeNil())
+			})
 		})
-	})
 	})
 	Describe(`ListVaults(listVaultsOptions *ListVaultsOptions) - Operation response error`, func() {
 		listVaultsPath := "/v4/vaults"
@@ -6074,45 +6218,45 @@ var _ = Describe(`UkoV4`, func() {
 				testServer.Close()
 			})
 		})
-	Context(`Test pagination helper method on response`, func() {
-		It(`Invoke GetNextOffset successfully`, func() {
-			responseObject := new(ukov4.VaultList)
-			nextObject := new(ukov4.HrefObject)
-			nextObject.Href = core.StringPtr("ibm.com?offset=135")
-			responseObject.Next = nextObject
+		Context(`Test pagination helper method on response`, func() {
+			It(`Invoke GetNextOffset successfully`, func() {
+				responseObject := new(ukov4.VaultList)
+				nextObject := new(ukov4.HrefObject)
+				nextObject.Href = core.StringPtr("ibm.com?offset=135")
+				responseObject.Next = nextObject
 
-			value, err := responseObject.GetNextOffset()
-			Expect(err).To(BeNil())
-			Expect(value).To(Equal(core.Int64Ptr(int64(135))))
-		})
-		It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
-			responseObject := new(ukov4.VaultList)
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
+			})
+			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
+				responseObject := new(ukov4.VaultList)
 
-			value, err := responseObject.GetNextOffset()
-			Expect(err).To(BeNil())
-			Expect(value).To(BeNil())
-		})
-		It(`Invoke GetNextOffset without any query params in the "Next" URL`, func() {
-			responseObject := new(ukov4.VaultList)
-			nextObject := new(ukov4.HrefObject)
-			nextObject.Href = core.StringPtr("ibm.com")
-			responseObject.Next = nextObject
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset without any query params in the "Next" URL`, func() {
+				responseObject := new(ukov4.VaultList)
+				nextObject := new(ukov4.HrefObject)
+				nextObject.Href = core.StringPtr("ibm.com")
+				responseObject.Next = nextObject
 
-			value, err := responseObject.GetNextOffset()
-			Expect(err).To(BeNil())
-			Expect(value).To(BeNil())
-		})
-		It(`Invoke GetNextOffset with a non-integer query param in the "Next" URL`, func() {
-			responseObject := new(ukov4.VaultList)
-			nextObject := new(ukov4.HrefObject)
-			nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
-			responseObject.Next = nextObject
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset with a non-integer query param in the "Next" URL`, func() {
+				responseObject := new(ukov4.VaultList)
+				nextObject := new(ukov4.HrefObject)
+				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
+				responseObject.Next = nextObject
 
-			value, err := responseObject.GetNextOffset()
-			Expect(err).NotTo(BeNil())
-			Expect(value).To(BeNil())
+				value, err := responseObject.GetNextOffset()
+				Expect(err).NotTo(BeNil())
+				Expect(value).To(BeNil())
+			})
 		})
-	})
 	})
 	Describe(`CreateVault(createVaultOptions *CreateVaultOptions) - Operation response error`, func() {
 		createVaultPath := "/v4/vaults"
