@@ -28,7 +28,6 @@ import (
 	"net/http"
 	"reflect"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/IBM/go-sdk-core/v5/core"
@@ -38,13 +37,13 @@ import (
 
 // UkoV4 : API for UKO used for key management.
 //
-// API Version: 4.1.0
+// API Version: 4.0.5
 type UkoV4 struct {
 	Service *core.BaseService
 }
 
 // DefaultServiceURL is the default URL to make service requests to.
-const DefaultServiceURL = "https://uko.cloud.ibm.com/api"
+const DefaultServiceURL = "https://uko.cloud.ibm.com"
 
 // DefaultServiceName is the default key used to find external configuration information.
 const DefaultServiceName = "uko"
@@ -163,8 +162,7 @@ func (uko *UkoV4) DisableRetries() {
 }
 
 // ListManagedKeys : List managed keys
-// List all managed keys in the instance. It is possible to sort by the following parameters: name, algorithm, state,
-// activation_date, deactivation_date, created_at, updated_at, size, vault.id.
+// List all managed keys in the instance.
 func (uko *UkoV4) ListManagedKeys(listManagedKeysOptions *ListManagedKeysOptions) (result *ManagedKeyList, response *core.DetailedResponse, err error) {
 	return uko.ListManagedKeysWithContext(context.Background(), listManagedKeysOptions)
 }
@@ -179,7 +177,7 @@ func (uko *UkoV4) ListManagedKeysWithContext(ctx context.Context, listManagedKey
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys`, nil)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys`, nil)
 	if err != nil {
 		return
 	}
@@ -195,79 +193,19 @@ func (uko *UkoV4) ListManagedKeysWithContext(ctx context.Context, listManagedKey
 	builder.AddHeader("Accept", "application/json")
 
 	if listManagedKeysOptions.VaultID != nil {
-		builder.AddQuery("vault.id", strings.Join(listManagedKeysOptions.VaultID, ","))
+		builder.AddQuery("vault.id", fmt.Sprint(*listManagedKeysOptions.VaultID))
 	}
 	if listManagedKeysOptions.Algorithm != nil {
-		builder.AddQuery("algorithm", strings.Join(listManagedKeysOptions.Algorithm, ","))
+		builder.AddQuery("algorithm", fmt.Sprint(*listManagedKeysOptions.Algorithm))
 	}
 	if listManagedKeysOptions.State != nil {
-		builder.AddQuery("state", strings.Join(listManagedKeysOptions.State, ","))
+		builder.AddQuery("state", fmt.Sprint(*listManagedKeysOptions.State))
 	}
 	if listManagedKeysOptions.Limit != nil {
 		builder.AddQuery("limit", fmt.Sprint(*listManagedKeysOptions.Limit))
 	}
 	if listManagedKeysOptions.Offset != nil {
 		builder.AddQuery("offset", fmt.Sprint(*listManagedKeysOptions.Offset))
-	}
-	if listManagedKeysOptions.Sort != nil {
-		builder.AddQuery("sort", strings.Join(listManagedKeysOptions.Sort, ","))
-	}
-	if listManagedKeysOptions.Label != nil {
-		builder.AddQuery("label", fmt.Sprint(*listManagedKeysOptions.Label))
-	}
-	if listManagedKeysOptions.ActivationDate != nil {
-		builder.AddQuery("activation_date", fmt.Sprint(*listManagedKeysOptions.ActivationDate))
-	}
-	if listManagedKeysOptions.ActivationDateMin != nil {
-		builder.AddQuery("activation_date_min", fmt.Sprint(*listManagedKeysOptions.ActivationDateMin))
-	}
-	if listManagedKeysOptions.ActivationDateMax != nil {
-		builder.AddQuery("activation_date_max", fmt.Sprint(*listManagedKeysOptions.ActivationDateMax))
-	}
-	if listManagedKeysOptions.DeactivationDate != nil {
-		builder.AddQuery("deactivation_date", fmt.Sprint(*listManagedKeysOptions.DeactivationDate))
-	}
-	if listManagedKeysOptions.DeactivationDateMin != nil {
-		builder.AddQuery("deactivation_date_min", fmt.Sprint(*listManagedKeysOptions.DeactivationDateMin))
-	}
-	if listManagedKeysOptions.DeactivationDateMax != nil {
-		builder.AddQuery("deactivation_date_max", fmt.Sprint(*listManagedKeysOptions.DeactivationDateMax))
-	}
-	if listManagedKeysOptions.CreatedAt != nil {
-		builder.AddQuery("created_at", fmt.Sprint(*listManagedKeysOptions.CreatedAt))
-	}
-	if listManagedKeysOptions.CreatedAtMin != nil {
-		builder.AddQuery("created_at_min", fmt.Sprint(*listManagedKeysOptions.CreatedAtMin))
-	}
-	if listManagedKeysOptions.CreatedAtMax != nil {
-		builder.AddQuery("created_at_max", fmt.Sprint(*listManagedKeysOptions.CreatedAtMax))
-	}
-	if listManagedKeysOptions.UpdatedAt != nil {
-		builder.AddQuery("updated_at", fmt.Sprint(*listManagedKeysOptions.UpdatedAt))
-	}
-	if listManagedKeysOptions.UpdatedAtMin != nil {
-		builder.AddQuery("updated_at_min", fmt.Sprint(*listManagedKeysOptions.UpdatedAtMin))
-	}
-	if listManagedKeysOptions.UpdatedAtMax != nil {
-		builder.AddQuery("updated_at_max", fmt.Sprint(*listManagedKeysOptions.UpdatedAtMax))
-	}
-	if listManagedKeysOptions.Size != nil {
-		builder.AddQuery("size", fmt.Sprint(*listManagedKeysOptions.Size))
-	}
-	if listManagedKeysOptions.SizeMin != nil {
-		builder.AddQuery("size_min", fmt.Sprint(*listManagedKeysOptions.SizeMin))
-	}
-	if listManagedKeysOptions.SizeMax != nil {
-		builder.AddQuery("size_max", fmt.Sprint(*listManagedKeysOptions.SizeMax))
-	}
-	if listManagedKeysOptions.ReferencedKeystoresType != nil {
-		builder.AddQuery("referenced_keystores[].type", strings.Join(listManagedKeysOptions.ReferencedKeystoresType, ","))
-	}
-	if listManagedKeysOptions.ReferencedKeystoresName != nil {
-		builder.AddQuery("referenced_keystores[].name", strings.Join(listManagedKeysOptions.ReferencedKeystoresName, ","))
-	}
-	if listManagedKeysOptions.InstancesKeystoreType != nil {
-		builder.AddQuery("instances[].keystore.type", strings.Join(listManagedKeysOptions.InstancesKeystoreType, ","))
 	}
 
 	request, err := builder.Build()
@@ -311,7 +249,7 @@ func (uko *UkoV4) CreateManagedKeyWithContext(ctx context.Context, createManaged
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys`, nil)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys`, nil)
 	if err != nil {
 		return
 	}
@@ -396,7 +334,7 @@ func (uko *UkoV4) DeleteManagedKeyWithContext(ctx context.Context, deleteManaged
 	builder := core.NewRequestBuilder(core.DELETE)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -450,7 +388,7 @@ func (uko *UkoV4) GetManagedKeyWithContext(ctx context.Context, getManagedKeyOpt
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -514,7 +452,7 @@ func (uko *UkoV4) UpdateManagedKeyWithContext(ctx context.Context, updateManaged
 	builder := core.NewRequestBuilder(core.PATCH)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -604,7 +542,7 @@ func (uko *UkoV4) GetKeyDistributionStatusForKeystoresWithContext(ctx context.Co
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys/{id}/status_in_keystores`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys/{id}/status_in_keystores`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -668,7 +606,7 @@ func (uko *UkoV4) UpdateManagedKeyFromTemplateWithContext(ctx context.Context, u
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys/{id}/update_from_template`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys/{id}/update_from_template`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -735,7 +673,7 @@ func (uko *UkoV4) ActivateManagedKeyWithContext(ctx context.Context, activateMan
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys/{id}/activate`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys/{id}/activate`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -802,7 +740,7 @@ func (uko *UkoV4) DeactivateManagedKeyWithContext(ctx context.Context, deactivat
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys/{id}/deactivate`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys/{id}/deactivate`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -869,7 +807,7 @@ func (uko *UkoV4) DestroyManagedKeyWithContext(ctx context.Context, destroyManag
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys/{id}/destroy`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys/{id}/destroy`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -927,7 +865,7 @@ func (uko *UkoV4) ListKeyTemplatesWithContext(ctx context.Context, listKeyTempla
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/templates`, nil)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/templates`, nil)
 	if err != nil {
 		return
 	}
@@ -943,13 +881,10 @@ func (uko *UkoV4) ListKeyTemplatesWithContext(ctx context.Context, listKeyTempla
 	builder.AddHeader("Accept", "application/json")
 
 	if listKeyTemplatesOptions.VaultID != nil {
-		builder.AddQuery("vault.id", strings.Join(listKeyTemplatesOptions.VaultID, ","))
+		builder.AddQuery("vault.id", fmt.Sprint(*listKeyTemplatesOptions.VaultID))
 	}
 	if listKeyTemplatesOptions.KeyAlgorithm != nil {
 		builder.AddQuery("key.algorithm", fmt.Sprint(*listKeyTemplatesOptions.KeyAlgorithm))
-	}
-	if listKeyTemplatesOptions.Sort != nil {
-		builder.AddQuery("sort", strings.Join(listKeyTemplatesOptions.Sort, ","))
 	}
 	if listKeyTemplatesOptions.Limit != nil {
 		builder.AddQuery("limit", fmt.Sprint(*listKeyTemplatesOptions.Limit))
@@ -1000,7 +935,7 @@ func (uko *UkoV4) CreateKeyTemplateWithContext(ctx context.Context, createKeyTem
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/templates`, nil)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/templates`, nil)
 	if err != nil {
 		return
 	}
@@ -1086,7 +1021,7 @@ func (uko *UkoV4) DeleteKeyTemplateWithContext(ctx context.Context, deleteKeyTem
 	builder := core.NewRequestBuilder(core.DELETE)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/templates/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/templates/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1140,7 +1075,7 @@ func (uko *UkoV4) GetKeyTemplateWithContext(ctx context.Context, getKeyTemplateO
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/templates/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/templates/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1203,7 +1138,7 @@ func (uko *UkoV4) UpdateKeyTemplateWithContext(ctx context.Context, updateKeyTem
 	builder := core.NewRequestBuilder(core.PATCH)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/templates/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/templates/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1277,7 +1212,7 @@ func (uko *UkoV4) ListKeystoresWithContext(ctx context.Context, listKeystoresOpt
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/keystores`, nil)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/keystores`, nil)
 	if err != nil {
 		return
 	}
@@ -1293,28 +1228,19 @@ func (uko *UkoV4) ListKeystoresWithContext(ctx context.Context, listKeystoresOpt
 	builder.AddHeader("Accept", "application/json")
 
 	if listKeystoresOptions.Type != nil {
-		builder.AddQuery("type", strings.Join(listKeystoresOptions.Type, ","))
+		builder.AddQuery("type", fmt.Sprint(*listKeystoresOptions.Type))
 	}
-	if listKeystoresOptions.Name != nil {
-		builder.AddQuery("name", fmt.Sprint(*listKeystoresOptions.Name))
-	}
-	if listKeystoresOptions.Description != nil {
-		builder.AddQuery("description", fmt.Sprint(*listKeystoresOptions.Description))
-	}
-	if listKeystoresOptions.Groups != nil {
-		builder.AddQuery("groups[]", fmt.Sprint(*listKeystoresOptions.Groups))
+	if listKeystoresOptions.Group != nil {
+		builder.AddQuery("group", fmt.Sprint(*listKeystoresOptions.Group))
 	}
 	if listKeystoresOptions.VaultID != nil {
-		builder.AddQuery("vault.id", strings.Join(listKeystoresOptions.VaultID, ","))
+		builder.AddQuery("vault.id", fmt.Sprint(*listKeystoresOptions.VaultID))
 	}
 	if listKeystoresOptions.Limit != nil {
 		builder.AddQuery("limit", fmt.Sprint(*listKeystoresOptions.Limit))
 	}
 	if listKeystoresOptions.Offset != nil {
 		builder.AddQuery("offset", fmt.Sprint(*listKeystoresOptions.Offset))
-	}
-	if listKeystoresOptions.Sort != nil {
-		builder.AddQuery("sort", strings.Join(listKeystoresOptions.Sort, ","))
 	}
 
 	request, err := builder.Build()
@@ -1339,10 +1265,7 @@ func (uko *UkoV4) ListKeystoresWithContext(ctx context.Context, listKeystoresOpt
 }
 
 // CreateKeystore : Create an internal keystore or a keystore connection
-// Creates a new internal keystore or a connection to an external keystore of the requested type.  If the `dry_run`
-// query parameter is used, then a new keystore is not created in the database,  only a test is performed to verify if
-// the connection information is correct. It is possible to sort by the following parameters: name, created_at,
-// updated_at, vault.id.
+// Creates a new internal keystore or a connection to an external keystore of the requested type.
 func (uko *UkoV4) CreateKeystore(createKeystoreOptions *CreateKeystoreOptions) (result KeystoreIntf, response *core.DetailedResponse, err error) {
 	return uko.CreateKeystoreWithContext(context.Background(), createKeystoreOptions)
 }
@@ -1361,7 +1284,7 @@ func (uko *UkoV4) CreateKeystoreWithContext(ctx context.Context, createKeystoreO
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/keystores`, nil)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/keystores`, nil)
 	if err != nil {
 		return
 	}
@@ -1378,10 +1301,6 @@ func (uko *UkoV4) CreateKeystoreWithContext(ctx context.Context, createKeystoreO
 	builder.AddHeader("Content-Type", "application/json")
 	if createKeystoreOptions.UKOVault != nil {
 		builder.AddHeader("UKO-Vault", fmt.Sprint(*createKeystoreOptions.UKOVault))
-	}
-
-	if createKeystoreOptions.DryRun != nil {
-		builder.AddQuery("dry_run", fmt.Sprint(*createKeystoreOptions.DryRun))
 	}
 
 	_, err = builder.SetBodyContentJSON(createKeystoreOptions.KeystoreBody)
@@ -1435,7 +1354,7 @@ func (uko *UkoV4) DeleteKeystoreWithContext(ctx context.Context, deleteKeystoreO
 	builder := core.NewRequestBuilder(core.DELETE)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/keystores/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/keystores/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1453,10 +1372,6 @@ func (uko *UkoV4) DeleteKeystoreWithContext(ctx context.Context, deleteKeystoreO
 	}
 	if deleteKeystoreOptions.IfMatch != nil {
 		builder.AddHeader("If-Match", fmt.Sprint(*deleteKeystoreOptions.IfMatch))
-	}
-
-	if deleteKeystoreOptions.Mode != nil {
-		builder.AddQuery("mode", fmt.Sprint(*deleteKeystoreOptions.Mode))
 	}
 
 	request, err := builder.Build()
@@ -1494,7 +1409,7 @@ func (uko *UkoV4) GetKeystoreWithContext(ctx context.Context, getKeystoreOptions
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/keystores/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/keystores/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1557,7 +1472,7 @@ func (uko *UkoV4) UpdateKeystoreWithContext(ctx context.Context, updateKeystoreO
 	builder := core.NewRequestBuilder(core.PATCH)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/keystores/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/keystores/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1629,7 +1544,7 @@ func (uko *UkoV4) GetKeystoreStatusWithContext(ctx context.Context, getKeystoreS
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/keystores/{id}/status`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/keystores/{id}/status`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1692,7 +1607,7 @@ func (uko *UkoV4) ListManagedKeysFromKeystoreWithContext(ctx context.Context, li
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/keystores/{id}/managed_keys`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/keystores/{id}/managed_keys`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1711,67 +1626,16 @@ func (uko *UkoV4) ListManagedKeysFromKeystoreWithContext(ctx context.Context, li
 	}
 
 	if listManagedKeysFromKeystoreOptions.Algorithm != nil {
-		builder.AddQuery("algorithm", strings.Join(listManagedKeysFromKeystoreOptions.Algorithm, ","))
+		builder.AddQuery("algorithm", fmt.Sprint(*listManagedKeysFromKeystoreOptions.Algorithm))
 	}
 	if listManagedKeysFromKeystoreOptions.State != nil {
-		builder.AddQuery("state", strings.Join(listManagedKeysFromKeystoreOptions.State, ","))
+		builder.AddQuery("state", fmt.Sprint(*listManagedKeysFromKeystoreOptions.State))
 	}
 	if listManagedKeysFromKeystoreOptions.Limit != nil {
 		builder.AddQuery("limit", fmt.Sprint(*listManagedKeysFromKeystoreOptions.Limit))
 	}
 	if listManagedKeysFromKeystoreOptions.Offset != nil {
 		builder.AddQuery("offset", fmt.Sprint(*listManagedKeysFromKeystoreOptions.Offset))
-	}
-	if listManagedKeysFromKeystoreOptions.Sort != nil {
-		builder.AddQuery("sort", strings.Join(listManagedKeysFromKeystoreOptions.Sort, ","))
-	}
-	if listManagedKeysFromKeystoreOptions.Label != nil {
-		builder.AddQuery("label", fmt.Sprint(*listManagedKeysFromKeystoreOptions.Label))
-	}
-	if listManagedKeysFromKeystoreOptions.ActivationDate != nil {
-		builder.AddQuery("activation_date", fmt.Sprint(*listManagedKeysFromKeystoreOptions.ActivationDate))
-	}
-	if listManagedKeysFromKeystoreOptions.ActivationDateMin != nil {
-		builder.AddQuery("activation_date_min", fmt.Sprint(*listManagedKeysFromKeystoreOptions.ActivationDateMin))
-	}
-	if listManagedKeysFromKeystoreOptions.ActivationDateMax != nil {
-		builder.AddQuery("activation_date_max", fmt.Sprint(*listManagedKeysFromKeystoreOptions.ActivationDateMax))
-	}
-	if listManagedKeysFromKeystoreOptions.DeactivationDate != nil {
-		builder.AddQuery("deactivation_date", fmt.Sprint(*listManagedKeysFromKeystoreOptions.DeactivationDate))
-	}
-	if listManagedKeysFromKeystoreOptions.DeactivationDateMin != nil {
-		builder.AddQuery("deactivation_date_min", fmt.Sprint(*listManagedKeysFromKeystoreOptions.DeactivationDateMin))
-	}
-	if listManagedKeysFromKeystoreOptions.DeactivationDateMax != nil {
-		builder.AddQuery("deactivation_date_max", fmt.Sprint(*listManagedKeysFromKeystoreOptions.DeactivationDateMax))
-	}
-	if listManagedKeysFromKeystoreOptions.CreatedAt != nil {
-		builder.AddQuery("created_at", fmt.Sprint(*listManagedKeysFromKeystoreOptions.CreatedAt))
-	}
-	if listManagedKeysFromKeystoreOptions.CreatedAtMin != nil {
-		builder.AddQuery("created_at_min", fmt.Sprint(*listManagedKeysFromKeystoreOptions.CreatedAtMin))
-	}
-	if listManagedKeysFromKeystoreOptions.CreatedAtMax != nil {
-		builder.AddQuery("created_at_max", fmt.Sprint(*listManagedKeysFromKeystoreOptions.CreatedAtMax))
-	}
-	if listManagedKeysFromKeystoreOptions.UpdatedAt != nil {
-		builder.AddQuery("updated_at", fmt.Sprint(*listManagedKeysFromKeystoreOptions.UpdatedAt))
-	}
-	if listManagedKeysFromKeystoreOptions.UpdatedAtMin != nil {
-		builder.AddQuery("updated_at_min", fmt.Sprint(*listManagedKeysFromKeystoreOptions.UpdatedAtMin))
-	}
-	if listManagedKeysFromKeystoreOptions.UpdatedAtMax != nil {
-		builder.AddQuery("updated_at_max", fmt.Sprint(*listManagedKeysFromKeystoreOptions.UpdatedAtMax))
-	}
-	if listManagedKeysFromKeystoreOptions.Size != nil {
-		builder.AddQuery("size", fmt.Sprint(*listManagedKeysFromKeystoreOptions.Size))
-	}
-	if listManagedKeysFromKeystoreOptions.SizeMin != nil {
-		builder.AddQuery("size_min", fmt.Sprint(*listManagedKeysFromKeystoreOptions.SizeMin))
-	}
-	if listManagedKeysFromKeystoreOptions.SizeMax != nil {
-		builder.AddQuery("size_max", fmt.Sprint(*listManagedKeysFromKeystoreOptions.SizeMax))
 	}
 
 	request, err := builder.Build()
@@ -1811,7 +1675,7 @@ func (uko *UkoV4) ListVaultsWithContext(ctx context.Context, listVaultsOptions *
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/vaults`, nil)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/vaults`, nil)
 	if err != nil {
 		return
 	}
@@ -1831,15 +1695,6 @@ func (uko *UkoV4) ListVaultsWithContext(ctx context.Context, listVaultsOptions *
 	}
 	if listVaultsOptions.Offset != nil {
 		builder.AddQuery("offset", fmt.Sprint(*listVaultsOptions.Offset))
-	}
-	if listVaultsOptions.Sort != nil {
-		builder.AddQuery("sort", strings.Join(listVaultsOptions.Sort, ","))
-	}
-	if listVaultsOptions.Name != nil {
-		builder.AddQuery("name", fmt.Sprint(*listVaultsOptions.Name))
-	}
-	if listVaultsOptions.Description != nil {
-		builder.AddQuery("description", fmt.Sprint(*listVaultsOptions.Description))
 	}
 
 	request, err := builder.Build()
@@ -1883,7 +1738,7 @@ func (uko *UkoV4) CreateVaultWithContext(ctx context.Context, createVaultOptions
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/vaults`, nil)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/vaults`, nil)
 	if err != nil {
 		return
 	}
@@ -1957,7 +1812,7 @@ func (uko *UkoV4) DeleteVaultWithContext(ctx context.Context, deleteVaultOptions
 	builder := core.NewRequestBuilder(core.DELETE)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/vaults/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/vaults/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -2008,7 +1863,7 @@ func (uko *UkoV4) GetVaultWithContext(ctx context.Context, getVaultOptions *GetV
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/vaults/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/vaults/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -2068,7 +1923,7 @@ func (uko *UkoV4) UpdateVaultWithContext(ctx context.Context, updateVaultOptions
 	builder := core.NewRequestBuilder(core.PATCH)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/vaults/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/vaults/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -2253,10 +2108,6 @@ type CreateKeystoreOptions struct {
 	// Keystore properties to update.
 	KeystoreBody KeystoreCreationRequestIntf `json:"keystoreBody" validate:"required"`
 
-	// Do not create a keystore, only verify if keystore created with given parameters can be communciated with
-	// successfully.
-	DryRun *bool `json:"dry_run,omitempty"`
-
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -2278,12 +2129,6 @@ func (_options *CreateKeystoreOptions) SetUKOVault(uKOVault string) *CreateKeyst
 // SetKeystoreBody : Allow user to set KeystoreBody
 func (_options *CreateKeystoreOptions) SetKeystoreBody(keystoreBody KeystoreCreationRequestIntf) *CreateKeystoreOptions {
 	_options.KeystoreBody = keystoreBody
-	return _options
-}
-
-// SetDryRun : Allow user to set DryRun
-func (_options *CreateKeystoreOptions) SetDryRun(dryRun bool) *CreateKeystoreOptions {
-	_options.DryRun = core.BoolPtr(dryRun)
 	return _options
 }
 
@@ -2514,21 +2359,9 @@ type DeleteKeystoreOptions struct {
 	// Precondition of the update; Value of the ETag from the header on a GET request.
 	IfMatch *string `json:"If-Match" validate:"required"`
 
-	// Mode of disconnecting from keystore.
-	Mode *string `json:"mode,omitempty"`
-
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
-
-// Constants associated with the DeleteKeystoreOptions.Mode property.
-// Mode of disconnecting from keystore.
-const (
-	DeleteKeystoreOptions_Mode_Deactivate = "deactivate"
-	DeleteKeystoreOptions_Mode_Destroy = "destroy"
-	DeleteKeystoreOptions_Mode_Disconnect = "disconnect"
-	DeleteKeystoreOptions_Mode_Restrict = "restrict"
-)
 
 // NewDeleteKeystoreOptions : Instantiate DeleteKeystoreOptions
 func (*UkoV4) NewDeleteKeystoreOptions(id string, uKOVault string, ifMatch string) *DeleteKeystoreOptions {
@@ -2554,12 +2387,6 @@ func (_options *DeleteKeystoreOptions) SetUKOVault(uKOVault string) *DeleteKeyst
 // SetIfMatch : Allow user to set IfMatch
 func (_options *DeleteKeystoreOptions) SetIfMatch(ifMatch string) *DeleteKeystoreOptions {
 	_options.IfMatch = core.StringPtr(ifMatch)
-	return _options
-}
-
-// SetMode : Allow user to set Mode
-func (_options *DeleteKeystoreOptions) SetMode(mode string) *DeleteKeystoreOptions {
-	_options.Mode = core.StringPtr(mode)
 	return _options
 }
 
@@ -2924,13 +2751,10 @@ func (options *GetVaultOptions) SetHeaders(param map[string]string) *GetVaultOpt
 // ListKeyTemplatesOptions : The ListKeyTemplates options.
 type ListKeyTemplatesOptions struct {
 	// The UUID of the Vault.
-	VaultID []string `json:"vault.id,omitempty"`
+	VaultID *string `json:"vault.id,omitempty"`
 
 	// The algorithm of a returned key templates.
 	KeyAlgorithm *string `json:"key.algorithm,omitempty"`
-
-	// Define sorting order.
-	Sort []string `json:"sort,omitempty"`
 
 	// The number of resources to retrieve.
 	Limit *int64 `json:"limit,omitempty"`
@@ -2955,20 +2779,14 @@ func (*UkoV4) NewListKeyTemplatesOptions() *ListKeyTemplatesOptions {
 }
 
 // SetVaultID : Allow user to set VaultID
-func (_options *ListKeyTemplatesOptions) SetVaultID(vaultID []string) *ListKeyTemplatesOptions {
-	_options.VaultID = vaultID
+func (_options *ListKeyTemplatesOptions) SetVaultID(vaultID string) *ListKeyTemplatesOptions {
+	_options.VaultID = core.StringPtr(vaultID)
 	return _options
 }
 
 // SetKeyAlgorithm : Allow user to set KeyAlgorithm
 func (_options *ListKeyTemplatesOptions) SetKeyAlgorithm(keyAlgorithm string) *ListKeyTemplatesOptions {
 	_options.KeyAlgorithm = core.StringPtr(keyAlgorithm)
-	return _options
-}
-
-// SetSort : Allow user to set Sort
-func (_options *ListKeyTemplatesOptions) SetSort(sort []string) *ListKeyTemplatesOptions {
-	_options.Sort = sort
 	return _options
 }
 
@@ -2993,19 +2811,13 @@ func (options *ListKeyTemplatesOptions) SetHeaders(param map[string]string) *Lis
 // ListKeystoresOptions : The ListKeystores options.
 type ListKeystoresOptions struct {
 	// Keystore type.
-	Type []string `json:"type,omitempty"`
-
-	// Return only keystores whose name contains the string.
-	Name *string `json:"name,omitempty"`
-
-	// Return only keystores whose description contains the string.
-	Description *string `json:"description,omitempty"`
+	Type *string `json:"type,omitempty"`
 
 	// Keystore group.
-	Groups *string `json:"groups[],omitempty"`
+	Group *string `json:"group,omitempty"`
 
 	// The UUID of the Vault.
-	VaultID []string `json:"vault.id,omitempty"`
+	VaultID *string `json:"vault.id,omitempty"`
 
 	// The number of resources to retrieve.
 	Limit *int64 `json:"limit,omitempty"`
@@ -3013,15 +2825,12 @@ type ListKeystoresOptions struct {
 	// The number of resources to skip.
 	Offset *int64 `json:"offset,omitempty"`
 
-	// Define sorting order.
-	Sort []string `json:"sort,omitempty"`
-
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
 // Constants associated with the ListKeystoresOptions.Type property.
-// Type of keystore.
+// Keystore type.
 const (
 	ListKeystoresOptions_Type_AwsKms = "aws_kms"
 	ListKeystoresOptions_Type_AzureKeyVault = "azure_key_vault"
@@ -3034,32 +2843,20 @@ func (*UkoV4) NewListKeystoresOptions() *ListKeystoresOptions {
 }
 
 // SetType : Allow user to set Type
-func (_options *ListKeystoresOptions) SetType(typeVar []string) *ListKeystoresOptions {
-	_options.Type = typeVar
+func (_options *ListKeystoresOptions) SetType(typeVar string) *ListKeystoresOptions {
+	_options.Type = core.StringPtr(typeVar)
 	return _options
 }
 
-// SetName : Allow user to set Name
-func (_options *ListKeystoresOptions) SetName(name string) *ListKeystoresOptions {
-	_options.Name = core.StringPtr(name)
-	return _options
-}
-
-// SetDescription : Allow user to set Description
-func (_options *ListKeystoresOptions) SetDescription(description string) *ListKeystoresOptions {
-	_options.Description = core.StringPtr(description)
-	return _options
-}
-
-// SetGroups : Allow user to set Groups
-func (_options *ListKeystoresOptions) SetGroups(groups string) *ListKeystoresOptions {
-	_options.Groups = core.StringPtr(groups)
+// SetGroup : Allow user to set Group
+func (_options *ListKeystoresOptions) SetGroup(group string) *ListKeystoresOptions {
+	_options.Group = core.StringPtr(group)
 	return _options
 }
 
 // SetVaultID : Allow user to set VaultID
-func (_options *ListKeystoresOptions) SetVaultID(vaultID []string) *ListKeystoresOptions {
-	_options.VaultID = vaultID
+func (_options *ListKeystoresOptions) SetVaultID(vaultID string) *ListKeystoresOptions {
+	_options.VaultID = core.StringPtr(vaultID)
 	return _options
 }
 
@@ -3072,12 +2869,6 @@ func (_options *ListKeystoresOptions) SetLimit(limit int64) *ListKeystoresOption
 // SetOffset : Allow user to set Offset
 func (_options *ListKeystoresOptions) SetOffset(offset int64) *ListKeystoresOptions {
 	_options.Offset = core.Int64Ptr(offset)
-	return _options
-}
-
-// SetSort : Allow user to set Sort
-func (_options *ListKeystoresOptions) SetSort(sort []string) *ListKeystoresOptions {
-	_options.Sort = sort
 	return _options
 }
 
@@ -3096,10 +2887,10 @@ type ListManagedKeysFromKeystoreOptions struct {
 	ID *string `json:"id" validate:"required,ne="`
 
 	// The algorithm of a returned keys.
-	Algorithm []string `json:"algorithm,omitempty"`
+	Algorithm *string `json:"algorithm,omitempty"`
 
 	// The state that returned keys are to be in.
-	State []string `json:"state,omitempty"`
+	State *string `json:"state,omitempty"`
 
 	// The number of resources to retrieve.
 	Limit *int64 `json:"limit,omitempty"`
@@ -3107,78 +2898,19 @@ type ListManagedKeysFromKeystoreOptions struct {
 	// The number of resources to skip.
 	Offset *int64 `json:"offset,omitempty"`
 
-	// Define sorting order.
-	Sort []string `json:"sort,omitempty"`
-
-	// The label of the key.
-	Label *string `json:"label,omitempty"`
-
-	// Return only managed keys whose activation_date matches the parameter.
-	ActivationDate *string `json:"activation_date,omitempty"`
-
-	// Return only managed keys whose activation_date is at or after the parameter value. This query parameter cannot be
-	// used in conjuntion with the 'activation_date' query parameter.
-	ActivationDateMin *string `json:"activation_date_min,omitempty"`
-
-	// Return only managed keys whose activation_date is at or before the parameter value. This query parameter cannot be
-	// used in conjuntion with the 'activation_date' query parameter.
-	ActivationDateMax *string `json:"activation_date_max,omitempty"`
-
-	// Return only managed keys whose deactivation_date matches the parameter.
-	DeactivationDate *string `json:"deactivation_date,omitempty"`
-
-	// Return only managed keys whose deactivation_date is at or after the parameter value. This query parameter cannot be
-	// used in conjuntion with the 'deactivation_date' query parameter.
-	DeactivationDateMin *string `json:"deactivation_date_min,omitempty"`
-
-	// Return only managed keys whose deactivation_date is at or before the parameter value. This query parameter cannot be
-	// used in conjuntion with the 'deactivation_date' query parameter.
-	DeactivationDateMax *string `json:"deactivation_date_max,omitempty"`
-
-	// Return only managed keys whose created_at matches the parameter.
-	CreatedAt *string `json:"created_at,omitempty"`
-
-	// Return only managed keys whose created_at is at or after the parameter value. This query parameter cannot be used in
-	// conjuntion with the 'created_at' query parameter.
-	CreatedAtMin *string `json:"created_at_min,omitempty"`
-
-	// Return only managed keys whose created_at is at or before the parameter value. This query parameter cannot be used
-	// in conjuntion with the 'created_at' query parameter.
-	CreatedAtMax *string `json:"created_at_max,omitempty"`
-
-	// Return only managed keys whose updated_at matches the parameter.
-	UpdatedAt *string `json:"updated_at,omitempty"`
-
-	// Return only managed keys whose updated_at is after the parameter value. This query parameter cannot be used in
-	// conjuntion with the 'updated_at' query parameter.
-	UpdatedAtMin *string `json:"updated_at_min,omitempty"`
-
-	// Return only managed keys whose updated_at is before the parameter value. This query parameter cannot be used in
-	// conjuntion with the 'updated_at' query parameter.
-	UpdatedAtMax *string `json:"updated_at_max,omitempty"`
-
-	// The size of the key.
-	Size *int64 `json:"size,omitempty"`
-
-	// The minimum size of the key. This query parameter cannot be used in conjuntion with the 'size' query parameter.
-	SizeMin *int64 `json:"size_min,omitempty"`
-
-	// The maximum size of the key. This query parameter cannot be used in conjuntion with the 'size' query parameter.
-	SizeMax *int64 `json:"size_max,omitempty"`
-
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
 // Constants associated with the ListManagedKeysFromKeystoreOptions.Algorithm property.
-// The algorithm of the key.
+// The algorithm of a returned keys.
 const (
 	ListManagedKeysFromKeystoreOptions_Algorithm_Aes = "aes"
 	ListManagedKeysFromKeystoreOptions_Algorithm_Rsa = "rsa"
 )
 
 // Constants associated with the ListManagedKeysFromKeystoreOptions.State property.
-// The state of the key.
+// The state that returned keys are to be in.
 const (
 	ListManagedKeysFromKeystoreOptions_State_Active = "active"
 	ListManagedKeysFromKeystoreOptions_State_Deactivated = "deactivated"
@@ -3207,14 +2939,14 @@ func (_options *ListManagedKeysFromKeystoreOptions) SetID(id string) *ListManage
 }
 
 // SetAlgorithm : Allow user to set Algorithm
-func (_options *ListManagedKeysFromKeystoreOptions) SetAlgorithm(algorithm []string) *ListManagedKeysFromKeystoreOptions {
-	_options.Algorithm = algorithm
+func (_options *ListManagedKeysFromKeystoreOptions) SetAlgorithm(algorithm string) *ListManagedKeysFromKeystoreOptions {
+	_options.Algorithm = core.StringPtr(algorithm)
 	return _options
 }
 
 // SetState : Allow user to set State
-func (_options *ListManagedKeysFromKeystoreOptions) SetState(state []string) *ListManagedKeysFromKeystoreOptions {
-	_options.State = state
+func (_options *ListManagedKeysFromKeystoreOptions) SetState(state string) *ListManagedKeysFromKeystoreOptions {
+	_options.State = core.StringPtr(state)
 	return _options
 }
 
@@ -3230,108 +2962,6 @@ func (_options *ListManagedKeysFromKeystoreOptions) SetOffset(offset int64) *Lis
 	return _options
 }
 
-// SetSort : Allow user to set Sort
-func (_options *ListManagedKeysFromKeystoreOptions) SetSort(sort []string) *ListManagedKeysFromKeystoreOptions {
-	_options.Sort = sort
-	return _options
-}
-
-// SetLabel : Allow user to set Label
-func (_options *ListManagedKeysFromKeystoreOptions) SetLabel(label string) *ListManagedKeysFromKeystoreOptions {
-	_options.Label = core.StringPtr(label)
-	return _options
-}
-
-// SetActivationDate : Allow user to set ActivationDate
-func (_options *ListManagedKeysFromKeystoreOptions) SetActivationDate(activationDate string) *ListManagedKeysFromKeystoreOptions {
-	_options.ActivationDate = core.StringPtr(activationDate)
-	return _options
-}
-
-// SetActivationDateMin : Allow user to set ActivationDateMin
-func (_options *ListManagedKeysFromKeystoreOptions) SetActivationDateMin(activationDateMin string) *ListManagedKeysFromKeystoreOptions {
-	_options.ActivationDateMin = core.StringPtr(activationDateMin)
-	return _options
-}
-
-// SetActivationDateMax : Allow user to set ActivationDateMax
-func (_options *ListManagedKeysFromKeystoreOptions) SetActivationDateMax(activationDateMax string) *ListManagedKeysFromKeystoreOptions {
-	_options.ActivationDateMax = core.StringPtr(activationDateMax)
-	return _options
-}
-
-// SetDeactivationDate : Allow user to set DeactivationDate
-func (_options *ListManagedKeysFromKeystoreOptions) SetDeactivationDate(deactivationDate string) *ListManagedKeysFromKeystoreOptions {
-	_options.DeactivationDate = core.StringPtr(deactivationDate)
-	return _options
-}
-
-// SetDeactivationDateMin : Allow user to set DeactivationDateMin
-func (_options *ListManagedKeysFromKeystoreOptions) SetDeactivationDateMin(deactivationDateMin string) *ListManagedKeysFromKeystoreOptions {
-	_options.DeactivationDateMin = core.StringPtr(deactivationDateMin)
-	return _options
-}
-
-// SetDeactivationDateMax : Allow user to set DeactivationDateMax
-func (_options *ListManagedKeysFromKeystoreOptions) SetDeactivationDateMax(deactivationDateMax string) *ListManagedKeysFromKeystoreOptions {
-	_options.DeactivationDateMax = core.StringPtr(deactivationDateMax)
-	return _options
-}
-
-// SetCreatedAt : Allow user to set CreatedAt
-func (_options *ListManagedKeysFromKeystoreOptions) SetCreatedAt(createdAt string) *ListManagedKeysFromKeystoreOptions {
-	_options.CreatedAt = core.StringPtr(createdAt)
-	return _options
-}
-
-// SetCreatedAtMin : Allow user to set CreatedAtMin
-func (_options *ListManagedKeysFromKeystoreOptions) SetCreatedAtMin(createdAtMin string) *ListManagedKeysFromKeystoreOptions {
-	_options.CreatedAtMin = core.StringPtr(createdAtMin)
-	return _options
-}
-
-// SetCreatedAtMax : Allow user to set CreatedAtMax
-func (_options *ListManagedKeysFromKeystoreOptions) SetCreatedAtMax(createdAtMax string) *ListManagedKeysFromKeystoreOptions {
-	_options.CreatedAtMax = core.StringPtr(createdAtMax)
-	return _options
-}
-
-// SetUpdatedAt : Allow user to set UpdatedAt
-func (_options *ListManagedKeysFromKeystoreOptions) SetUpdatedAt(updatedAt string) *ListManagedKeysFromKeystoreOptions {
-	_options.UpdatedAt = core.StringPtr(updatedAt)
-	return _options
-}
-
-// SetUpdatedAtMin : Allow user to set UpdatedAtMin
-func (_options *ListManagedKeysFromKeystoreOptions) SetUpdatedAtMin(updatedAtMin string) *ListManagedKeysFromKeystoreOptions {
-	_options.UpdatedAtMin = core.StringPtr(updatedAtMin)
-	return _options
-}
-
-// SetUpdatedAtMax : Allow user to set UpdatedAtMax
-func (_options *ListManagedKeysFromKeystoreOptions) SetUpdatedAtMax(updatedAtMax string) *ListManagedKeysFromKeystoreOptions {
-	_options.UpdatedAtMax = core.StringPtr(updatedAtMax)
-	return _options
-}
-
-// SetSize : Allow user to set Size
-func (_options *ListManagedKeysFromKeystoreOptions) SetSize(size int64) *ListManagedKeysFromKeystoreOptions {
-	_options.Size = core.Int64Ptr(size)
-	return _options
-}
-
-// SetSizeMin : Allow user to set SizeMin
-func (_options *ListManagedKeysFromKeystoreOptions) SetSizeMin(sizeMin int64) *ListManagedKeysFromKeystoreOptions {
-	_options.SizeMin = core.Int64Ptr(sizeMin)
-	return _options
-}
-
-// SetSizeMax : Allow user to set SizeMax
-func (_options *ListManagedKeysFromKeystoreOptions) SetSizeMax(sizeMax int64) *ListManagedKeysFromKeystoreOptions {
-	_options.SizeMax = core.Int64Ptr(sizeMax)
-	return _options
-}
-
 // SetHeaders : Allow user to set Headers
 func (options *ListManagedKeysFromKeystoreOptions) SetHeaders(param map[string]string) *ListManagedKeysFromKeystoreOptions {
 	options.Headers = param
@@ -3341,13 +2971,13 @@ func (options *ListManagedKeysFromKeystoreOptions) SetHeaders(param map[string]s
 // ListManagedKeysOptions : The ListManagedKeys options.
 type ListManagedKeysOptions struct {
 	// The UUID of the Vault.
-	VaultID []string `json:"vault.id,omitempty"`
+	VaultID *string `json:"vault.id,omitempty"`
 
 	// The algorithm of a returned keys.
-	Algorithm []string `json:"algorithm,omitempty"`
+	Algorithm *string `json:"algorithm,omitempty"`
 
 	// The state that returned keys are to be in.
-	State []string `json:"state,omitempty"`
+	State *string `json:"state,omitempty"`
 
 	// The number of resources to retrieve.
 	Limit *int64 `json:"limit,omitempty"`
@@ -3355,108 +2985,24 @@ type ListManagedKeysOptions struct {
 	// The number of resources to skip.
 	Offset *int64 `json:"offset,omitempty"`
 
-	// Define sorting order.
-	Sort []string `json:"sort,omitempty"`
-
-	// The label of the key.
-	Label *string `json:"label,omitempty"`
-
-	// Return only managed keys whose activation_date matches the parameter.
-	ActivationDate *string `json:"activation_date,omitempty"`
-
-	// Return only managed keys whose activation_date is at or after the parameter value. This query parameter cannot be
-	// used in conjuntion with the 'activation_date' query parameter.
-	ActivationDateMin *string `json:"activation_date_min,omitempty"`
-
-	// Return only managed keys whose activation_date is at or before the parameter value. This query parameter cannot be
-	// used in conjuntion with the 'activation_date' query parameter.
-	ActivationDateMax *string `json:"activation_date_max,omitempty"`
-
-	// Return only managed keys whose deactivation_date matches the parameter.
-	DeactivationDate *string `json:"deactivation_date,omitempty"`
-
-	// Return only managed keys whose deactivation_date is at or after the parameter value. This query parameter cannot be
-	// used in conjuntion with the 'deactivation_date' query parameter.
-	DeactivationDateMin *string `json:"deactivation_date_min,omitempty"`
-
-	// Return only managed keys whose deactivation_date is at or before the parameter value. This query parameter cannot be
-	// used in conjuntion with the 'deactivation_date' query parameter.
-	DeactivationDateMax *string `json:"deactivation_date_max,omitempty"`
-
-	// Return only managed keys whose created_at matches the parameter.
-	CreatedAt *string `json:"created_at,omitempty"`
-
-	// Return only managed keys whose created_at is at or after the parameter value. This query parameter cannot be used in
-	// conjuntion with the 'created_at' query parameter.
-	CreatedAtMin *string `json:"created_at_min,omitempty"`
-
-	// Return only managed keys whose created_at is at or before the parameter value. This query parameter cannot be used
-	// in conjuntion with the 'created_at' query parameter.
-	CreatedAtMax *string `json:"created_at_max,omitempty"`
-
-	// Return only managed keys whose updated_at matches the parameter.
-	UpdatedAt *string `json:"updated_at,omitempty"`
-
-	// Return only managed keys whose updated_at is after the parameter value. This query parameter cannot be used in
-	// conjuntion with the 'updated_at' query parameter.
-	UpdatedAtMin *string `json:"updated_at_min,omitempty"`
-
-	// Return only managed keys whose updated_at is before the parameter value. This query parameter cannot be used in
-	// conjuntion with the 'updated_at' query parameter.
-	UpdatedAtMax *string `json:"updated_at_max,omitempty"`
-
-	// The size of the key.
-	Size *int64 `json:"size,omitempty"`
-
-	// The minimum size of the key. This query parameter cannot be used in conjuntion with the 'size' query parameter.
-	SizeMin *int64 `json:"size_min,omitempty"`
-
-	// The maximum size of the key. This query parameter cannot be used in conjuntion with the 'size' query parameter.
-	SizeMax *int64 `json:"size_max,omitempty"`
-
-	// Type of referenced keystore.
-	ReferencedKeystoresType []string `json:"referenced_keystores[].type,omitempty"`
-
-	// Name of referenced keystore.
-	ReferencedKeystoresName []string `json:"referenced_keystores[].name,omitempty"`
-
-	// Type of keystore supported by one of the instances.
-	InstancesKeystoreType []string `json:"instances[].keystore.type,omitempty"`
-
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
 // Constants associated with the ListManagedKeysOptions.Algorithm property.
-// The algorithm of the key.
+// The algorithm of a returned keys.
 const (
 	ListManagedKeysOptions_Algorithm_Aes = "aes"
 	ListManagedKeysOptions_Algorithm_Rsa = "rsa"
 )
 
 // Constants associated with the ListManagedKeysOptions.State property.
-// The state of the key.
+// The state that returned keys are to be in.
 const (
 	ListManagedKeysOptions_State_Active = "active"
 	ListManagedKeysOptions_State_Deactivated = "deactivated"
 	ListManagedKeysOptions_State_Destroyed = "destroyed"
 	ListManagedKeysOptions_State_PreActivation = "pre_activation"
-)
-
-// Constants associated with the ListManagedKeysOptions.ReferencedKeystoresType property.
-// Type of keystore.
-const (
-	ListManagedKeysOptions_ReferencedKeystoresType_AwsKms = "aws_kms"
-	ListManagedKeysOptions_ReferencedKeystoresType_AzureKeyVault = "azure_key_vault"
-	ListManagedKeysOptions_ReferencedKeystoresType_IbmCloudKms = "ibm_cloud_kms"
-)
-
-// Constants associated with the ListManagedKeysOptions.InstancesKeystoreType property.
-// Type of keystore.
-const (
-	ListManagedKeysOptions_InstancesKeystoreType_AwsKms = "aws_kms"
-	ListManagedKeysOptions_InstancesKeystoreType_AzureKeyVault = "azure_key_vault"
-	ListManagedKeysOptions_InstancesKeystoreType_IbmCloudKms = "ibm_cloud_kms"
 )
 
 // NewListManagedKeysOptions : Instantiate ListManagedKeysOptions
@@ -3465,20 +3011,20 @@ func (*UkoV4) NewListManagedKeysOptions() *ListManagedKeysOptions {
 }
 
 // SetVaultID : Allow user to set VaultID
-func (_options *ListManagedKeysOptions) SetVaultID(vaultID []string) *ListManagedKeysOptions {
-	_options.VaultID = vaultID
+func (_options *ListManagedKeysOptions) SetVaultID(vaultID string) *ListManagedKeysOptions {
+	_options.VaultID = core.StringPtr(vaultID)
 	return _options
 }
 
 // SetAlgorithm : Allow user to set Algorithm
-func (_options *ListManagedKeysOptions) SetAlgorithm(algorithm []string) *ListManagedKeysOptions {
-	_options.Algorithm = algorithm
+func (_options *ListManagedKeysOptions) SetAlgorithm(algorithm string) *ListManagedKeysOptions {
+	_options.Algorithm = core.StringPtr(algorithm)
 	return _options
 }
 
 // SetState : Allow user to set State
-func (_options *ListManagedKeysOptions) SetState(state []string) *ListManagedKeysOptions {
-	_options.State = state
+func (_options *ListManagedKeysOptions) SetState(state string) *ListManagedKeysOptions {
+	_options.State = core.StringPtr(state)
 	return _options
 }
 
@@ -3491,126 +3037,6 @@ func (_options *ListManagedKeysOptions) SetLimit(limit int64) *ListManagedKeysOp
 // SetOffset : Allow user to set Offset
 func (_options *ListManagedKeysOptions) SetOffset(offset int64) *ListManagedKeysOptions {
 	_options.Offset = core.Int64Ptr(offset)
-	return _options
-}
-
-// SetSort : Allow user to set Sort
-func (_options *ListManagedKeysOptions) SetSort(sort []string) *ListManagedKeysOptions {
-	_options.Sort = sort
-	return _options
-}
-
-// SetLabel : Allow user to set Label
-func (_options *ListManagedKeysOptions) SetLabel(label string) *ListManagedKeysOptions {
-	_options.Label = core.StringPtr(label)
-	return _options
-}
-
-// SetActivationDate : Allow user to set ActivationDate
-func (_options *ListManagedKeysOptions) SetActivationDate(activationDate string) *ListManagedKeysOptions {
-	_options.ActivationDate = core.StringPtr(activationDate)
-	return _options
-}
-
-// SetActivationDateMin : Allow user to set ActivationDateMin
-func (_options *ListManagedKeysOptions) SetActivationDateMin(activationDateMin string) *ListManagedKeysOptions {
-	_options.ActivationDateMin = core.StringPtr(activationDateMin)
-	return _options
-}
-
-// SetActivationDateMax : Allow user to set ActivationDateMax
-func (_options *ListManagedKeysOptions) SetActivationDateMax(activationDateMax string) *ListManagedKeysOptions {
-	_options.ActivationDateMax = core.StringPtr(activationDateMax)
-	return _options
-}
-
-// SetDeactivationDate : Allow user to set DeactivationDate
-func (_options *ListManagedKeysOptions) SetDeactivationDate(deactivationDate string) *ListManagedKeysOptions {
-	_options.DeactivationDate = core.StringPtr(deactivationDate)
-	return _options
-}
-
-// SetDeactivationDateMin : Allow user to set DeactivationDateMin
-func (_options *ListManagedKeysOptions) SetDeactivationDateMin(deactivationDateMin string) *ListManagedKeysOptions {
-	_options.DeactivationDateMin = core.StringPtr(deactivationDateMin)
-	return _options
-}
-
-// SetDeactivationDateMax : Allow user to set DeactivationDateMax
-func (_options *ListManagedKeysOptions) SetDeactivationDateMax(deactivationDateMax string) *ListManagedKeysOptions {
-	_options.DeactivationDateMax = core.StringPtr(deactivationDateMax)
-	return _options
-}
-
-// SetCreatedAt : Allow user to set CreatedAt
-func (_options *ListManagedKeysOptions) SetCreatedAt(createdAt string) *ListManagedKeysOptions {
-	_options.CreatedAt = core.StringPtr(createdAt)
-	return _options
-}
-
-// SetCreatedAtMin : Allow user to set CreatedAtMin
-func (_options *ListManagedKeysOptions) SetCreatedAtMin(createdAtMin string) *ListManagedKeysOptions {
-	_options.CreatedAtMin = core.StringPtr(createdAtMin)
-	return _options
-}
-
-// SetCreatedAtMax : Allow user to set CreatedAtMax
-func (_options *ListManagedKeysOptions) SetCreatedAtMax(createdAtMax string) *ListManagedKeysOptions {
-	_options.CreatedAtMax = core.StringPtr(createdAtMax)
-	return _options
-}
-
-// SetUpdatedAt : Allow user to set UpdatedAt
-func (_options *ListManagedKeysOptions) SetUpdatedAt(updatedAt string) *ListManagedKeysOptions {
-	_options.UpdatedAt = core.StringPtr(updatedAt)
-	return _options
-}
-
-// SetUpdatedAtMin : Allow user to set UpdatedAtMin
-func (_options *ListManagedKeysOptions) SetUpdatedAtMin(updatedAtMin string) *ListManagedKeysOptions {
-	_options.UpdatedAtMin = core.StringPtr(updatedAtMin)
-	return _options
-}
-
-// SetUpdatedAtMax : Allow user to set UpdatedAtMax
-func (_options *ListManagedKeysOptions) SetUpdatedAtMax(updatedAtMax string) *ListManagedKeysOptions {
-	_options.UpdatedAtMax = core.StringPtr(updatedAtMax)
-	return _options
-}
-
-// SetSize : Allow user to set Size
-func (_options *ListManagedKeysOptions) SetSize(size int64) *ListManagedKeysOptions {
-	_options.Size = core.Int64Ptr(size)
-	return _options
-}
-
-// SetSizeMin : Allow user to set SizeMin
-func (_options *ListManagedKeysOptions) SetSizeMin(sizeMin int64) *ListManagedKeysOptions {
-	_options.SizeMin = core.Int64Ptr(sizeMin)
-	return _options
-}
-
-// SetSizeMax : Allow user to set SizeMax
-func (_options *ListManagedKeysOptions) SetSizeMax(sizeMax int64) *ListManagedKeysOptions {
-	_options.SizeMax = core.Int64Ptr(sizeMax)
-	return _options
-}
-
-// SetReferencedKeystoresType : Allow user to set ReferencedKeystoresType
-func (_options *ListManagedKeysOptions) SetReferencedKeystoresType(referencedKeystoresType []string) *ListManagedKeysOptions {
-	_options.ReferencedKeystoresType = referencedKeystoresType
-	return _options
-}
-
-// SetReferencedKeystoresName : Allow user to set ReferencedKeystoresName
-func (_options *ListManagedKeysOptions) SetReferencedKeystoresName(referencedKeystoresName []string) *ListManagedKeysOptions {
-	_options.ReferencedKeystoresName = referencedKeystoresName
-	return _options
-}
-
-// SetInstancesKeystoreType : Allow user to set InstancesKeystoreType
-func (_options *ListManagedKeysOptions) SetInstancesKeystoreType(instancesKeystoreType []string) *ListManagedKeysOptions {
-	_options.InstancesKeystoreType = instancesKeystoreType
 	return _options
 }
 
@@ -3627,15 +3053,6 @@ type ListVaultsOptions struct {
 
 	// The number of resources to skip.
 	Offset *int64 `json:"offset,omitempty"`
-
-	// Define sorting order.
-	Sort []string `json:"sort,omitempty"`
-
-	// Return only vaults whose names begin with the string.
-	Name *string `json:"name,omitempty"`
-
-	// Return only vaults whose description contains the string.
-	Description *string `json:"description,omitempty"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3655,24 +3072,6 @@ func (_options *ListVaultsOptions) SetLimit(limit int64) *ListVaultsOptions {
 // SetOffset : Allow user to set Offset
 func (_options *ListVaultsOptions) SetOffset(offset int64) *ListVaultsOptions {
 	_options.Offset = core.Int64Ptr(offset)
-	return _options
-}
-
-// SetSort : Allow user to set Sort
-func (_options *ListVaultsOptions) SetSort(sort []string) *ListVaultsOptions {
-	_options.Sort = sort
-	return _options
-}
-
-// SetName : Allow user to set Name
-func (_options *ListVaultsOptions) SetName(name string) *ListVaultsOptions {
-	_options.Name = core.StringPtr(name)
-	return _options
-}
-
-// SetDescription : Allow user to set Description
-func (_options *ListVaultsOptions) SetDescription(description string) *ListVaultsOptions {
-	_options.Description = core.StringPtr(description)
 	return _options
 }
 
@@ -4342,9 +3741,6 @@ type Keystore struct {
 	// Name of the target keystore. It can be changed in the future.
 	Name *string `json:"name,omitempty"`
 
-	// Geographic location of the keystore, if available.
-	Location *string `json:"location,omitempty"`
-
 	// Description of the keystore.
 	Description *string `json:"description,omitempty"`
 
@@ -4548,10 +3944,6 @@ func UnmarshalKeystore(m map[string]json.RawMessage, result interface{}) (err er
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
 	if err != nil {
 		return
 	}
@@ -6581,9 +5973,6 @@ type KeystoreTypeAwsKms struct {
 	// Name of the target keystore. It can be changed in the future.
 	Name *string `json:"name" validate:"required"`
 
-	// Geographic location of the keystore, if available.
-	Location *string `json:"location" validate:"required"`
-
 	// Description of the keystore.
 	Description *string `json:"description" validate:"required"`
 
@@ -6679,10 +6068,6 @@ func UnmarshalKeystoreTypeAwsKms(m map[string]json.RawMessage, result interface{
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
-	if err != nil {
-		return
-	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
 		return
@@ -6742,9 +6127,6 @@ type KeystoreTypeAzure struct {
 
 	// Name of the target keystore. It can be changed in the future.
 	Name *string `json:"name" validate:"required"`
-
-	// Geographic location of the keystore, if available.
-	Location *string `json:"location" validate:"required"`
 
 	// Description of the keystore.
 	Description *string `json:"description" validate:"required"`
@@ -6880,10 +6262,6 @@ func UnmarshalKeystoreTypeAzure(m map[string]json.RawMessage, result interface{}
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
-	if err != nil {
-		return
-	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
 		return
@@ -6964,9 +6342,6 @@ type KeystoreTypeIbmCloudKms struct {
 	// Name of the target keystore. It can be changed in the future.
 	Name *string `json:"name" validate:"required"`
 
-	// Geographic location of the keystore, if available.
-	Location *string `json:"location" validate:"required"`
-
 	// Description of the keystore.
 	Description *string `json:"description" validate:"required"`
 
@@ -7042,10 +6417,6 @@ func UnmarshalKeystoreTypeIbmCloudKms(m map[string]json.RawMessage, result inter
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
 	if err != nil {
 		return
 	}
