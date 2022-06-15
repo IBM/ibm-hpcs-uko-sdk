@@ -25,9 +25,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
+	"net/url"
 	"reflect"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/IBM/go-sdk-core/v5/core"
@@ -53,6 +56,41 @@ type UkoV4Options struct {
 	ServiceName   string
 	URL           string
 	Authenticator core.Authenticator
+}
+
+func GetToken(apiKey string, iamUrl string) (string, error) {
+
+	httpClient := http.Client{}
+	form := url.Values{}
+	form.Add("grant_type", "urn:ibm:params:oauth:grant-type:apikey")
+	form.Add("apikey", apiKey)
+
+	req, err := http.NewRequest("POST", iamUrl+"/identity/token", strings.NewReader(form.Encode()))
+
+	if err != nil {
+		return "", err
+	}
+
+	req.PostForm = form
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Add("Accept", "application/json")
+
+	resp, err := httpClient.Do(req)
+
+	if err != nil {
+		log.Println("Failed to do post request to get the token", err)
+		return "", err
+	}
+
+	var authToken map[string]interface{}
+	err = json.NewDecoder(resp.Body).Decode(&authToken)
+	if err != nil {
+		log.Println("Failed to get the token", err)
+		return "", err
+	}
+
+	return authToken["access_token"].(string), nil
+
 }
 
 // NewUkoV4UsingExternalConfig : constructs an instance of UkoV4 with passed in options and external configuration.
@@ -1993,9 +2031,9 @@ type ActivateManagedKeyOptions struct {
 // NewActivateManagedKeyOptions : Instantiate ActivateManagedKeyOptions
 func (*UkoV4) NewActivateManagedKeyOptions(id string, uKOVault string, ifMatch string) *ActivateManagedKeyOptions {
 	return &ActivateManagedKeyOptions{
-		ID: core.StringPtr(id),
+		ID:       core.StringPtr(id),
 		UKOVault: core.StringPtr(uKOVault),
-		IfMatch: core.StringPtr(ifMatch),
+		IfMatch:  core.StringPtr(ifMatch),
 	}
 }
 
@@ -2050,10 +2088,10 @@ type CreateKeyTemplateOptions struct {
 // NewCreateKeyTemplateOptions : Instantiate CreateKeyTemplateOptions
 func (*UkoV4) NewCreateKeyTemplateOptions(uKOVault string, vault *VaultReferenceInCreationRequest, name string, key *KeyProperties, keystores []KeystoresProperties) *CreateKeyTemplateOptions {
 	return &CreateKeyTemplateOptions{
-		UKOVault: core.StringPtr(uKOVault),
-		Vault: vault,
-		Name: core.StringPtr(name),
-		Key: key,
+		UKOVault:  core.StringPtr(uKOVault),
+		Vault:     vault,
+		Name:      core.StringPtr(name),
+		Key:       key,
 		Keystores: keystores,
 	}
 }
@@ -2115,7 +2153,7 @@ type CreateKeystoreOptions struct {
 // NewCreateKeystoreOptions : Instantiate CreateKeystoreOptions
 func (*UkoV4) NewCreateKeystoreOptions(uKOVault string, keystoreBody KeystoreCreationRequestIntf) *CreateKeystoreOptions {
 	return &CreateKeystoreOptions{
-		UKOVault: core.StringPtr(uKOVault),
+		UKOVault:     core.StringPtr(uKOVault),
 		KeystoreBody: keystoreBody,
 	}
 }
@@ -2165,10 +2203,10 @@ type CreateManagedKeyOptions struct {
 // NewCreateManagedKeyOptions : Instantiate CreateManagedKeyOptions
 func (*UkoV4) NewCreateManagedKeyOptions(uKOVault string, templateName string, vault *VaultReferenceInCreationRequest, label string) *CreateManagedKeyOptions {
 	return &CreateManagedKeyOptions{
-		UKOVault: core.StringPtr(uKOVault),
+		UKOVault:     core.StringPtr(uKOVault),
 		TemplateName: core.StringPtr(templateName),
-		Vault: vault,
-		Label: core.StringPtr(label),
+		Vault:        vault,
+		Label:        core.StringPtr(label),
 	}
 }
 
@@ -2270,9 +2308,9 @@ type DeactivateManagedKeyOptions struct {
 // NewDeactivateManagedKeyOptions : Instantiate DeactivateManagedKeyOptions
 func (*UkoV4) NewDeactivateManagedKeyOptions(id string, uKOVault string, ifMatch string) *DeactivateManagedKeyOptions {
 	return &DeactivateManagedKeyOptions{
-		ID: core.StringPtr(id),
+		ID:       core.StringPtr(id),
 		UKOVault: core.StringPtr(uKOVault),
-		IfMatch: core.StringPtr(ifMatch),
+		IfMatch:  core.StringPtr(ifMatch),
 	}
 }
 
@@ -2318,9 +2356,9 @@ type DeleteKeyTemplateOptions struct {
 // NewDeleteKeyTemplateOptions : Instantiate DeleteKeyTemplateOptions
 func (*UkoV4) NewDeleteKeyTemplateOptions(id string, uKOVault string, ifMatch string) *DeleteKeyTemplateOptions {
 	return &DeleteKeyTemplateOptions{
-		ID: core.StringPtr(id),
+		ID:       core.StringPtr(id),
 		UKOVault: core.StringPtr(uKOVault),
-		IfMatch: core.StringPtr(ifMatch),
+		IfMatch:  core.StringPtr(ifMatch),
 	}
 }
 
@@ -2366,9 +2404,9 @@ type DeleteKeystoreOptions struct {
 // NewDeleteKeystoreOptions : Instantiate DeleteKeystoreOptions
 func (*UkoV4) NewDeleteKeystoreOptions(id string, uKOVault string, ifMatch string) *DeleteKeystoreOptions {
 	return &DeleteKeystoreOptions{
-		ID: core.StringPtr(id),
+		ID:       core.StringPtr(id),
 		UKOVault: core.StringPtr(uKOVault),
-		IfMatch: core.StringPtr(ifMatch),
+		IfMatch:  core.StringPtr(ifMatch),
 	}
 }
 
@@ -2414,9 +2452,9 @@ type DeleteManagedKeyOptions struct {
 // NewDeleteManagedKeyOptions : Instantiate DeleteManagedKeyOptions
 func (*UkoV4) NewDeleteManagedKeyOptions(id string, uKOVault string, ifMatch string) *DeleteManagedKeyOptions {
 	return &DeleteManagedKeyOptions{
-		ID: core.StringPtr(id),
+		ID:       core.StringPtr(id),
 		UKOVault: core.StringPtr(uKOVault),
-		IfMatch: core.StringPtr(ifMatch),
+		IfMatch:  core.StringPtr(ifMatch),
 	}
 }
 
@@ -2459,7 +2497,7 @@ type DeleteVaultOptions struct {
 // NewDeleteVaultOptions : Instantiate DeleteVaultOptions
 func (*UkoV4) NewDeleteVaultOptions(id string, ifMatch string) *DeleteVaultOptions {
 	return &DeleteVaultOptions{
-		ID: core.StringPtr(id),
+		ID:      core.StringPtr(id),
 		IfMatch: core.StringPtr(ifMatch),
 	}
 }
@@ -2500,9 +2538,9 @@ type DestroyManagedKeyOptions struct {
 // NewDestroyManagedKeyOptions : Instantiate DestroyManagedKeyOptions
 func (*UkoV4) NewDestroyManagedKeyOptions(id string, uKOVault string, ifMatch string) *DestroyManagedKeyOptions {
 	return &DestroyManagedKeyOptions{
-		ID: core.StringPtr(id),
+		ID:       core.StringPtr(id),
 		UKOVault: core.StringPtr(uKOVault),
-		IfMatch: core.StringPtr(ifMatch),
+		IfMatch:  core.StringPtr(ifMatch),
 	}
 }
 
@@ -2545,7 +2583,7 @@ type GetKeyDistributionStatusForKeystoresOptions struct {
 // NewGetKeyDistributionStatusForKeystoresOptions : Instantiate GetKeyDistributionStatusForKeystoresOptions
 func (*UkoV4) NewGetKeyDistributionStatusForKeystoresOptions(id string, uKOVault string) *GetKeyDistributionStatusForKeystoresOptions {
 	return &GetKeyDistributionStatusForKeystoresOptions{
-		ID: core.StringPtr(id),
+		ID:       core.StringPtr(id),
 		UKOVault: core.StringPtr(uKOVault),
 	}
 }
@@ -2583,7 +2621,7 @@ type GetKeyTemplateOptions struct {
 // NewGetKeyTemplateOptions : Instantiate GetKeyTemplateOptions
 func (*UkoV4) NewGetKeyTemplateOptions(id string, uKOVault string) *GetKeyTemplateOptions {
 	return &GetKeyTemplateOptions{
-		ID: core.StringPtr(id),
+		ID:       core.StringPtr(id),
 		UKOVault: core.StringPtr(uKOVault),
 	}
 }
@@ -2621,7 +2659,7 @@ type GetKeystoreOptions struct {
 // NewGetKeystoreOptions : Instantiate GetKeystoreOptions
 func (*UkoV4) NewGetKeystoreOptions(id string, uKOVault string) *GetKeystoreOptions {
 	return &GetKeystoreOptions{
-		ID: core.StringPtr(id),
+		ID:       core.StringPtr(id),
 		UKOVault: core.StringPtr(uKOVault),
 	}
 }
@@ -2659,7 +2697,7 @@ type GetKeystoreStatusOptions struct {
 // NewGetKeystoreStatusOptions : Instantiate GetKeystoreStatusOptions
 func (*UkoV4) NewGetKeystoreStatusOptions(id string, uKOVault string) *GetKeystoreStatusOptions {
 	return &GetKeystoreStatusOptions{
-		ID: core.StringPtr(id),
+		ID:       core.StringPtr(id),
 		UKOVault: core.StringPtr(uKOVault),
 	}
 }
@@ -2697,7 +2735,7 @@ type GetManagedKeyOptions struct {
 // NewGetManagedKeyOptions : Instantiate GetManagedKeyOptions
 func (*UkoV4) NewGetManagedKeyOptions(id string, uKOVault string) *GetManagedKeyOptions {
 	return &GetManagedKeyOptions{
-		ID: core.StringPtr(id),
+		ID:       core.StringPtr(id),
 		UKOVault: core.StringPtr(uKOVault),
 	}
 }
@@ -2832,9 +2870,9 @@ type ListKeystoresOptions struct {
 // Constants associated with the ListKeystoresOptions.Type property.
 // Keystore type.
 const (
-	ListKeystoresOptions_Type_AwsKms = "aws_kms"
+	ListKeystoresOptions_Type_AwsKms        = "aws_kms"
 	ListKeystoresOptions_Type_AzureKeyVault = "azure_key_vault"
-	ListKeystoresOptions_Type_IbmCloudKms = "ibm_cloud_kms"
+	ListKeystoresOptions_Type_IbmCloudKms   = "ibm_cloud_kms"
 )
 
 // NewListKeystoresOptions : Instantiate ListKeystoresOptions
@@ -2912,9 +2950,9 @@ const (
 // Constants associated with the ListManagedKeysFromKeystoreOptions.State property.
 // The state that returned keys are to be in.
 const (
-	ListManagedKeysFromKeystoreOptions_State_Active = "active"
-	ListManagedKeysFromKeystoreOptions_State_Deactivated = "deactivated"
-	ListManagedKeysFromKeystoreOptions_State_Destroyed = "destroyed"
+	ListManagedKeysFromKeystoreOptions_State_Active        = "active"
+	ListManagedKeysFromKeystoreOptions_State_Deactivated   = "deactivated"
+	ListManagedKeysFromKeystoreOptions_State_Destroyed     = "destroyed"
 	ListManagedKeysFromKeystoreOptions_State_PreActivation = "pre_activation"
 )
 
@@ -2922,7 +2960,7 @@ const (
 func (*UkoV4) NewListManagedKeysFromKeystoreOptions(uKOVault string, id string) *ListManagedKeysFromKeystoreOptions {
 	return &ListManagedKeysFromKeystoreOptions{
 		UKOVault: core.StringPtr(uKOVault),
-		ID: core.StringPtr(id),
+		ID:       core.StringPtr(id),
 	}
 }
 
@@ -2999,9 +3037,9 @@ const (
 // Constants associated with the ListManagedKeysOptions.State property.
 // The state that returned keys are to be in.
 const (
-	ListManagedKeysOptions_State_Active = "active"
-	ListManagedKeysOptions_State_Deactivated = "deactivated"
-	ListManagedKeysOptions_State_Destroyed = "destroyed"
+	ListManagedKeysOptions_State_Active        = "active"
+	ListManagedKeysOptions_State_Deactivated   = "deactivated"
+	ListManagedKeysOptions_State_Destroyed     = "destroyed"
 	ListManagedKeysOptions_State_PreActivation = "pre_activation"
 )
 
@@ -3106,9 +3144,9 @@ type UpdateKeyTemplateOptions struct {
 // NewUpdateKeyTemplateOptions : Instantiate UpdateKeyTemplateOptions
 func (*UkoV4) NewUpdateKeyTemplateOptions(id string, uKOVault string, ifMatch string) *UpdateKeyTemplateOptions {
 	return &UpdateKeyTemplateOptions{
-		ID: core.StringPtr(id),
+		ID:       core.StringPtr(id),
 		UKOVault: core.StringPtr(uKOVault),
-		IfMatch: core.StringPtr(ifMatch),
+		IfMatch:  core.StringPtr(ifMatch),
 	}
 }
 
@@ -3175,9 +3213,9 @@ type UpdateKeystoreOptions struct {
 // NewUpdateKeystoreOptions : Instantiate UpdateKeystoreOptions
 func (*UkoV4) NewUpdateKeystoreOptions(id string, uKOVault string, ifMatch string, keystoreBody KeystoreUpdateRequestIntf) *UpdateKeystoreOptions {
 	return &UpdateKeystoreOptions{
-		ID: core.StringPtr(id),
-		UKOVault: core.StringPtr(uKOVault),
-		IfMatch: core.StringPtr(ifMatch),
+		ID:           core.StringPtr(id),
+		UKOVault:     core.StringPtr(uKOVault),
+		IfMatch:      core.StringPtr(ifMatch),
 		KeystoreBody: keystoreBody,
 	}
 }
@@ -3230,9 +3268,9 @@ type UpdateManagedKeyFromTemplateOptions struct {
 // NewUpdateManagedKeyFromTemplateOptions : Instantiate UpdateManagedKeyFromTemplateOptions
 func (*UkoV4) NewUpdateManagedKeyFromTemplateOptions(id string, uKOVault string, ifMatch string) *UpdateManagedKeyFromTemplateOptions {
 	return &UpdateManagedKeyFromTemplateOptions{
-		ID: core.StringPtr(id),
+		ID:       core.StringPtr(id),
 		UKOVault: core.StringPtr(uKOVault),
-		IfMatch: core.StringPtr(ifMatch),
+		IfMatch:  core.StringPtr(ifMatch),
 	}
 }
 
@@ -3293,9 +3331,9 @@ type UpdateManagedKeyOptions struct {
 // NewUpdateManagedKeyOptions : Instantiate UpdateManagedKeyOptions
 func (*UkoV4) NewUpdateManagedKeyOptions(id string, uKOVault string, ifMatch string) *UpdateManagedKeyOptions {
 	return &UpdateManagedKeyOptions{
-		ID: core.StringPtr(id),
+		ID:       core.StringPtr(id),
 		UKOVault: core.StringPtr(uKOVault),
-		IfMatch: core.StringPtr(ifMatch),
+		IfMatch:  core.StringPtr(ifMatch),
 	}
 }
 
@@ -3374,7 +3412,7 @@ type UpdateVaultOptions struct {
 // NewUpdateVaultOptions : Instantiate UpdateVaultOptions
 func (*UkoV4) NewUpdateVaultOptions(id string, ifMatch string) *UpdateVaultOptions {
 	return &UpdateVaultOptions{
-		ID: core.StringPtr(id),
+		ID:      core.StringPtr(id),
 		IfMatch: core.StringPtr(ifMatch),
 	}
 }
@@ -3516,9 +3554,9 @@ type InstanceInKeystore struct {
 // Constants associated with the InstanceInKeystore.Type property.
 // Type of keystore.
 const (
-	InstanceInKeystore_Type_AwsKms = "aws_kms"
+	InstanceInKeystore_Type_AwsKms        = "aws_kms"
 	InstanceInKeystore_Type_AzureKeyVault = "azure_key_vault"
-	InstanceInKeystore_Type_IbmCloudKms = "ibm_cloud_kms"
+	InstanceInKeystore_Type_IbmCloudKms   = "ibm_cloud_kms"
 )
 
 // UnmarshalInstanceInKeystore unmarshals an instance of InstanceInKeystore from the specified map of raw messages.
@@ -3554,10 +3592,10 @@ type KeyInstance struct {
 // Constants associated with the KeyInstance.Type property.
 // Type of the key instance.
 const (
-	KeyInstance_Type_KeyPair = "key_pair"
+	KeyInstance_Type_KeyPair    = "key_pair"
 	KeyInstance_Type_PrivateKey = "private_key"
-	KeyInstance_Type_PublicKey = "public_key"
-	KeyInstance_Type_SecretKey = "secret_key"
+	KeyInstance_Type_PublicKey  = "public_key"
+	KeyInstance_Type_SecretKey  = "secret_key"
 )
 
 // UnmarshalKeyInstance unmarshals an instance of KeyInstance from the specified map of raw messages.
@@ -3611,18 +3649,18 @@ const (
 // Constants associated with the KeyProperties.State property.
 // The state that the key will be in after generation.
 const (
-	KeyProperties_State_Active = "active"
+	KeyProperties_State_Active        = "active"
 	KeyProperties_State_PreActivation = "pre_activation"
 )
 
 // NewKeyProperties : Instantiate KeyProperties (Generic Model Constructor)
 func (*UkoV4) NewKeyProperties(size string, algorithm string, activationDate string, expirationDate string, state string) (_model *KeyProperties, err error) {
 	_model = &KeyProperties{
-		Size: core.StringPtr(size),
-		Algorithm: core.StringPtr(algorithm),
+		Size:           core.StringPtr(size),
+		Algorithm:      core.StringPtr(algorithm),
 		ActivationDate: core.StringPtr(activationDate),
 		ExpirationDate: core.StringPtr(expirationDate),
-		State: core.StringPtr(state),
+		State:          core.StringPtr(state),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	return
@@ -3673,7 +3711,7 @@ type KeyPropertiesUpdate struct {
 // Constants associated with the KeyPropertiesUpdate.State property.
 // The state that the key will be in after generation.
 const (
-	KeyPropertiesUpdate_State_Active = "active"
+	KeyPropertiesUpdate_State_Active        = "active"
 	KeyPropertiesUpdate_State_PreActivation = "pre_activation"
 )
 
@@ -3820,110 +3858,111 @@ type Keystore struct {
 // Constants associated with the Keystore.Type property.
 // Type of keystore.
 const (
-	Keystore_Type_AwsKms = "aws_kms"
+	Keystore_Type_AwsKms        = "aws_kms"
 	Keystore_Type_AzureKeyVault = "azure_key_vault"
-	Keystore_Type_IbmCloudKms = "ibm_cloud_kms"
+	Keystore_Type_IbmCloudKms   = "ibm_cloud_kms"
 )
 
 // Constants associated with the Keystore.AwsRegion property.
 // AWS Region.
 const (
-	Keystore_AwsRegion_AfSouth1 = "af_south_1"
-	Keystore_AwsRegion_ApEast1 = "ap_east_1"
-	Keystore_AwsRegion_ApNortheast1 = "ap_northeast_1"
-	Keystore_AwsRegion_ApNortheast2 = "ap_northeast_2"
-	Keystore_AwsRegion_ApSouth1 = "ap_south_1"
-	Keystore_AwsRegion_ApSoutheast1 = "ap_southeast_1"
-	Keystore_AwsRegion_ApSoutheast2 = "ap_southeast_2"
-	Keystore_AwsRegion_AwsCnGlobal = "aws_cn_global"
-	Keystore_AwsRegion_AwsGlobal = "aws_global"
-	Keystore_AwsRegion_AwsIsoBGlobal = "aws_iso_b_global"
-	Keystore_AwsRegion_AwsIsoGlobal = "aws_iso_global"
+	Keystore_AwsRegion_AfSouth1       = "af_south_1"
+	Keystore_AwsRegion_ApEast1        = "ap_east_1"
+	Keystore_AwsRegion_ApNortheast1   = "ap_northeast_1"
+	Keystore_AwsRegion_ApNortheast2   = "ap_northeast_2"
+	Keystore_AwsRegion_ApSouth1       = "ap_south_1"
+	Keystore_AwsRegion_ApSoutheast1   = "ap_southeast_1"
+	Keystore_AwsRegion_ApSoutheast2   = "ap_southeast_2"
+	Keystore_AwsRegion_AwsCnGlobal    = "aws_cn_global"
+	Keystore_AwsRegion_AwsGlobal      = "aws_global"
+	Keystore_AwsRegion_AwsIsoBGlobal  = "aws_iso_b_global"
+	Keystore_AwsRegion_AwsIsoGlobal   = "aws_iso_global"
 	Keystore_AwsRegion_AwsUsGovGlobal = "aws_us_gov_global"
-	Keystore_AwsRegion_CaCentral1 = "ca_central_1"
-	Keystore_AwsRegion_CnNorth1 = "cn_north_1"
-	Keystore_AwsRegion_CnNorthwest1 = "cn_northwest_1"
-	Keystore_AwsRegion_EuCentral1 = "eu_central_1"
-	Keystore_AwsRegion_EuWest1 = "eu_west_1"
-	Keystore_AwsRegion_EuWest2 = "eu_west_2"
-	Keystore_AwsRegion_EuWest3 = "eu_west_3"
-	Keystore_AwsRegion_MeSouth1 = "me_south_1"
-	Keystore_AwsRegion_SaEast1 = "sa_east_1"
-	Keystore_AwsRegion_UsEast1 = "us_east_1"
-	Keystore_AwsRegion_UsEast2 = "us_east_2"
-	Keystore_AwsRegion_UsGovEast1 = "us_gov_east_1"
-	Keystore_AwsRegion_UsGovWest1 = "us_gov_west_1"
-	Keystore_AwsRegion_UsIsoEast1 = "us_iso_east_1"
-	Keystore_AwsRegion_UsIsobEast1 = "us_isob_east_1"
-	Keystore_AwsRegion_UsWest1 = "us_west_1"
-	Keystore_AwsRegion_UsWest2 = "us_west_2"
+	Keystore_AwsRegion_CaCentral1     = "ca_central_1"
+	Keystore_AwsRegion_CnNorth1       = "cn_north_1"
+	Keystore_AwsRegion_CnNorthwest1   = "cn_northwest_1"
+	Keystore_AwsRegion_EuCentral1     = "eu_central_1"
+	Keystore_AwsRegion_EuWest1        = "eu_west_1"
+	Keystore_AwsRegion_EuWest2        = "eu_west_2"
+	Keystore_AwsRegion_EuWest3        = "eu_west_3"
+	Keystore_AwsRegion_MeSouth1       = "me_south_1"
+	Keystore_AwsRegion_SaEast1        = "sa_east_1"
+	Keystore_AwsRegion_UsEast1        = "us_east_1"
+	Keystore_AwsRegion_UsEast2        = "us_east_2"
+	Keystore_AwsRegion_UsGovEast1     = "us_gov_east_1"
+	Keystore_AwsRegion_UsGovWest1     = "us_gov_west_1"
+	Keystore_AwsRegion_UsIsoEast1     = "us_iso_east_1"
+	Keystore_AwsRegion_UsIsobEast1    = "us_isob_east_1"
+	Keystore_AwsRegion_UsWest1        = "us_west_1"
+	Keystore_AwsRegion_UsWest2        = "us_west_2"
 )
 
 // Constants associated with the Keystore.AzureLocation property.
 // Location of the Azure Key Vault.
 const (
-	Keystore_AzureLocation_AsiaEast = "asia_east"
-	Keystore_AzureLocation_AsiaSoutheast = "asia_southeast"
-	Keystore_AzureLocation_AustraliaCentral = "australia_central"
-	Keystore_AzureLocation_AustraliaCentral2 = "australia_central_2"
-	Keystore_AzureLocation_AustraliaEast = "australia_east"
+	Keystore_AzureLocation_AsiaEast           = "asia_east"
+	Keystore_AzureLocation_AsiaSoutheast      = "asia_southeast"
+	Keystore_AzureLocation_AustraliaCentral   = "australia_central"
+	Keystore_AzureLocation_AustraliaCentral2  = "australia_central_2"
+	Keystore_AzureLocation_AustraliaEast      = "australia_east"
 	Keystore_AzureLocation_AustraliaSoutheast = "australia_southeast"
-	Keystore_AzureLocation_BrazilSouth = "brazil_south"
-	Keystore_AzureLocation_CanadaCentral = "canada_central"
-	Keystore_AzureLocation_CanadaEast = "canada_east"
-	Keystore_AzureLocation_ChinaEast = "china_east"
-	Keystore_AzureLocation_ChinaEast2 = "china_east_2"
-	Keystore_AzureLocation_ChinaNorth = "china_north"
-	Keystore_AzureLocation_ChinaNorth2 = "china_north_2"
-	Keystore_AzureLocation_EuropeNorth = "europe_north"
-	Keystore_AzureLocation_EuropeWest = "europe_west"
-	Keystore_AzureLocation_FranceCentral = "france_central"
-	Keystore_AzureLocation_FranceSouth = "france_south"
-	Keystore_AzureLocation_GermanyCentral = "germany_central"
-	Keystore_AzureLocation_GermanyNortheast = "germany_northeast"
-	Keystore_AzureLocation_IndiaCentral = "india_central"
-	Keystore_AzureLocation_IndiaSouth = "india_south"
-	Keystore_AzureLocation_IndiaWest = "india_west"
-	Keystore_AzureLocation_JapanEast = "japan_east"
-	Keystore_AzureLocation_JapanWest = "japan_west"
-	Keystore_AzureLocation_KoreaCentral = "korea_central"
-	Keystore_AzureLocation_KoreaSouth = "korea_south"
-	Keystore_AzureLocation_SouthAfricaNorth = "south_africa_north"
-	Keystore_AzureLocation_SouthAfricaWest = "south_africa_west"
-	Keystore_AzureLocation_UkSouth = "uk_south"
-	Keystore_AzureLocation_UkWest = "uk_west"
-	Keystore_AzureLocation_UsCentral = "us_central"
-	Keystore_AzureLocation_UsDodCentral = "us_dod_central"
-	Keystore_AzureLocation_UsDodEast = "us_dod_east"
-	Keystore_AzureLocation_UsEast = "us_east"
-	Keystore_AzureLocation_UsEast2 = "us_east_2"
-	Keystore_AzureLocation_UsGovArizona = "us_gov_arizona"
-	Keystore_AzureLocation_UsGovIowa = "us_gov_iowa"
-	Keystore_AzureLocation_UsGovTexas = "us_gov_texas"
-	Keystore_AzureLocation_UsGovVirginia = "us_gov_virginia"
-	Keystore_AzureLocation_UsNorthCentral = "us_north_central"
-	Keystore_AzureLocation_UsSouthCentral = "us_south_central"
-	Keystore_AzureLocation_UsWest = "us_west"
-	Keystore_AzureLocation_UsWest2 = "us_west_2"
-	Keystore_AzureLocation_UsWestCentral = "us_west_central"
+	Keystore_AzureLocation_BrazilSouth        = "brazil_south"
+	Keystore_AzureLocation_CanadaCentral      = "canada_central"
+	Keystore_AzureLocation_CanadaEast         = "canada_east"
+	Keystore_AzureLocation_ChinaEast          = "china_east"
+	Keystore_AzureLocation_ChinaEast2         = "china_east_2"
+	Keystore_AzureLocation_ChinaNorth         = "china_north"
+	Keystore_AzureLocation_ChinaNorth2        = "china_north_2"
+	Keystore_AzureLocation_EuropeNorth        = "europe_north"
+	Keystore_AzureLocation_EuropeWest         = "europe_west"
+	Keystore_AzureLocation_FranceCentral      = "france_central"
+	Keystore_AzureLocation_FranceSouth        = "france_south"
+	Keystore_AzureLocation_GermanyCentral     = "germany_central"
+	Keystore_AzureLocation_GermanyNortheast   = "germany_northeast"
+	Keystore_AzureLocation_IndiaCentral       = "india_central"
+	Keystore_AzureLocation_IndiaSouth         = "india_south"
+	Keystore_AzureLocation_IndiaWest          = "india_west"
+	Keystore_AzureLocation_JapanEast          = "japan_east"
+	Keystore_AzureLocation_JapanWest          = "japan_west"
+	Keystore_AzureLocation_KoreaCentral       = "korea_central"
+	Keystore_AzureLocation_KoreaSouth         = "korea_south"
+	Keystore_AzureLocation_SouthAfricaNorth   = "south_africa_north"
+	Keystore_AzureLocation_SouthAfricaWest    = "south_africa_west"
+	Keystore_AzureLocation_UkSouth            = "uk_south"
+	Keystore_AzureLocation_UkWest             = "uk_west"
+	Keystore_AzureLocation_UsCentral          = "us_central"
+	Keystore_AzureLocation_UsDodCentral       = "us_dod_central"
+	Keystore_AzureLocation_UsDodEast          = "us_dod_east"
+	Keystore_AzureLocation_UsEast             = "us_east"
+	Keystore_AzureLocation_UsEast2            = "us_east_2"
+	Keystore_AzureLocation_UsGovArizona       = "us_gov_arizona"
+	Keystore_AzureLocation_UsGovIowa          = "us_gov_iowa"
+	Keystore_AzureLocation_UsGovTexas         = "us_gov_texas"
+	Keystore_AzureLocation_UsGovVirginia      = "us_gov_virginia"
+	Keystore_AzureLocation_UsNorthCentral     = "us_north_central"
+	Keystore_AzureLocation_UsSouthCentral     = "us_south_central"
+	Keystore_AzureLocation_UsWest             = "us_west"
+	Keystore_AzureLocation_UsWest2            = "us_west_2"
+	Keystore_AzureLocation_UsWestCentral      = "us_west_central"
 )
 
 // Constants associated with the Keystore.AzureEnvironment property.
 // Azure environment, usually 'Azure'.
 const (
-	Keystore_AzureEnvironment_Azure = "azure"
-	Keystore_AzureEnvironment_AzureChina = "azure_china"
-	Keystore_AzureEnvironment_AzureGermany = "azure_germany"
+	Keystore_AzureEnvironment_Azure             = "azure"
+	Keystore_AzureEnvironment_AzureChina        = "azure_china"
+	Keystore_AzureEnvironment_AzureGermany      = "azure_germany"
 	Keystore_AzureEnvironment_AzureUsGovernment = "azure_us_government"
 )
 
 // Constants associated with the Keystore.IbmVariant property.
 // Possible IBM Cloud KMS variants.
 const (
-	Keystore_IbmVariant_Hpcs = "hpcs"
-	Keystore_IbmVariant_Internal = "internal"
+	Keystore_IbmVariant_Hpcs       = "hpcs"
+	Keystore_IbmVariant_Internal   = "internal"
 	Keystore_IbmVariant_KeyProtect = "key_protect"
 )
+
 func (*Keystore) isaKeystore() bool {
 	return true
 }
@@ -4127,110 +4166,111 @@ type KeystoreCreationRequest struct {
 // Constants associated with the KeystoreCreationRequest.Type property.
 // Type of keystore.
 const (
-	KeystoreCreationRequest_Type_AwsKms = "aws_kms"
+	KeystoreCreationRequest_Type_AwsKms        = "aws_kms"
 	KeystoreCreationRequest_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreCreationRequest_Type_IbmCloudKms = "ibm_cloud_kms"
+	KeystoreCreationRequest_Type_IbmCloudKms   = "ibm_cloud_kms"
 )
 
 // Constants associated with the KeystoreCreationRequest.AwsRegion property.
 // AWS Region.
 const (
-	KeystoreCreationRequest_AwsRegion_AfSouth1 = "af_south_1"
-	KeystoreCreationRequest_AwsRegion_ApEast1 = "ap_east_1"
-	KeystoreCreationRequest_AwsRegion_ApNortheast1 = "ap_northeast_1"
-	KeystoreCreationRequest_AwsRegion_ApNortheast2 = "ap_northeast_2"
-	KeystoreCreationRequest_AwsRegion_ApSouth1 = "ap_south_1"
-	KeystoreCreationRequest_AwsRegion_ApSoutheast1 = "ap_southeast_1"
-	KeystoreCreationRequest_AwsRegion_ApSoutheast2 = "ap_southeast_2"
-	KeystoreCreationRequest_AwsRegion_AwsCnGlobal = "aws_cn_global"
-	KeystoreCreationRequest_AwsRegion_AwsGlobal = "aws_global"
-	KeystoreCreationRequest_AwsRegion_AwsIsoBGlobal = "aws_iso_b_global"
-	KeystoreCreationRequest_AwsRegion_AwsIsoGlobal = "aws_iso_global"
+	KeystoreCreationRequest_AwsRegion_AfSouth1       = "af_south_1"
+	KeystoreCreationRequest_AwsRegion_ApEast1        = "ap_east_1"
+	KeystoreCreationRequest_AwsRegion_ApNortheast1   = "ap_northeast_1"
+	KeystoreCreationRequest_AwsRegion_ApNortheast2   = "ap_northeast_2"
+	KeystoreCreationRequest_AwsRegion_ApSouth1       = "ap_south_1"
+	KeystoreCreationRequest_AwsRegion_ApSoutheast1   = "ap_southeast_1"
+	KeystoreCreationRequest_AwsRegion_ApSoutheast2   = "ap_southeast_2"
+	KeystoreCreationRequest_AwsRegion_AwsCnGlobal    = "aws_cn_global"
+	KeystoreCreationRequest_AwsRegion_AwsGlobal      = "aws_global"
+	KeystoreCreationRequest_AwsRegion_AwsIsoBGlobal  = "aws_iso_b_global"
+	KeystoreCreationRequest_AwsRegion_AwsIsoGlobal   = "aws_iso_global"
 	KeystoreCreationRequest_AwsRegion_AwsUsGovGlobal = "aws_us_gov_global"
-	KeystoreCreationRequest_AwsRegion_CaCentral1 = "ca_central_1"
-	KeystoreCreationRequest_AwsRegion_CnNorth1 = "cn_north_1"
-	KeystoreCreationRequest_AwsRegion_CnNorthwest1 = "cn_northwest_1"
-	KeystoreCreationRequest_AwsRegion_EuCentral1 = "eu_central_1"
-	KeystoreCreationRequest_AwsRegion_EuWest1 = "eu_west_1"
-	KeystoreCreationRequest_AwsRegion_EuWest2 = "eu_west_2"
-	KeystoreCreationRequest_AwsRegion_EuWest3 = "eu_west_3"
-	KeystoreCreationRequest_AwsRegion_MeSouth1 = "me_south_1"
-	KeystoreCreationRequest_AwsRegion_SaEast1 = "sa_east_1"
-	KeystoreCreationRequest_AwsRegion_UsEast1 = "us_east_1"
-	KeystoreCreationRequest_AwsRegion_UsEast2 = "us_east_2"
-	KeystoreCreationRequest_AwsRegion_UsGovEast1 = "us_gov_east_1"
-	KeystoreCreationRequest_AwsRegion_UsGovWest1 = "us_gov_west_1"
-	KeystoreCreationRequest_AwsRegion_UsIsoEast1 = "us_iso_east_1"
-	KeystoreCreationRequest_AwsRegion_UsIsobEast1 = "us_isob_east_1"
-	KeystoreCreationRequest_AwsRegion_UsWest1 = "us_west_1"
-	KeystoreCreationRequest_AwsRegion_UsWest2 = "us_west_2"
+	KeystoreCreationRequest_AwsRegion_CaCentral1     = "ca_central_1"
+	KeystoreCreationRequest_AwsRegion_CnNorth1       = "cn_north_1"
+	KeystoreCreationRequest_AwsRegion_CnNorthwest1   = "cn_northwest_1"
+	KeystoreCreationRequest_AwsRegion_EuCentral1     = "eu_central_1"
+	KeystoreCreationRequest_AwsRegion_EuWest1        = "eu_west_1"
+	KeystoreCreationRequest_AwsRegion_EuWest2        = "eu_west_2"
+	KeystoreCreationRequest_AwsRegion_EuWest3        = "eu_west_3"
+	KeystoreCreationRequest_AwsRegion_MeSouth1       = "me_south_1"
+	KeystoreCreationRequest_AwsRegion_SaEast1        = "sa_east_1"
+	KeystoreCreationRequest_AwsRegion_UsEast1        = "us_east_1"
+	KeystoreCreationRequest_AwsRegion_UsEast2        = "us_east_2"
+	KeystoreCreationRequest_AwsRegion_UsGovEast1     = "us_gov_east_1"
+	KeystoreCreationRequest_AwsRegion_UsGovWest1     = "us_gov_west_1"
+	KeystoreCreationRequest_AwsRegion_UsIsoEast1     = "us_iso_east_1"
+	KeystoreCreationRequest_AwsRegion_UsIsobEast1    = "us_isob_east_1"
+	KeystoreCreationRequest_AwsRegion_UsWest1        = "us_west_1"
+	KeystoreCreationRequest_AwsRegion_UsWest2        = "us_west_2"
 )
 
 // Constants associated with the KeystoreCreationRequest.AzureLocation property.
 // Location of the Azure Key Vault.
 const (
-	KeystoreCreationRequest_AzureLocation_AsiaEast = "asia_east"
-	KeystoreCreationRequest_AzureLocation_AsiaSoutheast = "asia_southeast"
-	KeystoreCreationRequest_AzureLocation_AustraliaCentral = "australia_central"
-	KeystoreCreationRequest_AzureLocation_AustraliaCentral2 = "australia_central_2"
-	KeystoreCreationRequest_AzureLocation_AustraliaEast = "australia_east"
+	KeystoreCreationRequest_AzureLocation_AsiaEast           = "asia_east"
+	KeystoreCreationRequest_AzureLocation_AsiaSoutheast      = "asia_southeast"
+	KeystoreCreationRequest_AzureLocation_AustraliaCentral   = "australia_central"
+	KeystoreCreationRequest_AzureLocation_AustraliaCentral2  = "australia_central_2"
+	KeystoreCreationRequest_AzureLocation_AustraliaEast      = "australia_east"
 	KeystoreCreationRequest_AzureLocation_AustraliaSoutheast = "australia_southeast"
-	KeystoreCreationRequest_AzureLocation_BrazilSouth = "brazil_south"
-	KeystoreCreationRequest_AzureLocation_CanadaCentral = "canada_central"
-	KeystoreCreationRequest_AzureLocation_CanadaEast = "canada_east"
-	KeystoreCreationRequest_AzureLocation_ChinaEast = "china_east"
-	KeystoreCreationRequest_AzureLocation_ChinaEast2 = "china_east_2"
-	KeystoreCreationRequest_AzureLocation_ChinaNorth = "china_north"
-	KeystoreCreationRequest_AzureLocation_ChinaNorth2 = "china_north_2"
-	KeystoreCreationRequest_AzureLocation_EuropeNorth = "europe_north"
-	KeystoreCreationRequest_AzureLocation_EuropeWest = "europe_west"
-	KeystoreCreationRequest_AzureLocation_FranceCentral = "france_central"
-	KeystoreCreationRequest_AzureLocation_FranceSouth = "france_south"
-	KeystoreCreationRequest_AzureLocation_GermanyCentral = "germany_central"
-	KeystoreCreationRequest_AzureLocation_GermanyNortheast = "germany_northeast"
-	KeystoreCreationRequest_AzureLocation_IndiaCentral = "india_central"
-	KeystoreCreationRequest_AzureLocation_IndiaSouth = "india_south"
-	KeystoreCreationRequest_AzureLocation_IndiaWest = "india_west"
-	KeystoreCreationRequest_AzureLocation_JapanEast = "japan_east"
-	KeystoreCreationRequest_AzureLocation_JapanWest = "japan_west"
-	KeystoreCreationRequest_AzureLocation_KoreaCentral = "korea_central"
-	KeystoreCreationRequest_AzureLocation_KoreaSouth = "korea_south"
-	KeystoreCreationRequest_AzureLocation_SouthAfricaNorth = "south_africa_north"
-	KeystoreCreationRequest_AzureLocation_SouthAfricaWest = "south_africa_west"
-	KeystoreCreationRequest_AzureLocation_UkSouth = "uk_south"
-	KeystoreCreationRequest_AzureLocation_UkWest = "uk_west"
-	KeystoreCreationRequest_AzureLocation_UsCentral = "us_central"
-	KeystoreCreationRequest_AzureLocation_UsDodCentral = "us_dod_central"
-	KeystoreCreationRequest_AzureLocation_UsDodEast = "us_dod_east"
-	KeystoreCreationRequest_AzureLocation_UsEast = "us_east"
-	KeystoreCreationRequest_AzureLocation_UsEast2 = "us_east_2"
-	KeystoreCreationRequest_AzureLocation_UsGovArizona = "us_gov_arizona"
-	KeystoreCreationRequest_AzureLocation_UsGovIowa = "us_gov_iowa"
-	KeystoreCreationRequest_AzureLocation_UsGovTexas = "us_gov_texas"
-	KeystoreCreationRequest_AzureLocation_UsGovVirginia = "us_gov_virginia"
-	KeystoreCreationRequest_AzureLocation_UsNorthCentral = "us_north_central"
-	KeystoreCreationRequest_AzureLocation_UsSouthCentral = "us_south_central"
-	KeystoreCreationRequest_AzureLocation_UsWest = "us_west"
-	KeystoreCreationRequest_AzureLocation_UsWest2 = "us_west_2"
-	KeystoreCreationRequest_AzureLocation_UsWestCentral = "us_west_central"
+	KeystoreCreationRequest_AzureLocation_BrazilSouth        = "brazil_south"
+	KeystoreCreationRequest_AzureLocation_CanadaCentral      = "canada_central"
+	KeystoreCreationRequest_AzureLocation_CanadaEast         = "canada_east"
+	KeystoreCreationRequest_AzureLocation_ChinaEast          = "china_east"
+	KeystoreCreationRequest_AzureLocation_ChinaEast2         = "china_east_2"
+	KeystoreCreationRequest_AzureLocation_ChinaNorth         = "china_north"
+	KeystoreCreationRequest_AzureLocation_ChinaNorth2        = "china_north_2"
+	KeystoreCreationRequest_AzureLocation_EuropeNorth        = "europe_north"
+	KeystoreCreationRequest_AzureLocation_EuropeWest         = "europe_west"
+	KeystoreCreationRequest_AzureLocation_FranceCentral      = "france_central"
+	KeystoreCreationRequest_AzureLocation_FranceSouth        = "france_south"
+	KeystoreCreationRequest_AzureLocation_GermanyCentral     = "germany_central"
+	KeystoreCreationRequest_AzureLocation_GermanyNortheast   = "germany_northeast"
+	KeystoreCreationRequest_AzureLocation_IndiaCentral       = "india_central"
+	KeystoreCreationRequest_AzureLocation_IndiaSouth         = "india_south"
+	KeystoreCreationRequest_AzureLocation_IndiaWest          = "india_west"
+	KeystoreCreationRequest_AzureLocation_JapanEast          = "japan_east"
+	KeystoreCreationRequest_AzureLocation_JapanWest          = "japan_west"
+	KeystoreCreationRequest_AzureLocation_KoreaCentral       = "korea_central"
+	KeystoreCreationRequest_AzureLocation_KoreaSouth         = "korea_south"
+	KeystoreCreationRequest_AzureLocation_SouthAfricaNorth   = "south_africa_north"
+	KeystoreCreationRequest_AzureLocation_SouthAfricaWest    = "south_africa_west"
+	KeystoreCreationRequest_AzureLocation_UkSouth            = "uk_south"
+	KeystoreCreationRequest_AzureLocation_UkWest             = "uk_west"
+	KeystoreCreationRequest_AzureLocation_UsCentral          = "us_central"
+	KeystoreCreationRequest_AzureLocation_UsDodCentral       = "us_dod_central"
+	KeystoreCreationRequest_AzureLocation_UsDodEast          = "us_dod_east"
+	KeystoreCreationRequest_AzureLocation_UsEast             = "us_east"
+	KeystoreCreationRequest_AzureLocation_UsEast2            = "us_east_2"
+	KeystoreCreationRequest_AzureLocation_UsGovArizona       = "us_gov_arizona"
+	KeystoreCreationRequest_AzureLocation_UsGovIowa          = "us_gov_iowa"
+	KeystoreCreationRequest_AzureLocation_UsGovTexas         = "us_gov_texas"
+	KeystoreCreationRequest_AzureLocation_UsGovVirginia      = "us_gov_virginia"
+	KeystoreCreationRequest_AzureLocation_UsNorthCentral     = "us_north_central"
+	KeystoreCreationRequest_AzureLocation_UsSouthCentral     = "us_south_central"
+	KeystoreCreationRequest_AzureLocation_UsWest             = "us_west"
+	KeystoreCreationRequest_AzureLocation_UsWest2            = "us_west_2"
+	KeystoreCreationRequest_AzureLocation_UsWestCentral      = "us_west_central"
 )
 
 // Constants associated with the KeystoreCreationRequest.AzureEnvironment property.
 // Azure environment, usually 'Azure'.
 const (
-	KeystoreCreationRequest_AzureEnvironment_Azure = "azure"
-	KeystoreCreationRequest_AzureEnvironment_AzureChina = "azure_china"
-	KeystoreCreationRequest_AzureEnvironment_AzureGermany = "azure_germany"
+	KeystoreCreationRequest_AzureEnvironment_Azure             = "azure"
+	KeystoreCreationRequest_AzureEnvironment_AzureChina        = "azure_china"
+	KeystoreCreationRequest_AzureEnvironment_AzureGermany      = "azure_germany"
 	KeystoreCreationRequest_AzureEnvironment_AzureUsGovernment = "azure_us_government"
 )
 
 // Constants associated with the KeystoreCreationRequest.IbmVariant property.
 // Possible IBM Cloud KMS variants.
 const (
-	KeystoreCreationRequest_IbmVariant_Hpcs = "hpcs"
-	KeystoreCreationRequest_IbmVariant_Internal = "internal"
+	KeystoreCreationRequest_IbmVariant_Hpcs       = "hpcs"
+	KeystoreCreationRequest_IbmVariant_Internal   = "internal"
 	KeystoreCreationRequest_IbmVariant_KeyProtect = "key_protect"
 )
+
 func (*KeystoreCreationRequest) isaKeystoreCreationRequest() bool {
 	return true
 }
@@ -4363,8 +4403,8 @@ type KeystoreStatus struct {
 // Possible states of a keystore.
 const (
 	KeystoreStatus_HealthStatus_ConfigurationError = "configuration_error"
-	KeystoreStatus_HealthStatus_NotResponding = "not_responding"
-	KeystoreStatus_HealthStatus_Ok = "ok"
+	KeystoreStatus_HealthStatus_NotResponding      = "not_responding"
+	KeystoreStatus_HealthStatus_Ok                 = "ok"
 )
 
 // UnmarshalKeystoreStatus unmarshals an instance of KeystoreStatus from the specified map of raw messages.
@@ -4454,94 +4494,95 @@ type KeystoreUpdateRequest struct {
 // Constants associated with the KeystoreUpdateRequest.AwsRegion property.
 // AWS Region.
 const (
-	KeystoreUpdateRequest_AwsRegion_AfSouth1 = "af_south_1"
-	KeystoreUpdateRequest_AwsRegion_ApEast1 = "ap_east_1"
-	KeystoreUpdateRequest_AwsRegion_ApNortheast1 = "ap_northeast_1"
-	KeystoreUpdateRequest_AwsRegion_ApNortheast2 = "ap_northeast_2"
-	KeystoreUpdateRequest_AwsRegion_ApSouth1 = "ap_south_1"
-	KeystoreUpdateRequest_AwsRegion_ApSoutheast1 = "ap_southeast_1"
-	KeystoreUpdateRequest_AwsRegion_ApSoutheast2 = "ap_southeast_2"
-	KeystoreUpdateRequest_AwsRegion_AwsCnGlobal = "aws_cn_global"
-	KeystoreUpdateRequest_AwsRegion_AwsGlobal = "aws_global"
-	KeystoreUpdateRequest_AwsRegion_AwsIsoBGlobal = "aws_iso_b_global"
-	KeystoreUpdateRequest_AwsRegion_AwsIsoGlobal = "aws_iso_global"
+	KeystoreUpdateRequest_AwsRegion_AfSouth1       = "af_south_1"
+	KeystoreUpdateRequest_AwsRegion_ApEast1        = "ap_east_1"
+	KeystoreUpdateRequest_AwsRegion_ApNortheast1   = "ap_northeast_1"
+	KeystoreUpdateRequest_AwsRegion_ApNortheast2   = "ap_northeast_2"
+	KeystoreUpdateRequest_AwsRegion_ApSouth1       = "ap_south_1"
+	KeystoreUpdateRequest_AwsRegion_ApSoutheast1   = "ap_southeast_1"
+	KeystoreUpdateRequest_AwsRegion_ApSoutheast2   = "ap_southeast_2"
+	KeystoreUpdateRequest_AwsRegion_AwsCnGlobal    = "aws_cn_global"
+	KeystoreUpdateRequest_AwsRegion_AwsGlobal      = "aws_global"
+	KeystoreUpdateRequest_AwsRegion_AwsIsoBGlobal  = "aws_iso_b_global"
+	KeystoreUpdateRequest_AwsRegion_AwsIsoGlobal   = "aws_iso_global"
 	KeystoreUpdateRequest_AwsRegion_AwsUsGovGlobal = "aws_us_gov_global"
-	KeystoreUpdateRequest_AwsRegion_CaCentral1 = "ca_central_1"
-	KeystoreUpdateRequest_AwsRegion_CnNorth1 = "cn_north_1"
-	KeystoreUpdateRequest_AwsRegion_CnNorthwest1 = "cn_northwest_1"
-	KeystoreUpdateRequest_AwsRegion_EuCentral1 = "eu_central_1"
-	KeystoreUpdateRequest_AwsRegion_EuWest1 = "eu_west_1"
-	KeystoreUpdateRequest_AwsRegion_EuWest2 = "eu_west_2"
-	KeystoreUpdateRequest_AwsRegion_EuWest3 = "eu_west_3"
-	KeystoreUpdateRequest_AwsRegion_MeSouth1 = "me_south_1"
-	KeystoreUpdateRequest_AwsRegion_SaEast1 = "sa_east_1"
-	KeystoreUpdateRequest_AwsRegion_UsEast1 = "us_east_1"
-	KeystoreUpdateRequest_AwsRegion_UsEast2 = "us_east_2"
-	KeystoreUpdateRequest_AwsRegion_UsGovEast1 = "us_gov_east_1"
-	KeystoreUpdateRequest_AwsRegion_UsGovWest1 = "us_gov_west_1"
-	KeystoreUpdateRequest_AwsRegion_UsIsoEast1 = "us_iso_east_1"
-	KeystoreUpdateRequest_AwsRegion_UsIsobEast1 = "us_isob_east_1"
-	KeystoreUpdateRequest_AwsRegion_UsWest1 = "us_west_1"
-	KeystoreUpdateRequest_AwsRegion_UsWest2 = "us_west_2"
+	KeystoreUpdateRequest_AwsRegion_CaCentral1     = "ca_central_1"
+	KeystoreUpdateRequest_AwsRegion_CnNorth1       = "cn_north_1"
+	KeystoreUpdateRequest_AwsRegion_CnNorthwest1   = "cn_northwest_1"
+	KeystoreUpdateRequest_AwsRegion_EuCentral1     = "eu_central_1"
+	KeystoreUpdateRequest_AwsRegion_EuWest1        = "eu_west_1"
+	KeystoreUpdateRequest_AwsRegion_EuWest2        = "eu_west_2"
+	KeystoreUpdateRequest_AwsRegion_EuWest3        = "eu_west_3"
+	KeystoreUpdateRequest_AwsRegion_MeSouth1       = "me_south_1"
+	KeystoreUpdateRequest_AwsRegion_SaEast1        = "sa_east_1"
+	KeystoreUpdateRequest_AwsRegion_UsEast1        = "us_east_1"
+	KeystoreUpdateRequest_AwsRegion_UsEast2        = "us_east_2"
+	KeystoreUpdateRequest_AwsRegion_UsGovEast1     = "us_gov_east_1"
+	KeystoreUpdateRequest_AwsRegion_UsGovWest1     = "us_gov_west_1"
+	KeystoreUpdateRequest_AwsRegion_UsIsoEast1     = "us_iso_east_1"
+	KeystoreUpdateRequest_AwsRegion_UsIsobEast1    = "us_isob_east_1"
+	KeystoreUpdateRequest_AwsRegion_UsWest1        = "us_west_1"
+	KeystoreUpdateRequest_AwsRegion_UsWest2        = "us_west_2"
 )
 
 // Constants associated with the KeystoreUpdateRequest.AzureLocation property.
 // Location of the Azure Key Vault.
 const (
-	KeystoreUpdateRequest_AzureLocation_AsiaEast = "asia_east"
-	KeystoreUpdateRequest_AzureLocation_AsiaSoutheast = "asia_southeast"
-	KeystoreUpdateRequest_AzureLocation_AustraliaCentral = "australia_central"
-	KeystoreUpdateRequest_AzureLocation_AustraliaCentral2 = "australia_central_2"
-	KeystoreUpdateRequest_AzureLocation_AustraliaEast = "australia_east"
+	KeystoreUpdateRequest_AzureLocation_AsiaEast           = "asia_east"
+	KeystoreUpdateRequest_AzureLocation_AsiaSoutheast      = "asia_southeast"
+	KeystoreUpdateRequest_AzureLocation_AustraliaCentral   = "australia_central"
+	KeystoreUpdateRequest_AzureLocation_AustraliaCentral2  = "australia_central_2"
+	KeystoreUpdateRequest_AzureLocation_AustraliaEast      = "australia_east"
 	KeystoreUpdateRequest_AzureLocation_AustraliaSoutheast = "australia_southeast"
-	KeystoreUpdateRequest_AzureLocation_BrazilSouth = "brazil_south"
-	KeystoreUpdateRequest_AzureLocation_CanadaCentral = "canada_central"
-	KeystoreUpdateRequest_AzureLocation_CanadaEast = "canada_east"
-	KeystoreUpdateRequest_AzureLocation_ChinaEast = "china_east"
-	KeystoreUpdateRequest_AzureLocation_ChinaEast2 = "china_east_2"
-	KeystoreUpdateRequest_AzureLocation_ChinaNorth = "china_north"
-	KeystoreUpdateRequest_AzureLocation_ChinaNorth2 = "china_north_2"
-	KeystoreUpdateRequest_AzureLocation_EuropeNorth = "europe_north"
-	KeystoreUpdateRequest_AzureLocation_EuropeWest = "europe_west"
-	KeystoreUpdateRequest_AzureLocation_FranceCentral = "france_central"
-	KeystoreUpdateRequest_AzureLocation_FranceSouth = "france_south"
-	KeystoreUpdateRequest_AzureLocation_GermanyCentral = "germany_central"
-	KeystoreUpdateRequest_AzureLocation_GermanyNortheast = "germany_northeast"
-	KeystoreUpdateRequest_AzureLocation_IndiaCentral = "india_central"
-	KeystoreUpdateRequest_AzureLocation_IndiaSouth = "india_south"
-	KeystoreUpdateRequest_AzureLocation_IndiaWest = "india_west"
-	KeystoreUpdateRequest_AzureLocation_JapanEast = "japan_east"
-	KeystoreUpdateRequest_AzureLocation_JapanWest = "japan_west"
-	KeystoreUpdateRequest_AzureLocation_KoreaCentral = "korea_central"
-	KeystoreUpdateRequest_AzureLocation_KoreaSouth = "korea_south"
-	KeystoreUpdateRequest_AzureLocation_SouthAfricaNorth = "south_africa_north"
-	KeystoreUpdateRequest_AzureLocation_SouthAfricaWest = "south_africa_west"
-	KeystoreUpdateRequest_AzureLocation_UkSouth = "uk_south"
-	KeystoreUpdateRequest_AzureLocation_UkWest = "uk_west"
-	KeystoreUpdateRequest_AzureLocation_UsCentral = "us_central"
-	KeystoreUpdateRequest_AzureLocation_UsDodCentral = "us_dod_central"
-	KeystoreUpdateRequest_AzureLocation_UsDodEast = "us_dod_east"
-	KeystoreUpdateRequest_AzureLocation_UsEast = "us_east"
-	KeystoreUpdateRequest_AzureLocation_UsEast2 = "us_east_2"
-	KeystoreUpdateRequest_AzureLocation_UsGovArizona = "us_gov_arizona"
-	KeystoreUpdateRequest_AzureLocation_UsGovIowa = "us_gov_iowa"
-	KeystoreUpdateRequest_AzureLocation_UsGovTexas = "us_gov_texas"
-	KeystoreUpdateRequest_AzureLocation_UsGovVirginia = "us_gov_virginia"
-	KeystoreUpdateRequest_AzureLocation_UsNorthCentral = "us_north_central"
-	KeystoreUpdateRequest_AzureLocation_UsSouthCentral = "us_south_central"
-	KeystoreUpdateRequest_AzureLocation_UsWest = "us_west"
-	KeystoreUpdateRequest_AzureLocation_UsWest2 = "us_west_2"
-	KeystoreUpdateRequest_AzureLocation_UsWestCentral = "us_west_central"
+	KeystoreUpdateRequest_AzureLocation_BrazilSouth        = "brazil_south"
+	KeystoreUpdateRequest_AzureLocation_CanadaCentral      = "canada_central"
+	KeystoreUpdateRequest_AzureLocation_CanadaEast         = "canada_east"
+	KeystoreUpdateRequest_AzureLocation_ChinaEast          = "china_east"
+	KeystoreUpdateRequest_AzureLocation_ChinaEast2         = "china_east_2"
+	KeystoreUpdateRequest_AzureLocation_ChinaNorth         = "china_north"
+	KeystoreUpdateRequest_AzureLocation_ChinaNorth2        = "china_north_2"
+	KeystoreUpdateRequest_AzureLocation_EuropeNorth        = "europe_north"
+	KeystoreUpdateRequest_AzureLocation_EuropeWest         = "europe_west"
+	KeystoreUpdateRequest_AzureLocation_FranceCentral      = "france_central"
+	KeystoreUpdateRequest_AzureLocation_FranceSouth        = "france_south"
+	KeystoreUpdateRequest_AzureLocation_GermanyCentral     = "germany_central"
+	KeystoreUpdateRequest_AzureLocation_GermanyNortheast   = "germany_northeast"
+	KeystoreUpdateRequest_AzureLocation_IndiaCentral       = "india_central"
+	KeystoreUpdateRequest_AzureLocation_IndiaSouth         = "india_south"
+	KeystoreUpdateRequest_AzureLocation_IndiaWest          = "india_west"
+	KeystoreUpdateRequest_AzureLocation_JapanEast          = "japan_east"
+	KeystoreUpdateRequest_AzureLocation_JapanWest          = "japan_west"
+	KeystoreUpdateRequest_AzureLocation_KoreaCentral       = "korea_central"
+	KeystoreUpdateRequest_AzureLocation_KoreaSouth         = "korea_south"
+	KeystoreUpdateRequest_AzureLocation_SouthAfricaNorth   = "south_africa_north"
+	KeystoreUpdateRequest_AzureLocation_SouthAfricaWest    = "south_africa_west"
+	KeystoreUpdateRequest_AzureLocation_UkSouth            = "uk_south"
+	KeystoreUpdateRequest_AzureLocation_UkWest             = "uk_west"
+	KeystoreUpdateRequest_AzureLocation_UsCentral          = "us_central"
+	KeystoreUpdateRequest_AzureLocation_UsDodCentral       = "us_dod_central"
+	KeystoreUpdateRequest_AzureLocation_UsDodEast          = "us_dod_east"
+	KeystoreUpdateRequest_AzureLocation_UsEast             = "us_east"
+	KeystoreUpdateRequest_AzureLocation_UsEast2            = "us_east_2"
+	KeystoreUpdateRequest_AzureLocation_UsGovArizona       = "us_gov_arizona"
+	KeystoreUpdateRequest_AzureLocation_UsGovIowa          = "us_gov_iowa"
+	KeystoreUpdateRequest_AzureLocation_UsGovTexas         = "us_gov_texas"
+	KeystoreUpdateRequest_AzureLocation_UsGovVirginia      = "us_gov_virginia"
+	KeystoreUpdateRequest_AzureLocation_UsNorthCentral     = "us_north_central"
+	KeystoreUpdateRequest_AzureLocation_UsSouthCentral     = "us_south_central"
+	KeystoreUpdateRequest_AzureLocation_UsWest             = "us_west"
+	KeystoreUpdateRequest_AzureLocation_UsWest2            = "us_west_2"
+	KeystoreUpdateRequest_AzureLocation_UsWestCentral      = "us_west_central"
 )
 
 // Constants associated with the KeystoreUpdateRequest.AzureEnvironment property.
 // Azure environment, usually 'Azure'.
 const (
-	KeystoreUpdateRequest_AzureEnvironment_Azure = "azure"
-	KeystoreUpdateRequest_AzureEnvironment_AzureChina = "azure_china"
-	KeystoreUpdateRequest_AzureEnvironment_AzureGermany = "azure_germany"
+	KeystoreUpdateRequest_AzureEnvironment_Azure             = "azure"
+	KeystoreUpdateRequest_AzureEnvironment_AzureChina        = "azure_china"
+	KeystoreUpdateRequest_AzureEnvironment_AzureGermany      = "azure_germany"
 	KeystoreUpdateRequest_AzureEnvironment_AzureUsGovernment = "azure_us_government"
 )
+
 func (*KeystoreUpdateRequest) isaKeystoreUpdateRequest() bool {
 	return true
 }
@@ -4645,16 +4686,16 @@ type KeystoresProperties struct {
 // Constants associated with the KeystoresProperties.Type property.
 // Type of keystore.
 const (
-	KeystoresProperties_Type_AwsKms = "aws_kms"
+	KeystoresProperties_Type_AwsKms        = "aws_kms"
 	KeystoresProperties_Type_AzureKeyVault = "azure_key_vault"
-	KeystoresProperties_Type_IbmCloudKms = "ibm_cloud_kms"
+	KeystoresProperties_Type_IbmCloudKms   = "ibm_cloud_kms"
 )
 
 // NewKeystoresProperties : Instantiate KeystoresProperties (Generic Model Constructor)
 func (*UkoV4) NewKeystoresProperties(group string, typeVar string) (_model *KeystoresProperties, err error) {
 	_model = &KeystoresProperties{
 		Group: core.StringPtr(group),
-		Type: core.StringPtr(typeVar),
+		Type:  core.StringPtr(typeVar),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	return
@@ -4759,9 +4800,9 @@ type ManagedKey struct {
 // Constants associated with the ManagedKey.State property.
 // The state of the key.
 const (
-	ManagedKey_State_Active = "active"
-	ManagedKey_State_Deactivated = "deactivated"
-	ManagedKey_State_Destroyed = "destroyed"
+	ManagedKey_State_Active        = "active"
+	ManagedKey_State_Deactivated   = "deactivated"
+	ManagedKey_State_Destroyed     = "destroyed"
 	ManagedKey_State_PreActivation = "pre_activation"
 )
 
@@ -4962,11 +5003,11 @@ type StatusInKeystore struct {
 // cannot be used for its intended purpose wrong_key: there is a key in the target keystore, but it doesn't have the
 // value that is expected error: there was an error checking the status of the key in the target keystore.
 const (
-	StatusInKeystore_Status_Active = "active"
-	StatusInKeystore_Status_Error = "error"
-	StatusInKeystore_Status_NotActive = "not_active"
+	StatusInKeystore_Status_Active     = "active"
+	StatusInKeystore_Status_Error      = "error"
+	StatusInKeystore_Status_NotActive  = "not_active"
 	StatusInKeystore_Status_NotPresent = "not_present"
-	StatusInKeystore_Status_WrongKey = "wrong_key"
+	StatusInKeystore_Status_WrongKey   = "wrong_key"
 )
 
 // UnmarshalStatusInKeystore unmarshals an instance of StatusInKeystore from the specified map of raw messages.
@@ -5021,7 +5062,7 @@ type Tag struct {
 // NewTag : Instantiate Tag (Generic Model Constructor)
 func (*UkoV4) NewTag(name string, value string) (_model *Tag, err error) {
 	_model = &Tag{
-		Name: core.StringPtr(name),
+		Name:  core.StringPtr(name),
 		Value: core.StringPtr(value),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
@@ -5085,9 +5126,9 @@ type TargetKeystoreReference struct {
 // Constants associated with the TargetKeystoreReference.Type property.
 // Type of keystore.
 const (
-	TargetKeystoreReference_Type_AwsKms = "aws_kms"
+	TargetKeystoreReference_Type_AwsKms        = "aws_kms"
 	TargetKeystoreReference_Type_AzureKeyVault = "azure_key_vault"
-	TargetKeystoreReference_Type_IbmCloudKms = "ibm_cloud_kms"
+	TargetKeystoreReference_Type_IbmCloudKms   = "ibm_cloud_kms"
 )
 
 // UnmarshalTargetKeystoreReference unmarshals an instance of TargetKeystoreReference from the specified map of raw messages.
@@ -5557,53 +5598,53 @@ type KeystoreCreationRequestKeystoreTypeAwsKmsCreate struct {
 // Constants associated with the KeystoreCreationRequestKeystoreTypeAwsKmsCreate.Type property.
 // Type of keystore.
 const (
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_Type_AwsKms = "aws_kms"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_Type_AwsKms        = "aws_kms"
 	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_Type_IbmCloudKms = "ibm_cloud_kms"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_Type_IbmCloudKms   = "ibm_cloud_kms"
 )
 
 // Constants associated with the KeystoreCreationRequestKeystoreTypeAwsKmsCreate.AwsRegion property.
 // AWS Region.
 const (
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_AfSouth1 = "af_south_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_ApEast1 = "ap_east_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_ApNortheast1 = "ap_northeast_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_ApNortheast2 = "ap_northeast_2"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_ApSouth1 = "ap_south_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_ApSoutheast1 = "ap_southeast_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_ApSoutheast2 = "ap_southeast_2"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_AwsCnGlobal = "aws_cn_global"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_AwsGlobal = "aws_global"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_AwsIsoBGlobal = "aws_iso_b_global"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_AwsIsoGlobal = "aws_iso_global"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_AfSouth1       = "af_south_1"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_ApEast1        = "ap_east_1"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_ApNortheast1   = "ap_northeast_1"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_ApNortheast2   = "ap_northeast_2"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_ApSouth1       = "ap_south_1"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_ApSoutheast1   = "ap_southeast_1"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_ApSoutheast2   = "ap_southeast_2"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_AwsCnGlobal    = "aws_cn_global"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_AwsGlobal      = "aws_global"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_AwsIsoBGlobal  = "aws_iso_b_global"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_AwsIsoGlobal   = "aws_iso_global"
 	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_AwsUsGovGlobal = "aws_us_gov_global"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_CaCentral1 = "ca_central_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_CnNorth1 = "cn_north_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_CnNorthwest1 = "cn_northwest_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_EuCentral1 = "eu_central_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_EuWest1 = "eu_west_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_EuWest2 = "eu_west_2"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_EuWest3 = "eu_west_3"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_MeSouth1 = "me_south_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_SaEast1 = "sa_east_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsEast1 = "us_east_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsEast2 = "us_east_2"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsGovEast1 = "us_gov_east_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsGovWest1 = "us_gov_west_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsIsoEast1 = "us_iso_east_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsIsobEast1 = "us_isob_east_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsWest1 = "us_west_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsWest2 = "us_west_2"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_CaCentral1     = "ca_central_1"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_CnNorth1       = "cn_north_1"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_CnNorthwest1   = "cn_northwest_1"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_EuCentral1     = "eu_central_1"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_EuWest1        = "eu_west_1"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_EuWest2        = "eu_west_2"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_EuWest3        = "eu_west_3"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_MeSouth1       = "me_south_1"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_SaEast1        = "sa_east_1"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsEast1        = "us_east_1"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsEast2        = "us_east_2"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsGovEast1     = "us_gov_east_1"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsGovWest1     = "us_gov_west_1"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsIsoEast1     = "us_iso_east_1"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsIsobEast1    = "us_isob_east_1"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsWest1        = "us_west_1"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsWest2        = "us_west_2"
 )
 
 // NewKeystoreCreationRequestKeystoreTypeAwsKmsCreate : Instantiate KeystoreCreationRequestKeystoreTypeAwsKmsCreate (Generic Model Constructor)
 func (*UkoV4) NewKeystoreCreationRequestKeystoreTypeAwsKmsCreate(typeVar string, vault *VaultReferenceInCreationRequest, name string, awsRegion string, awsAccessKeyID string, awsSecretAccessKey string) (_model *KeystoreCreationRequestKeystoreTypeAwsKmsCreate, err error) {
 	_model = &KeystoreCreationRequestKeystoreTypeAwsKmsCreate{
-		Type: core.StringPtr(typeVar),
-		Vault: vault,
-		Name: core.StringPtr(name),
-		AwsRegion: core.StringPtr(awsRegion),
-		AwsAccessKeyID: core.StringPtr(awsAccessKeyID),
+		Type:               core.StringPtr(typeVar),
+		Vault:              vault,
+		Name:               core.StringPtr(name),
+		AwsRegion:          core.StringPtr(awsRegion),
+		AwsAccessKeyID:     core.StringPtr(awsAccessKeyID),
 		AwsSecretAccessKey: core.StringPtr(awsSecretAccessKey),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
@@ -5699,82 +5740,82 @@ type KeystoreCreationRequestKeystoreTypeAzureCreate struct {
 // Constants associated with the KeystoreCreationRequestKeystoreTypeAzureCreate.Type property.
 // Type of keystore.
 const (
-	KeystoreCreationRequestKeystoreTypeAzureCreate_Type_AwsKms = "aws_kms"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_Type_AwsKms        = "aws_kms"
 	KeystoreCreationRequestKeystoreTypeAzureCreate_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_Type_IbmCloudKms = "ibm_cloud_kms"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_Type_IbmCloudKms   = "ibm_cloud_kms"
 )
 
 // Constants associated with the KeystoreCreationRequestKeystoreTypeAzureCreate.AzureLocation property.
 // Location of the Azure Key Vault.
 const (
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_AsiaEast = "asia_east"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_AsiaSoutheast = "asia_southeast"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_AustraliaCentral = "australia_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_AustraliaCentral2 = "australia_central_2"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_AustraliaEast = "australia_east"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_AsiaEast           = "asia_east"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_AsiaSoutheast      = "asia_southeast"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_AustraliaCentral   = "australia_central"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_AustraliaCentral2  = "australia_central_2"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_AustraliaEast      = "australia_east"
 	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_AustraliaSoutheast = "australia_southeast"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_BrazilSouth = "brazil_south"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_CanadaCentral = "canada_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_CanadaEast = "canada_east"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_ChinaEast = "china_east"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_ChinaEast2 = "china_east_2"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_ChinaNorth = "china_north"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_ChinaNorth2 = "china_north_2"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_EuropeNorth = "europe_north"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_EuropeWest = "europe_west"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_FranceCentral = "france_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_FranceSouth = "france_south"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_GermanyCentral = "germany_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_GermanyNortheast = "germany_northeast"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_IndiaCentral = "india_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_IndiaSouth = "india_south"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_IndiaWest = "india_west"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_JapanEast = "japan_east"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_JapanWest = "japan_west"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_KoreaCentral = "korea_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_KoreaSouth = "korea_south"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_SouthAfricaNorth = "south_africa_north"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_SouthAfricaWest = "south_africa_west"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UkSouth = "uk_south"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UkWest = "uk_west"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsCentral = "us_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsDodCentral = "us_dod_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsDodEast = "us_dod_east"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsEast = "us_east"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsEast2 = "us_east_2"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsGovArizona = "us_gov_arizona"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsGovIowa = "us_gov_iowa"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsGovTexas = "us_gov_texas"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsGovVirginia = "us_gov_virginia"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsNorthCentral = "us_north_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsSouthCentral = "us_south_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsWest = "us_west"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsWest2 = "us_west_2"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsWestCentral = "us_west_central"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_BrazilSouth        = "brazil_south"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_CanadaCentral      = "canada_central"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_CanadaEast         = "canada_east"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_ChinaEast          = "china_east"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_ChinaEast2         = "china_east_2"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_ChinaNorth         = "china_north"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_ChinaNorth2        = "china_north_2"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_EuropeNorth        = "europe_north"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_EuropeWest         = "europe_west"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_FranceCentral      = "france_central"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_FranceSouth        = "france_south"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_GermanyCentral     = "germany_central"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_GermanyNortheast   = "germany_northeast"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_IndiaCentral       = "india_central"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_IndiaSouth         = "india_south"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_IndiaWest          = "india_west"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_JapanEast          = "japan_east"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_JapanWest          = "japan_west"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_KoreaCentral       = "korea_central"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_KoreaSouth         = "korea_south"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_SouthAfricaNorth   = "south_africa_north"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_SouthAfricaWest    = "south_africa_west"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UkSouth            = "uk_south"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UkWest             = "uk_west"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsCentral          = "us_central"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsDodCentral       = "us_dod_central"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsDodEast          = "us_dod_east"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsEast             = "us_east"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsEast2            = "us_east_2"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsGovArizona       = "us_gov_arizona"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsGovIowa          = "us_gov_iowa"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsGovTexas         = "us_gov_texas"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsGovVirginia      = "us_gov_virginia"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsNorthCentral     = "us_north_central"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsSouthCentral     = "us_south_central"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsWest             = "us_west"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsWest2            = "us_west_2"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsWestCentral      = "us_west_central"
 )
 
 // Constants associated with the KeystoreCreationRequestKeystoreTypeAzureCreate.AzureEnvironment property.
 // Azure environment, usually 'Azure'.
 const (
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureEnvironment_Azure = "azure"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureEnvironment_AzureChina = "azure_china"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureEnvironment_AzureGermany = "azure_germany"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureEnvironment_Azure             = "azure"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureEnvironment_AzureChina        = "azure_china"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureEnvironment_AzureGermany      = "azure_germany"
 	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureEnvironment_AzureUsGovernment = "azure_us_government"
 )
 
 // NewKeystoreCreationRequestKeystoreTypeAzureCreate : Instantiate KeystoreCreationRequestKeystoreTypeAzureCreate (Generic Model Constructor)
 func (*UkoV4) NewKeystoreCreationRequestKeystoreTypeAzureCreate(typeVar string, vault *VaultReferenceInCreationRequest, azureServiceName string, azureResourceGroup string, azureLocation string, azureServicePrincipalClientID string, azureServicePrincipalPassword string, azureTenant string, azureSubscriptionID string, azureEnvironment string) (_model *KeystoreCreationRequestKeystoreTypeAzureCreate, err error) {
 	_model = &KeystoreCreationRequestKeystoreTypeAzureCreate{
-		Type: core.StringPtr(typeVar),
-		Vault: vault,
-		AzureServiceName: core.StringPtr(azureServiceName),
-		AzureResourceGroup: core.StringPtr(azureResourceGroup),
-		AzureLocation: core.StringPtr(azureLocation),
+		Type:                          core.StringPtr(typeVar),
+		Vault:                         vault,
+		AzureServiceName:              core.StringPtr(azureServiceName),
+		AzureResourceGroup:            core.StringPtr(azureResourceGroup),
+		AzureLocation:                 core.StringPtr(azureLocation),
 		AzureServicePrincipalClientID: core.StringPtr(azureServicePrincipalClientID),
 		AzureServicePrincipalPassword: core.StringPtr(azureServicePrincipalPassword),
-		AzureTenant: core.StringPtr(azureTenant),
-		AzureSubscriptionID: core.StringPtr(azureSubscriptionID),
-		AzureEnvironment: core.StringPtr(azureEnvironment),
+		AzureTenant:                   core.StringPtr(azureTenant),
+		AzureSubscriptionID:           core.StringPtr(azureSubscriptionID),
+		AzureEnvironment:              core.StringPtr(azureEnvironment),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	return
@@ -5885,18 +5926,19 @@ type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate struct
 // Constants associated with the KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate.Type property.
 // Type of keystore.
 const (
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate_Type_AwsKms = "aws_kms"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate_Type_AwsKms        = "aws_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate_Type_IbmCloudKms = "ibm_cloud_kms"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate_Type_IbmCloudKms   = "ibm_cloud_kms"
 )
 
 // Constants associated with the KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate.IbmVariant property.
 // Possible IBM Cloud KMS variants.
 const (
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate_IbmVariant_Hpcs = "hpcs"
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate_IbmVariant_Internal = "internal"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate_IbmVariant_Hpcs       = "hpcs"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate_IbmVariant_Internal   = "internal"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate_IbmVariant_KeyProtect = "key_protect"
 )
+
 func (*KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate) isaKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate() bool {
 	return true
 }
@@ -6010,43 +6052,43 @@ type KeystoreTypeAwsKms struct {
 // Constants associated with the KeystoreTypeAwsKms.Type property.
 // Type of keystore.
 const (
-	KeystoreTypeAwsKms_Type_AwsKms = "aws_kms"
+	KeystoreTypeAwsKms_Type_AwsKms        = "aws_kms"
 	KeystoreTypeAwsKms_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreTypeAwsKms_Type_IbmCloudKms = "ibm_cloud_kms"
+	KeystoreTypeAwsKms_Type_IbmCloudKms   = "ibm_cloud_kms"
 )
 
 // Constants associated with the KeystoreTypeAwsKms.AwsRegion property.
 // AWS Region.
 const (
-	KeystoreTypeAwsKms_AwsRegion_AfSouth1 = "af_south_1"
-	KeystoreTypeAwsKms_AwsRegion_ApEast1 = "ap_east_1"
-	KeystoreTypeAwsKms_AwsRegion_ApNortheast1 = "ap_northeast_1"
-	KeystoreTypeAwsKms_AwsRegion_ApNortheast2 = "ap_northeast_2"
-	KeystoreTypeAwsKms_AwsRegion_ApSouth1 = "ap_south_1"
-	KeystoreTypeAwsKms_AwsRegion_ApSoutheast1 = "ap_southeast_1"
-	KeystoreTypeAwsKms_AwsRegion_ApSoutheast2 = "ap_southeast_2"
-	KeystoreTypeAwsKms_AwsRegion_AwsCnGlobal = "aws_cn_global"
-	KeystoreTypeAwsKms_AwsRegion_AwsGlobal = "aws_global"
-	KeystoreTypeAwsKms_AwsRegion_AwsIsoBGlobal = "aws_iso_b_global"
-	KeystoreTypeAwsKms_AwsRegion_AwsIsoGlobal = "aws_iso_global"
+	KeystoreTypeAwsKms_AwsRegion_AfSouth1       = "af_south_1"
+	KeystoreTypeAwsKms_AwsRegion_ApEast1        = "ap_east_1"
+	KeystoreTypeAwsKms_AwsRegion_ApNortheast1   = "ap_northeast_1"
+	KeystoreTypeAwsKms_AwsRegion_ApNortheast2   = "ap_northeast_2"
+	KeystoreTypeAwsKms_AwsRegion_ApSouth1       = "ap_south_1"
+	KeystoreTypeAwsKms_AwsRegion_ApSoutheast1   = "ap_southeast_1"
+	KeystoreTypeAwsKms_AwsRegion_ApSoutheast2   = "ap_southeast_2"
+	KeystoreTypeAwsKms_AwsRegion_AwsCnGlobal    = "aws_cn_global"
+	KeystoreTypeAwsKms_AwsRegion_AwsGlobal      = "aws_global"
+	KeystoreTypeAwsKms_AwsRegion_AwsIsoBGlobal  = "aws_iso_b_global"
+	KeystoreTypeAwsKms_AwsRegion_AwsIsoGlobal   = "aws_iso_global"
 	KeystoreTypeAwsKms_AwsRegion_AwsUsGovGlobal = "aws_us_gov_global"
-	KeystoreTypeAwsKms_AwsRegion_CaCentral1 = "ca_central_1"
-	KeystoreTypeAwsKms_AwsRegion_CnNorth1 = "cn_north_1"
-	KeystoreTypeAwsKms_AwsRegion_CnNorthwest1 = "cn_northwest_1"
-	KeystoreTypeAwsKms_AwsRegion_EuCentral1 = "eu_central_1"
-	KeystoreTypeAwsKms_AwsRegion_EuWest1 = "eu_west_1"
-	KeystoreTypeAwsKms_AwsRegion_EuWest2 = "eu_west_2"
-	KeystoreTypeAwsKms_AwsRegion_EuWest3 = "eu_west_3"
-	KeystoreTypeAwsKms_AwsRegion_MeSouth1 = "me_south_1"
-	KeystoreTypeAwsKms_AwsRegion_SaEast1 = "sa_east_1"
-	KeystoreTypeAwsKms_AwsRegion_UsEast1 = "us_east_1"
-	KeystoreTypeAwsKms_AwsRegion_UsEast2 = "us_east_2"
-	KeystoreTypeAwsKms_AwsRegion_UsGovEast1 = "us_gov_east_1"
-	KeystoreTypeAwsKms_AwsRegion_UsGovWest1 = "us_gov_west_1"
-	KeystoreTypeAwsKms_AwsRegion_UsIsoEast1 = "us_iso_east_1"
-	KeystoreTypeAwsKms_AwsRegion_UsIsobEast1 = "us_isob_east_1"
-	KeystoreTypeAwsKms_AwsRegion_UsWest1 = "us_west_1"
-	KeystoreTypeAwsKms_AwsRegion_UsWest2 = "us_west_2"
+	KeystoreTypeAwsKms_AwsRegion_CaCentral1     = "ca_central_1"
+	KeystoreTypeAwsKms_AwsRegion_CnNorth1       = "cn_north_1"
+	KeystoreTypeAwsKms_AwsRegion_CnNorthwest1   = "cn_northwest_1"
+	KeystoreTypeAwsKms_AwsRegion_EuCentral1     = "eu_central_1"
+	KeystoreTypeAwsKms_AwsRegion_EuWest1        = "eu_west_1"
+	KeystoreTypeAwsKms_AwsRegion_EuWest2        = "eu_west_2"
+	KeystoreTypeAwsKms_AwsRegion_EuWest3        = "eu_west_3"
+	KeystoreTypeAwsKms_AwsRegion_MeSouth1       = "me_south_1"
+	KeystoreTypeAwsKms_AwsRegion_SaEast1        = "sa_east_1"
+	KeystoreTypeAwsKms_AwsRegion_UsEast1        = "us_east_1"
+	KeystoreTypeAwsKms_AwsRegion_UsEast2        = "us_east_2"
+	KeystoreTypeAwsKms_AwsRegion_UsGovEast1     = "us_gov_east_1"
+	KeystoreTypeAwsKms_AwsRegion_UsGovWest1     = "us_gov_west_1"
+	KeystoreTypeAwsKms_AwsRegion_UsIsoEast1     = "us_iso_east_1"
+	KeystoreTypeAwsKms_AwsRegion_UsIsobEast1    = "us_isob_east_1"
+	KeystoreTypeAwsKms_AwsRegion_UsWest1        = "us_west_1"
+	KeystoreTypeAwsKms_AwsRegion_UsWest2        = "us_west_2"
 )
 
 func (*KeystoreTypeAwsKms) isaKeystore() bool {
@@ -6180,66 +6222,66 @@ type KeystoreTypeAzure struct {
 // Constants associated with the KeystoreTypeAzure.Type property.
 // Type of keystore.
 const (
-	KeystoreTypeAzure_Type_AwsKms = "aws_kms"
+	KeystoreTypeAzure_Type_AwsKms        = "aws_kms"
 	KeystoreTypeAzure_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreTypeAzure_Type_IbmCloudKms = "ibm_cloud_kms"
+	KeystoreTypeAzure_Type_IbmCloudKms   = "ibm_cloud_kms"
 )
 
 // Constants associated with the KeystoreTypeAzure.AzureLocation property.
 // Location of the Azure Key Vault.
 const (
-	KeystoreTypeAzure_AzureLocation_AsiaEast = "asia_east"
-	KeystoreTypeAzure_AzureLocation_AsiaSoutheast = "asia_southeast"
-	KeystoreTypeAzure_AzureLocation_AustraliaCentral = "australia_central"
-	KeystoreTypeAzure_AzureLocation_AustraliaCentral2 = "australia_central_2"
-	KeystoreTypeAzure_AzureLocation_AustraliaEast = "australia_east"
+	KeystoreTypeAzure_AzureLocation_AsiaEast           = "asia_east"
+	KeystoreTypeAzure_AzureLocation_AsiaSoutheast      = "asia_southeast"
+	KeystoreTypeAzure_AzureLocation_AustraliaCentral   = "australia_central"
+	KeystoreTypeAzure_AzureLocation_AustraliaCentral2  = "australia_central_2"
+	KeystoreTypeAzure_AzureLocation_AustraliaEast      = "australia_east"
 	KeystoreTypeAzure_AzureLocation_AustraliaSoutheast = "australia_southeast"
-	KeystoreTypeAzure_AzureLocation_BrazilSouth = "brazil_south"
-	KeystoreTypeAzure_AzureLocation_CanadaCentral = "canada_central"
-	KeystoreTypeAzure_AzureLocation_CanadaEast = "canada_east"
-	KeystoreTypeAzure_AzureLocation_ChinaEast = "china_east"
-	KeystoreTypeAzure_AzureLocation_ChinaEast2 = "china_east_2"
-	KeystoreTypeAzure_AzureLocation_ChinaNorth = "china_north"
-	KeystoreTypeAzure_AzureLocation_ChinaNorth2 = "china_north_2"
-	KeystoreTypeAzure_AzureLocation_EuropeNorth = "europe_north"
-	KeystoreTypeAzure_AzureLocation_EuropeWest = "europe_west"
-	KeystoreTypeAzure_AzureLocation_FranceCentral = "france_central"
-	KeystoreTypeAzure_AzureLocation_FranceSouth = "france_south"
-	KeystoreTypeAzure_AzureLocation_GermanyCentral = "germany_central"
-	KeystoreTypeAzure_AzureLocation_GermanyNortheast = "germany_northeast"
-	KeystoreTypeAzure_AzureLocation_IndiaCentral = "india_central"
-	KeystoreTypeAzure_AzureLocation_IndiaSouth = "india_south"
-	KeystoreTypeAzure_AzureLocation_IndiaWest = "india_west"
-	KeystoreTypeAzure_AzureLocation_JapanEast = "japan_east"
-	KeystoreTypeAzure_AzureLocation_JapanWest = "japan_west"
-	KeystoreTypeAzure_AzureLocation_KoreaCentral = "korea_central"
-	KeystoreTypeAzure_AzureLocation_KoreaSouth = "korea_south"
-	KeystoreTypeAzure_AzureLocation_SouthAfricaNorth = "south_africa_north"
-	KeystoreTypeAzure_AzureLocation_SouthAfricaWest = "south_africa_west"
-	KeystoreTypeAzure_AzureLocation_UkSouth = "uk_south"
-	KeystoreTypeAzure_AzureLocation_UkWest = "uk_west"
-	KeystoreTypeAzure_AzureLocation_UsCentral = "us_central"
-	KeystoreTypeAzure_AzureLocation_UsDodCentral = "us_dod_central"
-	KeystoreTypeAzure_AzureLocation_UsDodEast = "us_dod_east"
-	KeystoreTypeAzure_AzureLocation_UsEast = "us_east"
-	KeystoreTypeAzure_AzureLocation_UsEast2 = "us_east_2"
-	KeystoreTypeAzure_AzureLocation_UsGovArizona = "us_gov_arizona"
-	KeystoreTypeAzure_AzureLocation_UsGovIowa = "us_gov_iowa"
-	KeystoreTypeAzure_AzureLocation_UsGovTexas = "us_gov_texas"
-	KeystoreTypeAzure_AzureLocation_UsGovVirginia = "us_gov_virginia"
-	KeystoreTypeAzure_AzureLocation_UsNorthCentral = "us_north_central"
-	KeystoreTypeAzure_AzureLocation_UsSouthCentral = "us_south_central"
-	KeystoreTypeAzure_AzureLocation_UsWest = "us_west"
-	KeystoreTypeAzure_AzureLocation_UsWest2 = "us_west_2"
-	KeystoreTypeAzure_AzureLocation_UsWestCentral = "us_west_central"
+	KeystoreTypeAzure_AzureLocation_BrazilSouth        = "brazil_south"
+	KeystoreTypeAzure_AzureLocation_CanadaCentral      = "canada_central"
+	KeystoreTypeAzure_AzureLocation_CanadaEast         = "canada_east"
+	KeystoreTypeAzure_AzureLocation_ChinaEast          = "china_east"
+	KeystoreTypeAzure_AzureLocation_ChinaEast2         = "china_east_2"
+	KeystoreTypeAzure_AzureLocation_ChinaNorth         = "china_north"
+	KeystoreTypeAzure_AzureLocation_ChinaNorth2        = "china_north_2"
+	KeystoreTypeAzure_AzureLocation_EuropeNorth        = "europe_north"
+	KeystoreTypeAzure_AzureLocation_EuropeWest         = "europe_west"
+	KeystoreTypeAzure_AzureLocation_FranceCentral      = "france_central"
+	KeystoreTypeAzure_AzureLocation_FranceSouth        = "france_south"
+	KeystoreTypeAzure_AzureLocation_GermanyCentral     = "germany_central"
+	KeystoreTypeAzure_AzureLocation_GermanyNortheast   = "germany_northeast"
+	KeystoreTypeAzure_AzureLocation_IndiaCentral       = "india_central"
+	KeystoreTypeAzure_AzureLocation_IndiaSouth         = "india_south"
+	KeystoreTypeAzure_AzureLocation_IndiaWest          = "india_west"
+	KeystoreTypeAzure_AzureLocation_JapanEast          = "japan_east"
+	KeystoreTypeAzure_AzureLocation_JapanWest          = "japan_west"
+	KeystoreTypeAzure_AzureLocation_KoreaCentral       = "korea_central"
+	KeystoreTypeAzure_AzureLocation_KoreaSouth         = "korea_south"
+	KeystoreTypeAzure_AzureLocation_SouthAfricaNorth   = "south_africa_north"
+	KeystoreTypeAzure_AzureLocation_SouthAfricaWest    = "south_africa_west"
+	KeystoreTypeAzure_AzureLocation_UkSouth            = "uk_south"
+	KeystoreTypeAzure_AzureLocation_UkWest             = "uk_west"
+	KeystoreTypeAzure_AzureLocation_UsCentral          = "us_central"
+	KeystoreTypeAzure_AzureLocation_UsDodCentral       = "us_dod_central"
+	KeystoreTypeAzure_AzureLocation_UsDodEast          = "us_dod_east"
+	KeystoreTypeAzure_AzureLocation_UsEast             = "us_east"
+	KeystoreTypeAzure_AzureLocation_UsEast2            = "us_east_2"
+	KeystoreTypeAzure_AzureLocation_UsGovArizona       = "us_gov_arizona"
+	KeystoreTypeAzure_AzureLocation_UsGovIowa          = "us_gov_iowa"
+	KeystoreTypeAzure_AzureLocation_UsGovTexas         = "us_gov_texas"
+	KeystoreTypeAzure_AzureLocation_UsGovVirginia      = "us_gov_virginia"
+	KeystoreTypeAzure_AzureLocation_UsNorthCentral     = "us_north_central"
+	KeystoreTypeAzure_AzureLocation_UsSouthCentral     = "us_south_central"
+	KeystoreTypeAzure_AzureLocation_UsWest             = "us_west"
+	KeystoreTypeAzure_AzureLocation_UsWest2            = "us_west_2"
+	KeystoreTypeAzure_AzureLocation_UsWestCentral      = "us_west_central"
 )
 
 // Constants associated with the KeystoreTypeAzure.AzureEnvironment property.
 // Azure environment, usually 'Azure'.
 const (
-	KeystoreTypeAzure_AzureEnvironment_Azure = "azure"
-	KeystoreTypeAzure_AzureEnvironment_AzureChina = "azure_china"
-	KeystoreTypeAzure_AzureEnvironment_AzureGermany = "azure_germany"
+	KeystoreTypeAzure_AzureEnvironment_Azure             = "azure"
+	KeystoreTypeAzure_AzureEnvironment_AzureChina        = "azure_china"
+	KeystoreTypeAzure_AzureEnvironment_AzureGermany      = "azure_germany"
 	KeystoreTypeAzure_AzureEnvironment_AzureUsGovernment = "azure_us_government"
 )
 
@@ -6388,16 +6430,16 @@ type KeystoreTypeIbmCloudKms struct {
 // Constants associated with the KeystoreTypeIbmCloudKms.Type property.
 // Type of keystore.
 const (
-	KeystoreTypeIbmCloudKms_Type_AwsKms = "aws_kms"
+	KeystoreTypeIbmCloudKms_Type_AwsKms        = "aws_kms"
 	KeystoreTypeIbmCloudKms_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreTypeIbmCloudKms_Type_IbmCloudKms = "ibm_cloud_kms"
+	KeystoreTypeIbmCloudKms_Type_IbmCloudKms   = "ibm_cloud_kms"
 )
 
 // Constants associated with the KeystoreTypeIbmCloudKms.IbmVariant property.
 // Possible IBM Cloud KMS variants.
 const (
-	KeystoreTypeIbmCloudKms_IbmVariant_Hpcs = "hpcs"
-	KeystoreTypeIbmCloudKms_IbmVariant_Internal = "internal"
+	KeystoreTypeIbmCloudKms_IbmVariant_Hpcs       = "hpcs"
+	KeystoreTypeIbmCloudKms_IbmVariant_Internal   = "internal"
 	KeystoreTypeIbmCloudKms_IbmVariant_KeyProtect = "key_protect"
 )
 
@@ -6505,35 +6547,35 @@ type KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate struct {
 // Constants associated with the KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate.AwsRegion property.
 // AWS Region.
 const (
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_AfSouth1 = "af_south_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_ApEast1 = "ap_east_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_ApNortheast1 = "ap_northeast_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_ApNortheast2 = "ap_northeast_2"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_ApSouth1 = "ap_south_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_ApSoutheast1 = "ap_southeast_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_ApSoutheast2 = "ap_southeast_2"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_AwsCnGlobal = "aws_cn_global"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_AwsGlobal = "aws_global"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_AwsIsoBGlobal = "aws_iso_b_global"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_AwsIsoGlobal = "aws_iso_global"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_AfSouth1       = "af_south_1"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_ApEast1        = "ap_east_1"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_ApNortheast1   = "ap_northeast_1"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_ApNortheast2   = "ap_northeast_2"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_ApSouth1       = "ap_south_1"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_ApSoutheast1   = "ap_southeast_1"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_ApSoutheast2   = "ap_southeast_2"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_AwsCnGlobal    = "aws_cn_global"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_AwsGlobal      = "aws_global"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_AwsIsoBGlobal  = "aws_iso_b_global"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_AwsIsoGlobal   = "aws_iso_global"
 	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_AwsUsGovGlobal = "aws_us_gov_global"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_CaCentral1 = "ca_central_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_CnNorth1 = "cn_north_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_CnNorthwest1 = "cn_northwest_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_EuCentral1 = "eu_central_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_EuWest1 = "eu_west_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_EuWest2 = "eu_west_2"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_EuWest3 = "eu_west_3"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_MeSouth1 = "me_south_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_SaEast1 = "sa_east_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsEast1 = "us_east_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsEast2 = "us_east_2"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsGovEast1 = "us_gov_east_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsGovWest1 = "us_gov_west_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsIsoEast1 = "us_iso_east_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsIsobEast1 = "us_isob_east_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsWest1 = "us_west_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsWest2 = "us_west_2"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_CaCentral1     = "ca_central_1"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_CnNorth1       = "cn_north_1"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_CnNorthwest1   = "cn_northwest_1"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_EuCentral1     = "eu_central_1"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_EuWest1        = "eu_west_1"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_EuWest2        = "eu_west_2"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_EuWest3        = "eu_west_3"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_MeSouth1       = "me_south_1"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_SaEast1        = "sa_east_1"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsEast1        = "us_east_1"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsEast2        = "us_east_2"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsGovEast1     = "us_gov_east_1"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsGovWest1     = "us_gov_west_1"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsIsoEast1     = "us_iso_east_1"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsIsobEast1    = "us_isob_east_1"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsWest1        = "us_west_1"
+	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsWest2        = "us_west_2"
 )
 
 func (*KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate) isaKeystoreUpdateRequest() bool {
@@ -6612,58 +6654,58 @@ type KeystoreUpdateRequestKeystoreTypeAzureUpdate struct {
 // Constants associated with the KeystoreUpdateRequestKeystoreTypeAzureUpdate.AzureLocation property.
 // Location of the Azure Key Vault.
 const (
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_AsiaEast = "asia_east"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_AsiaSoutheast = "asia_southeast"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_AustraliaCentral = "australia_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_AustraliaCentral2 = "australia_central_2"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_AustraliaEast = "australia_east"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_AsiaEast           = "asia_east"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_AsiaSoutheast      = "asia_southeast"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_AustraliaCentral   = "australia_central"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_AustraliaCentral2  = "australia_central_2"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_AustraliaEast      = "australia_east"
 	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_AustraliaSoutheast = "australia_southeast"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_BrazilSouth = "brazil_south"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_CanadaCentral = "canada_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_CanadaEast = "canada_east"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_ChinaEast = "china_east"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_ChinaEast2 = "china_east_2"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_ChinaNorth = "china_north"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_ChinaNorth2 = "china_north_2"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_EuropeNorth = "europe_north"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_EuropeWest = "europe_west"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_FranceCentral = "france_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_FranceSouth = "france_south"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_GermanyCentral = "germany_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_GermanyNortheast = "germany_northeast"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_IndiaCentral = "india_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_IndiaSouth = "india_south"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_IndiaWest = "india_west"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_JapanEast = "japan_east"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_JapanWest = "japan_west"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_KoreaCentral = "korea_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_KoreaSouth = "korea_south"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_SouthAfricaNorth = "south_africa_north"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_SouthAfricaWest = "south_africa_west"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UkSouth = "uk_south"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UkWest = "uk_west"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsCentral = "us_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsDodCentral = "us_dod_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsDodEast = "us_dod_east"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsEast = "us_east"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsEast2 = "us_east_2"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsGovArizona = "us_gov_arizona"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsGovIowa = "us_gov_iowa"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsGovTexas = "us_gov_texas"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsGovVirginia = "us_gov_virginia"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsNorthCentral = "us_north_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsSouthCentral = "us_south_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsWest = "us_west"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsWest2 = "us_west_2"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsWestCentral = "us_west_central"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_BrazilSouth        = "brazil_south"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_CanadaCentral      = "canada_central"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_CanadaEast         = "canada_east"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_ChinaEast          = "china_east"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_ChinaEast2         = "china_east_2"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_ChinaNorth         = "china_north"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_ChinaNorth2        = "china_north_2"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_EuropeNorth        = "europe_north"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_EuropeWest         = "europe_west"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_FranceCentral      = "france_central"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_FranceSouth        = "france_south"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_GermanyCentral     = "germany_central"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_GermanyNortheast   = "germany_northeast"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_IndiaCentral       = "india_central"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_IndiaSouth         = "india_south"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_IndiaWest          = "india_west"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_JapanEast          = "japan_east"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_JapanWest          = "japan_west"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_KoreaCentral       = "korea_central"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_KoreaSouth         = "korea_south"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_SouthAfricaNorth   = "south_africa_north"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_SouthAfricaWest    = "south_africa_west"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UkSouth            = "uk_south"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UkWest             = "uk_west"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsCentral          = "us_central"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsDodCentral       = "us_dod_central"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsDodEast          = "us_dod_east"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsEast             = "us_east"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsEast2            = "us_east_2"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsGovArizona       = "us_gov_arizona"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsGovIowa          = "us_gov_iowa"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsGovTexas         = "us_gov_texas"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsGovVirginia      = "us_gov_virginia"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsNorthCentral     = "us_north_central"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsSouthCentral     = "us_south_central"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsWest             = "us_west"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsWest2            = "us_west_2"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsWestCentral      = "us_west_central"
 )
 
 // Constants associated with the KeystoreUpdateRequestKeystoreTypeAzureUpdate.AzureEnvironment property.
 // Azure environment, usually 'Azure'.
 const (
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureEnvironment_Azure = "azure"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureEnvironment_AzureChina = "azure_china"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureEnvironment_AzureGermany = "azure_germany"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureEnvironment_Azure             = "azure"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureEnvironment_AzureChina        = "azure_china"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureEnvironment_AzureGermany      = "azure_germany"
 	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureEnvironment_AzureUsGovernment = "azure_us_government"
 )
 
@@ -6736,6 +6778,7 @@ type KeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdate struct {
 	// A list of groups that this keystore belongs to.
 	Groups []string `json:"groups,omitempty"`
 }
+
 func (*KeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdate) isaKeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdate() bool {
 	return true
 }
@@ -6880,30 +6923,30 @@ type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystor
 // Constants associated with the KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate.Type property.
 // Type of keystore.
 const (
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate_Type_AwsKms = "aws_kms"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate_Type_AwsKms        = "aws_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate_Type_IbmCloudKms = "ibm_cloud_kms"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate_Type_IbmCloudKms   = "ibm_cloud_kms"
 )
 
 // Constants associated with the KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate.IbmVariant property.
 // Possible IBM Cloud KMS variants.
 const (
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate_IbmVariant_Hpcs = "hpcs"
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate_IbmVariant_Internal = "internal"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate_IbmVariant_Hpcs       = "hpcs"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate_IbmVariant_Internal   = "internal"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate_IbmVariant_KeyProtect = "key_protect"
 )
 
 // NewKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate : Instantiate KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate (Generic Model Constructor)
 func (*UkoV4) NewKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate(typeVar string, vault *VaultReferenceInCreationRequest, name string, ibmApiEndpoint string, ibmIamEndpoint string, ibmApiKey string, ibmInstanceID string, ibmVariant string) (_model *KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate, err error) {
 	_model = &KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate{
-		Type: core.StringPtr(typeVar),
-		Vault: vault,
-		Name: core.StringPtr(name),
+		Type:           core.StringPtr(typeVar),
+		Vault:          vault,
+		Name:           core.StringPtr(name),
 		IbmApiEndpoint: core.StringPtr(ibmApiEndpoint),
 		IbmIamEndpoint: core.StringPtr(ibmIamEndpoint),
-		IbmApiKey: core.StringPtr(ibmApiKey),
-		IbmInstanceID: core.StringPtr(ibmInstanceID),
-		IbmVariant: core.StringPtr(ibmVariant),
+		IbmApiKey:      core.StringPtr(ibmApiKey),
+		IbmInstanceID:  core.StringPtr(ibmInstanceID),
+		IbmVariant:     core.StringPtr(ibmVariant),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	return
@@ -6995,18 +7038,19 @@ type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystor
 // Constants associated with the KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate.Type property.
 // Type of keystore.
 const (
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate_Type_AwsKms = "aws_kms"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate_Type_AwsKms        = "aws_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate_Type_IbmCloudKms = "ibm_cloud_kms"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate_Type_IbmCloudKms   = "ibm_cloud_kms"
 )
 
 // Constants associated with the KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate.IbmVariant property.
 // Possible IBM Cloud KMS variants.
 const (
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate_IbmVariant_Hpcs = "hpcs"
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate_IbmVariant_Internal = "internal"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate_IbmVariant_Hpcs       = "hpcs"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate_IbmVariant_Internal   = "internal"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate_IbmVariant_KeyProtect = "key_protect"
 )
+
 func (*KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate) isaKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate() bool {
 	return true
 }
@@ -7119,24 +7163,24 @@ type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystor
 // Constants associated with the KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate.Type property.
 // Type of keystore.
 const (
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_AwsKms = "aws_kms"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_AwsKms        = "aws_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_IbmCloudKms = "ibm_cloud_kms"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_IbmCloudKms   = "ibm_cloud_kms"
 )
 
 // Constants associated with the KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate.IbmVariant property.
 // Possible IBM Cloud KMS variants.
 const (
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_IbmVariant_Hpcs = "hpcs"
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_IbmVariant_Internal = "internal"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_IbmVariant_Hpcs       = "hpcs"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_IbmVariant_Internal   = "internal"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_IbmVariant_KeyProtect = "key_protect"
 )
 
 // NewKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate : Instantiate KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate (Generic Model Constructor)
 func (*UkoV4) NewKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate(typeVar string, vault *VaultReferenceInCreationRequest, ibmVariant string) (_model *KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate, err error) {
 	_model = &KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate{
-		Type: core.StringPtr(typeVar),
-		Vault: vault,
+		Type:       core.StringPtr(typeVar),
+		Vault:      vault,
 		IbmVariant: core.StringPtr(ibmVariant),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
