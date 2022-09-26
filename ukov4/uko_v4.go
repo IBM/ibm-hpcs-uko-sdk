@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.46.1-a5569134-20220316-164819
+ * IBM OpenAPI SDK Code Generator Version: 3.57.0-b6d48d21-20220921-194423
  */
 
 // Package ukov4 : Operations and models for the UkoV4 service
@@ -28,6 +28,7 @@ import (
 	"net/http"
 	"reflect"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/IBM/go-sdk-core/v5/core"
@@ -37,13 +38,10 @@ import (
 
 // UkoV4 : API for UKO used for key management.
 //
-// API Version: 4.0.5
+// API Version: 4.6.0
 type UkoV4 struct {
 	Service *core.BaseService
 }
-
-// DefaultServiceURL is the default URL to make service requests to.
-const DefaultServiceURL = "https://uko.cloud.ibm.com"
 
 // DefaultServiceName is the default key used to find external configuration information.
 const DefaultServiceName = "uko"
@@ -87,7 +85,6 @@ func NewUkoV4UsingExternalConfig(options *UkoV4Options) (uko *UkoV4, err error) 
 // NewUkoV4 : constructs an instance of UkoV4 with passed in options.
 func NewUkoV4(options *UkoV4Options) (service *UkoV4, err error) {
 	serviceOptions := &core.ServiceOptions{
-		URL:           DefaultServiceURL,
 		Authenticator: options.Authenticator,
 	}
 
@@ -162,7 +159,8 @@ func (uko *UkoV4) DisableRetries() {
 }
 
 // ListManagedKeys : List managed keys
-// List all managed keys in the instance.
+// List all managed keys in the instance. It is possible to sort by the following parameters: name, algorithm, state,
+// activation_date, deactivation_date, created_at, updated_at, size, vault.id.
 func (uko *UkoV4) ListManagedKeys(listManagedKeysOptions *ListManagedKeysOptions) (result *ManagedKeyList, response *core.DetailedResponse, err error) {
 	return uko.ListManagedKeysWithContext(context.Background(), listManagedKeysOptions)
 }
@@ -193,19 +191,79 @@ func (uko *UkoV4) ListManagedKeysWithContext(ctx context.Context, listManagedKey
 	builder.AddHeader("Accept", "application/json")
 
 	if listManagedKeysOptions.VaultID != nil {
-		builder.AddQuery("vault.id", fmt.Sprint(*listManagedKeysOptions.VaultID))
+		builder.AddQuery("vault.id", strings.Join(listManagedKeysOptions.VaultID, ","))
 	}
 	if listManagedKeysOptions.Algorithm != nil {
-		builder.AddQuery("algorithm", fmt.Sprint(*listManagedKeysOptions.Algorithm))
+		builder.AddQuery("algorithm", strings.Join(listManagedKeysOptions.Algorithm, ","))
 	}
 	if listManagedKeysOptions.State != nil {
-		builder.AddQuery("state", fmt.Sprint(*listManagedKeysOptions.State))
+		builder.AddQuery("state", strings.Join(listManagedKeysOptions.State, ","))
 	}
 	if listManagedKeysOptions.Limit != nil {
 		builder.AddQuery("limit", fmt.Sprint(*listManagedKeysOptions.Limit))
 	}
 	if listManagedKeysOptions.Offset != nil {
 		builder.AddQuery("offset", fmt.Sprint(*listManagedKeysOptions.Offset))
+	}
+	if listManagedKeysOptions.Sort != nil {
+		builder.AddQuery("sort", strings.Join(listManagedKeysOptions.Sort, ","))
+	}
+	if listManagedKeysOptions.Label != nil {
+		builder.AddQuery("label", fmt.Sprint(*listManagedKeysOptions.Label))
+	}
+	if listManagedKeysOptions.ActivationDate != nil {
+		builder.AddQuery("activation_date", fmt.Sprint(*listManagedKeysOptions.ActivationDate))
+	}
+	if listManagedKeysOptions.ActivationDateMin != nil {
+		builder.AddQuery("activation_date_min", fmt.Sprint(*listManagedKeysOptions.ActivationDateMin))
+	}
+	if listManagedKeysOptions.ActivationDateMax != nil {
+		builder.AddQuery("activation_date_max", fmt.Sprint(*listManagedKeysOptions.ActivationDateMax))
+	}
+	if listManagedKeysOptions.DeactivationDate != nil {
+		builder.AddQuery("deactivation_date", fmt.Sprint(*listManagedKeysOptions.DeactivationDate))
+	}
+	if listManagedKeysOptions.DeactivationDateMin != nil {
+		builder.AddQuery("deactivation_date_min", fmt.Sprint(*listManagedKeysOptions.DeactivationDateMin))
+	}
+	if listManagedKeysOptions.DeactivationDateMax != nil {
+		builder.AddQuery("deactivation_date_max", fmt.Sprint(*listManagedKeysOptions.DeactivationDateMax))
+	}
+	if listManagedKeysOptions.CreatedAt != nil {
+		builder.AddQuery("created_at", fmt.Sprint(*listManagedKeysOptions.CreatedAt))
+	}
+	if listManagedKeysOptions.CreatedAtMin != nil {
+		builder.AddQuery("created_at_min", fmt.Sprint(*listManagedKeysOptions.CreatedAtMin))
+	}
+	if listManagedKeysOptions.CreatedAtMax != nil {
+		builder.AddQuery("created_at_max", fmt.Sprint(*listManagedKeysOptions.CreatedAtMax))
+	}
+	if listManagedKeysOptions.UpdatedAt != nil {
+		builder.AddQuery("updated_at", fmt.Sprint(*listManagedKeysOptions.UpdatedAt))
+	}
+	if listManagedKeysOptions.UpdatedAtMin != nil {
+		builder.AddQuery("updated_at_min", fmt.Sprint(*listManagedKeysOptions.UpdatedAtMin))
+	}
+	if listManagedKeysOptions.UpdatedAtMax != nil {
+		builder.AddQuery("updated_at_max", fmt.Sprint(*listManagedKeysOptions.UpdatedAtMax))
+	}
+	if listManagedKeysOptions.Size != nil {
+		builder.AddQuery("size", fmt.Sprint(*listManagedKeysOptions.Size))
+	}
+	if listManagedKeysOptions.SizeMin != nil {
+		builder.AddQuery("size_min", fmt.Sprint(*listManagedKeysOptions.SizeMin))
+	}
+	if listManagedKeysOptions.SizeMax != nil {
+		builder.AddQuery("size_max", fmt.Sprint(*listManagedKeysOptions.SizeMax))
+	}
+	if listManagedKeysOptions.ReferencedKeystoresType != nil {
+		builder.AddQuery("referenced_keystores[].type", strings.Join(listManagedKeysOptions.ReferencedKeystoresType, ","))
+	}
+	if listManagedKeysOptions.ReferencedKeystoresName != nil {
+		builder.AddQuery("referenced_keystores[].name", strings.Join(listManagedKeysOptions.ReferencedKeystoresName, ","))
+	}
+	if listManagedKeysOptions.InstancesKeystoreType != nil {
+		builder.AddQuery("instances[].keystore.type", strings.Join(listManagedKeysOptions.InstancesKeystoreType, ","))
 	}
 
 	request, err := builder.Build()
@@ -507,6 +565,80 @@ func (uko *UkoV4) UpdateManagedKeyWithContext(ctx context.Context, updateManaged
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalManagedKey)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// ListAssociatedResourcesForManagedKey : List associated resources for a managed key
+// You can use this endpoint to obtain a list of resources associated with this managed key in IBM Cloud; which cloud
+// resources are protected by the key you specify.
+func (uko *UkoV4) ListAssociatedResourcesForManagedKey(listAssociatedResourcesForManagedKeyOptions *ListAssociatedResourcesForManagedKeyOptions) (result *AssociatedResourceList, response *core.DetailedResponse, err error) {
+	return uko.ListAssociatedResourcesForManagedKeyWithContext(context.Background(), listAssociatedResourcesForManagedKeyOptions)
+}
+
+// ListAssociatedResourcesForManagedKeyWithContext is an alternate form of the ListAssociatedResourcesForManagedKey method which supports a Context parameter
+func (uko *UkoV4) ListAssociatedResourcesForManagedKeyWithContext(ctx context.Context, listAssociatedResourcesForManagedKeyOptions *ListAssociatedResourcesForManagedKeyOptions) (result *AssociatedResourceList, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listAssociatedResourcesForManagedKeyOptions, "listAssociatedResourcesForManagedKeyOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(listAssociatedResourcesForManagedKeyOptions, "listAssociatedResourcesForManagedKeyOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"id": *listAssociatedResourcesForManagedKeyOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys/{id}/associated_resources`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range listAssociatedResourcesForManagedKeyOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("uko", "V4", "ListAssociatedResourcesForManagedKey")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	if listAssociatedResourcesForManagedKeyOptions.UKOVault != nil {
+		builder.AddHeader("UKO-Vault", fmt.Sprint(*listAssociatedResourcesForManagedKeyOptions.UKOVault))
+	}
+
+	if listAssociatedResourcesForManagedKeyOptions.Limit != nil {
+		builder.AddQuery("limit", fmt.Sprint(*listAssociatedResourcesForManagedKeyOptions.Limit))
+	}
+	if listAssociatedResourcesForManagedKeyOptions.Offset != nil {
+		builder.AddQuery("offset", fmt.Sprint(*listAssociatedResourcesForManagedKeyOptions.Offset))
+	}
+	if listAssociatedResourcesForManagedKeyOptions.Sort != nil {
+		builder.AddQuery("sort", strings.Join(listAssociatedResourcesForManagedKeyOptions.Sort, ","))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = uko.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAssociatedResourceList)
 		if err != nil {
 			return
 		}
@@ -881,10 +1013,13 @@ func (uko *UkoV4) ListKeyTemplatesWithContext(ctx context.Context, listKeyTempla
 	builder.AddHeader("Accept", "application/json")
 
 	if listKeyTemplatesOptions.VaultID != nil {
-		builder.AddQuery("vault.id", fmt.Sprint(*listKeyTemplatesOptions.VaultID))
+		builder.AddQuery("vault.id", strings.Join(listKeyTemplatesOptions.VaultID, ","))
 	}
 	if listKeyTemplatesOptions.KeyAlgorithm != nil {
 		builder.AddQuery("key.algorithm", fmt.Sprint(*listKeyTemplatesOptions.KeyAlgorithm))
+	}
+	if listKeyTemplatesOptions.Sort != nil {
+		builder.AddQuery("sort", strings.Join(listKeyTemplatesOptions.Sort, ","))
 	}
 	if listKeyTemplatesOptions.Limit != nil {
 		builder.AddQuery("limit", fmt.Sprint(*listKeyTemplatesOptions.Limit))
@@ -1228,19 +1363,34 @@ func (uko *UkoV4) ListKeystoresWithContext(ctx context.Context, listKeystoresOpt
 	builder.AddHeader("Accept", "application/json")
 
 	if listKeystoresOptions.Type != nil {
-		builder.AddQuery("type", fmt.Sprint(*listKeystoresOptions.Type))
+		builder.AddQuery("type", strings.Join(listKeystoresOptions.Type, ","))
+	}
+	if listKeystoresOptions.Name != nil {
+		builder.AddQuery("name", fmt.Sprint(*listKeystoresOptions.Name))
+	}
+	if listKeystoresOptions.Description != nil {
+		builder.AddQuery("description", fmt.Sprint(*listKeystoresOptions.Description))
 	}
 	if listKeystoresOptions.Group != nil {
 		builder.AddQuery("group", fmt.Sprint(*listKeystoresOptions.Group))
 	}
+	if listKeystoresOptions.Groups != nil {
+		builder.AddQuery("groups[]", fmt.Sprint(*listKeystoresOptions.Groups))
+	}
 	if listKeystoresOptions.VaultID != nil {
-		builder.AddQuery("vault.id", fmt.Sprint(*listKeystoresOptions.VaultID))
+		builder.AddQuery("vault.id", strings.Join(listKeystoresOptions.VaultID, ","))
+	}
+	if listKeystoresOptions.Location != nil {
+		builder.AddQuery("location", fmt.Sprint(*listKeystoresOptions.Location))
 	}
 	if listKeystoresOptions.Limit != nil {
 		builder.AddQuery("limit", fmt.Sprint(*listKeystoresOptions.Limit))
 	}
 	if listKeystoresOptions.Offset != nil {
 		builder.AddQuery("offset", fmt.Sprint(*listKeystoresOptions.Offset))
+	}
+	if listKeystoresOptions.Sort != nil {
+		builder.AddQuery("sort", strings.Join(listKeystoresOptions.Sort, ","))
 	}
 
 	request, err := builder.Build()
@@ -1265,7 +1415,10 @@ func (uko *UkoV4) ListKeystoresWithContext(ctx context.Context, listKeystoresOpt
 }
 
 // CreateKeystore : Create an internal keystore or a keystore connection
-// Creates a new internal keystore or a connection to an external keystore of the requested type.
+// Creates a new internal keystore or a connection to an external keystore of the requested type.  If the `dry_run`
+// query parameter is used, then a new keystore is not created in the database,  only a test is performed to verify if
+// the connection information is correct. It is possible to sort by the following parameters: name, created_at,
+// updated_at, vault.id.
 func (uko *UkoV4) CreateKeystore(createKeystoreOptions *CreateKeystoreOptions) (result KeystoreIntf, response *core.DetailedResponse, err error) {
 	return uko.CreateKeystoreWithContext(context.Background(), createKeystoreOptions)
 }
@@ -1301,6 +1454,10 @@ func (uko *UkoV4) CreateKeystoreWithContext(ctx context.Context, createKeystoreO
 	builder.AddHeader("Content-Type", "application/json")
 	if createKeystoreOptions.UKOVault != nil {
 		builder.AddHeader("UKO-Vault", fmt.Sprint(*createKeystoreOptions.UKOVault))
+	}
+
+	if createKeystoreOptions.DryRun != nil {
+		builder.AddQuery("dry_run", fmt.Sprint(*createKeystoreOptions.DryRun))
 	}
 
 	_, err = builder.SetBodyContentJSON(createKeystoreOptions.KeystoreBody)
@@ -1520,6 +1677,79 @@ func (uko *UkoV4) UpdateKeystoreWithContext(ctx context.Context, updateKeystoreO
 	return
 }
 
+// ListAssociatedResourcesForTargetKeystore : List associated resources for a target keystore
+// You can use this endpoint to obtain a list of resources associated with all keys referencing this keystore.
+func (uko *UkoV4) ListAssociatedResourcesForTargetKeystore(listAssociatedResourcesForTargetKeystoreOptions *ListAssociatedResourcesForTargetKeystoreOptions) (result *AssociatedResourceList, response *core.DetailedResponse, err error) {
+	return uko.ListAssociatedResourcesForTargetKeystoreWithContext(context.Background(), listAssociatedResourcesForTargetKeystoreOptions)
+}
+
+// ListAssociatedResourcesForTargetKeystoreWithContext is an alternate form of the ListAssociatedResourcesForTargetKeystore method which supports a Context parameter
+func (uko *UkoV4) ListAssociatedResourcesForTargetKeystoreWithContext(ctx context.Context, listAssociatedResourcesForTargetKeystoreOptions *ListAssociatedResourcesForTargetKeystoreOptions) (result *AssociatedResourceList, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listAssociatedResourcesForTargetKeystoreOptions, "listAssociatedResourcesForTargetKeystoreOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(listAssociatedResourcesForTargetKeystoreOptions, "listAssociatedResourcesForTargetKeystoreOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"id": *listAssociatedResourcesForTargetKeystoreOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/keystores/{id}/associated_resources`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range listAssociatedResourcesForTargetKeystoreOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("uko", "V4", "ListAssociatedResourcesForTargetKeystore")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	if listAssociatedResourcesForTargetKeystoreOptions.UKOVault != nil {
+		builder.AddHeader("UKO-Vault", fmt.Sprint(*listAssociatedResourcesForTargetKeystoreOptions.UKOVault))
+	}
+
+	if listAssociatedResourcesForTargetKeystoreOptions.Limit != nil {
+		builder.AddQuery("limit", fmt.Sprint(*listAssociatedResourcesForTargetKeystoreOptions.Limit))
+	}
+	if listAssociatedResourcesForTargetKeystoreOptions.Offset != nil {
+		builder.AddQuery("offset", fmt.Sprint(*listAssociatedResourcesForTargetKeystoreOptions.Offset))
+	}
+	if listAssociatedResourcesForTargetKeystoreOptions.Sort != nil {
+		builder.AddQuery("sort", strings.Join(listAssociatedResourcesForTargetKeystoreOptions.Sort, ","))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = uko.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAssociatedResourceList)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
 // GetKeystoreStatus : Retrieve target keystore status
 // Retrieves status of a single target keystore (either a keystore connection or an internal keystore).
 func (uko *UkoV4) GetKeystoreStatus(getKeystoreStatusOptions *GetKeystoreStatusOptions) (result *KeystoreStatus, response *core.DetailedResponse, err error) {
@@ -1626,16 +1856,67 @@ func (uko *UkoV4) ListManagedKeysFromKeystoreWithContext(ctx context.Context, li
 	}
 
 	if listManagedKeysFromKeystoreOptions.Algorithm != nil {
-		builder.AddQuery("algorithm", fmt.Sprint(*listManagedKeysFromKeystoreOptions.Algorithm))
+		builder.AddQuery("algorithm", strings.Join(listManagedKeysFromKeystoreOptions.Algorithm, ","))
 	}
 	if listManagedKeysFromKeystoreOptions.State != nil {
-		builder.AddQuery("state", fmt.Sprint(*listManagedKeysFromKeystoreOptions.State))
+		builder.AddQuery("state", strings.Join(listManagedKeysFromKeystoreOptions.State, ","))
 	}
 	if listManagedKeysFromKeystoreOptions.Limit != nil {
 		builder.AddQuery("limit", fmt.Sprint(*listManagedKeysFromKeystoreOptions.Limit))
 	}
 	if listManagedKeysFromKeystoreOptions.Offset != nil {
 		builder.AddQuery("offset", fmt.Sprint(*listManagedKeysFromKeystoreOptions.Offset))
+	}
+	if listManagedKeysFromKeystoreOptions.Sort != nil {
+		builder.AddQuery("sort", strings.Join(listManagedKeysFromKeystoreOptions.Sort, ","))
+	}
+	if listManagedKeysFromKeystoreOptions.Label != nil {
+		builder.AddQuery("label", fmt.Sprint(*listManagedKeysFromKeystoreOptions.Label))
+	}
+	if listManagedKeysFromKeystoreOptions.ActivationDate != nil {
+		builder.AddQuery("activation_date", fmt.Sprint(*listManagedKeysFromKeystoreOptions.ActivationDate))
+	}
+	if listManagedKeysFromKeystoreOptions.ActivationDateMin != nil {
+		builder.AddQuery("activation_date_min", fmt.Sprint(*listManagedKeysFromKeystoreOptions.ActivationDateMin))
+	}
+	if listManagedKeysFromKeystoreOptions.ActivationDateMax != nil {
+		builder.AddQuery("activation_date_max", fmt.Sprint(*listManagedKeysFromKeystoreOptions.ActivationDateMax))
+	}
+	if listManagedKeysFromKeystoreOptions.DeactivationDate != nil {
+		builder.AddQuery("deactivation_date", fmt.Sprint(*listManagedKeysFromKeystoreOptions.DeactivationDate))
+	}
+	if listManagedKeysFromKeystoreOptions.DeactivationDateMin != nil {
+		builder.AddQuery("deactivation_date_min", fmt.Sprint(*listManagedKeysFromKeystoreOptions.DeactivationDateMin))
+	}
+	if listManagedKeysFromKeystoreOptions.DeactivationDateMax != nil {
+		builder.AddQuery("deactivation_date_max", fmt.Sprint(*listManagedKeysFromKeystoreOptions.DeactivationDateMax))
+	}
+	if listManagedKeysFromKeystoreOptions.CreatedAt != nil {
+		builder.AddQuery("created_at", fmt.Sprint(*listManagedKeysFromKeystoreOptions.CreatedAt))
+	}
+	if listManagedKeysFromKeystoreOptions.CreatedAtMin != nil {
+		builder.AddQuery("created_at_min", fmt.Sprint(*listManagedKeysFromKeystoreOptions.CreatedAtMin))
+	}
+	if listManagedKeysFromKeystoreOptions.CreatedAtMax != nil {
+		builder.AddQuery("created_at_max", fmt.Sprint(*listManagedKeysFromKeystoreOptions.CreatedAtMax))
+	}
+	if listManagedKeysFromKeystoreOptions.UpdatedAt != nil {
+		builder.AddQuery("updated_at", fmt.Sprint(*listManagedKeysFromKeystoreOptions.UpdatedAt))
+	}
+	if listManagedKeysFromKeystoreOptions.UpdatedAtMin != nil {
+		builder.AddQuery("updated_at_min", fmt.Sprint(*listManagedKeysFromKeystoreOptions.UpdatedAtMin))
+	}
+	if listManagedKeysFromKeystoreOptions.UpdatedAtMax != nil {
+		builder.AddQuery("updated_at_max", fmt.Sprint(*listManagedKeysFromKeystoreOptions.UpdatedAtMax))
+	}
+	if listManagedKeysFromKeystoreOptions.Size != nil {
+		builder.AddQuery("size", fmt.Sprint(*listManagedKeysFromKeystoreOptions.Size))
+	}
+	if listManagedKeysFromKeystoreOptions.SizeMin != nil {
+		builder.AddQuery("size_min", fmt.Sprint(*listManagedKeysFromKeystoreOptions.SizeMin))
+	}
+	if listManagedKeysFromKeystoreOptions.SizeMax != nil {
+		builder.AddQuery("size_max", fmt.Sprint(*listManagedKeysFromKeystoreOptions.SizeMax))
 	}
 
 	request, err := builder.Build()
@@ -1695,6 +1976,15 @@ func (uko *UkoV4) ListVaultsWithContext(ctx context.Context, listVaultsOptions *
 	}
 	if listVaultsOptions.Offset != nil {
 		builder.AddQuery("offset", fmt.Sprint(*listVaultsOptions.Offset))
+	}
+	if listVaultsOptions.Sort != nil {
+		builder.AddQuery("sort", strings.Join(listVaultsOptions.Sort, ","))
+	}
+	if listVaultsOptions.Name != nil {
+		builder.AddQuery("name", fmt.Sprint(*listVaultsOptions.Name))
+	}
+	if listVaultsOptions.Description != nil {
+		builder.AddQuery("description", fmt.Sprint(*listVaultsOptions.Description))
 	}
 
 	request, err := builder.Build()
@@ -2108,6 +2398,10 @@ type CreateKeystoreOptions struct {
 	// Keystore properties to update.
 	KeystoreBody KeystoreCreationRequestIntf `json:"keystoreBody" validate:"required"`
 
+	// Do not create a keystore, only verify if keystore created with given parameters can be communciated with
+	// successfully.
+	DryRun *bool `json:"dry_run,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -2129,6 +2423,12 @@ func (_options *CreateKeystoreOptions) SetUKOVault(uKOVault string) *CreateKeyst
 // SetKeystoreBody : Allow user to set KeystoreBody
 func (_options *CreateKeystoreOptions) SetKeystoreBody(keystoreBody KeystoreCreationRequestIntf) *CreateKeystoreOptions {
 	_options.KeystoreBody = keystoreBody
+	return _options
+}
+
+// SetDryRun : Allow user to set DryRun
+func (_options *CreateKeystoreOptions) SetDryRun(dryRun bool) *CreateKeystoreOptions {
+	_options.DryRun = core.BoolPtr(dryRun)
 	return _options
 }
 
@@ -2748,13 +3048,146 @@ func (options *GetVaultOptions) SetHeaders(param map[string]string) *GetVaultOpt
 	return options
 }
 
+// ListAssociatedResourcesForManagedKeyOptions : The ListAssociatedResourcesForManagedKey options.
+type ListAssociatedResourcesForManagedKeyOptions struct {
+	// UUID of the key.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// The UUID of the Vault in which the update is to take place.
+	UKOVault *string `json:"UKO-Vault" validate:"required"`
+
+	// The number of resources to retrieve.
+	Limit *int64 `json:"limit,omitempty"`
+
+	// The number of resources to skip.
+	Offset *int64 `json:"offset,omitempty"`
+
+	// Define sorting order.
+	Sort []string `json:"sort,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewListAssociatedResourcesForManagedKeyOptions : Instantiate ListAssociatedResourcesForManagedKeyOptions
+func (*UkoV4) NewListAssociatedResourcesForManagedKeyOptions(id string, uKOVault string) *ListAssociatedResourcesForManagedKeyOptions {
+	return &ListAssociatedResourcesForManagedKeyOptions{
+		ID: core.StringPtr(id),
+		UKOVault: core.StringPtr(uKOVault),
+	}
+}
+
+// SetID : Allow user to set ID
+func (_options *ListAssociatedResourcesForManagedKeyOptions) SetID(id string) *ListAssociatedResourcesForManagedKeyOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetUKOVault : Allow user to set UKOVault
+func (_options *ListAssociatedResourcesForManagedKeyOptions) SetUKOVault(uKOVault string) *ListAssociatedResourcesForManagedKeyOptions {
+	_options.UKOVault = core.StringPtr(uKOVault)
+	return _options
+}
+
+// SetLimit : Allow user to set Limit
+func (_options *ListAssociatedResourcesForManagedKeyOptions) SetLimit(limit int64) *ListAssociatedResourcesForManagedKeyOptions {
+	_options.Limit = core.Int64Ptr(limit)
+	return _options
+}
+
+// SetOffset : Allow user to set Offset
+func (_options *ListAssociatedResourcesForManagedKeyOptions) SetOffset(offset int64) *ListAssociatedResourcesForManagedKeyOptions {
+	_options.Offset = core.Int64Ptr(offset)
+	return _options
+}
+
+// SetSort : Allow user to set Sort
+func (_options *ListAssociatedResourcesForManagedKeyOptions) SetSort(sort []string) *ListAssociatedResourcesForManagedKeyOptions {
+	_options.Sort = sort
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListAssociatedResourcesForManagedKeyOptions) SetHeaders(param map[string]string) *ListAssociatedResourcesForManagedKeyOptions {
+	options.Headers = param
+	return options
+}
+
+// ListAssociatedResourcesForTargetKeystoreOptions : The ListAssociatedResourcesForTargetKeystore options.
+type ListAssociatedResourcesForTargetKeystoreOptions struct {
+	// UUID of the keystore.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// The UUID of the Vault in which the update is to take place.
+	UKOVault *string `json:"UKO-Vault" validate:"required"`
+
+	// The number of resources to retrieve.
+	Limit *int64 `json:"limit,omitempty"`
+
+	// The number of resources to skip.
+	Offset *int64 `json:"offset,omitempty"`
+
+	// Define sorting order.
+	Sort []string `json:"sort,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewListAssociatedResourcesForTargetKeystoreOptions : Instantiate ListAssociatedResourcesForTargetKeystoreOptions
+func (*UkoV4) NewListAssociatedResourcesForTargetKeystoreOptions(id string, uKOVault string) *ListAssociatedResourcesForTargetKeystoreOptions {
+	return &ListAssociatedResourcesForTargetKeystoreOptions{
+		ID: core.StringPtr(id),
+		UKOVault: core.StringPtr(uKOVault),
+	}
+}
+
+// SetID : Allow user to set ID
+func (_options *ListAssociatedResourcesForTargetKeystoreOptions) SetID(id string) *ListAssociatedResourcesForTargetKeystoreOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetUKOVault : Allow user to set UKOVault
+func (_options *ListAssociatedResourcesForTargetKeystoreOptions) SetUKOVault(uKOVault string) *ListAssociatedResourcesForTargetKeystoreOptions {
+	_options.UKOVault = core.StringPtr(uKOVault)
+	return _options
+}
+
+// SetLimit : Allow user to set Limit
+func (_options *ListAssociatedResourcesForTargetKeystoreOptions) SetLimit(limit int64) *ListAssociatedResourcesForTargetKeystoreOptions {
+	_options.Limit = core.Int64Ptr(limit)
+	return _options
+}
+
+// SetOffset : Allow user to set Offset
+func (_options *ListAssociatedResourcesForTargetKeystoreOptions) SetOffset(offset int64) *ListAssociatedResourcesForTargetKeystoreOptions {
+	_options.Offset = core.Int64Ptr(offset)
+	return _options
+}
+
+// SetSort : Allow user to set Sort
+func (_options *ListAssociatedResourcesForTargetKeystoreOptions) SetSort(sort []string) *ListAssociatedResourcesForTargetKeystoreOptions {
+	_options.Sort = sort
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListAssociatedResourcesForTargetKeystoreOptions) SetHeaders(param map[string]string) *ListAssociatedResourcesForTargetKeystoreOptions {
+	options.Headers = param
+	return options
+}
+
 // ListKeyTemplatesOptions : The ListKeyTemplates options.
 type ListKeyTemplatesOptions struct {
 	// The UUID of the Vault.
-	VaultID *string `json:"vault.id,omitempty"`
+	VaultID []string `json:"vault.id,omitempty"`
 
 	// The algorithm of a returned key templates.
 	KeyAlgorithm *string `json:"key.algorithm,omitempty"`
+
+	// Define sorting order.
+	Sort []string `json:"sort,omitempty"`
 
 	// The number of resources to retrieve.
 	Limit *int64 `json:"limit,omitempty"`
@@ -2779,14 +3212,20 @@ func (*UkoV4) NewListKeyTemplatesOptions() *ListKeyTemplatesOptions {
 }
 
 // SetVaultID : Allow user to set VaultID
-func (_options *ListKeyTemplatesOptions) SetVaultID(vaultID string) *ListKeyTemplatesOptions {
-	_options.VaultID = core.StringPtr(vaultID)
+func (_options *ListKeyTemplatesOptions) SetVaultID(vaultID []string) *ListKeyTemplatesOptions {
+	_options.VaultID = vaultID
 	return _options
 }
 
 // SetKeyAlgorithm : Allow user to set KeyAlgorithm
 func (_options *ListKeyTemplatesOptions) SetKeyAlgorithm(keyAlgorithm string) *ListKeyTemplatesOptions {
 	_options.KeyAlgorithm = core.StringPtr(keyAlgorithm)
+	return _options
+}
+
+// SetSort : Allow user to set Sort
+func (_options *ListKeyTemplatesOptions) SetSort(sort []string) *ListKeyTemplatesOptions {
+	_options.Sort = sort
 	return _options
 }
 
@@ -2811,13 +3250,25 @@ func (options *ListKeyTemplatesOptions) SetHeaders(param map[string]string) *Lis
 // ListKeystoresOptions : The ListKeystores options.
 type ListKeystoresOptions struct {
 	// Keystore type.
-	Type *string `json:"type,omitempty"`
+	Type []string `json:"type,omitempty"`
 
-	// Keystore group.
+	// Return only keystores whose name contains the string.
+	Name *string `json:"name,omitempty"`
+
+	// Return only keystores whose description contains the string.
+	Description *string `json:"description,omitempty"`
+
+	// A Keystore group. This query parameter cannot be used in conjunction with the 'groups[]' query parameter.
 	Group *string `json:"group,omitempty"`
 
+	// Keystore groups.
+	Groups *string `json:"groups[],omitempty"`
+
 	// The UUID of the Vault.
-	VaultID *string `json:"vault.id,omitempty"`
+	VaultID []string `json:"vault.id,omitempty"`
+
+	// Keystore location.
+	Location *string `json:"location,omitempty"`
 
 	// The number of resources to retrieve.
 	Limit *int64 `json:"limit,omitempty"`
@@ -2825,12 +3276,15 @@ type ListKeystoresOptions struct {
 	// The number of resources to skip.
 	Offset *int64 `json:"offset,omitempty"`
 
+	// Define sorting order.
+	Sort []string `json:"sort,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
 // Constants associated with the ListKeystoresOptions.Type property.
-// Keystore type.
+// Type of keystore.
 const (
 	ListKeystoresOptions_Type_AwsKms = "aws_kms"
 	ListKeystoresOptions_Type_AzureKeyVault = "azure_key_vault"
@@ -2843,8 +3297,20 @@ func (*UkoV4) NewListKeystoresOptions() *ListKeystoresOptions {
 }
 
 // SetType : Allow user to set Type
-func (_options *ListKeystoresOptions) SetType(typeVar string) *ListKeystoresOptions {
-	_options.Type = core.StringPtr(typeVar)
+func (_options *ListKeystoresOptions) SetType(typeVar []string) *ListKeystoresOptions {
+	_options.Type = typeVar
+	return _options
+}
+
+// SetName : Allow user to set Name
+func (_options *ListKeystoresOptions) SetName(name string) *ListKeystoresOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
+}
+
+// SetDescription : Allow user to set Description
+func (_options *ListKeystoresOptions) SetDescription(description string) *ListKeystoresOptions {
+	_options.Description = core.StringPtr(description)
 	return _options
 }
 
@@ -2854,9 +3320,21 @@ func (_options *ListKeystoresOptions) SetGroup(group string) *ListKeystoresOptio
 	return _options
 }
 
+// SetGroups : Allow user to set Groups
+func (_options *ListKeystoresOptions) SetGroups(groups string) *ListKeystoresOptions {
+	_options.Groups = core.StringPtr(groups)
+	return _options
+}
+
 // SetVaultID : Allow user to set VaultID
-func (_options *ListKeystoresOptions) SetVaultID(vaultID string) *ListKeystoresOptions {
-	_options.VaultID = core.StringPtr(vaultID)
+func (_options *ListKeystoresOptions) SetVaultID(vaultID []string) *ListKeystoresOptions {
+	_options.VaultID = vaultID
+	return _options
+}
+
+// SetLocation : Allow user to set Location
+func (_options *ListKeystoresOptions) SetLocation(location string) *ListKeystoresOptions {
+	_options.Location = core.StringPtr(location)
 	return _options
 }
 
@@ -2869,6 +3347,12 @@ func (_options *ListKeystoresOptions) SetLimit(limit int64) *ListKeystoresOption
 // SetOffset : Allow user to set Offset
 func (_options *ListKeystoresOptions) SetOffset(offset int64) *ListKeystoresOptions {
 	_options.Offset = core.Int64Ptr(offset)
+	return _options
+}
+
+// SetSort : Allow user to set Sort
+func (_options *ListKeystoresOptions) SetSort(sort []string) *ListKeystoresOptions {
+	_options.Sort = sort
 	return _options
 }
 
@@ -2887,10 +3371,10 @@ type ListManagedKeysFromKeystoreOptions struct {
 	ID *string `json:"id" validate:"required,ne="`
 
 	// The algorithm of a returned keys.
-	Algorithm *string `json:"algorithm,omitempty"`
+	Algorithm []string `json:"algorithm,omitempty"`
 
 	// The state that returned keys are to be in.
-	State *string `json:"state,omitempty"`
+	State []string `json:"state,omitempty"`
 
 	// The number of resources to retrieve.
 	Limit *int64 `json:"limit,omitempty"`
@@ -2898,19 +3382,78 @@ type ListManagedKeysFromKeystoreOptions struct {
 	// The number of resources to skip.
 	Offset *int64 `json:"offset,omitempty"`
 
+	// Define sorting order.
+	Sort []string `json:"sort,omitempty"`
+
+	// The label of the key.
+	Label *string `json:"label,omitempty"`
+
+	// Return only managed keys whose activation_date matches the parameter.
+	ActivationDate *string `json:"activation_date,omitempty"`
+
+	// Return only managed keys whose activation_date is at or after the parameter value. This query parameter cannot be
+	// used in conjunction with the 'activation_date' query parameter.
+	ActivationDateMin *string `json:"activation_date_min,omitempty"`
+
+	// Return only managed keys whose activation_date is at or before the parameter value. This query parameter cannot be
+	// used in conjunction with the 'activation_date' query parameter.
+	ActivationDateMax *string `json:"activation_date_max,omitempty"`
+
+	// Return only managed keys whose deactivation_date matches the parameter.
+	DeactivationDate *string `json:"deactivation_date,omitempty"`
+
+	// Return only managed keys whose deactivation_date is at or after the parameter value. This query parameter cannot be
+	// used in conjunction with the 'deactivation_date' query parameter.
+	DeactivationDateMin *string `json:"deactivation_date_min,omitempty"`
+
+	// Return only managed keys whose deactivation_date is at or before the parameter value. This query parameter cannot be
+	// used in conjunction with the 'deactivation_date' query parameter.
+	DeactivationDateMax *string `json:"deactivation_date_max,omitempty"`
+
+	// Return only managed keys whose created_at matches the parameter.
+	CreatedAt *string `json:"created_at,omitempty"`
+
+	// Return only managed keys whose created_at is at or after the parameter value. This query parameter cannot be used in
+	// conjunction with the 'created_at' query parameter.
+	CreatedAtMin *string `json:"created_at_min,omitempty"`
+
+	// Return only managed keys whose created_at is at or before the parameter value. This query parameter cannot be used
+	// in conjunction with the 'created_at' query parameter.
+	CreatedAtMax *string `json:"created_at_max,omitempty"`
+
+	// Return only managed keys whose updated_at matches the parameter.
+	UpdatedAt *string `json:"updated_at,omitempty"`
+
+	// Return only managed keys whose updated_at is after the parameter value. This query parameter cannot be used in
+	// conjunction with the 'updated_at' query parameter.
+	UpdatedAtMin *string `json:"updated_at_min,omitempty"`
+
+	// Return only managed keys whose updated_at is before the parameter value. This query parameter cannot be used in
+	// conjunction with the 'updated_at' query parameter.
+	UpdatedAtMax *string `json:"updated_at_max,omitempty"`
+
+	// The size of the key.
+	Size *int64 `json:"size,omitempty"`
+
+	// The minimum size of the key. This query parameter cannot be used in conjunction with the 'size' query parameter.
+	SizeMin *int64 `json:"size_min,omitempty"`
+
+	// The maximum size of the key. This query parameter cannot be used in conjunction with the 'size' query parameter.
+	SizeMax *int64 `json:"size_max,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
 // Constants associated with the ListManagedKeysFromKeystoreOptions.Algorithm property.
-// The algorithm of a returned keys.
+// The algorithm of the key.
 const (
 	ListManagedKeysFromKeystoreOptions_Algorithm_Aes = "aes"
 	ListManagedKeysFromKeystoreOptions_Algorithm_Rsa = "rsa"
 )
 
 // Constants associated with the ListManagedKeysFromKeystoreOptions.State property.
-// The state that returned keys are to be in.
+// The state of the key.
 const (
 	ListManagedKeysFromKeystoreOptions_State_Active = "active"
 	ListManagedKeysFromKeystoreOptions_State_Deactivated = "deactivated"
@@ -2939,14 +3482,14 @@ func (_options *ListManagedKeysFromKeystoreOptions) SetID(id string) *ListManage
 }
 
 // SetAlgorithm : Allow user to set Algorithm
-func (_options *ListManagedKeysFromKeystoreOptions) SetAlgorithm(algorithm string) *ListManagedKeysFromKeystoreOptions {
-	_options.Algorithm = core.StringPtr(algorithm)
+func (_options *ListManagedKeysFromKeystoreOptions) SetAlgorithm(algorithm []string) *ListManagedKeysFromKeystoreOptions {
+	_options.Algorithm = algorithm
 	return _options
 }
 
 // SetState : Allow user to set State
-func (_options *ListManagedKeysFromKeystoreOptions) SetState(state string) *ListManagedKeysFromKeystoreOptions {
-	_options.State = core.StringPtr(state)
+func (_options *ListManagedKeysFromKeystoreOptions) SetState(state []string) *ListManagedKeysFromKeystoreOptions {
+	_options.State = state
 	return _options
 }
 
@@ -2962,6 +3505,108 @@ func (_options *ListManagedKeysFromKeystoreOptions) SetOffset(offset int64) *Lis
 	return _options
 }
 
+// SetSort : Allow user to set Sort
+func (_options *ListManagedKeysFromKeystoreOptions) SetSort(sort []string) *ListManagedKeysFromKeystoreOptions {
+	_options.Sort = sort
+	return _options
+}
+
+// SetLabel : Allow user to set Label
+func (_options *ListManagedKeysFromKeystoreOptions) SetLabel(label string) *ListManagedKeysFromKeystoreOptions {
+	_options.Label = core.StringPtr(label)
+	return _options
+}
+
+// SetActivationDate : Allow user to set ActivationDate
+func (_options *ListManagedKeysFromKeystoreOptions) SetActivationDate(activationDate string) *ListManagedKeysFromKeystoreOptions {
+	_options.ActivationDate = core.StringPtr(activationDate)
+	return _options
+}
+
+// SetActivationDateMin : Allow user to set ActivationDateMin
+func (_options *ListManagedKeysFromKeystoreOptions) SetActivationDateMin(activationDateMin string) *ListManagedKeysFromKeystoreOptions {
+	_options.ActivationDateMin = core.StringPtr(activationDateMin)
+	return _options
+}
+
+// SetActivationDateMax : Allow user to set ActivationDateMax
+func (_options *ListManagedKeysFromKeystoreOptions) SetActivationDateMax(activationDateMax string) *ListManagedKeysFromKeystoreOptions {
+	_options.ActivationDateMax = core.StringPtr(activationDateMax)
+	return _options
+}
+
+// SetDeactivationDate : Allow user to set DeactivationDate
+func (_options *ListManagedKeysFromKeystoreOptions) SetDeactivationDate(deactivationDate string) *ListManagedKeysFromKeystoreOptions {
+	_options.DeactivationDate = core.StringPtr(deactivationDate)
+	return _options
+}
+
+// SetDeactivationDateMin : Allow user to set DeactivationDateMin
+func (_options *ListManagedKeysFromKeystoreOptions) SetDeactivationDateMin(deactivationDateMin string) *ListManagedKeysFromKeystoreOptions {
+	_options.DeactivationDateMin = core.StringPtr(deactivationDateMin)
+	return _options
+}
+
+// SetDeactivationDateMax : Allow user to set DeactivationDateMax
+func (_options *ListManagedKeysFromKeystoreOptions) SetDeactivationDateMax(deactivationDateMax string) *ListManagedKeysFromKeystoreOptions {
+	_options.DeactivationDateMax = core.StringPtr(deactivationDateMax)
+	return _options
+}
+
+// SetCreatedAt : Allow user to set CreatedAt
+func (_options *ListManagedKeysFromKeystoreOptions) SetCreatedAt(createdAt string) *ListManagedKeysFromKeystoreOptions {
+	_options.CreatedAt = core.StringPtr(createdAt)
+	return _options
+}
+
+// SetCreatedAtMin : Allow user to set CreatedAtMin
+func (_options *ListManagedKeysFromKeystoreOptions) SetCreatedAtMin(createdAtMin string) *ListManagedKeysFromKeystoreOptions {
+	_options.CreatedAtMin = core.StringPtr(createdAtMin)
+	return _options
+}
+
+// SetCreatedAtMax : Allow user to set CreatedAtMax
+func (_options *ListManagedKeysFromKeystoreOptions) SetCreatedAtMax(createdAtMax string) *ListManagedKeysFromKeystoreOptions {
+	_options.CreatedAtMax = core.StringPtr(createdAtMax)
+	return _options
+}
+
+// SetUpdatedAt : Allow user to set UpdatedAt
+func (_options *ListManagedKeysFromKeystoreOptions) SetUpdatedAt(updatedAt string) *ListManagedKeysFromKeystoreOptions {
+	_options.UpdatedAt = core.StringPtr(updatedAt)
+	return _options
+}
+
+// SetUpdatedAtMin : Allow user to set UpdatedAtMin
+func (_options *ListManagedKeysFromKeystoreOptions) SetUpdatedAtMin(updatedAtMin string) *ListManagedKeysFromKeystoreOptions {
+	_options.UpdatedAtMin = core.StringPtr(updatedAtMin)
+	return _options
+}
+
+// SetUpdatedAtMax : Allow user to set UpdatedAtMax
+func (_options *ListManagedKeysFromKeystoreOptions) SetUpdatedAtMax(updatedAtMax string) *ListManagedKeysFromKeystoreOptions {
+	_options.UpdatedAtMax = core.StringPtr(updatedAtMax)
+	return _options
+}
+
+// SetSize : Allow user to set Size
+func (_options *ListManagedKeysFromKeystoreOptions) SetSize(size int64) *ListManagedKeysFromKeystoreOptions {
+	_options.Size = core.Int64Ptr(size)
+	return _options
+}
+
+// SetSizeMin : Allow user to set SizeMin
+func (_options *ListManagedKeysFromKeystoreOptions) SetSizeMin(sizeMin int64) *ListManagedKeysFromKeystoreOptions {
+	_options.SizeMin = core.Int64Ptr(sizeMin)
+	return _options
+}
+
+// SetSizeMax : Allow user to set SizeMax
+func (_options *ListManagedKeysFromKeystoreOptions) SetSizeMax(sizeMax int64) *ListManagedKeysFromKeystoreOptions {
+	_options.SizeMax = core.Int64Ptr(sizeMax)
+	return _options
+}
+
 // SetHeaders : Allow user to set Headers
 func (options *ListManagedKeysFromKeystoreOptions) SetHeaders(param map[string]string) *ListManagedKeysFromKeystoreOptions {
 	options.Headers = param
@@ -2971,13 +3616,13 @@ func (options *ListManagedKeysFromKeystoreOptions) SetHeaders(param map[string]s
 // ListManagedKeysOptions : The ListManagedKeys options.
 type ListManagedKeysOptions struct {
 	// The UUID of the Vault.
-	VaultID *string `json:"vault.id,omitempty"`
+	VaultID []string `json:"vault.id,omitempty"`
 
 	// The algorithm of a returned keys.
-	Algorithm *string `json:"algorithm,omitempty"`
+	Algorithm []string `json:"algorithm,omitempty"`
 
 	// The state that returned keys are to be in.
-	State *string `json:"state,omitempty"`
+	State []string `json:"state,omitempty"`
 
 	// The number of resources to retrieve.
 	Limit *int64 `json:"limit,omitempty"`
@@ -2985,24 +3630,108 @@ type ListManagedKeysOptions struct {
 	// The number of resources to skip.
 	Offset *int64 `json:"offset,omitempty"`
 
+	// Define sorting order.
+	Sort []string `json:"sort,omitempty"`
+
+	// The label of the key.
+	Label *string `json:"label,omitempty"`
+
+	// Return only managed keys whose activation_date matches the parameter.
+	ActivationDate *string `json:"activation_date,omitempty"`
+
+	// Return only managed keys whose activation_date is at or after the parameter value. This query parameter cannot be
+	// used in conjunction with the 'activation_date' query parameter.
+	ActivationDateMin *string `json:"activation_date_min,omitempty"`
+
+	// Return only managed keys whose activation_date is at or before the parameter value. This query parameter cannot be
+	// used in conjunction with the 'activation_date' query parameter.
+	ActivationDateMax *string `json:"activation_date_max,omitempty"`
+
+	// Return only managed keys whose deactivation_date matches the parameter.
+	DeactivationDate *string `json:"deactivation_date,omitempty"`
+
+	// Return only managed keys whose deactivation_date is at or after the parameter value. This query parameter cannot be
+	// used in conjunction with the 'deactivation_date' query parameter.
+	DeactivationDateMin *string `json:"deactivation_date_min,omitempty"`
+
+	// Return only managed keys whose deactivation_date is at or before the parameter value. This query parameter cannot be
+	// used in conjunction with the 'deactivation_date' query parameter.
+	DeactivationDateMax *string `json:"deactivation_date_max,omitempty"`
+
+	// Return only managed keys whose created_at matches the parameter.
+	CreatedAt *string `json:"created_at,omitempty"`
+
+	// Return only managed keys whose created_at is at or after the parameter value. This query parameter cannot be used in
+	// conjunction with the 'created_at' query parameter.
+	CreatedAtMin *string `json:"created_at_min,omitempty"`
+
+	// Return only managed keys whose created_at is at or before the parameter value. This query parameter cannot be used
+	// in conjunction with the 'created_at' query parameter.
+	CreatedAtMax *string `json:"created_at_max,omitempty"`
+
+	// Return only managed keys whose updated_at matches the parameter.
+	UpdatedAt *string `json:"updated_at,omitempty"`
+
+	// Return only managed keys whose updated_at is after the parameter value. This query parameter cannot be used in
+	// conjunction with the 'updated_at' query parameter.
+	UpdatedAtMin *string `json:"updated_at_min,omitempty"`
+
+	// Return only managed keys whose updated_at is before the parameter value. This query parameter cannot be used in
+	// conjunction with the 'updated_at' query parameter.
+	UpdatedAtMax *string `json:"updated_at_max,omitempty"`
+
+	// The size of the key.
+	Size *int64 `json:"size,omitempty"`
+
+	// The minimum size of the key. This query parameter cannot be used in conjunction with the 'size' query parameter.
+	SizeMin *int64 `json:"size_min,omitempty"`
+
+	// The maximum size of the key. This query parameter cannot be used in conjunction with the 'size' query parameter.
+	SizeMax *int64 `json:"size_max,omitempty"`
+
+	// Type of referenced keystore.
+	ReferencedKeystoresType []string `json:"referenced_keystores[].type,omitempty"`
+
+	// Name of referenced keystore.
+	ReferencedKeystoresName []string `json:"referenced_keystores[].name,omitempty"`
+
+	// Type of keystore supported by one of the instances.
+	InstancesKeystoreType []string `json:"instances[].keystore.type,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
 // Constants associated with the ListManagedKeysOptions.Algorithm property.
-// The algorithm of a returned keys.
+// The algorithm of the key.
 const (
 	ListManagedKeysOptions_Algorithm_Aes = "aes"
 	ListManagedKeysOptions_Algorithm_Rsa = "rsa"
 )
 
 // Constants associated with the ListManagedKeysOptions.State property.
-// The state that returned keys are to be in.
+// The state of the key.
 const (
 	ListManagedKeysOptions_State_Active = "active"
 	ListManagedKeysOptions_State_Deactivated = "deactivated"
 	ListManagedKeysOptions_State_Destroyed = "destroyed"
 	ListManagedKeysOptions_State_PreActivation = "pre_activation"
+)
+
+// Constants associated with the ListManagedKeysOptions.ReferencedKeystoresType property.
+// Type of keystore.
+const (
+	ListManagedKeysOptions_ReferencedKeystoresType_AwsKms = "aws_kms"
+	ListManagedKeysOptions_ReferencedKeystoresType_AzureKeyVault = "azure_key_vault"
+	ListManagedKeysOptions_ReferencedKeystoresType_IbmCloudKms = "ibm_cloud_kms"
+)
+
+// Constants associated with the ListManagedKeysOptions.InstancesKeystoreType property.
+// Type of keystore.
+const (
+	ListManagedKeysOptions_InstancesKeystoreType_AwsKms = "aws_kms"
+	ListManagedKeysOptions_InstancesKeystoreType_AzureKeyVault = "azure_key_vault"
+	ListManagedKeysOptions_InstancesKeystoreType_IbmCloudKms = "ibm_cloud_kms"
 )
 
 // NewListManagedKeysOptions : Instantiate ListManagedKeysOptions
@@ -3011,20 +3740,20 @@ func (*UkoV4) NewListManagedKeysOptions() *ListManagedKeysOptions {
 }
 
 // SetVaultID : Allow user to set VaultID
-func (_options *ListManagedKeysOptions) SetVaultID(vaultID string) *ListManagedKeysOptions {
-	_options.VaultID = core.StringPtr(vaultID)
+func (_options *ListManagedKeysOptions) SetVaultID(vaultID []string) *ListManagedKeysOptions {
+	_options.VaultID = vaultID
 	return _options
 }
 
 // SetAlgorithm : Allow user to set Algorithm
-func (_options *ListManagedKeysOptions) SetAlgorithm(algorithm string) *ListManagedKeysOptions {
-	_options.Algorithm = core.StringPtr(algorithm)
+func (_options *ListManagedKeysOptions) SetAlgorithm(algorithm []string) *ListManagedKeysOptions {
+	_options.Algorithm = algorithm
 	return _options
 }
 
 // SetState : Allow user to set State
-func (_options *ListManagedKeysOptions) SetState(state string) *ListManagedKeysOptions {
-	_options.State = core.StringPtr(state)
+func (_options *ListManagedKeysOptions) SetState(state []string) *ListManagedKeysOptions {
+	_options.State = state
 	return _options
 }
 
@@ -3037,6 +3766,126 @@ func (_options *ListManagedKeysOptions) SetLimit(limit int64) *ListManagedKeysOp
 // SetOffset : Allow user to set Offset
 func (_options *ListManagedKeysOptions) SetOffset(offset int64) *ListManagedKeysOptions {
 	_options.Offset = core.Int64Ptr(offset)
+	return _options
+}
+
+// SetSort : Allow user to set Sort
+func (_options *ListManagedKeysOptions) SetSort(sort []string) *ListManagedKeysOptions {
+	_options.Sort = sort
+	return _options
+}
+
+// SetLabel : Allow user to set Label
+func (_options *ListManagedKeysOptions) SetLabel(label string) *ListManagedKeysOptions {
+	_options.Label = core.StringPtr(label)
+	return _options
+}
+
+// SetActivationDate : Allow user to set ActivationDate
+func (_options *ListManagedKeysOptions) SetActivationDate(activationDate string) *ListManagedKeysOptions {
+	_options.ActivationDate = core.StringPtr(activationDate)
+	return _options
+}
+
+// SetActivationDateMin : Allow user to set ActivationDateMin
+func (_options *ListManagedKeysOptions) SetActivationDateMin(activationDateMin string) *ListManagedKeysOptions {
+	_options.ActivationDateMin = core.StringPtr(activationDateMin)
+	return _options
+}
+
+// SetActivationDateMax : Allow user to set ActivationDateMax
+func (_options *ListManagedKeysOptions) SetActivationDateMax(activationDateMax string) *ListManagedKeysOptions {
+	_options.ActivationDateMax = core.StringPtr(activationDateMax)
+	return _options
+}
+
+// SetDeactivationDate : Allow user to set DeactivationDate
+func (_options *ListManagedKeysOptions) SetDeactivationDate(deactivationDate string) *ListManagedKeysOptions {
+	_options.DeactivationDate = core.StringPtr(deactivationDate)
+	return _options
+}
+
+// SetDeactivationDateMin : Allow user to set DeactivationDateMin
+func (_options *ListManagedKeysOptions) SetDeactivationDateMin(deactivationDateMin string) *ListManagedKeysOptions {
+	_options.DeactivationDateMin = core.StringPtr(deactivationDateMin)
+	return _options
+}
+
+// SetDeactivationDateMax : Allow user to set DeactivationDateMax
+func (_options *ListManagedKeysOptions) SetDeactivationDateMax(deactivationDateMax string) *ListManagedKeysOptions {
+	_options.DeactivationDateMax = core.StringPtr(deactivationDateMax)
+	return _options
+}
+
+// SetCreatedAt : Allow user to set CreatedAt
+func (_options *ListManagedKeysOptions) SetCreatedAt(createdAt string) *ListManagedKeysOptions {
+	_options.CreatedAt = core.StringPtr(createdAt)
+	return _options
+}
+
+// SetCreatedAtMin : Allow user to set CreatedAtMin
+func (_options *ListManagedKeysOptions) SetCreatedAtMin(createdAtMin string) *ListManagedKeysOptions {
+	_options.CreatedAtMin = core.StringPtr(createdAtMin)
+	return _options
+}
+
+// SetCreatedAtMax : Allow user to set CreatedAtMax
+func (_options *ListManagedKeysOptions) SetCreatedAtMax(createdAtMax string) *ListManagedKeysOptions {
+	_options.CreatedAtMax = core.StringPtr(createdAtMax)
+	return _options
+}
+
+// SetUpdatedAt : Allow user to set UpdatedAt
+func (_options *ListManagedKeysOptions) SetUpdatedAt(updatedAt string) *ListManagedKeysOptions {
+	_options.UpdatedAt = core.StringPtr(updatedAt)
+	return _options
+}
+
+// SetUpdatedAtMin : Allow user to set UpdatedAtMin
+func (_options *ListManagedKeysOptions) SetUpdatedAtMin(updatedAtMin string) *ListManagedKeysOptions {
+	_options.UpdatedAtMin = core.StringPtr(updatedAtMin)
+	return _options
+}
+
+// SetUpdatedAtMax : Allow user to set UpdatedAtMax
+func (_options *ListManagedKeysOptions) SetUpdatedAtMax(updatedAtMax string) *ListManagedKeysOptions {
+	_options.UpdatedAtMax = core.StringPtr(updatedAtMax)
+	return _options
+}
+
+// SetSize : Allow user to set Size
+func (_options *ListManagedKeysOptions) SetSize(size int64) *ListManagedKeysOptions {
+	_options.Size = core.Int64Ptr(size)
+	return _options
+}
+
+// SetSizeMin : Allow user to set SizeMin
+func (_options *ListManagedKeysOptions) SetSizeMin(sizeMin int64) *ListManagedKeysOptions {
+	_options.SizeMin = core.Int64Ptr(sizeMin)
+	return _options
+}
+
+// SetSizeMax : Allow user to set SizeMax
+func (_options *ListManagedKeysOptions) SetSizeMax(sizeMax int64) *ListManagedKeysOptions {
+	_options.SizeMax = core.Int64Ptr(sizeMax)
+	return _options
+}
+
+// SetReferencedKeystoresType : Allow user to set ReferencedKeystoresType
+func (_options *ListManagedKeysOptions) SetReferencedKeystoresType(referencedKeystoresType []string) *ListManagedKeysOptions {
+	_options.ReferencedKeystoresType = referencedKeystoresType
+	return _options
+}
+
+// SetReferencedKeystoresName : Allow user to set ReferencedKeystoresName
+func (_options *ListManagedKeysOptions) SetReferencedKeystoresName(referencedKeystoresName []string) *ListManagedKeysOptions {
+	_options.ReferencedKeystoresName = referencedKeystoresName
+	return _options
+}
+
+// SetInstancesKeystoreType : Allow user to set InstancesKeystoreType
+func (_options *ListManagedKeysOptions) SetInstancesKeystoreType(instancesKeystoreType []string) *ListManagedKeysOptions {
+	_options.InstancesKeystoreType = instancesKeystoreType
 	return _options
 }
 
@@ -3053,6 +3902,15 @@ type ListVaultsOptions struct {
 
 	// The number of resources to skip.
 	Offset *int64 `json:"offset,omitempty"`
+
+	// Define sorting order.
+	Sort []string `json:"sort,omitempty"`
+
+	// Return only vaults whose names begin with the string.
+	Name *string `json:"name,omitempty"`
+
+	// Return only vaults whose description contains the string.
+	Description *string `json:"description,omitempty"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3072,6 +3930,24 @@ func (_options *ListVaultsOptions) SetLimit(limit int64) *ListVaultsOptions {
 // SetOffset : Allow user to set Offset
 func (_options *ListVaultsOptions) SetOffset(offset int64) *ListVaultsOptions {
 	_options.Offset = core.Int64Ptr(offset)
+	return _options
+}
+
+// SetSort : Allow user to set Sort
+func (_options *ListVaultsOptions) SetSort(sort []string) *ListVaultsOptions {
+	_options.Sort = sort
+	return _options
+}
+
+// SetName : Allow user to set Name
+func (_options *ListVaultsOptions) SetName(name string) *ListVaultsOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
+}
+
+// SetDescription : Allow user to set Description
+func (_options *ListVaultsOptions) SetDescription(description string) *ListVaultsOptions {
+	_options.Description = core.StringPtr(description)
 	return _options
 }
 
@@ -3441,6 +4317,156 @@ func UnmarshalApiError(m map[string]json.RawMessage, result interface{}) (err er
 	return
 }
 
+// AssociatedResource : Associated resource is any object or entity that is using or referencing a Managed Key in any cloud.
+type AssociatedResource struct {
+	// An identifier uniquely identifing this associated resource.
+	ID *string `json:"id" validate:"required"`
+
+	// Reference to a vault.
+	Vault *VaultReference `json:"vault,omitempty"`
+
+	// Reference to a managed key.
+	ManagedKey *ManagedKeyReference `json:"managed_key,omitempty"`
+
+	// Reference to a target keystore.
+	ReferencedKeystore *TargetKeystoreReference `json:"referenced_keystore,omitempty"`
+
+	// ID of the key in this keystore. Every keystore may use different format such as: UUID, GUID, CRN, URI.
+	KeyIdInKeystore *string `json:"key_id_in_keystore" validate:"required"`
+
+	// Name of the associated resource.
+	Name *string `json:"name" validate:"required"`
+
+	// Type of the associated resource, in reverse domain name notation. Currently only 'com_ibm_cloud_kms_registration' is
+	// supported.
+	Type *string `json:"type" validate:"required"`
+
+	// Properties of an associated resource of type IBM Cloud KMS Registration; com_ibm_cloud_kms_registration.
+	ComIbmCloudKmsRegistration *IbmCloudKmsRegistration `json:"com_ibm_cloud_kms_registration,omitempty"`
+}
+
+// UnmarshalAssociatedResource unmarshals an instance of AssociatedResource from the specified map of raw messages.
+func UnmarshalAssociatedResource(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(AssociatedResource)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "vault", &obj.Vault, UnmarshalVaultReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "managed_key", &obj.ManagedKey, UnmarshalManagedKeyReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "referenced_keystore", &obj.ReferencedKeystore, UnmarshalTargetKeystoreReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "key_id_in_keystore", &obj.KeyIdInKeystore)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "com_ibm_cloud_kms_registration", &obj.ComIbmCloudKmsRegistration, UnmarshalIbmCloudKmsRegistration)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AssociatedResourceList : The base schema for listing associated resources.
+type AssociatedResourceList struct {
+	// The total count of all objects in the entire collection.
+	TotalCount *int64 `json:"total_count" validate:"required"`
+
+	// The number of resources that were requested in this query.
+	Limit *int64 `json:"limit" validate:"required"`
+
+	// The number of resources that were skipped in this query.
+	Offset *int64 `json:"offset" validate:"required"`
+
+	// URL of a resource.
+	First *HrefObject `json:"first,omitempty"`
+
+	// URL of a resource.
+	Last *HrefObject `json:"last,omitempty"`
+
+	// URL of a resource.
+	Previous *HrefObject `json:"previous,omitempty"`
+
+	// URL of a resource.
+	Next *HrefObject `json:"next,omitempty"`
+
+	// A list of target keystores.
+	AssociatedResources []AssociatedResource `json:"associated_resources" validate:"required"`
+}
+
+// UnmarshalAssociatedResourceList unmarshals an instance of AssociatedResourceList from the specified map of raw messages.
+func UnmarshalAssociatedResourceList(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(AssociatedResourceList)
+	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "offset", &obj.Offset)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalHrefObject)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "last", &obj.Last, UnmarshalHrefObject)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "previous", &obj.Previous, UnmarshalHrefObject)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "next", &obj.Next, UnmarshalHrefObject)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "associated_resources", &obj.AssociatedResources, UnmarshalAssociatedResource)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// Retrieve the value to be passed to a request to access the next page of results
+func (resp *AssociatedResourceList) GetNextOffset() (*int64, error) {
+	if core.IsNil(resp.Next) {
+		return nil, nil
+	}
+	offset, err := core.GetQueryParam(resp.Next.Href, "offset")
+	if err != nil || offset == nil {
+		return nil, err
+	}
+	var offsetValue int64
+	offsetValue, err = strconv.ParseInt(*offset, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+	return core.Int64Ptr(offsetValue), nil
+}
+
 // ErrorModel : error model.
 type ErrorModel struct {
 	// Identifier of the error.
@@ -3498,6 +4524,54 @@ type HrefObject struct {
 func UnmarshalHrefObject(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(HrefObject)
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// IbmCloudKmsRegistration : Properties of an associated resource of type IBM Cloud KMS Registration; com_ibm_cloud_kms_registration.
+type IbmCloudKmsRegistration struct {
+	// A boolean that determines whether Key Protect must prevent deletion of a root key.
+	PreventsKeyDeletion *bool `json:"prevents_key_deletion" validate:"required"`
+
+	// Name of the IBM Cloud service, derived from the CRN. It will be empty if UKO is unable to contact the resource
+	// controller.
+	ServiceName *string `json:"service_name" validate:"required"`
+
+	// Name of the IBM Cloud service's instance, derived from the CRN. It will be empty if UKO is unable to contact the
+	// resource controller.
+	ServiceInstanceName *string `json:"service_instance_name" validate:"required"`
+
+	// The Cloud Resource Name (CRN) that represents the cloud resource, such as a Cloud Object Storage bucket, that is
+	// associated with the key.
+	Crn *string `json:"crn" validate:"required"`
+
+	// Description of the purpose of the registration.
+	Description *string `json:"description" validate:"required"`
+}
+
+// UnmarshalIbmCloudKmsRegistration unmarshals an instance of IbmCloudKmsRegistration from the specified map of raw messages.
+func UnmarshalIbmCloudKmsRegistration(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(IbmCloudKmsRegistration)
+	err = core.UnmarshalPrimitive(m, "prevents_key_deletion", &obj.PreventsKeyDeletion)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "service_name", &obj.ServiceName)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "service_instance_name", &obj.ServiceInstanceName)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crn", &obj.Crn)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
 		return
 	}
@@ -3741,6 +4815,9 @@ type Keystore struct {
 	// Name of the target keystore. It can be changed in the future.
 	Name *string `json:"name,omitempty"`
 
+	// Geographic location of the keystore, if available.
+	Location *string `json:"location,omitempty"`
+
 	// Description of the keystore.
 	Description *string `json:"description,omitempty"`
 
@@ -3944,6 +5021,10 @@ func UnmarshalKeystore(m map[string]json.RawMessage, result interface{}) (err er
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
 	if err != nil {
 		return
 	}
@@ -4702,10 +5783,10 @@ type ManagedKey struct {
 	ID *string `json:"id,omitempty"`
 
 	// Reference to a vault.
-	Vault *VaultReference `json:"vault" validate:"required"`
+	Vault *VaultReference `json:"vault,omitempty"`
 
 	// Reference to a key template.
-	Template *TemplateReference `json:"template" validate:"required"`
+	Template *TemplateReference `json:"template,omitempty"`
 
 	// Description of the managed key.
 	Description *string `json:"description,omitempty"`
@@ -4938,16 +6019,56 @@ func (resp *ManagedKeyList) GetNextOffset() (*int64, error) {
 	return core.Int64Ptr(offsetValue), nil
 }
 
+// ManagedKeyReference : Reference to a managed key.
+type ManagedKeyReference struct {
+	// The v4 UUID used to uniquely identify the resource, as specified by RFC 4122.
+	ID *string `json:"id,omitempty"`
+
+	// The label of the key.
+	Label *string `json:"label" validate:"required"`
+
+	// A URL that uniquely identifies your cloud resource.
+	Href *string `json:"href,omitempty"`
+}
+
+// UnmarshalManagedKeyReference unmarshals an instance of ManagedKeyReference from the specified map of raw messages.
+func UnmarshalManagedKeyReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ManagedKeyReference)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "label", &obj.Label)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // StatusInKeystore : Describes the status of a key in a single keystore.
 type StatusInKeystore struct {
 	// Reference to a target keystore.
-	Keystore *TargetKeystoreReference `json:"keystore" validate:"required"`
+	Keystore *TargetKeystoreReference `json:"keystore,omitempty"`
 
 	// Possible states of a key in keystore.  not_present: the key is not in the target keystore at all,  active: the key
 	// is in the target keystore, and can be used for its intended purpose not_active: the key is in the target keystore,
 	// but cannot be used for its intended purpose wrong_key: there is a key in the target keystore, but it doesn't have
 	// the value that is expected error: there was an error checking the status of the key in the target keystore.
 	Status *string `json:"status" validate:"required"`
+
+	// Flag to represent synchronization status between UKO Managed Key and Target Keystore. Possible status flags. ok:
+	// managed key state is the same as target keystore state, out_of_sync: managed key state is different than target
+	// keystore state.
+	KeystoreSyncFlag *string `json:"keystore_sync_flag" validate:"required"`
+
+	// Detailed description to represents every possible state combination or mismatch between UKO Managed Key and Target
+	// Keystore.
+	KeystoreSyncFlagDetail *string `json:"keystore_sync_flag_detail" validate:"required"`
 
 	// An error encountered while using the application.
 	Error *ApiError `json:"error,omitempty"`
@@ -4969,6 +6090,33 @@ const (
 	StatusInKeystore_Status_WrongKey = "wrong_key"
 )
 
+// Constants associated with the StatusInKeystore.KeystoreSyncFlag property.
+// Flag to represent synchronization status between UKO Managed Key and Target Keystore. Possible status flags. ok:
+// managed key state is the same as target keystore state, out_of_sync: managed key state is different than target
+// keystore state.
+const (
+	StatusInKeystore_KeystoreSyncFlag_Error = "error"
+	StatusInKeystore_KeystoreSyncFlag_Ok = "ok"
+	StatusInKeystore_KeystoreSyncFlag_OutOfSync = "out_of_sync"
+)
+
+// Constants associated with the StatusInKeystore.KeystoreSyncFlagDetail property.
+// Detailed description to represents every possible state combination or mismatch between UKO Managed Key and Target
+// Keystore.
+const (
+	StatusInKeystore_KeystoreSyncFlagDetail_ActiveKeyIsActiveInKeystore = "active_key_is_active_in_keystore"
+	StatusInKeystore_KeystoreSyncFlagDetail_ActiveKeyIsNotActiveInKeystore = "active_key_is_not_active_in_keystore"
+	StatusInKeystore_KeystoreSyncFlagDetail_ConnectionError = "connection_error"
+	StatusInKeystore_KeystoreSyncFlagDetail_DeactivatedKeyIsDeactivatedInKeystore = "deactivated_key_is_deactivated_in_keystore"
+	StatusInKeystore_KeystoreSyncFlagDetail_DeactivatedKeyIsNotDeactivatedInKeystore = "deactivated_key_is_not_deactivated_in_keystore"
+	StatusInKeystore_KeystoreSyncFlagDetail_DestroyedKeyIsNotPresentInKeystore = "destroyed_key_is_not_present_in_keystore"
+	StatusInKeystore_KeystoreSyncFlagDetail_DestroyedKeyIsPresentInKeystore = "destroyed_key_is_present_in_keystore"
+	StatusInKeystore_KeystoreSyncFlagDetail_PreActiveKeyIsNotPresentInKeystore = "pre_active_key_is_not_present_in_keystore"
+	StatusInKeystore_KeystoreSyncFlagDetail_PreActiveKeyIsPresentInKeystore = "pre_active_key_is_present_in_keystore"
+	StatusInKeystore_KeystoreSyncFlagDetail_TargetKeystoreRemovedByUser = "target_keystore_removed_by_user"
+	StatusInKeystore_KeystoreSyncFlagDetail_TargetKeystoreRemovedByUserContainsAnActiveKey = "target_keystore_removed_by_user_contains_an_active_key"
+)
+
 // UnmarshalStatusInKeystore unmarshals an instance of StatusInKeystore from the specified map of raw messages.
 func UnmarshalStatusInKeystore(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(StatusInKeystore)
@@ -4977,6 +6125,14 @@ func UnmarshalStatusInKeystore(m map[string]json.RawMessage, result interface{})
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "keystore_sync_flag", &obj.KeystoreSyncFlag)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "keystore_sync_flag_detail", &obj.KeystoreSyncFlagDetail)
 	if err != nil {
 		return
 	}
@@ -5116,7 +6272,7 @@ func UnmarshalTargetKeystoreReference(m map[string]json.RawMessage, result inter
 // Template : A template and all its properties.
 type Template struct {
 	// Reference to a vault.
-	Vault *VaultReference `json:"vault" validate:"required"`
+	Vault *VaultReference `json:"vault,omitempty"`
 
 	// The v4 UUID used to uniquely identify the resource, as specified by RFC 4122.
 	ID *string `json:"id,omitempty"`
@@ -5965,13 +7121,16 @@ func UnmarshalKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCrea
 // This model "extends" Keystore
 type KeystoreTypeAwsKms struct {
 	// Reference to a vault.
-	Vault *VaultReference `json:"vault" validate:"required"`
+	Vault *VaultReference `json:"vault,omitempty"`
 
 	// The v4 UUID used to uniquely identify the resource, as specified by RFC 4122.
 	ID *string `json:"id,omitempty"`
 
 	// Name of the target keystore. It can be changed in the future.
 	Name *string `json:"name" validate:"required"`
+
+	// Geographic location of the keystore, if available.
+	Location *string `json:"location" validate:"required"`
 
 	// Description of the keystore.
 	Description *string `json:"description" validate:"required"`
@@ -6068,6 +7227,10 @@ func UnmarshalKeystoreTypeAwsKms(m map[string]json.RawMessage, result interface{
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
 		return
@@ -6120,13 +7283,16 @@ func UnmarshalKeystoreTypeAwsKms(m map[string]json.RawMessage, result interface{
 // This model "extends" Keystore
 type KeystoreTypeAzure struct {
 	// Reference to a vault.
-	Vault *VaultReference `json:"vault" validate:"required"`
+	Vault *VaultReference `json:"vault,omitempty"`
 
 	// The v4 UUID used to uniquely identify the resource, as specified by RFC 4122.
 	ID *string `json:"id,omitempty"`
 
 	// Name of the target keystore. It can be changed in the future.
 	Name *string `json:"name" validate:"required"`
+
+	// Geographic location of the keystore, if available.
+	Location *string `json:"location" validate:"required"`
 
 	// Description of the keystore.
 	Description *string `json:"description" validate:"required"`
@@ -6262,6 +7428,10 @@ func UnmarshalKeystoreTypeAzure(m map[string]json.RawMessage, result interface{}
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
 	if err != nil {
 		return
@@ -6334,13 +7504,16 @@ func UnmarshalKeystoreTypeAzure(m map[string]json.RawMessage, result interface{}
 // This model "extends" Keystore
 type KeystoreTypeIbmCloudKms struct {
 	// Reference to a vault.
-	Vault *VaultReference `json:"vault" validate:"required"`
+	Vault *VaultReference `json:"vault,omitempty"`
 
 	// The v4 UUID used to uniquely identify the resource, as specified by RFC 4122.
 	ID *string `json:"id,omitempty"`
 
 	// Name of the target keystore. It can be changed in the future.
 	Name *string `json:"name" validate:"required"`
+
+	// Geographic location of the keystore, if available.
+	Location *string `json:"location" validate:"required"`
 
 	// Description of the keystore.
 	Description *string `json:"description" validate:"required"`
@@ -6417,6 +7590,10 @@ func UnmarshalKeystoreTypeIbmCloudKms(m map[string]json.RawMessage, result inter
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
 	if err != nil {
 		return
 	}
@@ -6971,7 +8148,7 @@ func UnmarshalKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCrea
 // KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate : An internal keystore generation request describing all information necessary to generate an internal keystore. It
 // only require name.
 // Models which "extend" this model:
-// - KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate
+// - KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate
 // This model "extends" KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate
 type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate struct {
 	// Type of keystore.
@@ -7095,9 +8272,11 @@ func UnmarshalKeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdateKeystore
 	return
 }
 
-// KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate : Base of a keystore update.
+// KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate : KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate struct
+// Models which "extend" this model:
+// - KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate
 // This model "extends" KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate
-type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate struct {
+type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate struct {
 	// Type of keystore.
 	Type *string `json:"type" validate:"required"`
 
@@ -7116,48 +8295,45 @@ type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystor
 	Groups []string `json:"groups,omitempty"`
 }
 
-// Constants associated with the KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate.Type property.
+// Constants associated with the KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate.Type property.
 // Type of keystore.
 const (
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_AwsKms = "aws_kms"
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_IbmCloudKms = "ibm_cloud_kms"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate_Type_AwsKms = "aws_kms"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate_Type_AzureKeyVault = "azure_key_vault"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate_Type_IbmCloudKms = "ibm_cloud_kms"
 )
 
-// Constants associated with the KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate.IbmVariant property.
+// Constants associated with the KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate.IbmVariant property.
 // Possible IBM Cloud KMS variants.
 const (
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_IbmVariant_Hpcs = "hpcs"
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_IbmVariant_Internal = "internal"
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_IbmVariant_KeyProtect = "key_protect"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate_IbmVariant_Hpcs = "hpcs"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate_IbmVariant_Internal = "internal"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate_IbmVariant_KeyProtect = "key_protect"
 )
-
-// NewKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate : Instantiate KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate (Generic Model Constructor)
-func (*UkoV4) NewKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate(typeVar string, vault *VaultReferenceInCreationRequest, ibmVariant string) (_model *KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate, err error) {
-	_model = &KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate{
-		Type: core.StringPtr(typeVar),
-		Vault: vault,
-		IbmVariant: core.StringPtr(ibmVariant),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	return
-}
-
-func (*KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate) isaKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate() bool {
+func (*KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate) isaKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate() bool {
 	return true
 }
 
-func (*KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate) isaKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate() bool {
+type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateIntf interface {
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateIntf
+	isaKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate() bool
+}
+
+func (*KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate) isaKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate() bool {
 	return true
 }
 
-func (*KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate) isaKeystoreCreationRequest() bool {
+func (*KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate) isaKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate() bool {
 	return true
 }
 
-// UnmarshalKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate unmarshals an instance of KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate from the specified map of raw messages.
-func UnmarshalKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate)
+func (*KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate) isaKeystoreCreationRequest() bool {
+	return true
+}
+
+// UnmarshalKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate unmarshals an instance of KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate from the specified map of raw messages.
+func UnmarshalKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate)
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
 		return
@@ -7184,4 +8360,708 @@ func UnmarshalKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCrea
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
+}
+
+// KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate : Base of a keystore update.
+// This model "extends" KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate
+type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate struct {
+	// Type of keystore.
+	Type *string `json:"type" validate:"required"`
+
+	Vault *VaultReferenceInCreationRequest `json:"vault" validate:"required"`
+
+	// Possible IBM Cloud KMS variants.
+	IbmVariant *string `json:"ibm_variant" validate:"required"`
+
+	// Name of a target keystore.
+	Name *string `json:"name,omitempty"`
+
+	// Description of the keystore.
+	Description *string `json:"description,omitempty"`
+
+	// A list of groups that this keystore belongs to.
+	Groups []string `json:"groups,omitempty"`
+}
+
+// Constants associated with the KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate.Type property.
+// Type of keystore.
+const (
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_AwsKms = "aws_kms"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_AzureKeyVault = "azure_key_vault"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_IbmCloudKms = "ibm_cloud_kms"
+)
+
+// Constants associated with the KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate.IbmVariant property.
+// Possible IBM Cloud KMS variants.
+const (
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_IbmVariant_Hpcs = "hpcs"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_IbmVariant_Internal = "internal"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_IbmVariant_KeyProtect = "key_protect"
+)
+
+// NewKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate : Instantiate KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate (Generic Model Constructor)
+func (*UkoV4) NewKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate(typeVar string, vault *VaultReferenceInCreationRequest, ibmVariant string) (_model *KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate, err error) {
+	_model = &KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate{
+		Type: core.StringPtr(typeVar),
+		Vault: vault,
+		IbmVariant: core.StringPtr(ibmVariant),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate) isaKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate() bool {
+	return true
+}
+
+func (*KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate) isaKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate() bool {
+	return true
+}
+
+func (*KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate) isaKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate() bool {
+	return true
+}
+
+func (*KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate) isaKeystoreCreationRequest() bool {
+	return true
+}
+
+// UnmarshalKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate unmarshals an instance of KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate from the specified map of raw messages.
+func UnmarshalKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "vault", &obj.Vault, UnmarshalVaultReferenceInCreationRequest)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "ibm_variant", &obj.IbmVariant)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "groups", &obj.Groups)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+//
+// ManagedKeysPager can be used to simplify the use of the "ListManagedKeys" method.
+//
+type ManagedKeysPager struct {
+	hasNext bool
+	options *ListManagedKeysOptions
+	client  *UkoV4
+	pageContext struct {
+		next *int64
+	}
+}
+
+// NewManagedKeysPager returns a new ManagedKeysPager instance.
+func (uko *UkoV4) NewManagedKeysPager(options *ListManagedKeysOptions) (pager *ManagedKeysPager, err error) {
+	if options.Offset != nil && *options.Offset != 0 {
+		err = fmt.Errorf("the 'options.Offset' field should not be set")
+		return
+	}
+
+	var optionsCopy ListManagedKeysOptions = *options
+	pager = &ManagedKeysPager{
+		hasNext: true,
+		options: &optionsCopy,
+		client:  uko,
+	}
+	return
+}
+
+// HasNext returns true if there are potentially more results to be retrieved.
+func (pager *ManagedKeysPager) HasNext() bool {
+	return pager.hasNext
+}
+
+// GetNextWithContext returns the next page of results using the specified Context.
+func (pager *ManagedKeysPager) GetNextWithContext(ctx context.Context) (page []ManagedKey, err error) {
+	if !pager.HasNext() {
+		return nil, fmt.Errorf("no more results available")
+	}
+
+	pager.options.Offset = pager.pageContext.next
+
+	result, _, err := pager.client.ListManagedKeysWithContext(ctx, pager.options)
+	if err != nil {
+		return
+	}
+
+	var next *int64
+	if result.Next != nil {
+		var offset *int64
+		offset, err = core.GetQueryParamAsInt(result.Next.Href, "offset")
+		if err != nil {
+			err = fmt.Errorf("error retrieving 'offset' query parameter from URL '%s': %s", *result.Next.Href, err.Error())
+			return
+		}
+		next = offset
+	}
+	pager.pageContext.next = next
+	pager.hasNext = (pager.pageContext.next != nil)
+	page = result.ManagedKeys
+
+	return
+}
+
+// GetAllWithContext returns all results by invoking GetNextWithContext() repeatedly
+// until all pages of results have been retrieved.
+func (pager *ManagedKeysPager) GetAllWithContext(ctx context.Context) (allItems []ManagedKey, err error) {
+	for pager.HasNext() {
+		var nextPage []ManagedKey
+		nextPage, err = pager.GetNextWithContext(ctx)
+		if err != nil {
+			return
+		}
+		allItems = append(allItems, nextPage...)
+	}
+	return
+}
+
+// GetNext invokes GetNextWithContext() using context.Background() as the Context parameter.
+func (pager *ManagedKeysPager) GetNext() (page []ManagedKey, err error) {
+	return pager.GetNextWithContext(context.Background())
+}
+
+// GetAll invokes GetAllWithContext() using context.Background() as the Context parameter.
+func (pager *ManagedKeysPager) GetAll() (allItems []ManagedKey, err error) {
+	return pager.GetAllWithContext(context.Background())
+}
+
+//
+// AssociatedResourcesForManagedKeyPager can be used to simplify the use of the "ListAssociatedResourcesForManagedKey" method.
+//
+type AssociatedResourcesForManagedKeyPager struct {
+	hasNext bool
+	options *ListAssociatedResourcesForManagedKeyOptions
+	client  *UkoV4
+	pageContext struct {
+		next *int64
+	}
+}
+
+// NewAssociatedResourcesForManagedKeyPager returns a new AssociatedResourcesForManagedKeyPager instance.
+func (uko *UkoV4) NewAssociatedResourcesForManagedKeyPager(options *ListAssociatedResourcesForManagedKeyOptions) (pager *AssociatedResourcesForManagedKeyPager, err error) {
+	if options.Offset != nil && *options.Offset != 0 {
+		err = fmt.Errorf("the 'options.Offset' field should not be set")
+		return
+	}
+
+	var optionsCopy ListAssociatedResourcesForManagedKeyOptions = *options
+	pager = &AssociatedResourcesForManagedKeyPager{
+		hasNext: true,
+		options: &optionsCopy,
+		client:  uko,
+	}
+	return
+}
+
+// HasNext returns true if there are potentially more results to be retrieved.
+func (pager *AssociatedResourcesForManagedKeyPager) HasNext() bool {
+	return pager.hasNext
+}
+
+// GetNextWithContext returns the next page of results using the specified Context.
+func (pager *AssociatedResourcesForManagedKeyPager) GetNextWithContext(ctx context.Context) (page []AssociatedResource, err error) {
+	if !pager.HasNext() {
+		return nil, fmt.Errorf("no more results available")
+	}
+
+	pager.options.Offset = pager.pageContext.next
+
+	result, _, err := pager.client.ListAssociatedResourcesForManagedKeyWithContext(ctx, pager.options)
+	if err != nil {
+		return
+	}
+
+	var next *int64
+	if result.Next != nil {
+		var offset *int64
+		offset, err = core.GetQueryParamAsInt(result.Next.Href, "offset")
+		if err != nil {
+			err = fmt.Errorf("error retrieving 'offset' query parameter from URL '%s': %s", *result.Next.Href, err.Error())
+			return
+		}
+		next = offset
+	}
+	pager.pageContext.next = next
+	pager.hasNext = (pager.pageContext.next != nil)
+	page = result.AssociatedResources
+
+	return
+}
+
+// GetAllWithContext returns all results by invoking GetNextWithContext() repeatedly
+// until all pages of results have been retrieved.
+func (pager *AssociatedResourcesForManagedKeyPager) GetAllWithContext(ctx context.Context) (allItems []AssociatedResource, err error) {
+	for pager.HasNext() {
+		var nextPage []AssociatedResource
+		nextPage, err = pager.GetNextWithContext(ctx)
+		if err != nil {
+			return
+		}
+		allItems = append(allItems, nextPage...)
+	}
+	return
+}
+
+// GetNext invokes GetNextWithContext() using context.Background() as the Context parameter.
+func (pager *AssociatedResourcesForManagedKeyPager) GetNext() (page []AssociatedResource, err error) {
+	return pager.GetNextWithContext(context.Background())
+}
+
+// GetAll invokes GetAllWithContext() using context.Background() as the Context parameter.
+func (pager *AssociatedResourcesForManagedKeyPager) GetAll() (allItems []AssociatedResource, err error) {
+	return pager.GetAllWithContext(context.Background())
+}
+
+//
+// KeyTemplatesPager can be used to simplify the use of the "ListKeyTemplates" method.
+//
+type KeyTemplatesPager struct {
+	hasNext bool
+	options *ListKeyTemplatesOptions
+	client  *UkoV4
+	pageContext struct {
+		next *int64
+	}
+}
+
+// NewKeyTemplatesPager returns a new KeyTemplatesPager instance.
+func (uko *UkoV4) NewKeyTemplatesPager(options *ListKeyTemplatesOptions) (pager *KeyTemplatesPager, err error) {
+	if options.Offset != nil && *options.Offset != 0 {
+		err = fmt.Errorf("the 'options.Offset' field should not be set")
+		return
+	}
+
+	var optionsCopy ListKeyTemplatesOptions = *options
+	pager = &KeyTemplatesPager{
+		hasNext: true,
+		options: &optionsCopy,
+		client:  uko,
+	}
+	return
+}
+
+// HasNext returns true if there are potentially more results to be retrieved.
+func (pager *KeyTemplatesPager) HasNext() bool {
+	return pager.hasNext
+}
+
+// GetNextWithContext returns the next page of results using the specified Context.
+func (pager *KeyTemplatesPager) GetNextWithContext(ctx context.Context) (page []Template, err error) {
+	if !pager.HasNext() {
+		return nil, fmt.Errorf("no more results available")
+	}
+
+	pager.options.Offset = pager.pageContext.next
+
+	result, _, err := pager.client.ListKeyTemplatesWithContext(ctx, pager.options)
+	if err != nil {
+		return
+	}
+
+	var next *int64
+	if result.Next != nil {
+		var offset *int64
+		offset, err = core.GetQueryParamAsInt(result.Next.Href, "offset")
+		if err != nil {
+			err = fmt.Errorf("error retrieving 'offset' query parameter from URL '%s': %s", *result.Next.Href, err.Error())
+			return
+		}
+		next = offset
+	}
+	pager.pageContext.next = next
+	pager.hasNext = (pager.pageContext.next != nil)
+	page = result.Templates
+
+	return
+}
+
+// GetAllWithContext returns all results by invoking GetNextWithContext() repeatedly
+// until all pages of results have been retrieved.
+func (pager *KeyTemplatesPager) GetAllWithContext(ctx context.Context) (allItems []Template, err error) {
+	for pager.HasNext() {
+		var nextPage []Template
+		nextPage, err = pager.GetNextWithContext(ctx)
+		if err != nil {
+			return
+		}
+		allItems = append(allItems, nextPage...)
+	}
+	return
+}
+
+// GetNext invokes GetNextWithContext() using context.Background() as the Context parameter.
+func (pager *KeyTemplatesPager) GetNext() (page []Template, err error) {
+	return pager.GetNextWithContext(context.Background())
+}
+
+// GetAll invokes GetAllWithContext() using context.Background() as the Context parameter.
+func (pager *KeyTemplatesPager) GetAll() (allItems []Template, err error) {
+	return pager.GetAllWithContext(context.Background())
+}
+
+//
+// KeystoresPager can be used to simplify the use of the "ListKeystores" method.
+//
+type KeystoresPager struct {
+	hasNext bool
+	options *ListKeystoresOptions
+	client  *UkoV4
+	pageContext struct {
+		next *int64
+	}
+}
+
+// NewKeystoresPager returns a new KeystoresPager instance.
+func (uko *UkoV4) NewKeystoresPager(options *ListKeystoresOptions) (pager *KeystoresPager, err error) {
+	if options.Offset != nil && *options.Offset != 0 {
+		err = fmt.Errorf("the 'options.Offset' field should not be set")
+		return
+	}
+
+	var optionsCopy ListKeystoresOptions = *options
+	pager = &KeystoresPager{
+		hasNext: true,
+		options: &optionsCopy,
+		client:  uko,
+	}
+	return
+}
+
+// HasNext returns true if there are potentially more results to be retrieved.
+func (pager *KeystoresPager) HasNext() bool {
+	return pager.hasNext
+}
+
+// GetNextWithContext returns the next page of results using the specified Context.
+func (pager *KeystoresPager) GetNextWithContext(ctx context.Context) (page []KeystoreIntf, err error) {
+	if !pager.HasNext() {
+		return nil, fmt.Errorf("no more results available")
+	}
+
+	pager.options.Offset = pager.pageContext.next
+
+	result, _, err := pager.client.ListKeystoresWithContext(ctx, pager.options)
+	if err != nil {
+		return
+	}
+
+	var next *int64
+	if result.Next != nil {
+		var offset *int64
+		offset, err = core.GetQueryParamAsInt(result.Next.Href, "offset")
+		if err != nil {
+			err = fmt.Errorf("error retrieving 'offset' query parameter from URL '%s': %s", *result.Next.Href, err.Error())
+			return
+		}
+		next = offset
+	}
+	pager.pageContext.next = next
+	pager.hasNext = (pager.pageContext.next != nil)
+	page = result.Keystores
+
+	return
+}
+
+// GetAllWithContext returns all results by invoking GetNextWithContext() repeatedly
+// until all pages of results have been retrieved.
+func (pager *KeystoresPager) GetAllWithContext(ctx context.Context) (allItems []KeystoreIntf, err error) {
+	for pager.HasNext() {
+		var nextPage []KeystoreIntf
+		nextPage, err = pager.GetNextWithContext(ctx)
+		if err != nil {
+			return
+		}
+		allItems = append(allItems, nextPage...)
+	}
+	return
+}
+
+// GetNext invokes GetNextWithContext() using context.Background() as the Context parameter.
+func (pager *KeystoresPager) GetNext() (page []KeystoreIntf, err error) {
+	return pager.GetNextWithContext(context.Background())
+}
+
+// GetAll invokes GetAllWithContext() using context.Background() as the Context parameter.
+func (pager *KeystoresPager) GetAll() (allItems []KeystoreIntf, err error) {
+	return pager.GetAllWithContext(context.Background())
+}
+
+//
+// AssociatedResourcesForTargetKeystorePager can be used to simplify the use of the "ListAssociatedResourcesForTargetKeystore" method.
+//
+type AssociatedResourcesForTargetKeystorePager struct {
+	hasNext bool
+	options *ListAssociatedResourcesForTargetKeystoreOptions
+	client  *UkoV4
+	pageContext struct {
+		next *int64
+	}
+}
+
+// NewAssociatedResourcesForTargetKeystorePager returns a new AssociatedResourcesForTargetKeystorePager instance.
+func (uko *UkoV4) NewAssociatedResourcesForTargetKeystorePager(options *ListAssociatedResourcesForTargetKeystoreOptions) (pager *AssociatedResourcesForTargetKeystorePager, err error) {
+	if options.Offset != nil && *options.Offset != 0 {
+		err = fmt.Errorf("the 'options.Offset' field should not be set")
+		return
+	}
+
+	var optionsCopy ListAssociatedResourcesForTargetKeystoreOptions = *options
+	pager = &AssociatedResourcesForTargetKeystorePager{
+		hasNext: true,
+		options: &optionsCopy,
+		client:  uko,
+	}
+	return
+}
+
+// HasNext returns true if there are potentially more results to be retrieved.
+func (pager *AssociatedResourcesForTargetKeystorePager) HasNext() bool {
+	return pager.hasNext
+}
+
+// GetNextWithContext returns the next page of results using the specified Context.
+func (pager *AssociatedResourcesForTargetKeystorePager) GetNextWithContext(ctx context.Context) (page []AssociatedResource, err error) {
+	if !pager.HasNext() {
+		return nil, fmt.Errorf("no more results available")
+	}
+
+	pager.options.Offset = pager.pageContext.next
+
+	result, _, err := pager.client.ListAssociatedResourcesForTargetKeystoreWithContext(ctx, pager.options)
+	if err != nil {
+		return
+	}
+
+	var next *int64
+	if result.Next != nil {
+		var offset *int64
+		offset, err = core.GetQueryParamAsInt(result.Next.Href, "offset")
+		if err != nil {
+			err = fmt.Errorf("error retrieving 'offset' query parameter from URL '%s': %s", *result.Next.Href, err.Error())
+			return
+		}
+		next = offset
+	}
+	pager.pageContext.next = next
+	pager.hasNext = (pager.pageContext.next != nil)
+	page = result.AssociatedResources
+
+	return
+}
+
+// GetAllWithContext returns all results by invoking GetNextWithContext() repeatedly
+// until all pages of results have been retrieved.
+func (pager *AssociatedResourcesForTargetKeystorePager) GetAllWithContext(ctx context.Context) (allItems []AssociatedResource, err error) {
+	for pager.HasNext() {
+		var nextPage []AssociatedResource
+		nextPage, err = pager.GetNextWithContext(ctx)
+		if err != nil {
+			return
+		}
+		allItems = append(allItems, nextPage...)
+	}
+	return
+}
+
+// GetNext invokes GetNextWithContext() using context.Background() as the Context parameter.
+func (pager *AssociatedResourcesForTargetKeystorePager) GetNext() (page []AssociatedResource, err error) {
+	return pager.GetNextWithContext(context.Background())
+}
+
+// GetAll invokes GetAllWithContext() using context.Background() as the Context parameter.
+func (pager *AssociatedResourcesForTargetKeystorePager) GetAll() (allItems []AssociatedResource, err error) {
+	return pager.GetAllWithContext(context.Background())
+}
+
+//
+// ManagedKeysFromKeystorePager can be used to simplify the use of the "ListManagedKeysFromKeystore" method.
+//
+type ManagedKeysFromKeystorePager struct {
+	hasNext bool
+	options *ListManagedKeysFromKeystoreOptions
+	client  *UkoV4
+	pageContext struct {
+		next *int64
+	}
+}
+
+// NewManagedKeysFromKeystorePager returns a new ManagedKeysFromKeystorePager instance.
+func (uko *UkoV4) NewManagedKeysFromKeystorePager(options *ListManagedKeysFromKeystoreOptions) (pager *ManagedKeysFromKeystorePager, err error) {
+	if options.Offset != nil && *options.Offset != 0 {
+		err = fmt.Errorf("the 'options.Offset' field should not be set")
+		return
+	}
+
+	var optionsCopy ListManagedKeysFromKeystoreOptions = *options
+	pager = &ManagedKeysFromKeystorePager{
+		hasNext: true,
+		options: &optionsCopy,
+		client:  uko,
+	}
+	return
+}
+
+// HasNext returns true if there are potentially more results to be retrieved.
+func (pager *ManagedKeysFromKeystorePager) HasNext() bool {
+	return pager.hasNext
+}
+
+// GetNextWithContext returns the next page of results using the specified Context.
+func (pager *ManagedKeysFromKeystorePager) GetNextWithContext(ctx context.Context) (page []ManagedKey, err error) {
+	if !pager.HasNext() {
+		return nil, fmt.Errorf("no more results available")
+	}
+
+	pager.options.Offset = pager.pageContext.next
+
+	result, _, err := pager.client.ListManagedKeysFromKeystoreWithContext(ctx, pager.options)
+	if err != nil {
+		return
+	}
+
+	var next *int64
+	if result.Next != nil {
+		var offset *int64
+		offset, err = core.GetQueryParamAsInt(result.Next.Href, "offset")
+		if err != nil {
+			err = fmt.Errorf("error retrieving 'offset' query parameter from URL '%s': %s", *result.Next.Href, err.Error())
+			return
+		}
+		next = offset
+	}
+	pager.pageContext.next = next
+	pager.hasNext = (pager.pageContext.next != nil)
+	page = result.ManagedKeys
+
+	return
+}
+
+// GetAllWithContext returns all results by invoking GetNextWithContext() repeatedly
+// until all pages of results have been retrieved.
+func (pager *ManagedKeysFromKeystorePager) GetAllWithContext(ctx context.Context) (allItems []ManagedKey, err error) {
+	for pager.HasNext() {
+		var nextPage []ManagedKey
+		nextPage, err = pager.GetNextWithContext(ctx)
+		if err != nil {
+			return
+		}
+		allItems = append(allItems, nextPage...)
+	}
+	return
+}
+
+// GetNext invokes GetNextWithContext() using context.Background() as the Context parameter.
+func (pager *ManagedKeysFromKeystorePager) GetNext() (page []ManagedKey, err error) {
+	return pager.GetNextWithContext(context.Background())
+}
+
+// GetAll invokes GetAllWithContext() using context.Background() as the Context parameter.
+func (pager *ManagedKeysFromKeystorePager) GetAll() (allItems []ManagedKey, err error) {
+	return pager.GetAllWithContext(context.Background())
+}
+
+//
+// VaultsPager can be used to simplify the use of the "ListVaults" method.
+//
+type VaultsPager struct {
+	hasNext bool
+	options *ListVaultsOptions
+	client  *UkoV4
+	pageContext struct {
+		next *int64
+	}
+}
+
+// NewVaultsPager returns a new VaultsPager instance.
+func (uko *UkoV4) NewVaultsPager(options *ListVaultsOptions) (pager *VaultsPager, err error) {
+	if options.Offset != nil && *options.Offset != 0 {
+		err = fmt.Errorf("the 'options.Offset' field should not be set")
+		return
+	}
+
+	var optionsCopy ListVaultsOptions = *options
+	pager = &VaultsPager{
+		hasNext: true,
+		options: &optionsCopy,
+		client:  uko,
+	}
+	return
+}
+
+// HasNext returns true if there are potentially more results to be retrieved.
+func (pager *VaultsPager) HasNext() bool {
+	return pager.hasNext
+}
+
+// GetNextWithContext returns the next page of results using the specified Context.
+func (pager *VaultsPager) GetNextWithContext(ctx context.Context) (page []Vault, err error) {
+	if !pager.HasNext() {
+		return nil, fmt.Errorf("no more results available")
+	}
+
+	pager.options.Offset = pager.pageContext.next
+
+	result, _, err := pager.client.ListVaultsWithContext(ctx, pager.options)
+	if err != nil {
+		return
+	}
+
+	var next *int64
+	if result.Next != nil {
+		var offset *int64
+		offset, err = core.GetQueryParamAsInt(result.Next.Href, "offset")
+		if err != nil {
+			err = fmt.Errorf("error retrieving 'offset' query parameter from URL '%s': %s", *result.Next.Href, err.Error())
+			return
+		}
+		next = offset
+	}
+	pager.pageContext.next = next
+	pager.hasNext = (pager.pageContext.next != nil)
+	page = result.Vaults
+
+	return
+}
+
+// GetAllWithContext returns all results by invoking GetNextWithContext() repeatedly
+// until all pages of results have been retrieved.
+func (pager *VaultsPager) GetAllWithContext(ctx context.Context) (allItems []Vault, err error) {
+	for pager.HasNext() {
+		var nextPage []Vault
+		nextPage, err = pager.GetNextWithContext(ctx)
+		if err != nil {
+			return
+		}
+		allItems = append(allItems, nextPage...)
+	}
+	return
+}
+
+// GetNext invokes GetNextWithContext() using context.Background() as the Context parameter.
+func (pager *VaultsPager) GetNext() (page []Vault, err error) {
+	return pager.GetNextWithContext(context.Background())
+}
+
+// GetAll invokes GetAllWithContext() using context.Background() as the Context parameter.
+func (pager *VaultsPager) GetAll() (allItems []Vault, err error) {
+	return pager.GetAllWithContext(context.Background())
 }
