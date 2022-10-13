@@ -182,6 +182,9 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.Query()["deactivation_date"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["deactivation_date_min"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["deactivation_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date_max"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["created_at"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["created_at_min"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["created_at_max"]).To(Equal([]string{"testString"}))
@@ -219,6 +222,9 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysOptionsModel.DeactivationDate = core.StringPtr("testString")
 				listManagedKeysOptionsModel.DeactivationDateMin = core.StringPtr("testString")
 				listManagedKeysOptionsModel.DeactivationDateMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ExpirationDate = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ExpirationDateMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ExpirationDateMax = core.StringPtr("testString")
 				listManagedKeysOptionsModel.CreatedAt = core.StringPtr("testString")
 				listManagedKeysOptionsModel.CreatedAtMin = core.StringPtr("testString")
 				listManagedKeysOptionsModel.CreatedAtMax = core.StringPtr("testString")
@@ -270,6 +276,9 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.Query()["deactivation_date"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["deactivation_date_min"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["deactivation_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date_max"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["created_at"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["created_at_min"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["created_at_max"]).To(Equal([]string{"testString"}))
@@ -285,7 +294,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "managed_keys": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}]}`)
+					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "managed_keys": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}]}`)
 				}))
 			})
 			It(`Invoke ListManagedKeys successfully with retries`, func() {
@@ -312,6 +321,9 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysOptionsModel.DeactivationDate = core.StringPtr("testString")
 				listManagedKeysOptionsModel.DeactivationDateMin = core.StringPtr("testString")
 				listManagedKeysOptionsModel.DeactivationDateMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ExpirationDate = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ExpirationDateMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ExpirationDateMax = core.StringPtr("testString")
 				listManagedKeysOptionsModel.CreatedAt = core.StringPtr("testString")
 				listManagedKeysOptionsModel.CreatedAtMin = core.StringPtr("testString")
 				listManagedKeysOptionsModel.CreatedAtMax = core.StringPtr("testString")
@@ -369,6 +381,9 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.Query()["deactivation_date"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["deactivation_date_min"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["deactivation_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date_max"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["created_at"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["created_at_min"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["created_at_max"]).To(Equal([]string{"testString"}))
@@ -381,7 +396,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "managed_keys": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}]}`)
+					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "managed_keys": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}]}`)
 				}))
 			})
 			It(`Invoke ListManagedKeys successfully`, func() {
@@ -413,6 +428,9 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysOptionsModel.DeactivationDate = core.StringPtr("testString")
 				listManagedKeysOptionsModel.DeactivationDateMin = core.StringPtr("testString")
 				listManagedKeysOptionsModel.DeactivationDateMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ExpirationDate = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ExpirationDateMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ExpirationDateMax = core.StringPtr("testString")
 				listManagedKeysOptionsModel.CreatedAt = core.StringPtr("testString")
 				listManagedKeysOptionsModel.CreatedAtMin = core.StringPtr("testString")
 				listManagedKeysOptionsModel.CreatedAtMax = core.StringPtr("testString")
@@ -457,6 +475,9 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysOptionsModel.DeactivationDate = core.StringPtr("testString")
 				listManagedKeysOptionsModel.DeactivationDateMin = core.StringPtr("testString")
 				listManagedKeysOptionsModel.DeactivationDateMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ExpirationDate = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ExpirationDateMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ExpirationDateMax = core.StringPtr("testString")
 				listManagedKeysOptionsModel.CreatedAt = core.StringPtr("testString")
 				listManagedKeysOptionsModel.CreatedAtMin = core.StringPtr("testString")
 				listManagedKeysOptionsModel.CreatedAtMax = core.StringPtr("testString")
@@ -515,6 +536,9 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysOptionsModel.DeactivationDate = core.StringPtr("testString")
 				listManagedKeysOptionsModel.DeactivationDateMin = core.StringPtr("testString")
 				listManagedKeysOptionsModel.DeactivationDateMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ExpirationDate = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ExpirationDateMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.ExpirationDateMax = core.StringPtr("testString")
 				listManagedKeysOptionsModel.CreatedAt = core.StringPtr("testString")
 				listManagedKeysOptionsModel.CreatedAtMin = core.StringPtr("testString")
 				listManagedKeysOptionsModel.CreatedAtMax = core.StringPtr("testString")
@@ -595,9 +619,9 @@ var _ = Describe(`UkoV4`, func() {
 					res.WriteHeader(200)
 					requestNumber++
 					if requestNumber == 1 {
-						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"managed_keys":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"template":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"AWS-KMS-TEMPLATE","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"description":"Managed key description","label":"IBM CLOUD KEY","state":"active","size":"256","algorithm":"aes","verification_patterns":[{"method":"enc-zero","value":"U3dhZ2dlciByb2Nrcw=="}],"activation_date":"2020-12-11","expiration_date":"2030-11-12","tags":[{"name":"Name","value":"Value"}],"created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","referenced_keystores":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"instances":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","label_in_keystore":"IBM CLOUD KEY","type":"private_key","keystore":{"group":"Group","type":"ibm_cloud_kms"}}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"total_count":2,"limit":1}`)
+						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"managed_keys":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"template":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"AWS-KMS-TEMPLATE","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"description":"Managed key description","label":"IBM CLOUD KEY","state":"active","size":"256","algorithm":"aes","verification_patterns":[{"method":"enc-zero","value":"U3dhZ2dlciByb2Nrcw=="}],"activation_date":"2020-12-11","expiration_date":"2030-11-12","tags":[{"name":"Name","value":"Value"}],"created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","referenced_keystores":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"instances":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","label_in_keystore":"IBM CLOUD KEY","type":"private_key","keystore":{"group":"Group","type":"ibm_cloud_kms"},"google_key_protection_level":"software","google_key_purpose":"encrypt_decrypt","google_kms_algorithm":"google_symmetric_encryption"}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"total_count":2,"limit":1}`)
 					} else if requestNumber == 2 {
-						fmt.Fprintf(res, "%s", `{"managed_keys":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"template":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"AWS-KMS-TEMPLATE","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"description":"Managed key description","label":"IBM CLOUD KEY","state":"active","size":"256","algorithm":"aes","verification_patterns":[{"method":"enc-zero","value":"U3dhZ2dlciByb2Nrcw=="}],"activation_date":"2020-12-11","expiration_date":"2030-11-12","tags":[{"name":"Name","value":"Value"}],"created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","referenced_keystores":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"instances":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","label_in_keystore":"IBM CLOUD KEY","type":"private_key","keystore":{"group":"Group","type":"ibm_cloud_kms"}}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"total_count":2,"limit":1}`)
+						fmt.Fprintf(res, "%s", `{"managed_keys":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"template":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"AWS-KMS-TEMPLATE","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"description":"Managed key description","label":"IBM CLOUD KEY","state":"active","size":"256","algorithm":"aes","verification_patterns":[{"method":"enc-zero","value":"U3dhZ2dlciByb2Nrcw=="}],"activation_date":"2020-12-11","expiration_date":"2030-11-12","tags":[{"name":"Name","value":"Value"}],"created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","referenced_keystores":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"instances":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","label_in_keystore":"IBM CLOUD KEY","type":"private_key","keystore":{"group":"Group","type":"ibm_cloud_kms"},"google_key_protection_level":"software","google_key_purpose":"encrypt_decrypt","google_kms_algorithm":"google_symmetric_encryption"}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"total_count":2,"limit":1}`)
 					} else {
 						res.WriteHeader(400)
 					}
@@ -624,6 +648,9 @@ var _ = Describe(`UkoV4`, func() {
 					DeactivationDate: core.StringPtr("testString"),
 					DeactivationDateMin: core.StringPtr("testString"),
 					DeactivationDateMax: core.StringPtr("testString"),
+					ExpirationDate: core.StringPtr("testString"),
+					ExpirationDateMin: core.StringPtr("testString"),
+					ExpirationDateMax: core.StringPtr("testString"),
 					CreatedAt: core.StringPtr("testString"),
 					CreatedAtMin: core.StringPtr("testString"),
 					CreatedAtMax: core.StringPtr("testString"),
@@ -672,6 +699,9 @@ var _ = Describe(`UkoV4`, func() {
 					DeactivationDate: core.StringPtr("testString"),
 					DeactivationDateMin: core.StringPtr("testString"),
 					DeactivationDateMax: core.StringPtr("testString"),
+					ExpirationDate: core.StringPtr("testString"),
+					ExpirationDateMin: core.StringPtr("testString"),
+					ExpirationDateMax: core.StringPtr("testString"),
 					CreatedAt: core.StringPtr("testString"),
 					CreatedAtMin: core.StringPtr("testString"),
 					CreatedAtMax: core.StringPtr("testString"),
@@ -793,7 +823,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
 				}))
 			})
 			It(`Invoke CreateManagedKey successfully with retries`, func() {
@@ -879,7 +909,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
 				}))
 			})
 			It(`Invoke CreateManagedKey successfully`, func() {
@@ -1160,7 +1190,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
 				}))
 			})
 			It(`Invoke GetManagedKey successfully with retries`, func() {
@@ -1217,7 +1247,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
 				}))
 			})
 			It(`Invoke GetManagedKey successfully`, func() {
@@ -1414,7 +1444,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
 				}))
 			})
 			It(`Invoke UpdateManagedKey successfully with retries`, func() {
@@ -1500,7 +1530,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
 				}))
 			})
 			It(`Invoke UpdateManagedKey successfully`, func() {
@@ -2058,7 +2088,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}]}`)
+					fmt.Fprintf(res, "%s", `{"status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}]}`)
 				}))
 			})
 			It(`Invoke GetKeyDistributionStatusForKeystores successfully with retries`, func() {
@@ -2115,7 +2145,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}]}`)
+					fmt.Fprintf(res, "%s", `{"status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}]}`)
 				}))
 			})
 			It(`Invoke GetKeyDistributionStatusForKeystores successfully`, func() {
@@ -2286,7 +2316,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
 				}))
 			})
 			It(`Invoke UpdateManagedKeyFromTemplate successfully with retries`, func() {
@@ -2346,7 +2376,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
 				}))
 			})
 			It(`Invoke UpdateManagedKeyFromTemplate successfully`, func() {
@@ -2520,7 +2550,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
 				}))
 			})
 			It(`Invoke ActivateManagedKey successfully with retries`, func() {
@@ -2580,7 +2610,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
 				}))
 			})
 			It(`Invoke ActivateManagedKey successfully`, func() {
@@ -2754,7 +2784,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
 				}))
 			})
 			It(`Invoke DeactivateManagedKey successfully with retries`, func() {
@@ -2814,7 +2844,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
 				}))
 			})
 			It(`Invoke DeactivateManagedKey successfully`, func() {
@@ -2988,7 +3018,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
 				}))
 			})
 			It(`Invoke DestroyManagedKey successfully with retries`, func() {
@@ -3048,7 +3078,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
 				}))
 			})
 			It(`Invoke DestroyManagedKey successfully`, func() {
@@ -3150,6 +3180,240 @@ var _ = Describe(`UkoV4`, func() {
 			})
 		})
 	})
+	Describe(`SyncManagedKey(syncManagedKeyOptions *SyncManagedKeyOptions) - Operation response error`, func() {
+		syncManagedKeyPath := "/api/v4/managed_keys/testString/sync_status_in_keystores"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(syncManagedKeyPath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
+					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke SyncManagedKey with error: Operation response processing error`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Construct an instance of the SyncManagedKeyOptions model
+				syncManagedKeyOptionsModel := new(ukov4.SyncManagedKeyOptions)
+				syncManagedKeyOptionsModel.ID = core.StringPtr("testString")
+				syncManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
+				syncManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
+				syncManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := ukoService.SyncManagedKey(syncManagedKeyOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				ukoService.EnableRetries(0, 0)
+				result, response, operationErr = ukoService.SyncManagedKey(syncManagedKeyOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`SyncManagedKey(syncManagedKeyOptions *SyncManagedKeyOptions)`, func() {
+		syncManagedKeyPath := "/api/v4/managed_keys/testString/sync_status_in_keystores"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(syncManagedKeyPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
+					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}]}`)
+				}))
+			})
+			It(`Invoke SyncManagedKey successfully with retries`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+				ukoService.EnableRetries(0, 0)
+
+				// Construct an instance of the SyncManagedKeyOptions model
+				syncManagedKeyOptionsModel := new(ukov4.SyncManagedKeyOptions)
+				syncManagedKeyOptionsModel.ID = core.StringPtr("testString")
+				syncManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
+				syncManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
+				syncManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := ukoService.SyncManagedKeyWithContext(ctx, syncManagedKeyOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				ukoService.DisableRetries()
+				result, response, operationErr := ukoService.SyncManagedKey(syncManagedKeyOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = ukoService.SyncManagedKeyWithContext(ctx, syncManagedKeyOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(syncManagedKeyPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
+					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}]}`)
+				}))
+			})
+			It(`Invoke SyncManagedKey successfully`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := ukoService.SyncManagedKey(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the SyncManagedKeyOptions model
+				syncManagedKeyOptionsModel := new(ukov4.SyncManagedKeyOptions)
+				syncManagedKeyOptionsModel.ID = core.StringPtr("testString")
+				syncManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
+				syncManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
+				syncManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = ukoService.SyncManagedKey(syncManagedKeyOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke SyncManagedKey with error: Operation validation and request error`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Construct an instance of the SyncManagedKeyOptions model
+				syncManagedKeyOptionsModel := new(ukov4.SyncManagedKeyOptions)
+				syncManagedKeyOptionsModel.ID = core.StringPtr("testString")
+				syncManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
+				syncManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
+				syncManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := ukoService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := ukoService.SyncManagedKey(syncManagedKeyOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the SyncManagedKeyOptions model with no property values
+				syncManagedKeyOptionsModelNew := new(ukov4.SyncManagedKeyOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = ukoService.SyncManagedKey(syncManagedKeyOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke SyncManagedKey successfully`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Construct an instance of the SyncManagedKeyOptions model
+				syncManagedKeyOptionsModel := new(ukov4.SyncManagedKeyOptions)
+				syncManagedKeyOptionsModel.ID = core.StringPtr("testString")
+				syncManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
+				syncManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
+				syncManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := ukoService.SyncManagedKey(syncManagedKeyOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
 	Describe(`ListKeyTemplates(listKeyTemplatesOptions *ListKeyTemplatesOptions) - Operation response error`, func() {
 		listKeyTemplatesPath := "/api/v4/templates"
 		Context(`Using mock server endpoint with invalid JSON response`, func() {
@@ -3222,7 +3486,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "templates": [{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}]}`)
+					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "templates": [{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}]}`)
 				}))
 			})
 			It(`Invoke ListKeyTemplates successfully with retries`, func() {
@@ -3283,7 +3547,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "templates": [{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}]}`)
+					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "templates": [{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}]}`)
 				}))
 			})
 			It(`Invoke ListKeyTemplates successfully`, func() {
@@ -3437,9 +3701,9 @@ var _ = Describe(`UkoV4`, func() {
 					res.WriteHeader(200)
 					requestNumber++
 					if requestNumber == 1 {
-						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"templates":[{"vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","version":1,"name":"AWS-TEMPLATE","key":{"size":"256","algorithm":"aes","activation_date":"P5Y1M1W2D","expiration_date":"P1Y2M1W4D","state":"active"},"description":"The description of the template","created_at":"2022-02-05T23:00:14.000Z","updated_at":"2022-02-05T23:00:14.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","keystores":[{"group":"Production","type":"ibm_cloud_kms"}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"limit":1}`)
+						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"templates":[{"vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","version":1,"name":"AWS-TEMPLATE","key":{"size":"256","algorithm":"aes","activation_date":"P5Y1M1W2D","expiration_date":"P1Y2M1W4D","state":"active"},"description":"The description of the template","created_at":"2022-02-05T23:00:14.000Z","updated_at":"2022-02-05T23:00:14.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","keystores":[{"group":"Production","type":"ibm_cloud_kms","google_key_protection_level":"software","google_key_purpose":"encrypt_decrypt","google_kms_algorithm":"google_symmetric_encryption"}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"limit":1}`)
 					} else if requestNumber == 2 {
-						fmt.Fprintf(res, "%s", `{"total_count":2,"templates":[{"vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","version":1,"name":"AWS-TEMPLATE","key":{"size":"256","algorithm":"aes","activation_date":"P5Y1M1W2D","expiration_date":"P1Y2M1W4D","state":"active"},"description":"The description of the template","created_at":"2022-02-05T23:00:14.000Z","updated_at":"2022-02-05T23:00:14.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","keystores":[{"group":"Production","type":"ibm_cloud_kms"}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"limit":1}`)
+						fmt.Fprintf(res, "%s", `{"total_count":2,"templates":[{"vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","version":1,"name":"AWS-TEMPLATE","key":{"size":"256","algorithm":"aes","activation_date":"P5Y1M1W2D","expiration_date":"P1Y2M1W4D","state":"active"},"description":"The description of the template","created_at":"2022-02-05T23:00:14.000Z","updated_at":"2022-02-05T23:00:14.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","keystores":[{"group":"Production","type":"ibm_cloud_kms","google_key_protection_level":"software","google_key_purpose":"encrypt_decrypt","google_kms_algorithm":"google_symmetric_encryption"}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"limit":1}`)
 					} else {
 						res.WriteHeader(400)
 					}
@@ -3536,10 +3800,13 @@ var _ = Describe(`UkoV4`, func() {
 				keyPropertiesModel.ExpirationDate = core.StringPtr("P1Y2M1W4D")
 				keyPropertiesModel.State = core.StringPtr("active")
 
-				// Construct an instance of the KeystoresProperties model
-				keystoresPropertiesModel := new(ukov4.KeystoresProperties)
-				keystoresPropertiesModel.Group = core.StringPtr("Production")
-				keystoresPropertiesModel.Type = core.StringPtr("ibm_cloud_kms")
+				// Construct an instance of the KeystoresPropertiesCreateGoogleKms model
+				keystoresPropertiesCreateModel := new(ukov4.KeystoresPropertiesCreateGoogleKms)
+				keystoresPropertiesCreateModel.Group = core.StringPtr("Production")
+				keystoresPropertiesCreateModel.Type = core.StringPtr("ibm_cloud_kms")
+				keystoresPropertiesCreateModel.GoogleKeyProtectionLevel = core.StringPtr("software")
+				keystoresPropertiesCreateModel.GoogleKeyPurpose = core.StringPtr("encrypt_decrypt")
+				keystoresPropertiesCreateModel.GoogleKmsAlgorithm = core.StringPtr("google_symmetric_encryption")
 
 				// Construct an instance of the CreateKeyTemplateOptions model
 				createKeyTemplateOptionsModel := new(ukov4.CreateKeyTemplateOptions)
@@ -3547,7 +3814,7 @@ var _ = Describe(`UkoV4`, func() {
 				createKeyTemplateOptionsModel.Vault = vaultReferenceInCreationRequestModel
 				createKeyTemplateOptionsModel.Name = core.StringPtr("EXAMPLE-TEMPLATE")
 				createKeyTemplateOptionsModel.Key = keyPropertiesModel
-				createKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresProperties{*keystoresPropertiesModel}
+				createKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesCreateIntf{keystoresPropertiesCreateModel}
 				createKeyTemplateOptionsModel.Description = core.StringPtr("testString")
 				createKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -3603,7 +3870,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
 				}))
 			})
 			It(`Invoke CreateKeyTemplate successfully with retries`, func() {
@@ -3627,10 +3894,13 @@ var _ = Describe(`UkoV4`, func() {
 				keyPropertiesModel.ExpirationDate = core.StringPtr("P1Y2M1W4D")
 				keyPropertiesModel.State = core.StringPtr("active")
 
-				// Construct an instance of the KeystoresProperties model
-				keystoresPropertiesModel := new(ukov4.KeystoresProperties)
-				keystoresPropertiesModel.Group = core.StringPtr("Production")
-				keystoresPropertiesModel.Type = core.StringPtr("ibm_cloud_kms")
+				// Construct an instance of the KeystoresPropertiesCreateGoogleKms model
+				keystoresPropertiesCreateModel := new(ukov4.KeystoresPropertiesCreateGoogleKms)
+				keystoresPropertiesCreateModel.Group = core.StringPtr("Production")
+				keystoresPropertiesCreateModel.Type = core.StringPtr("ibm_cloud_kms")
+				keystoresPropertiesCreateModel.GoogleKeyProtectionLevel = core.StringPtr("software")
+				keystoresPropertiesCreateModel.GoogleKeyPurpose = core.StringPtr("encrypt_decrypt")
+				keystoresPropertiesCreateModel.GoogleKmsAlgorithm = core.StringPtr("google_symmetric_encryption")
 
 				// Construct an instance of the CreateKeyTemplateOptions model
 				createKeyTemplateOptionsModel := new(ukov4.CreateKeyTemplateOptions)
@@ -3638,7 +3908,7 @@ var _ = Describe(`UkoV4`, func() {
 				createKeyTemplateOptionsModel.Vault = vaultReferenceInCreationRequestModel
 				createKeyTemplateOptionsModel.Name = core.StringPtr("EXAMPLE-TEMPLATE")
 				createKeyTemplateOptionsModel.Key = keyPropertiesModel
-				createKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresProperties{*keystoresPropertiesModel}
+				createKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesCreateIntf{keystoresPropertiesCreateModel}
 				createKeyTemplateOptionsModel.Description = core.StringPtr("testString")
 				createKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3697,7 +3967,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
 				}))
 			})
 			It(`Invoke CreateKeyTemplate successfully`, func() {
@@ -3726,10 +3996,13 @@ var _ = Describe(`UkoV4`, func() {
 				keyPropertiesModel.ExpirationDate = core.StringPtr("P1Y2M1W4D")
 				keyPropertiesModel.State = core.StringPtr("active")
 
-				// Construct an instance of the KeystoresProperties model
-				keystoresPropertiesModel := new(ukov4.KeystoresProperties)
-				keystoresPropertiesModel.Group = core.StringPtr("Production")
-				keystoresPropertiesModel.Type = core.StringPtr("ibm_cloud_kms")
+				// Construct an instance of the KeystoresPropertiesCreateGoogleKms model
+				keystoresPropertiesCreateModel := new(ukov4.KeystoresPropertiesCreateGoogleKms)
+				keystoresPropertiesCreateModel.Group = core.StringPtr("Production")
+				keystoresPropertiesCreateModel.Type = core.StringPtr("ibm_cloud_kms")
+				keystoresPropertiesCreateModel.GoogleKeyProtectionLevel = core.StringPtr("software")
+				keystoresPropertiesCreateModel.GoogleKeyPurpose = core.StringPtr("encrypt_decrypt")
+				keystoresPropertiesCreateModel.GoogleKmsAlgorithm = core.StringPtr("google_symmetric_encryption")
 
 				// Construct an instance of the CreateKeyTemplateOptions model
 				createKeyTemplateOptionsModel := new(ukov4.CreateKeyTemplateOptions)
@@ -3737,7 +4010,7 @@ var _ = Describe(`UkoV4`, func() {
 				createKeyTemplateOptionsModel.Vault = vaultReferenceInCreationRequestModel
 				createKeyTemplateOptionsModel.Name = core.StringPtr("EXAMPLE-TEMPLATE")
 				createKeyTemplateOptionsModel.Key = keyPropertiesModel
-				createKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresProperties{*keystoresPropertiesModel}
+				createKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesCreateIntf{keystoresPropertiesCreateModel}
 				createKeyTemplateOptionsModel.Description = core.StringPtr("testString")
 				createKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3768,10 +4041,13 @@ var _ = Describe(`UkoV4`, func() {
 				keyPropertiesModel.ExpirationDate = core.StringPtr("P1Y2M1W4D")
 				keyPropertiesModel.State = core.StringPtr("active")
 
-				// Construct an instance of the KeystoresProperties model
-				keystoresPropertiesModel := new(ukov4.KeystoresProperties)
-				keystoresPropertiesModel.Group = core.StringPtr("Production")
-				keystoresPropertiesModel.Type = core.StringPtr("ibm_cloud_kms")
+				// Construct an instance of the KeystoresPropertiesCreateGoogleKms model
+				keystoresPropertiesCreateModel := new(ukov4.KeystoresPropertiesCreateGoogleKms)
+				keystoresPropertiesCreateModel.Group = core.StringPtr("Production")
+				keystoresPropertiesCreateModel.Type = core.StringPtr("ibm_cloud_kms")
+				keystoresPropertiesCreateModel.GoogleKeyProtectionLevel = core.StringPtr("software")
+				keystoresPropertiesCreateModel.GoogleKeyPurpose = core.StringPtr("encrypt_decrypt")
+				keystoresPropertiesCreateModel.GoogleKmsAlgorithm = core.StringPtr("google_symmetric_encryption")
 
 				// Construct an instance of the CreateKeyTemplateOptions model
 				createKeyTemplateOptionsModel := new(ukov4.CreateKeyTemplateOptions)
@@ -3779,7 +4055,7 @@ var _ = Describe(`UkoV4`, func() {
 				createKeyTemplateOptionsModel.Vault = vaultReferenceInCreationRequestModel
 				createKeyTemplateOptionsModel.Name = core.StringPtr("EXAMPLE-TEMPLATE")
 				createKeyTemplateOptionsModel.Key = keyPropertiesModel
-				createKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresProperties{*keystoresPropertiesModel}
+				createKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesCreateIntf{keystoresPropertiesCreateModel}
 				createKeyTemplateOptionsModel.Description = core.StringPtr("testString")
 				createKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -3831,10 +4107,13 @@ var _ = Describe(`UkoV4`, func() {
 				keyPropertiesModel.ExpirationDate = core.StringPtr("P1Y2M1W4D")
 				keyPropertiesModel.State = core.StringPtr("active")
 
-				// Construct an instance of the KeystoresProperties model
-				keystoresPropertiesModel := new(ukov4.KeystoresProperties)
-				keystoresPropertiesModel.Group = core.StringPtr("Production")
-				keystoresPropertiesModel.Type = core.StringPtr("ibm_cloud_kms")
+				// Construct an instance of the KeystoresPropertiesCreateGoogleKms model
+				keystoresPropertiesCreateModel := new(ukov4.KeystoresPropertiesCreateGoogleKms)
+				keystoresPropertiesCreateModel.Group = core.StringPtr("Production")
+				keystoresPropertiesCreateModel.Type = core.StringPtr("ibm_cloud_kms")
+				keystoresPropertiesCreateModel.GoogleKeyProtectionLevel = core.StringPtr("software")
+				keystoresPropertiesCreateModel.GoogleKeyPurpose = core.StringPtr("encrypt_decrypt")
+				keystoresPropertiesCreateModel.GoogleKmsAlgorithm = core.StringPtr("google_symmetric_encryption")
 
 				// Construct an instance of the CreateKeyTemplateOptions model
 				createKeyTemplateOptionsModel := new(ukov4.CreateKeyTemplateOptions)
@@ -3842,7 +4121,7 @@ var _ = Describe(`UkoV4`, func() {
 				createKeyTemplateOptionsModel.Vault = vaultReferenceInCreationRequestModel
 				createKeyTemplateOptionsModel.Name = core.StringPtr("EXAMPLE-TEMPLATE")
 				createKeyTemplateOptionsModel.Key = keyPropertiesModel
-				createKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresProperties{*keystoresPropertiesModel}
+				createKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesCreateIntf{keystoresPropertiesCreateModel}
 				createKeyTemplateOptionsModel.Description = core.StringPtr("testString")
 				createKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -4002,7 +4281,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
 				}))
 			})
 			It(`Invoke GetKeyTemplate successfully with retries`, func() {
@@ -4059,7 +4338,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
 				}))
 			})
 			It(`Invoke GetKeyTemplate successfully`, func() {
@@ -4185,9 +4464,12 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(ukoService).ToNot(BeNil())
 
-				// Construct an instance of the KeystoresPropertiesUpdate model
-				keystoresPropertiesUpdateModel := new(ukov4.KeystoresPropertiesUpdate)
+				// Construct an instance of the KeystoresPropertiesUpdateGoogleKms model
+				keystoresPropertiesUpdateModel := new(ukov4.KeystoresPropertiesUpdateGoogleKms)
 				keystoresPropertiesUpdateModel.Group = core.StringPtr("Production")
+				keystoresPropertiesUpdateModel.GoogleKeyProtectionLevel = core.StringPtr("software")
+				keystoresPropertiesUpdateModel.GoogleKeyPurpose = core.StringPtr("encrypt_decrypt")
+				keystoresPropertiesUpdateModel.GoogleKmsAlgorithm = core.StringPtr("google_symmetric_encryption")
 
 				// Construct an instance of the KeyPropertiesUpdate model
 				keyPropertiesUpdateModel := new(ukov4.KeyPropertiesUpdate)
@@ -4201,7 +4483,7 @@ var _ = Describe(`UkoV4`, func() {
 				updateKeyTemplateOptionsModel.ID = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
-				updateKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesUpdate{*keystoresPropertiesUpdateModel}
+				updateKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesUpdateIntf{keystoresPropertiesUpdateModel}
 				updateKeyTemplateOptionsModel.Description = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.Key = keyPropertiesUpdateModel
 				updateKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -4260,7 +4542,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
 				}))
 			})
 			It(`Invoke UpdateKeyTemplate successfully with retries`, func() {
@@ -4272,9 +4554,12 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(ukoService).ToNot(BeNil())
 				ukoService.EnableRetries(0, 0)
 
-				// Construct an instance of the KeystoresPropertiesUpdate model
-				keystoresPropertiesUpdateModel := new(ukov4.KeystoresPropertiesUpdate)
+				// Construct an instance of the KeystoresPropertiesUpdateGoogleKms model
+				keystoresPropertiesUpdateModel := new(ukov4.KeystoresPropertiesUpdateGoogleKms)
 				keystoresPropertiesUpdateModel.Group = core.StringPtr("Production")
+				keystoresPropertiesUpdateModel.GoogleKeyProtectionLevel = core.StringPtr("software")
+				keystoresPropertiesUpdateModel.GoogleKeyPurpose = core.StringPtr("encrypt_decrypt")
+				keystoresPropertiesUpdateModel.GoogleKmsAlgorithm = core.StringPtr("google_symmetric_encryption")
 
 				// Construct an instance of the KeyPropertiesUpdate model
 				keyPropertiesUpdateModel := new(ukov4.KeyPropertiesUpdate)
@@ -4288,7 +4573,7 @@ var _ = Describe(`UkoV4`, func() {
 				updateKeyTemplateOptionsModel.ID = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
-				updateKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesUpdate{*keystoresPropertiesUpdateModel}
+				updateKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesUpdateIntf{keystoresPropertiesUpdateModel}
 				updateKeyTemplateOptionsModel.Description = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.Key = keyPropertiesUpdateModel
 				updateKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -4350,7 +4635,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
 				}))
 			})
 			It(`Invoke UpdateKeyTemplate successfully`, func() {
@@ -4367,9 +4652,12 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the KeystoresPropertiesUpdate model
-				keystoresPropertiesUpdateModel := new(ukov4.KeystoresPropertiesUpdate)
+				// Construct an instance of the KeystoresPropertiesUpdateGoogleKms model
+				keystoresPropertiesUpdateModel := new(ukov4.KeystoresPropertiesUpdateGoogleKms)
 				keystoresPropertiesUpdateModel.Group = core.StringPtr("Production")
+				keystoresPropertiesUpdateModel.GoogleKeyProtectionLevel = core.StringPtr("software")
+				keystoresPropertiesUpdateModel.GoogleKeyPurpose = core.StringPtr("encrypt_decrypt")
+				keystoresPropertiesUpdateModel.GoogleKmsAlgorithm = core.StringPtr("google_symmetric_encryption")
 
 				// Construct an instance of the KeyPropertiesUpdate model
 				keyPropertiesUpdateModel := new(ukov4.KeyPropertiesUpdate)
@@ -4383,7 +4671,7 @@ var _ = Describe(`UkoV4`, func() {
 				updateKeyTemplateOptionsModel.ID = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
-				updateKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesUpdate{*keystoresPropertiesUpdateModel}
+				updateKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesUpdateIntf{keystoresPropertiesUpdateModel}
 				updateKeyTemplateOptionsModel.Description = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.Key = keyPropertiesUpdateModel
 				updateKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -4403,9 +4691,12 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(ukoService).ToNot(BeNil())
 
-				// Construct an instance of the KeystoresPropertiesUpdate model
-				keystoresPropertiesUpdateModel := new(ukov4.KeystoresPropertiesUpdate)
+				// Construct an instance of the KeystoresPropertiesUpdateGoogleKms model
+				keystoresPropertiesUpdateModel := new(ukov4.KeystoresPropertiesUpdateGoogleKms)
 				keystoresPropertiesUpdateModel.Group = core.StringPtr("Production")
+				keystoresPropertiesUpdateModel.GoogleKeyProtectionLevel = core.StringPtr("software")
+				keystoresPropertiesUpdateModel.GoogleKeyPurpose = core.StringPtr("encrypt_decrypt")
+				keystoresPropertiesUpdateModel.GoogleKmsAlgorithm = core.StringPtr("google_symmetric_encryption")
 
 				// Construct an instance of the KeyPropertiesUpdate model
 				keyPropertiesUpdateModel := new(ukov4.KeyPropertiesUpdate)
@@ -4419,7 +4710,7 @@ var _ = Describe(`UkoV4`, func() {
 				updateKeyTemplateOptionsModel.ID = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
-				updateKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesUpdate{*keystoresPropertiesUpdateModel}
+				updateKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesUpdateIntf{keystoresPropertiesUpdateModel}
 				updateKeyTemplateOptionsModel.Description = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.Key = keyPropertiesUpdateModel
 				updateKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -4460,9 +4751,12 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(ukoService).ToNot(BeNil())
 
-				// Construct an instance of the KeystoresPropertiesUpdate model
-				keystoresPropertiesUpdateModel := new(ukov4.KeystoresPropertiesUpdate)
+				// Construct an instance of the KeystoresPropertiesUpdateGoogleKms model
+				keystoresPropertiesUpdateModel := new(ukov4.KeystoresPropertiesUpdateGoogleKms)
 				keystoresPropertiesUpdateModel.Group = core.StringPtr("Production")
+				keystoresPropertiesUpdateModel.GoogleKeyProtectionLevel = core.StringPtr("software")
+				keystoresPropertiesUpdateModel.GoogleKeyPurpose = core.StringPtr("encrypt_decrypt")
+				keystoresPropertiesUpdateModel.GoogleKmsAlgorithm = core.StringPtr("google_symmetric_encryption")
 
 				// Construct an instance of the KeyPropertiesUpdate model
 				keyPropertiesUpdateModel := new(ukov4.KeyPropertiesUpdate)
@@ -4476,7 +4770,7 @@ var _ = Describe(`UkoV4`, func() {
 				updateKeyTemplateOptionsModel.ID = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
-				updateKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesUpdate{*keystoresPropertiesUpdateModel}
+				updateKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesUpdateIntf{keystoresPropertiesUpdateModel}
 				updateKeyTemplateOptionsModel.Description = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.Key = keyPropertiesUpdateModel
 				updateKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -4579,7 +4873,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "keystores": [{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "aws_region": "af_south_1", "aws_access_key_id": "BSDFWERUANLKJDN54AAS", "aws_secret_access_key": "6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs"}]}`)
+					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "keystores": [{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}]}`)
 				}))
 			})
 			It(`Invoke ListKeystores successfully with retries`, func() {
@@ -4649,7 +4943,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "keystores": [{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "aws_region": "af_south_1", "aws_access_key_id": "BSDFWERUANLKJDN54AAS", "aws_secret_access_key": "6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs"}]}`)
+					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "keystores": [{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}]}`)
 				}))
 			})
 			It(`Invoke ListKeystores successfully`, func() {
@@ -4818,9 +5112,9 @@ var _ = Describe(`UkoV4`, func() {
 					res.WriteHeader(200)
 					requestNumber++
 					if requestNumber == 1 {
-						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"keystores":[{"vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Accounting","location":"us-south","description":"IBM Cloud keystore for testing","groups":["Production"],"type":"ibm_cloud_kms","created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46","aws_region":"af_south_1","aws_access_key_id":"BSDFWERUANLKJDN54AAS","aws_secret_access_key":"6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs"}],"limit":1}`)
+						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"keystores":[{"vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Accounting","location":"us-south","description":"IBM Cloud keystore for testing","groups":["Production"],"type":"ibm_cloud_kms","created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46","google_credentials":"eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=","google_location":"europe-central2","google_project_id":"demo-project","google_private_key_id":"f871b60d0617be19393bb66ea142887fc9621360","google_key_ring":"my-key-ring"}],"limit":1}`)
 					} else if requestNumber == 2 {
-						fmt.Fprintf(res, "%s", `{"total_count":2,"keystores":[{"vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Accounting","location":"us-south","description":"IBM Cloud keystore for testing","groups":["Production"],"type":"ibm_cloud_kms","created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46","aws_region":"af_south_1","aws_access_key_id":"BSDFWERUANLKJDN54AAS","aws_secret_access_key":"6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs"}],"limit":1}`)
+						fmt.Fprintf(res, "%s", `{"total_count":2,"keystores":[{"vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Accounting","location":"us-south","description":"IBM Cloud keystore for testing","groups":["Production"],"type":"ibm_cloud_kms","created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46","google_credentials":"eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=","google_location":"europe-central2","google_project_id":"demo-project","google_private_key_id":"f871b60d0617be19393bb66ea142887fc9621360","google_key_ring":"my-key-ring"}],"limit":1}`)
 					} else {
 						res.WriteHeader(400)
 					}
@@ -4991,7 +5285,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "aws_region": "af_south_1", "aws_access_key_id": "BSDFWERUANLKJDN54AAS", "aws_secret_access_key": "6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}`)
 				}))
 			})
 			It(`Invoke CreateKeystore successfully with retries`, func() {
@@ -5081,7 +5375,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "aws_region": "af_south_1", "aws_access_key_id": "BSDFWERUANLKJDN54AAS", "aws_secret_access_key": "6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}`)
 				}))
 			})
 			It(`Invoke CreateKeystore successfully`, func() {
@@ -5371,7 +5665,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "aws_region": "af_south_1", "aws_access_key_id": "BSDFWERUANLKJDN54AAS", "aws_secret_access_key": "6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}`)
 				}))
 			})
 			It(`Invoke GetKeystore successfully with retries`, func() {
@@ -5428,7 +5722,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "aws_region": "af_south_1", "aws_access_key_id": "BSDFWERUANLKJDN54AAS", "aws_secret_access_key": "6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}`)
 				}))
 			})
 			It(`Invoke GetKeystore successfully`, func() {
@@ -5554,14 +5848,14 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(ukoService).ToNot(BeNil())
 
-				// Construct an instance of the KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate model
-				keystoreUpdateRequestModel := new(ukov4.KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate)
+				// Construct an instance of the KeystoreUpdateRequestKeystoreTypeGoogleKmsUpdate model
+				keystoreUpdateRequestModel := new(ukov4.KeystoreUpdateRequestKeystoreTypeGoogleKmsUpdate)
 				keystoreUpdateRequestModel.Name = core.StringPtr("IBM Cloud Keystore Name")
 				keystoreUpdateRequestModel.Description = core.StringPtr("Azure keystore")
 				keystoreUpdateRequestModel.Groups = []string{"Production"}
-				keystoreUpdateRequestModel.AwsRegion = core.StringPtr("af_south_1")
-				keystoreUpdateRequestModel.AwsAccessKeyID = core.StringPtr("BSDFWERUANLKJDN54AAS")
-				keystoreUpdateRequestModel.AwsSecretAccessKey = core.StringPtr("6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs")
+				keystoreUpdateRequestModel.GoogleCredentials = core.StringPtr("eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=")
+				keystoreUpdateRequestModel.GoogleLocation = core.StringPtr("europe-central2")
+				keystoreUpdateRequestModel.GoogleKeyRing = core.StringPtr("my-key-ring")
 
 				// Construct an instance of the UpdateKeystoreOptions model
 				updateKeystoreOptionsModel := new(ukov4.UpdateKeystoreOptions)
@@ -5625,7 +5919,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "aws_region": "af_south_1", "aws_access_key_id": "BSDFWERUANLKJDN54AAS", "aws_secret_access_key": "6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}`)
 				}))
 			})
 			It(`Invoke UpdateKeystore successfully with retries`, func() {
@@ -5637,14 +5931,14 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(ukoService).ToNot(BeNil())
 				ukoService.EnableRetries(0, 0)
 
-				// Construct an instance of the KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate model
-				keystoreUpdateRequestModel := new(ukov4.KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate)
+				// Construct an instance of the KeystoreUpdateRequestKeystoreTypeGoogleKmsUpdate model
+				keystoreUpdateRequestModel := new(ukov4.KeystoreUpdateRequestKeystoreTypeGoogleKmsUpdate)
 				keystoreUpdateRequestModel.Name = core.StringPtr("IBM Cloud Keystore Name")
 				keystoreUpdateRequestModel.Description = core.StringPtr("Azure keystore")
 				keystoreUpdateRequestModel.Groups = []string{"Production"}
-				keystoreUpdateRequestModel.AwsRegion = core.StringPtr("af_south_1")
-				keystoreUpdateRequestModel.AwsAccessKeyID = core.StringPtr("BSDFWERUANLKJDN54AAS")
-				keystoreUpdateRequestModel.AwsSecretAccessKey = core.StringPtr("6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs")
+				keystoreUpdateRequestModel.GoogleCredentials = core.StringPtr("eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=")
+				keystoreUpdateRequestModel.GoogleLocation = core.StringPtr("europe-central2")
+				keystoreUpdateRequestModel.GoogleKeyRing = core.StringPtr("my-key-ring")
 
 				// Construct an instance of the UpdateKeystoreOptions model
 				updateKeystoreOptionsModel := new(ukov4.UpdateKeystoreOptions)
@@ -5711,7 +6005,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "aws_region": "af_south_1", "aws_access_key_id": "BSDFWERUANLKJDN54AAS", "aws_secret_access_key": "6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}`)
 				}))
 			})
 			It(`Invoke UpdateKeystore successfully`, func() {
@@ -5728,14 +6022,14 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate model
-				keystoreUpdateRequestModel := new(ukov4.KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate)
+				// Construct an instance of the KeystoreUpdateRequestKeystoreTypeGoogleKmsUpdate model
+				keystoreUpdateRequestModel := new(ukov4.KeystoreUpdateRequestKeystoreTypeGoogleKmsUpdate)
 				keystoreUpdateRequestModel.Name = core.StringPtr("IBM Cloud Keystore Name")
 				keystoreUpdateRequestModel.Description = core.StringPtr("Azure keystore")
 				keystoreUpdateRequestModel.Groups = []string{"Production"}
-				keystoreUpdateRequestModel.AwsRegion = core.StringPtr("af_south_1")
-				keystoreUpdateRequestModel.AwsAccessKeyID = core.StringPtr("BSDFWERUANLKJDN54AAS")
-				keystoreUpdateRequestModel.AwsSecretAccessKey = core.StringPtr("6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs")
+				keystoreUpdateRequestModel.GoogleCredentials = core.StringPtr("eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=")
+				keystoreUpdateRequestModel.GoogleLocation = core.StringPtr("europe-central2")
+				keystoreUpdateRequestModel.GoogleKeyRing = core.StringPtr("my-key-ring")
 
 				// Construct an instance of the UpdateKeystoreOptions model
 				updateKeystoreOptionsModel := new(ukov4.UpdateKeystoreOptions)
@@ -5760,14 +6054,14 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(ukoService).ToNot(BeNil())
 
-				// Construct an instance of the KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate model
-				keystoreUpdateRequestModel := new(ukov4.KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate)
+				// Construct an instance of the KeystoreUpdateRequestKeystoreTypeGoogleKmsUpdate model
+				keystoreUpdateRequestModel := new(ukov4.KeystoreUpdateRequestKeystoreTypeGoogleKmsUpdate)
 				keystoreUpdateRequestModel.Name = core.StringPtr("IBM Cloud Keystore Name")
 				keystoreUpdateRequestModel.Description = core.StringPtr("Azure keystore")
 				keystoreUpdateRequestModel.Groups = []string{"Production"}
-				keystoreUpdateRequestModel.AwsRegion = core.StringPtr("af_south_1")
-				keystoreUpdateRequestModel.AwsAccessKeyID = core.StringPtr("BSDFWERUANLKJDN54AAS")
-				keystoreUpdateRequestModel.AwsSecretAccessKey = core.StringPtr("6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs")
+				keystoreUpdateRequestModel.GoogleCredentials = core.StringPtr("eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=")
+				keystoreUpdateRequestModel.GoogleLocation = core.StringPtr("europe-central2")
+				keystoreUpdateRequestModel.GoogleKeyRing = core.StringPtr("my-key-ring")
 
 				// Construct an instance of the UpdateKeystoreOptions model
 				updateKeystoreOptionsModel := new(ukov4.UpdateKeystoreOptions)
@@ -5813,14 +6107,14 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(ukoService).ToNot(BeNil())
 
-				// Construct an instance of the KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate model
-				keystoreUpdateRequestModel := new(ukov4.KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate)
+				// Construct an instance of the KeystoreUpdateRequestKeystoreTypeGoogleKmsUpdate model
+				keystoreUpdateRequestModel := new(ukov4.KeystoreUpdateRequestKeystoreTypeGoogleKmsUpdate)
 				keystoreUpdateRequestModel.Name = core.StringPtr("IBM Cloud Keystore Name")
 				keystoreUpdateRequestModel.Description = core.StringPtr("Azure keystore")
 				keystoreUpdateRequestModel.Groups = []string{"Production"}
-				keystoreUpdateRequestModel.AwsRegion = core.StringPtr("af_south_1")
-				keystoreUpdateRequestModel.AwsAccessKeyID = core.StringPtr("BSDFWERUANLKJDN54AAS")
-				keystoreUpdateRequestModel.AwsSecretAccessKey = core.StringPtr("6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs")
+				keystoreUpdateRequestModel.GoogleCredentials = core.StringPtr("eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=")
+				keystoreUpdateRequestModel.GoogleLocation = core.StringPtr("europe-central2")
+				keystoreUpdateRequestModel.GoogleKeyRing = core.StringPtr("my-key-ring")
 
 				// Construct an instance of the UpdateKeystoreOptions model
 				updateKeystoreOptionsModel := new(ukov4.UpdateKeystoreOptions)
@@ -6446,6 +6740,9 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.Query()["deactivation_date"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["deactivation_date_min"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["deactivation_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date_max"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["created_at"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["created_at_min"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["created_at_max"]).To(Equal([]string{"testString"}))
@@ -6484,6 +6781,9 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysFromKeystoreOptionsModel.DeactivationDate = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.DeactivationDateMin = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.DeactivationDateMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ExpirationDate = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ExpirationDateMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ExpirationDateMax = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.CreatedAt = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.CreatedAtMin = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.CreatedAtMax = core.StringPtr("testString")
@@ -6534,6 +6834,9 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.Query()["deactivation_date"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["deactivation_date_min"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["deactivation_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date_max"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["created_at"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["created_at_min"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["created_at_max"]).To(Equal([]string{"testString"}))
@@ -6549,7 +6852,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "managed_keys": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}]}`)
+					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "managed_keys": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}]}`)
 				}))
 			})
 			It(`Invoke ListManagedKeysFromKeystore successfully with retries`, func() {
@@ -6577,6 +6880,9 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysFromKeystoreOptionsModel.DeactivationDate = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.DeactivationDateMin = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.DeactivationDateMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ExpirationDate = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ExpirationDateMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ExpirationDateMax = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.CreatedAt = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.CreatedAtMin = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.CreatedAtMax = core.StringPtr("testString")
@@ -6633,6 +6939,9 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.Query()["deactivation_date"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["deactivation_date_min"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["deactivation_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date_max"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["created_at"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["created_at_min"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["created_at_max"]).To(Equal([]string{"testString"}))
@@ -6645,7 +6954,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "managed_keys": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}]}`)
+					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "managed_keys": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}]}`)
 				}))
 			})
 			It(`Invoke ListManagedKeysFromKeystore successfully`, func() {
@@ -6678,6 +6987,9 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysFromKeystoreOptionsModel.DeactivationDate = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.DeactivationDateMin = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.DeactivationDateMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ExpirationDate = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ExpirationDateMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ExpirationDateMax = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.CreatedAt = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.CreatedAtMin = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.CreatedAtMax = core.StringPtr("testString")
@@ -6720,6 +7032,9 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysFromKeystoreOptionsModel.DeactivationDate = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.DeactivationDateMin = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.DeactivationDateMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ExpirationDate = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ExpirationDateMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ExpirationDateMax = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.CreatedAt = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.CreatedAtMin = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.CreatedAtMax = core.StringPtr("testString")
@@ -6783,6 +7098,9 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysFromKeystoreOptionsModel.DeactivationDate = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.DeactivationDateMin = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.DeactivationDateMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ExpirationDate = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ExpirationDateMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.ExpirationDateMax = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.CreatedAt = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.CreatedAtMin = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.CreatedAtMax = core.StringPtr("testString")
@@ -6860,9 +7178,9 @@ var _ = Describe(`UkoV4`, func() {
 					res.WriteHeader(200)
 					requestNumber++
 					if requestNumber == 1 {
-						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"managed_keys":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"template":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"AWS-KMS-TEMPLATE","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"description":"Managed key description","label":"IBM CLOUD KEY","state":"active","size":"256","algorithm":"aes","verification_patterns":[{"method":"enc-zero","value":"U3dhZ2dlciByb2Nrcw=="}],"activation_date":"2020-12-11","expiration_date":"2030-11-12","tags":[{"name":"Name","value":"Value"}],"created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","referenced_keystores":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"instances":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","label_in_keystore":"IBM CLOUD KEY","type":"private_key","keystore":{"group":"Group","type":"ibm_cloud_kms"}}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"total_count":2,"limit":1}`)
+						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"managed_keys":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"template":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"AWS-KMS-TEMPLATE","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"description":"Managed key description","label":"IBM CLOUD KEY","state":"active","size":"256","algorithm":"aes","verification_patterns":[{"method":"enc-zero","value":"U3dhZ2dlciByb2Nrcw=="}],"activation_date":"2020-12-11","expiration_date":"2030-11-12","tags":[{"name":"Name","value":"Value"}],"created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","referenced_keystores":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"instances":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","label_in_keystore":"IBM CLOUD KEY","type":"private_key","keystore":{"group":"Group","type":"ibm_cloud_kms"},"google_key_protection_level":"software","google_key_purpose":"encrypt_decrypt","google_kms_algorithm":"google_symmetric_encryption"}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"total_count":2,"limit":1}`)
 					} else if requestNumber == 2 {
-						fmt.Fprintf(res, "%s", `{"managed_keys":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"template":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"AWS-KMS-TEMPLATE","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"description":"Managed key description","label":"IBM CLOUD KEY","state":"active","size":"256","algorithm":"aes","verification_patterns":[{"method":"enc-zero","value":"U3dhZ2dlciByb2Nrcw=="}],"activation_date":"2020-12-11","expiration_date":"2030-11-12","tags":[{"name":"Name","value":"Value"}],"created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","referenced_keystores":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"instances":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","label_in_keystore":"IBM CLOUD KEY","type":"private_key","keystore":{"group":"Group","type":"ibm_cloud_kms"}}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"total_count":2,"limit":1}`)
+						fmt.Fprintf(res, "%s", `{"managed_keys":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"template":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"AWS-KMS-TEMPLATE","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"description":"Managed key description","label":"IBM CLOUD KEY","state":"active","size":"256","algorithm":"aes","verification_patterns":[{"method":"enc-zero","value":"U3dhZ2dlciByb2Nrcw=="}],"activation_date":"2020-12-11","expiration_date":"2030-11-12","tags":[{"name":"Name","value":"Value"}],"created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","referenced_keystores":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"instances":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","label_in_keystore":"IBM CLOUD KEY","type":"private_key","keystore":{"group":"Group","type":"ibm_cloud_kms"},"google_key_protection_level":"software","google_key_purpose":"encrypt_decrypt","google_kms_algorithm":"google_symmetric_encryption"}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"total_count":2,"limit":1}`)
 					} else {
 						res.WriteHeader(400)
 					}
@@ -6890,6 +7208,9 @@ var _ = Describe(`UkoV4`, func() {
 					DeactivationDate: core.StringPtr("testString"),
 					DeactivationDateMin: core.StringPtr("testString"),
 					DeactivationDateMax: core.StringPtr("testString"),
+					ExpirationDate: core.StringPtr("testString"),
+					ExpirationDateMin: core.StringPtr("testString"),
+					ExpirationDateMax: core.StringPtr("testString"),
 					CreatedAt: core.StringPtr("testString"),
 					CreatedAtMin: core.StringPtr("testString"),
 					CreatedAtMax: core.StringPtr("testString"),
@@ -6936,6 +7257,9 @@ var _ = Describe(`UkoV4`, func() {
 					DeactivationDate: core.StringPtr("testString"),
 					DeactivationDateMin: core.StringPtr("testString"),
 					DeactivationDateMax: core.StringPtr("testString"),
+					ExpirationDate: core.StringPtr("testString"),
+					ExpirationDateMin: core.StringPtr("testString"),
+					ExpirationDateMax: core.StringPtr("testString"),
 					CreatedAt: core.StringPtr("testString"),
 					CreatedAtMin: core.StringPtr("testString"),
 					CreatedAtMax: core.StringPtr("testString"),
@@ -8151,26 +8475,32 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(keyPropertiesModel.ExpirationDate).To(Equal(core.StringPtr("P1Y2M1W4D")))
 				Expect(keyPropertiesModel.State).To(Equal(core.StringPtr("active")))
 
-				// Construct an instance of the KeystoresProperties model
-				keystoresPropertiesModel := new(ukov4.KeystoresProperties)
-				Expect(keystoresPropertiesModel).ToNot(BeNil())
-				keystoresPropertiesModel.Group = core.StringPtr("Production")
-				keystoresPropertiesModel.Type = core.StringPtr("ibm_cloud_kms")
-				Expect(keystoresPropertiesModel.Group).To(Equal(core.StringPtr("Production")))
-				Expect(keystoresPropertiesModel.Type).To(Equal(core.StringPtr("ibm_cloud_kms")))
+				// Construct an instance of the KeystoresPropertiesCreateGoogleKms model
+				keystoresPropertiesCreateModel := new(ukov4.KeystoresPropertiesCreateGoogleKms)
+				Expect(keystoresPropertiesCreateModel).ToNot(BeNil())
+				keystoresPropertiesCreateModel.Group = core.StringPtr("Production")
+				keystoresPropertiesCreateModel.Type = core.StringPtr("ibm_cloud_kms")
+				keystoresPropertiesCreateModel.GoogleKeyProtectionLevel = core.StringPtr("software")
+				keystoresPropertiesCreateModel.GoogleKeyPurpose = core.StringPtr("encrypt_decrypt")
+				keystoresPropertiesCreateModel.GoogleKmsAlgorithm = core.StringPtr("google_symmetric_encryption")
+				Expect(keystoresPropertiesCreateModel.Group).To(Equal(core.StringPtr("Production")))
+				Expect(keystoresPropertiesCreateModel.Type).To(Equal(core.StringPtr("ibm_cloud_kms")))
+				Expect(keystoresPropertiesCreateModel.GoogleKeyProtectionLevel).To(Equal(core.StringPtr("software")))
+				Expect(keystoresPropertiesCreateModel.GoogleKeyPurpose).To(Equal(core.StringPtr("encrypt_decrypt")))
+				Expect(keystoresPropertiesCreateModel.GoogleKmsAlgorithm).To(Equal(core.StringPtr("google_symmetric_encryption")))
 
 				// Construct an instance of the CreateKeyTemplateOptions model
 				ukoVault := "testString"
 				var createKeyTemplateOptionsVault *ukov4.VaultReferenceInCreationRequest = nil
 				createKeyTemplateOptionsName := "EXAMPLE-TEMPLATE"
 				var createKeyTemplateOptionsKey *ukov4.KeyProperties = nil
-				createKeyTemplateOptionsKeystores := []ukov4.KeystoresProperties{}
+				createKeyTemplateOptionsKeystores := []ukov4.KeystoresPropertiesCreateIntf{}
 				createKeyTemplateOptionsModel := ukoService.NewCreateKeyTemplateOptions(ukoVault, createKeyTemplateOptionsVault, createKeyTemplateOptionsName, createKeyTemplateOptionsKey, createKeyTemplateOptionsKeystores)
 				createKeyTemplateOptionsModel.SetUKOVault("testString")
 				createKeyTemplateOptionsModel.SetVault(vaultReferenceInCreationRequestModel)
 				createKeyTemplateOptionsModel.SetName("EXAMPLE-TEMPLATE")
 				createKeyTemplateOptionsModel.SetKey(keyPropertiesModel)
-				createKeyTemplateOptionsModel.SetKeystores([]ukov4.KeystoresProperties{*keystoresPropertiesModel})
+				createKeyTemplateOptionsModel.SetKeystores([]ukov4.KeystoresPropertiesCreateIntf{keystoresPropertiesCreateModel})
 				createKeyTemplateOptionsModel.SetDescription("testString")
 				createKeyTemplateOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createKeyTemplateOptionsModel).ToNot(BeNil())
@@ -8178,7 +8508,7 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(createKeyTemplateOptionsModel.Vault).To(Equal(vaultReferenceInCreationRequestModel))
 				Expect(createKeyTemplateOptionsModel.Name).To(Equal(core.StringPtr("EXAMPLE-TEMPLATE")))
 				Expect(createKeyTemplateOptionsModel.Key).To(Equal(keyPropertiesModel))
-				Expect(createKeyTemplateOptionsModel.Keystores).To(Equal([]ukov4.KeystoresProperties{*keystoresPropertiesModel}))
+				Expect(createKeyTemplateOptionsModel.Keystores).To(Equal([]ukov4.KeystoresPropertiesCreateIntf{keystoresPropertiesCreateModel}))
 				Expect(createKeyTemplateOptionsModel.Description).To(Equal(core.StringPtr("testString")))
 				Expect(createKeyTemplateOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -8541,6 +8871,9 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysFromKeystoreOptionsModel.SetDeactivationDate("testString")
 				listManagedKeysFromKeystoreOptionsModel.SetDeactivationDateMin("testString")
 				listManagedKeysFromKeystoreOptionsModel.SetDeactivationDateMax("testString")
+				listManagedKeysFromKeystoreOptionsModel.SetExpirationDate("testString")
+				listManagedKeysFromKeystoreOptionsModel.SetExpirationDateMin("testString")
+				listManagedKeysFromKeystoreOptionsModel.SetExpirationDateMax("testString")
 				listManagedKeysFromKeystoreOptionsModel.SetCreatedAt("testString")
 				listManagedKeysFromKeystoreOptionsModel.SetCreatedAtMin("testString")
 				listManagedKeysFromKeystoreOptionsModel.SetCreatedAtMax("testString")
@@ -8566,6 +8899,9 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(listManagedKeysFromKeystoreOptionsModel.DeactivationDate).To(Equal(core.StringPtr("testString")))
 				Expect(listManagedKeysFromKeystoreOptionsModel.DeactivationDateMin).To(Equal(core.StringPtr("testString")))
 				Expect(listManagedKeysFromKeystoreOptionsModel.DeactivationDateMax).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysFromKeystoreOptionsModel.ExpirationDate).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysFromKeystoreOptionsModel.ExpirationDateMin).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysFromKeystoreOptionsModel.ExpirationDateMax).To(Equal(core.StringPtr("testString")))
 				Expect(listManagedKeysFromKeystoreOptionsModel.CreatedAt).To(Equal(core.StringPtr("testString")))
 				Expect(listManagedKeysFromKeystoreOptionsModel.CreatedAtMin).To(Equal(core.StringPtr("testString")))
 				Expect(listManagedKeysFromKeystoreOptionsModel.CreatedAtMax).To(Equal(core.StringPtr("testString")))
@@ -8593,6 +8929,9 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysOptionsModel.SetDeactivationDate("testString")
 				listManagedKeysOptionsModel.SetDeactivationDateMin("testString")
 				listManagedKeysOptionsModel.SetDeactivationDateMax("testString")
+				listManagedKeysOptionsModel.SetExpirationDate("testString")
+				listManagedKeysOptionsModel.SetExpirationDateMin("testString")
+				listManagedKeysOptionsModel.SetExpirationDateMax("testString")
 				listManagedKeysOptionsModel.SetCreatedAt("testString")
 				listManagedKeysOptionsModel.SetCreatedAtMin("testString")
 				listManagedKeysOptionsModel.SetCreatedAtMax("testString")
@@ -8620,6 +8959,9 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(listManagedKeysOptionsModel.DeactivationDate).To(Equal(core.StringPtr("testString")))
 				Expect(listManagedKeysOptionsModel.DeactivationDateMin).To(Equal(core.StringPtr("testString")))
 				Expect(listManagedKeysOptionsModel.DeactivationDateMax).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysOptionsModel.ExpirationDate).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysOptionsModel.ExpirationDateMin).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysOptionsModel.ExpirationDateMax).To(Equal(core.StringPtr("testString")))
 				Expect(listManagedKeysOptionsModel.CreatedAt).To(Equal(core.StringPtr("testString")))
 				Expect(listManagedKeysOptionsModel.CreatedAtMin).To(Equal(core.StringPtr("testString")))
 				Expect(listManagedKeysOptionsModel.CreatedAtMax).To(Equal(core.StringPtr("testString")))
@@ -8651,12 +8993,34 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(listVaultsOptionsModel.Description).To(Equal(core.StringPtr("My Example Vault Description")))
 				Expect(listVaultsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewSyncManagedKeyOptions successfully`, func() {
+				// Construct an instance of the SyncManagedKeyOptions model
+				id := "testString"
+				ukoVault := "testString"
+				ifMatch := "testString"
+				syncManagedKeyOptionsModel := ukoService.NewSyncManagedKeyOptions(id, ukoVault, ifMatch)
+				syncManagedKeyOptionsModel.SetID("testString")
+				syncManagedKeyOptionsModel.SetUKOVault("testString")
+				syncManagedKeyOptionsModel.SetIfMatch("testString")
+				syncManagedKeyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(syncManagedKeyOptionsModel).ToNot(BeNil())
+				Expect(syncManagedKeyOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(syncManagedKeyOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
+				Expect(syncManagedKeyOptionsModel.IfMatch).To(Equal(core.StringPtr("testString")))
+				Expect(syncManagedKeyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewUpdateKeyTemplateOptions successfully`, func() {
-				// Construct an instance of the KeystoresPropertiesUpdate model
-				keystoresPropertiesUpdateModel := new(ukov4.KeystoresPropertiesUpdate)
+				// Construct an instance of the KeystoresPropertiesUpdateGoogleKms model
+				keystoresPropertiesUpdateModel := new(ukov4.KeystoresPropertiesUpdateGoogleKms)
 				Expect(keystoresPropertiesUpdateModel).ToNot(BeNil())
 				keystoresPropertiesUpdateModel.Group = core.StringPtr("Production")
+				keystoresPropertiesUpdateModel.GoogleKeyProtectionLevel = core.StringPtr("software")
+				keystoresPropertiesUpdateModel.GoogleKeyPurpose = core.StringPtr("encrypt_decrypt")
+				keystoresPropertiesUpdateModel.GoogleKmsAlgorithm = core.StringPtr("google_symmetric_encryption")
 				Expect(keystoresPropertiesUpdateModel.Group).To(Equal(core.StringPtr("Production")))
+				Expect(keystoresPropertiesUpdateModel.GoogleKeyProtectionLevel).To(Equal(core.StringPtr("software")))
+				Expect(keystoresPropertiesUpdateModel.GoogleKeyPurpose).To(Equal(core.StringPtr("encrypt_decrypt")))
+				Expect(keystoresPropertiesUpdateModel.GoogleKmsAlgorithm).To(Equal(core.StringPtr("google_symmetric_encryption")))
 
 				// Construct an instance of the KeyPropertiesUpdate model
 				keyPropertiesUpdateModel := new(ukov4.KeyPropertiesUpdate)
@@ -8678,7 +9042,7 @@ var _ = Describe(`UkoV4`, func() {
 				updateKeyTemplateOptionsModel.SetID("testString")
 				updateKeyTemplateOptionsModel.SetUKOVault("testString")
 				updateKeyTemplateOptionsModel.SetIfMatch("testString")
-				updateKeyTemplateOptionsModel.SetKeystores([]ukov4.KeystoresPropertiesUpdate{*keystoresPropertiesUpdateModel})
+				updateKeyTemplateOptionsModel.SetKeystores([]ukov4.KeystoresPropertiesUpdateIntf{keystoresPropertiesUpdateModel})
 				updateKeyTemplateOptionsModel.SetDescription("testString")
 				updateKeyTemplateOptionsModel.SetKey(keyPropertiesUpdateModel)
 				updateKeyTemplateOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
@@ -8686,27 +9050,27 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(updateKeyTemplateOptionsModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(updateKeyTemplateOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
 				Expect(updateKeyTemplateOptionsModel.IfMatch).To(Equal(core.StringPtr("testString")))
-				Expect(updateKeyTemplateOptionsModel.Keystores).To(Equal([]ukov4.KeystoresPropertiesUpdate{*keystoresPropertiesUpdateModel}))
+				Expect(updateKeyTemplateOptionsModel.Keystores).To(Equal([]ukov4.KeystoresPropertiesUpdateIntf{keystoresPropertiesUpdateModel}))
 				Expect(updateKeyTemplateOptionsModel.Description).To(Equal(core.StringPtr("testString")))
 				Expect(updateKeyTemplateOptionsModel.Key).To(Equal(keyPropertiesUpdateModel))
 				Expect(updateKeyTemplateOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateKeystoreOptions successfully`, func() {
-				// Construct an instance of the KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate model
-				keystoreUpdateRequestModel := new(ukov4.KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate)
+				// Construct an instance of the KeystoreUpdateRequestKeystoreTypeGoogleKmsUpdate model
+				keystoreUpdateRequestModel := new(ukov4.KeystoreUpdateRequestKeystoreTypeGoogleKmsUpdate)
 				Expect(keystoreUpdateRequestModel).ToNot(BeNil())
 				keystoreUpdateRequestModel.Name = core.StringPtr("IBM Cloud Keystore Name")
 				keystoreUpdateRequestModel.Description = core.StringPtr("Azure keystore")
 				keystoreUpdateRequestModel.Groups = []string{"Production"}
-				keystoreUpdateRequestModel.AwsRegion = core.StringPtr("af_south_1")
-				keystoreUpdateRequestModel.AwsAccessKeyID = core.StringPtr("BSDFWERUANLKJDN54AAS")
-				keystoreUpdateRequestModel.AwsSecretAccessKey = core.StringPtr("6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs")
+				keystoreUpdateRequestModel.GoogleCredentials = core.StringPtr("eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=")
+				keystoreUpdateRequestModel.GoogleLocation = core.StringPtr("europe-central2")
+				keystoreUpdateRequestModel.GoogleKeyRing = core.StringPtr("my-key-ring")
 				Expect(keystoreUpdateRequestModel.Name).To(Equal(core.StringPtr("IBM Cloud Keystore Name")))
 				Expect(keystoreUpdateRequestModel.Description).To(Equal(core.StringPtr("Azure keystore")))
 				Expect(keystoreUpdateRequestModel.Groups).To(Equal([]string{"Production"}))
-				Expect(keystoreUpdateRequestModel.AwsRegion).To(Equal(core.StringPtr("af_south_1")))
-				Expect(keystoreUpdateRequestModel.AwsAccessKeyID).To(Equal(core.StringPtr("BSDFWERUANLKJDN54AAS")))
-				Expect(keystoreUpdateRequestModel.AwsSecretAccessKey).To(Equal(core.StringPtr("6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs")))
+				Expect(keystoreUpdateRequestModel.GoogleCredentials).To(Equal(core.StringPtr("eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=")))
+				Expect(keystoreUpdateRequestModel.GoogleLocation).To(Equal(core.StringPtr("europe-central2")))
+				Expect(keystoreUpdateRequestModel.GoogleKeyRing).To(Equal(core.StringPtr("my-key-ring")))
 
 				// Construct an instance of the UpdateKeystoreOptions model
 				id := "testString"
@@ -8803,13 +9167,6 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(_model).ToNot(BeNil())
 				Expect(err).To(BeNil())
 			})
-			It(`Invoke NewKeystoresProperties successfully`, func() {
-				group := "Production"
-				typeVar := "ibm_cloud_kms"
-				_model, err := ukoService.NewKeystoresProperties(group, typeVar)
-				Expect(_model).ToNot(BeNil())
-				Expect(err).To(BeNil())
-			})
 			It(`Invoke NewTag successfully`, func() {
 				name := "testString"
 				value := "testString"
@@ -8845,6 +9202,14 @@ var _ = Describe(`UkoV4`, func() {
 				azureSubscriptionID := "a98667h9b-5fhf-42f3-9392-26856b045g08"
 				azureEnvironment := "azure"
 				_, err := ukoService.NewKeystoreCreationRequestKeystoreTypeAzureCreate(typeVar, vault, azureServiceName, azureResourceGroup, azureLocation, azureServicePrincipalClientID, azureServicePrincipalPassword, azureTenant, azureSubscriptionID, azureEnvironment)
+				Expect(err).ToNot(BeNil())
+			})
+			It(`Invoke NewKeystoreCreationRequestKeystoreTypeGoogleKmsCreate successfully`, func() {
+				typeVar := "google_kms"
+				var vault *ukov4.VaultReferenceInCreationRequest = nil
+				name := "IBM Cloud Keystore Name"
+				googleCredentials := "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo="
+				_, err := ukoService.NewKeystoreCreationRequestKeystoreTypeGoogleKmsCreate(typeVar, vault, name, googleCredentials)
 				Expect(err).ToNot(BeNil())
 			})
 			It(`Invoke NewKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate successfully`, func() {
