@@ -38,7 +38,7 @@ import (
 
 // UkoV4 : API for UKO used for key management.
 //
-// API Version: 4.7.3
+// API Version: 4.7.7
 type UkoV4 struct {
 	Service *core.BaseService
 }
@@ -4177,11 +4177,13 @@ type UpdateKeyTemplateOptions struct {
 	// Precondition of the update; Value of the ETag from the header on a GET request.
 	IfMatch *string `json:"If-Match" validate:"required"`
 
+	// Updated keystore related properties.
 	Keystores []KeystoresPropertiesUpdateIntf `json:"keystores,omitempty"`
 
 	// Updated description of the key template.
 	Description *string `json:"description,omitempty"`
 
+	// Updated key related properties.
 	Key *KeyPropertiesUpdate `json:"key,omitempty"`
 
 	// Allows users to set headers on API requests
@@ -5012,7 +5014,7 @@ func UnmarshalKeyProperties(m map[string]json.RawMessage, result interface{}) (e
 	return
 }
 
-// KeyPropertiesUpdate : KeyPropertiesUpdate struct
+// KeyPropertiesUpdate : Updated key related properties.
 type KeyPropertiesUpdate struct {
 	// The size of the underlying cryptographic key or key pair. E.g. "256" for AES keys, or "2048" for RSA.
 	Size *string `json:"size,omitempty"`
