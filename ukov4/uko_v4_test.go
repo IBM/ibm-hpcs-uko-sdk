@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -173,6 +173,8 @@ var _ = Describe(`UkoV4`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(listManagedKeysPath))
 					Expect(req.Method).To(Equal("GET"))
+					Expect(req.Header["Accept"]).ToNot(BeNil())
+					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "application/json")))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					Expect(req.URL.Query()["label"]).To(Equal([]string{"testString"}))
@@ -191,9 +193,12 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.Query()["updated_at"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["updated_at_min"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["updated_at_max"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["size"]).To(Equal([]string{fmt.Sprint(int64(38))}))
-					Expect(req.URL.Query()["size_min"]).To(Equal([]string{fmt.Sprint(int64(38))}))
-					Expect(req.URL.Query()["size_max"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["rotated_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["rotated_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["template.name"]).To(Equal([]string{"AWS-TEMPLATE"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprint(res, `} this is not valid json {`)
@@ -209,6 +214,7 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListManagedKeysOptions model
 				listManagedKeysOptionsModel := new(ukov4.ListManagedKeysOptions)
+				listManagedKeysOptionsModel.Accept = core.StringPtr("application/json")
 				listManagedKeysOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
 				listManagedKeysOptionsModel.Algorithm = []string{"aes"}
 				listManagedKeysOptionsModel.State = []string{"pre_activation", "active"}
@@ -231,12 +237,18 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysOptionsModel.UpdatedAt = core.StringPtr("testString")
 				listManagedKeysOptionsModel.UpdatedAtMin = core.StringPtr("testString")
 				listManagedKeysOptionsModel.UpdatedAtMax = core.StringPtr("testString")
-				listManagedKeysOptionsModel.Size = core.Int64Ptr(int64(38))
-				listManagedKeysOptionsModel.SizeMin = core.Int64Ptr(int64(38))
-				listManagedKeysOptionsModel.SizeMax = core.Int64Ptr(int64(38))
+				listManagedKeysOptionsModel.RotatedAtMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.RotatedAtMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.Size = core.StringPtr("testString")
+				listManagedKeysOptionsModel.SizeMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.SizeMax = core.StringPtr("testString")
 				listManagedKeysOptionsModel.ReferencedKeystoresType = []string{"ibm_cloud_kms"}
 				listManagedKeysOptionsModel.ReferencedKeystoresName = []string{"testString"}
 				listManagedKeysOptionsModel.InstancesKeystoreType = []string{"ibm_cloud_kms"}
+				listManagedKeysOptionsModel.TemplateName = core.StringPtr("AWS-TEMPLATE")
+				listManagedKeysOptionsModel.TemplateID = []string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"}
+				listManagedKeysOptionsModel.TemplateType = []string{"user_defined"}
+				listManagedKeysOptionsModel.ManagingSystems = []string{"web"}
 				listManagedKeysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := ukoService.ListManagedKeys(listManagedKeysOptionsModel)
@@ -267,6 +279,8 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(listManagedKeysPath))
 					Expect(req.Method).To(Equal("GET"))
 
+					Expect(req.Header["Accept"]).ToNot(BeNil())
+					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "application/json")))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					Expect(req.URL.Query()["label"]).To(Equal([]string{"testString"}))
@@ -285,16 +299,19 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.Query()["updated_at"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["updated_at_min"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["updated_at_max"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["size"]).To(Equal([]string{fmt.Sprint(int64(38))}))
-					Expect(req.URL.Query()["size_min"]).To(Equal([]string{fmt.Sprint(int64(38))}))
-					Expect(req.URL.Query()["size_max"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["rotated_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["rotated_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["template.name"]).To(Equal([]string{"AWS-TEMPLATE"}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "managed_keys": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}]}`)
+					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "managed_keys": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "type": ["user_defined"], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "version": 1, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "label_tags": [{"name": "Name", "value": "Value"}], "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "rotated_at": "2022-02-22T10:27:08.000Z", "status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}], "deactivate_on_rotation": true, "managing_systems": ["web"]}]}`)
 				}))
 			})
 			It(`Invoke ListManagedKeys successfully with retries`, func() {
@@ -308,6 +325,7 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListManagedKeysOptions model
 				listManagedKeysOptionsModel := new(ukov4.ListManagedKeysOptions)
+				listManagedKeysOptionsModel.Accept = core.StringPtr("application/json")
 				listManagedKeysOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
 				listManagedKeysOptionsModel.Algorithm = []string{"aes"}
 				listManagedKeysOptionsModel.State = []string{"pre_activation", "active"}
@@ -330,12 +348,18 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysOptionsModel.UpdatedAt = core.StringPtr("testString")
 				listManagedKeysOptionsModel.UpdatedAtMin = core.StringPtr("testString")
 				listManagedKeysOptionsModel.UpdatedAtMax = core.StringPtr("testString")
-				listManagedKeysOptionsModel.Size = core.Int64Ptr(int64(38))
-				listManagedKeysOptionsModel.SizeMin = core.Int64Ptr(int64(38))
-				listManagedKeysOptionsModel.SizeMax = core.Int64Ptr(int64(38))
+				listManagedKeysOptionsModel.RotatedAtMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.RotatedAtMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.Size = core.StringPtr("testString")
+				listManagedKeysOptionsModel.SizeMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.SizeMax = core.StringPtr("testString")
 				listManagedKeysOptionsModel.ReferencedKeystoresType = []string{"ibm_cloud_kms"}
 				listManagedKeysOptionsModel.ReferencedKeystoresName = []string{"testString"}
 				listManagedKeysOptionsModel.InstancesKeystoreType = []string{"ibm_cloud_kms"}
+				listManagedKeysOptionsModel.TemplateName = core.StringPtr("AWS-TEMPLATE")
+				listManagedKeysOptionsModel.TemplateID = []string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"}
+				listManagedKeysOptionsModel.TemplateType = []string{"user_defined"}
+				listManagedKeysOptionsModel.ManagingSystems = []string{"web"}
 				listManagedKeysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -372,6 +396,8 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(listManagedKeysPath))
 					Expect(req.Method).To(Equal("GET"))
 
+					Expect(req.Header["Accept"]).ToNot(BeNil())
+					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "application/json")))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					Expect(req.URL.Query()["label"]).To(Equal([]string{"testString"}))
@@ -390,13 +416,16 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.Query()["updated_at"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["updated_at_min"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["updated_at_max"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["size"]).To(Equal([]string{fmt.Sprint(int64(38))}))
-					Expect(req.URL.Query()["size_min"]).To(Equal([]string{fmt.Sprint(int64(38))}))
-					Expect(req.URL.Query()["size_max"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["rotated_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["rotated_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["template.name"]).To(Equal([]string{"AWS-TEMPLATE"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "managed_keys": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}]}`)
+					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "managed_keys": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "type": ["user_defined"], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "version": 1, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "label_tags": [{"name": "Name", "value": "Value"}], "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "rotated_at": "2022-02-22T10:27:08.000Z", "status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}], "deactivate_on_rotation": true, "managing_systems": ["web"]}]}`)
 				}))
 			})
 			It(`Invoke ListManagedKeys successfully`, func() {
@@ -415,6 +444,7 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListManagedKeysOptions model
 				listManagedKeysOptionsModel := new(ukov4.ListManagedKeysOptions)
+				listManagedKeysOptionsModel.Accept = core.StringPtr("application/json")
 				listManagedKeysOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
 				listManagedKeysOptionsModel.Algorithm = []string{"aes"}
 				listManagedKeysOptionsModel.State = []string{"pre_activation", "active"}
@@ -437,12 +467,18 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysOptionsModel.UpdatedAt = core.StringPtr("testString")
 				listManagedKeysOptionsModel.UpdatedAtMin = core.StringPtr("testString")
 				listManagedKeysOptionsModel.UpdatedAtMax = core.StringPtr("testString")
-				listManagedKeysOptionsModel.Size = core.Int64Ptr(int64(38))
-				listManagedKeysOptionsModel.SizeMin = core.Int64Ptr(int64(38))
-				listManagedKeysOptionsModel.SizeMax = core.Int64Ptr(int64(38))
+				listManagedKeysOptionsModel.RotatedAtMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.RotatedAtMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.Size = core.StringPtr("testString")
+				listManagedKeysOptionsModel.SizeMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.SizeMax = core.StringPtr("testString")
 				listManagedKeysOptionsModel.ReferencedKeystoresType = []string{"ibm_cloud_kms"}
 				listManagedKeysOptionsModel.ReferencedKeystoresName = []string{"testString"}
 				listManagedKeysOptionsModel.InstancesKeystoreType = []string{"ibm_cloud_kms"}
+				listManagedKeysOptionsModel.TemplateName = core.StringPtr("AWS-TEMPLATE")
+				listManagedKeysOptionsModel.TemplateID = []string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"}
+				listManagedKeysOptionsModel.TemplateType = []string{"user_defined"}
+				listManagedKeysOptionsModel.ManagingSystems = []string{"web"}
 				listManagedKeysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -462,6 +498,7 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListManagedKeysOptions model
 				listManagedKeysOptionsModel := new(ukov4.ListManagedKeysOptions)
+				listManagedKeysOptionsModel.Accept = core.StringPtr("application/json")
 				listManagedKeysOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
 				listManagedKeysOptionsModel.Algorithm = []string{"aes"}
 				listManagedKeysOptionsModel.State = []string{"pre_activation", "active"}
@@ -484,12 +521,18 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysOptionsModel.UpdatedAt = core.StringPtr("testString")
 				listManagedKeysOptionsModel.UpdatedAtMin = core.StringPtr("testString")
 				listManagedKeysOptionsModel.UpdatedAtMax = core.StringPtr("testString")
-				listManagedKeysOptionsModel.Size = core.Int64Ptr(int64(38))
-				listManagedKeysOptionsModel.SizeMin = core.Int64Ptr(int64(38))
-				listManagedKeysOptionsModel.SizeMax = core.Int64Ptr(int64(38))
+				listManagedKeysOptionsModel.RotatedAtMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.RotatedAtMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.Size = core.StringPtr("testString")
+				listManagedKeysOptionsModel.SizeMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.SizeMax = core.StringPtr("testString")
 				listManagedKeysOptionsModel.ReferencedKeystoresType = []string{"ibm_cloud_kms"}
 				listManagedKeysOptionsModel.ReferencedKeystoresName = []string{"testString"}
 				listManagedKeysOptionsModel.InstancesKeystoreType = []string{"ibm_cloud_kms"}
+				listManagedKeysOptionsModel.TemplateName = core.StringPtr("AWS-TEMPLATE")
+				listManagedKeysOptionsModel.TemplateID = []string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"}
+				listManagedKeysOptionsModel.TemplateType = []string{"user_defined"}
+				listManagedKeysOptionsModel.ManagingSystems = []string{"web"}
 				listManagedKeysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := ukoService.SetServiceURL("")
@@ -523,6 +566,7 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListManagedKeysOptions model
 				listManagedKeysOptionsModel := new(ukov4.ListManagedKeysOptions)
+				listManagedKeysOptionsModel.Accept = core.StringPtr("application/json")
 				listManagedKeysOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
 				listManagedKeysOptionsModel.Algorithm = []string{"aes"}
 				listManagedKeysOptionsModel.State = []string{"pre_activation", "active"}
@@ -545,12 +589,18 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysOptionsModel.UpdatedAt = core.StringPtr("testString")
 				listManagedKeysOptionsModel.UpdatedAtMin = core.StringPtr("testString")
 				listManagedKeysOptionsModel.UpdatedAtMax = core.StringPtr("testString")
-				listManagedKeysOptionsModel.Size = core.Int64Ptr(int64(38))
-				listManagedKeysOptionsModel.SizeMin = core.Int64Ptr(int64(38))
-				listManagedKeysOptionsModel.SizeMax = core.Int64Ptr(int64(38))
+				listManagedKeysOptionsModel.RotatedAtMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.RotatedAtMax = core.StringPtr("testString")
+				listManagedKeysOptionsModel.Size = core.StringPtr("testString")
+				listManagedKeysOptionsModel.SizeMin = core.StringPtr("testString")
+				listManagedKeysOptionsModel.SizeMax = core.StringPtr("testString")
 				listManagedKeysOptionsModel.ReferencedKeystoresType = []string{"ibm_cloud_kms"}
 				listManagedKeysOptionsModel.ReferencedKeystoresName = []string{"testString"}
 				listManagedKeysOptionsModel.InstancesKeystoreType = []string{"ibm_cloud_kms"}
+				listManagedKeysOptionsModel.TemplateName = core.StringPtr("AWS-TEMPLATE")
+				listManagedKeysOptionsModel.TemplateID = []string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"}
+				listManagedKeysOptionsModel.TemplateType = []string{"user_defined"}
+				listManagedKeysOptionsModel.ManagingSystems = []string{"web"}
 				listManagedKeysOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -619,9 +669,9 @@ var _ = Describe(`UkoV4`, func() {
 					res.WriteHeader(200)
 					requestNumber++
 					if requestNumber == 1 {
-						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"managed_keys":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"template":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"AWS-KMS-TEMPLATE","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"description":"Managed key description","label":"IBM CLOUD KEY","state":"active","size":"256","algorithm":"aes","verification_patterns":[{"method":"enc-zero","value":"U3dhZ2dlciByb2Nrcw=="}],"activation_date":"2020-12-11","expiration_date":"2030-11-12","tags":[{"name":"Name","value":"Value"}],"created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","referenced_keystores":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"instances":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","label_in_keystore":"IBM CLOUD KEY","type":"private_key","keystore":{"group":"Group","type":"ibm_cloud_kms"},"google_key_protection_level":"software","google_key_purpose":"encrypt_decrypt","google_kms_algorithm":"google_symmetric_encryption"}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"total_count":2,"limit":1}`)
+						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"managed_keys":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"template":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"AWS-KMS-TEMPLATE","type":["user_defined"],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"version":1,"description":"Managed key description","label":"IBM CLOUD KEY","state":"active","size":"256","algorithm":"aes","verification_patterns":[{"method":"enc-zero","value":"U3dhZ2dlciByb2Nrcw=="}],"activation_date":"2020-12-11","expiration_date":"2030-11-12","label_tags":[{"name":"Name","value":"Value"}],"tags":[{"name":"Name","value":"Value"}],"created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","referenced_keystores":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"instances":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","label_in_keystore":"IBM CLOUD KEY","type":"private_key","keystore":{"group":"Group","type":"ibm_cloud_kms"},"google_key_protection_level":"software","google_key_purpose":"encrypt_decrypt","google_kms_algorithm":"google_symmetric_encryption"}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46","rotated_at":"2022-02-22T10:27:08.000Z","status_in_keystores":[{"keystore":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"status":"active","keystore_sync_flag":"ok","keystore_sync_flag_detail":"pre_active_key_not_present_in_keystore","error":{"status_code":400,"trace":"9daee671-916a-4678-850b-10b9110236d","errors":[{"code":"missing_field","message":"The algorithm field is required","more_info":"https://cloud.ibm.com/apidocs/uko#create-managed-key","message_params":["My Key Template"],"target":{"type":"field","name":"first_name"}}]},"key_id_in_keystore":"123e4567-e89b-12d3-a456-426614174000"}],"deactivate_on_rotation":true,"managing_systems":["web"]}],"total_count":2,"limit":1}`)
 					} else if requestNumber == 2 {
-						fmt.Fprintf(res, "%s", `{"managed_keys":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"template":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"AWS-KMS-TEMPLATE","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"description":"Managed key description","label":"IBM CLOUD KEY","state":"active","size":"256","algorithm":"aes","verification_patterns":[{"method":"enc-zero","value":"U3dhZ2dlciByb2Nrcw=="}],"activation_date":"2020-12-11","expiration_date":"2030-11-12","tags":[{"name":"Name","value":"Value"}],"created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","referenced_keystores":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"instances":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","label_in_keystore":"IBM CLOUD KEY","type":"private_key","keystore":{"group":"Group","type":"ibm_cloud_kms"},"google_key_protection_level":"software","google_key_purpose":"encrypt_decrypt","google_kms_algorithm":"google_symmetric_encryption"}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"total_count":2,"limit":1}`)
+						fmt.Fprintf(res, "%s", `{"managed_keys":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"template":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"AWS-KMS-TEMPLATE","type":["user_defined"],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"version":1,"description":"Managed key description","label":"IBM CLOUD KEY","state":"active","size":"256","algorithm":"aes","verification_patterns":[{"method":"enc-zero","value":"U3dhZ2dlciByb2Nrcw=="}],"activation_date":"2020-12-11","expiration_date":"2030-11-12","label_tags":[{"name":"Name","value":"Value"}],"tags":[{"name":"Name","value":"Value"}],"created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","referenced_keystores":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"instances":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","label_in_keystore":"IBM CLOUD KEY","type":"private_key","keystore":{"group":"Group","type":"ibm_cloud_kms"},"google_key_protection_level":"software","google_key_purpose":"encrypt_decrypt","google_kms_algorithm":"google_symmetric_encryption"}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46","rotated_at":"2022-02-22T10:27:08.000Z","status_in_keystores":[{"keystore":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"status":"active","keystore_sync_flag":"ok","keystore_sync_flag_detail":"pre_active_key_not_present_in_keystore","error":{"status_code":400,"trace":"9daee671-916a-4678-850b-10b9110236d","errors":[{"code":"missing_field","message":"The algorithm field is required","more_info":"https://cloud.ibm.com/apidocs/uko#create-managed-key","message_params":["My Key Template"],"target":{"type":"field","name":"first_name"}}]},"key_id_in_keystore":"123e4567-e89b-12d3-a456-426614174000"}],"deactivate_on_rotation":true,"managing_systems":["web"]}],"total_count":2,"limit":1}`)
 					} else {
 						res.WriteHeader(400)
 					}
@@ -636,6 +686,7 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(ukoService).ToNot(BeNil())
 
 				listManagedKeysOptionsModel := &ukov4.ListManagedKeysOptions{
+					Accept: core.StringPtr("application/json"),
 					VaultID: []string{"123e4567-e89b-12d3-a456-426614174000"},
 					Algorithm: []string{"aes"},
 					State: []string{"pre_activation", "active"},
@@ -657,12 +708,18 @@ var _ = Describe(`UkoV4`, func() {
 					UpdatedAt: core.StringPtr("testString"),
 					UpdatedAtMin: core.StringPtr("testString"),
 					UpdatedAtMax: core.StringPtr("testString"),
-					Size: core.Int64Ptr(int64(38)),
-					SizeMin: core.Int64Ptr(int64(38)),
-					SizeMax: core.Int64Ptr(int64(38)),
+					RotatedAtMin: core.StringPtr("testString"),
+					RotatedAtMax: core.StringPtr("testString"),
+					Size: core.StringPtr("testString"),
+					SizeMin: core.StringPtr("testString"),
+					SizeMax: core.StringPtr("testString"),
 					ReferencedKeystoresType: []string{"ibm_cloud_kms"},
 					ReferencedKeystoresName: []string{"testString"},
 					InstancesKeystoreType: []string{"ibm_cloud_kms"},
+					TemplateName: core.StringPtr("AWS-TEMPLATE"),
+					TemplateID: []string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"},
+					TemplateType: []string{"user_defined"},
+					ManagingSystems: []string{"web"},
 				}
 
 				pager, err := ukoService.NewManagedKeysPager(listManagedKeysOptionsModel)
@@ -687,6 +744,7 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(ukoService).ToNot(BeNil())
 
 				listManagedKeysOptionsModel := &ukov4.ListManagedKeysOptions{
+					Accept: core.StringPtr("application/json"),
 					VaultID: []string{"123e4567-e89b-12d3-a456-426614174000"},
 					Algorithm: []string{"aes"},
 					State: []string{"pre_activation", "active"},
@@ -708,12 +766,18 @@ var _ = Describe(`UkoV4`, func() {
 					UpdatedAt: core.StringPtr("testString"),
 					UpdatedAtMin: core.StringPtr("testString"),
 					UpdatedAtMax: core.StringPtr("testString"),
-					Size: core.Int64Ptr(int64(38)),
-					SizeMin: core.Int64Ptr(int64(38)),
-					SizeMax: core.Int64Ptr(int64(38)),
+					RotatedAtMin: core.StringPtr("testString"),
+					RotatedAtMax: core.StringPtr("testString"),
+					Size: core.StringPtr("testString"),
+					SizeMin: core.StringPtr("testString"),
+					SizeMax: core.StringPtr("testString"),
 					ReferencedKeystoresType: []string{"ibm_cloud_kms"},
 					ReferencedKeystoresName: []string{"testString"},
 					InstancesKeystoreType: []string{"ibm_cloud_kms"},
+					TemplateName: core.StringPtr("AWS-TEMPLATE"),
+					TemplateID: []string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"},
+					TemplateType: []string{"user_defined"},
+					ManagingSystems: []string{"web"},
 				}
 
 				pager, err := ukoService.NewManagedKeysPager(listManagedKeysOptionsModel)
@@ -737,8 +801,6 @@ var _ = Describe(`UkoV4`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(createManagedKeyPath))
 					Expect(req.Method).To(Equal("POST"))
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
 					fmt.Fprint(res, `} this is not valid json {`)
@@ -756,18 +818,11 @@ var _ = Describe(`UkoV4`, func() {
 				vaultReferenceInCreationRequestModel := new(ukov4.VaultReferenceInCreationRequest)
 				vaultReferenceInCreationRequestModel.ID = core.StringPtr("5295ad47-2ce9-43c3-b9e7-e5a9482c362b")
 
-				// Construct an instance of the Tag model
-				tagModel := new(ukov4.Tag)
-				tagModel.Name = core.StringPtr("testString")
-				tagModel.Value = core.StringPtr("testString")
-
 				// Construct an instance of the CreateManagedKeyOptions model
 				createManagedKeyOptionsModel := new(ukov4.CreateManagedKeyOptions)
-				createManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				createManagedKeyOptionsModel.TemplateName = core.StringPtr("testString")
 				createManagedKeyOptionsModel.Vault = vaultReferenceInCreationRequestModel
 				createManagedKeyOptionsModel.Label = core.StringPtr("IBM CLOUD KEY")
-				createManagedKeyOptionsModel.Tags = []ukov4.Tag{*tagModel}
 				createManagedKeyOptionsModel.Description = core.StringPtr("testString")
 				createManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -815,15 +870,13 @@ var _ = Describe(`UkoV4`, func() {
 					}
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "type": ["user_defined"], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "version": 1, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "label_tags": [{"name": "Name", "value": "Value"}], "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "rotated_at": "2022-02-22T10:27:08.000Z", "status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}], "deactivate_on_rotation": true, "managing_systems": ["web"]}`)
 				}))
 			})
 			It(`Invoke CreateManagedKey successfully with retries`, func() {
@@ -839,18 +892,11 @@ var _ = Describe(`UkoV4`, func() {
 				vaultReferenceInCreationRequestModel := new(ukov4.VaultReferenceInCreationRequest)
 				vaultReferenceInCreationRequestModel.ID = core.StringPtr("5295ad47-2ce9-43c3-b9e7-e5a9482c362b")
 
-				// Construct an instance of the Tag model
-				tagModel := new(ukov4.Tag)
-				tagModel.Name = core.StringPtr("testString")
-				tagModel.Value = core.StringPtr("testString")
-
 				// Construct an instance of the CreateManagedKeyOptions model
 				createManagedKeyOptionsModel := new(ukov4.CreateManagedKeyOptions)
-				createManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				createManagedKeyOptionsModel.TemplateName = core.StringPtr("testString")
 				createManagedKeyOptionsModel.Vault = vaultReferenceInCreationRequestModel
 				createManagedKeyOptionsModel.Label = core.StringPtr("IBM CLOUD KEY")
-				createManagedKeyOptionsModel.Tags = []ukov4.Tag{*tagModel}
 				createManagedKeyOptionsModel.Description = core.StringPtr("testString")
 				createManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -904,12 +950,10 @@ var _ = Describe(`UkoV4`, func() {
 					}
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "type": ["user_defined"], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "version": 1, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "label_tags": [{"name": "Name", "value": "Value"}], "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "rotated_at": "2022-02-22T10:27:08.000Z", "status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}], "deactivate_on_rotation": true, "managing_systems": ["web"]}`)
 				}))
 			})
 			It(`Invoke CreateManagedKey successfully`, func() {
@@ -930,18 +974,11 @@ var _ = Describe(`UkoV4`, func() {
 				vaultReferenceInCreationRequestModel := new(ukov4.VaultReferenceInCreationRequest)
 				vaultReferenceInCreationRequestModel.ID = core.StringPtr("5295ad47-2ce9-43c3-b9e7-e5a9482c362b")
 
-				// Construct an instance of the Tag model
-				tagModel := new(ukov4.Tag)
-				tagModel.Name = core.StringPtr("testString")
-				tagModel.Value = core.StringPtr("testString")
-
 				// Construct an instance of the CreateManagedKeyOptions model
 				createManagedKeyOptionsModel := new(ukov4.CreateManagedKeyOptions)
-				createManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				createManagedKeyOptionsModel.TemplateName = core.StringPtr("testString")
 				createManagedKeyOptionsModel.Vault = vaultReferenceInCreationRequestModel
 				createManagedKeyOptionsModel.Label = core.StringPtr("IBM CLOUD KEY")
-				createManagedKeyOptionsModel.Tags = []ukov4.Tag{*tagModel}
 				createManagedKeyOptionsModel.Description = core.StringPtr("testString")
 				createManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -964,18 +1001,11 @@ var _ = Describe(`UkoV4`, func() {
 				vaultReferenceInCreationRequestModel := new(ukov4.VaultReferenceInCreationRequest)
 				vaultReferenceInCreationRequestModel.ID = core.StringPtr("5295ad47-2ce9-43c3-b9e7-e5a9482c362b")
 
-				// Construct an instance of the Tag model
-				tagModel := new(ukov4.Tag)
-				tagModel.Name = core.StringPtr("testString")
-				tagModel.Value = core.StringPtr("testString")
-
 				// Construct an instance of the CreateManagedKeyOptions model
 				createManagedKeyOptionsModel := new(ukov4.CreateManagedKeyOptions)
-				createManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				createManagedKeyOptionsModel.TemplateName = core.StringPtr("testString")
 				createManagedKeyOptionsModel.Vault = vaultReferenceInCreationRequestModel
 				createManagedKeyOptionsModel.Label = core.StringPtr("IBM CLOUD KEY")
-				createManagedKeyOptionsModel.Tags = []ukov4.Tag{*tagModel}
 				createManagedKeyOptionsModel.Description = core.StringPtr("testString")
 				createManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -1019,18 +1049,11 @@ var _ = Describe(`UkoV4`, func() {
 				vaultReferenceInCreationRequestModel := new(ukov4.VaultReferenceInCreationRequest)
 				vaultReferenceInCreationRequestModel.ID = core.StringPtr("5295ad47-2ce9-43c3-b9e7-e5a9482c362b")
 
-				// Construct an instance of the Tag model
-				tagModel := new(ukov4.Tag)
-				tagModel.Name = core.StringPtr("testString")
-				tagModel.Value = core.StringPtr("testString")
-
 				// Construct an instance of the CreateManagedKeyOptions model
 				createManagedKeyOptionsModel := new(ukov4.CreateManagedKeyOptions)
-				createManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				createManagedKeyOptionsModel.TemplateName = core.StringPtr("testString")
 				createManagedKeyOptionsModel.Vault = vaultReferenceInCreationRequestModel
 				createManagedKeyOptionsModel.Label = core.StringPtr("IBM CLOUD KEY")
-				createManagedKeyOptionsModel.Tags = []ukov4.Tag{*tagModel}
 				createManagedKeyOptionsModel.Description = core.StringPtr("testString")
 				createManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -1058,8 +1081,6 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(deleteManagedKeyPath))
 					Expect(req.Method).To(Equal("DELETE"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.WriteHeader(204)
@@ -1081,7 +1102,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the DeleteManagedKeyOptions model
 				deleteManagedKeyOptionsModel := new(ukov4.DeleteManagedKeyOptions)
 				deleteManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				deleteManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				deleteManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				deleteManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -1101,7 +1121,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the DeleteManagedKeyOptions model
 				deleteManagedKeyOptionsModel := new(ukov4.DeleteManagedKeyOptions)
 				deleteManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				deleteManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				deleteManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				deleteManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -1133,8 +1152,6 @@ var _ = Describe(`UkoV4`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(getManagedKeyPath))
 					Expect(req.Method).To(Equal("GET"))
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprint(res, `} this is not valid json {`)
@@ -1151,7 +1168,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetManagedKeyOptions model
 				getManagedKeyOptionsModel := new(ukov4.GetManagedKeyOptions)
 				getManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				getManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				getManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := ukoService.GetManagedKey(getManagedKeyOptionsModel)
@@ -1182,15 +1198,13 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(getManagedKeyPath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "type": ["user_defined"], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "version": 1, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "label_tags": [{"name": "Name", "value": "Value"}], "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "rotated_at": "2022-02-22T10:27:08.000Z", "status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}], "deactivate_on_rotation": true, "managing_systems": ["web"]}`)
 				}))
 			})
 			It(`Invoke GetManagedKey successfully with retries`, func() {
@@ -1205,7 +1219,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetManagedKeyOptions model
 				getManagedKeyOptionsModel := new(ukov4.GetManagedKeyOptions)
 				getManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				getManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				getManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -1242,12 +1255,10 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(getManagedKeyPath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "type": ["user_defined"], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "version": 1, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "label_tags": [{"name": "Name", "value": "Value"}], "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "rotated_at": "2022-02-22T10:27:08.000Z", "status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}], "deactivate_on_rotation": true, "managing_systems": ["web"]}`)
 				}))
 			})
 			It(`Invoke GetManagedKey successfully`, func() {
@@ -1267,7 +1278,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetManagedKeyOptions model
 				getManagedKeyOptionsModel := new(ukov4.GetManagedKeyOptions)
 				getManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				getManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				getManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -1288,7 +1298,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetManagedKeyOptions model
 				getManagedKeyOptionsModel := new(ukov4.GetManagedKeyOptions)
 				getManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				getManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				getManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := ukoService.SetServiceURL("")
@@ -1330,7 +1339,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetManagedKeyOptions model
 				getManagedKeyOptionsModel := new(ukov4.GetManagedKeyOptions)
 				getManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				getManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				getManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -1356,8 +1364,6 @@ var _ = Describe(`UkoV4`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(updateManagedKeyPath))
 					Expect(req.Method).To(Equal("PATCH"))
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
@@ -1373,20 +1379,13 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(ukoService).ToNot(BeNil())
 
-				// Construct an instance of the Tag model
-				tagModel := new(ukov4.Tag)
-				tagModel.Name = core.StringPtr("testString")
-				tagModel.Value = core.StringPtr("testString")
-
 				// Construct an instance of the UpdateManagedKeyOptions model
 				updateManagedKeyOptionsModel := new(ukov4.UpdateManagedKeyOptions)
 				updateManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				updateManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				updateManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				updateManagedKeyOptionsModel.Label = core.StringPtr("IBM CLOUD KEY")
 				updateManagedKeyOptionsModel.ActivationDate = CreateMockDate("2020-12-11")
 				updateManagedKeyOptionsModel.ExpirationDate = CreateMockDate("2030-11-12")
-				updateManagedKeyOptionsModel.Tags = []ukov4.Tag{*tagModel}
 				updateManagedKeyOptionsModel.Description = core.StringPtr("testString")
 				updateManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -1434,8 +1433,6 @@ var _ = Describe(`UkoV4`, func() {
 					}
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Sleep a short time to support a timeout test
@@ -1444,7 +1441,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "type": ["user_defined"], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "version": 1, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "label_tags": [{"name": "Name", "value": "Value"}], "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "rotated_at": "2022-02-22T10:27:08.000Z", "status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}], "deactivate_on_rotation": true, "managing_systems": ["web"]}`)
 				}))
 			})
 			It(`Invoke UpdateManagedKey successfully with retries`, func() {
@@ -1456,20 +1453,13 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(ukoService).ToNot(BeNil())
 				ukoService.EnableRetries(0, 0)
 
-				// Construct an instance of the Tag model
-				tagModel := new(ukov4.Tag)
-				tagModel.Name = core.StringPtr("testString")
-				tagModel.Value = core.StringPtr("testString")
-
 				// Construct an instance of the UpdateManagedKeyOptions model
 				updateManagedKeyOptionsModel := new(ukov4.UpdateManagedKeyOptions)
 				updateManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				updateManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				updateManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				updateManagedKeyOptionsModel.Label = core.StringPtr("IBM CLOUD KEY")
 				updateManagedKeyOptionsModel.ActivationDate = CreateMockDate("2020-12-11")
 				updateManagedKeyOptionsModel.ExpirationDate = CreateMockDate("2030-11-12")
-				updateManagedKeyOptionsModel.Tags = []ukov4.Tag{*tagModel}
 				updateManagedKeyOptionsModel.Description = core.StringPtr("testString")
 				updateManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -1523,14 +1513,12 @@ var _ = Describe(`UkoV4`, func() {
 					}
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "type": ["user_defined"], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "version": 1, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "label_tags": [{"name": "Name", "value": "Value"}], "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "rotated_at": "2022-02-22T10:27:08.000Z", "status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}], "deactivate_on_rotation": true, "managing_systems": ["web"]}`)
 				}))
 			})
 			It(`Invoke UpdateManagedKey successfully`, func() {
@@ -1547,20 +1535,13 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the Tag model
-				tagModel := new(ukov4.Tag)
-				tagModel.Name = core.StringPtr("testString")
-				tagModel.Value = core.StringPtr("testString")
-
 				// Construct an instance of the UpdateManagedKeyOptions model
 				updateManagedKeyOptionsModel := new(ukov4.UpdateManagedKeyOptions)
 				updateManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				updateManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				updateManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				updateManagedKeyOptionsModel.Label = core.StringPtr("IBM CLOUD KEY")
 				updateManagedKeyOptionsModel.ActivationDate = CreateMockDate("2020-12-11")
 				updateManagedKeyOptionsModel.ExpirationDate = CreateMockDate("2030-11-12")
-				updateManagedKeyOptionsModel.Tags = []ukov4.Tag{*tagModel}
 				updateManagedKeyOptionsModel.Description = core.StringPtr("testString")
 				updateManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -1579,20 +1560,13 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(ukoService).ToNot(BeNil())
 
-				// Construct an instance of the Tag model
-				tagModel := new(ukov4.Tag)
-				tagModel.Name = core.StringPtr("testString")
-				tagModel.Value = core.StringPtr("testString")
-
 				// Construct an instance of the UpdateManagedKeyOptions model
 				updateManagedKeyOptionsModel := new(ukov4.UpdateManagedKeyOptions)
 				updateManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				updateManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				updateManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				updateManagedKeyOptionsModel.Label = core.StringPtr("IBM CLOUD KEY")
 				updateManagedKeyOptionsModel.ActivationDate = CreateMockDate("2020-12-11")
 				updateManagedKeyOptionsModel.ExpirationDate = CreateMockDate("2030-11-12")
-				updateManagedKeyOptionsModel.Tags = []ukov4.Tag{*tagModel}
 				updateManagedKeyOptionsModel.Description = core.StringPtr("testString")
 				updateManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -1632,20 +1606,13 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(serviceErr).To(BeNil())
 				Expect(ukoService).ToNot(BeNil())
 
-				// Construct an instance of the Tag model
-				tagModel := new(ukov4.Tag)
-				tagModel.Name = core.StringPtr("testString")
-				tagModel.Value = core.StringPtr("testString")
-
 				// Construct an instance of the UpdateManagedKeyOptions model
 				updateManagedKeyOptionsModel := new(ukov4.UpdateManagedKeyOptions)
 				updateManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				updateManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				updateManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				updateManagedKeyOptionsModel.Label = core.StringPtr("IBM CLOUD KEY")
 				updateManagedKeyOptionsModel.ActivationDate = CreateMockDate("2020-12-11")
 				updateManagedKeyOptionsModel.ExpirationDate = CreateMockDate("2030-11-12")
-				updateManagedKeyOptionsModel.Tags = []ukov4.Tag{*tagModel}
 				updateManagedKeyOptionsModel.Description = core.StringPtr("testString")
 				updateManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -1672,8 +1639,6 @@ var _ = Describe(`UkoV4`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(listAssociatedResourcesForManagedKeyPath))
 					Expect(req.Method).To(Equal("GET"))
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					res.Header().Set("Content-type", "application/json")
@@ -1692,7 +1657,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the ListAssociatedResourcesForManagedKeyOptions model
 				listAssociatedResourcesForManagedKeyOptionsModel := new(ukov4.ListAssociatedResourcesForManagedKeyOptions)
 				listAssociatedResourcesForManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				listAssociatedResourcesForManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				listAssociatedResourcesForManagedKeyOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listAssociatedResourcesForManagedKeyOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listAssociatedResourcesForManagedKeyOptionsModel.Sort = []string{"name"}
@@ -1726,8 +1690,6 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(listAssociatedResourcesForManagedKeyPath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					// Sleep a short time to support a timeout test
@@ -1751,7 +1713,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the ListAssociatedResourcesForManagedKeyOptions model
 				listAssociatedResourcesForManagedKeyOptionsModel := new(ukov4.ListAssociatedResourcesForManagedKeyOptions)
 				listAssociatedResourcesForManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				listAssociatedResourcesForManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				listAssociatedResourcesForManagedKeyOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listAssociatedResourcesForManagedKeyOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listAssociatedResourcesForManagedKeyOptionsModel.Sort = []string{"name"}
@@ -1791,8 +1752,6 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(listAssociatedResourcesForManagedKeyPath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					// Set mock response
@@ -1818,7 +1777,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the ListAssociatedResourcesForManagedKeyOptions model
 				listAssociatedResourcesForManagedKeyOptionsModel := new(ukov4.ListAssociatedResourcesForManagedKeyOptions)
 				listAssociatedResourcesForManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				listAssociatedResourcesForManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				listAssociatedResourcesForManagedKeyOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listAssociatedResourcesForManagedKeyOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listAssociatedResourcesForManagedKeyOptionsModel.Sort = []string{"name"}
@@ -1842,7 +1800,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the ListAssociatedResourcesForManagedKeyOptions model
 				listAssociatedResourcesForManagedKeyOptionsModel := new(ukov4.ListAssociatedResourcesForManagedKeyOptions)
 				listAssociatedResourcesForManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				listAssociatedResourcesForManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				listAssociatedResourcesForManagedKeyOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listAssociatedResourcesForManagedKeyOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listAssociatedResourcesForManagedKeyOptionsModel.Sort = []string{"name"}
@@ -1887,7 +1844,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the ListAssociatedResourcesForManagedKeyOptions model
 				listAssociatedResourcesForManagedKeyOptionsModel := new(ukov4.ListAssociatedResourcesForManagedKeyOptions)
 				listAssociatedResourcesForManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				listAssociatedResourcesForManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				listAssociatedResourcesForManagedKeyOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listAssociatedResourcesForManagedKeyOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listAssociatedResourcesForManagedKeyOptionsModel.Sort = []string{"name"}
@@ -1977,7 +1933,6 @@ var _ = Describe(`UkoV4`, func() {
 
 				listAssociatedResourcesForManagedKeyOptionsModel := &ukov4.ListAssociatedResourcesForManagedKeyOptions{
 					ID: core.StringPtr("testString"),
-					UKOVault: core.StringPtr("testString"),
 					Limit: core.Int64Ptr(int64(10)),
 					Sort: []string{"name"},
 				}
@@ -2005,12 +1960,626 @@ var _ = Describe(`UkoV4`, func() {
 
 				listAssociatedResourcesForManagedKeyOptionsModel := &ukov4.ListAssociatedResourcesForManagedKeyOptions{
 					ID: core.StringPtr("testString"),
-					UKOVault: core.StringPtr("testString"),
 					Limit: core.Int64Ptr(int64(10)),
 					Sort: []string{"name"},
 				}
 
 				pager, err := ukoService.NewAssociatedResourcesForManagedKeyPager(listAssociatedResourcesForManagedKeyOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				allResults, err := pager.GetAll()
+				Expect(err).To(BeNil())
+				Expect(allResults).ToNot(BeNil())
+				Expect(len(allResults)).To(Equal(2))
+			})
+		})
+	})
+	Describe(`ListManagedKeyVersions(listManagedKeyVersionsOptions *ListManagedKeyVersionsOptions) - Operation response error`, func() {
+		listManagedKeyVersionsPath := "/api/v4/managed_keys/testString/versions"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listManagedKeyVersionsPath))
+					Expect(req.Method).To(Equal("GET"))
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
+					Expect(req.URL.Query()["label"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["rotated_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["rotated_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["template.name"]).To(Equal([]string{"AWS-TEMPLATE"}))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ListManagedKeyVersions with error: Operation response processing error`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Construct an instance of the ListManagedKeyVersionsOptions model
+				listManagedKeyVersionsOptionsModel := new(ukov4.ListManagedKeyVersionsOptions)
+				listManagedKeyVersionsOptionsModel.ID = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.Algorithm = []string{"aes"}
+				listManagedKeyVersionsOptionsModel.State = []string{"active"}
+				listManagedKeyVersionsOptionsModel.Limit = core.Int64Ptr(int64(10))
+				listManagedKeyVersionsOptionsModel.Offset = core.Int64Ptr(int64(0))
+				listManagedKeyVersionsOptionsModel.Sort = []string{"-updated_at"}
+				listManagedKeyVersionsOptionsModel.Label = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ActivationDate = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ActivationDateMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ActivationDateMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.DeactivationDate = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.DeactivationDateMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.DeactivationDateMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ExpirationDate = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ExpirationDateMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ExpirationDateMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.CreatedAt = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.CreatedAtMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.CreatedAtMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.UpdatedAt = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.UpdatedAtMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.UpdatedAtMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.RotatedAtMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.RotatedAtMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.Size = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.SizeMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.SizeMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ReferencedKeystoresType = []string{"ibm_cloud_kms"}
+				listManagedKeyVersionsOptionsModel.ReferencedKeystoresName = []string{"testString"}
+				listManagedKeyVersionsOptionsModel.InstancesKeystoreType = []string{"ibm_cloud_kms"}
+				listManagedKeyVersionsOptionsModel.TemplateName = core.StringPtr("AWS-TEMPLATE")
+				listManagedKeyVersionsOptionsModel.TemplateID = []string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"}
+				listManagedKeyVersionsOptionsModel.TemplateType = []string{"user_defined"}
+				listManagedKeyVersionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := ukoService.ListManagedKeyVersions(listManagedKeyVersionsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				ukoService.EnableRetries(0, 0)
+				result, response, operationErr = ukoService.ListManagedKeyVersions(listManagedKeyVersionsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ListManagedKeyVersions(listManagedKeyVersionsOptions *ListManagedKeyVersionsOptions)`, func() {
+		listManagedKeyVersionsPath := "/api/v4/managed_keys/testString/versions"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listManagedKeyVersionsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
+					Expect(req.URL.Query()["label"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["rotated_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["rotated_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["template.name"]).To(Equal([]string{"AWS-TEMPLATE"}))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "managed_keys": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "type": ["user_defined"], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "version": 1, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "label_tags": [{"name": "Name", "value": "Value"}], "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "rotated_at": "2022-02-22T10:27:08.000Z", "status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}], "deactivate_on_rotation": true, "managing_systems": ["web"]}]}`)
+				}))
+			})
+			It(`Invoke ListManagedKeyVersions successfully with retries`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+				ukoService.EnableRetries(0, 0)
+
+				// Construct an instance of the ListManagedKeyVersionsOptions model
+				listManagedKeyVersionsOptionsModel := new(ukov4.ListManagedKeyVersionsOptions)
+				listManagedKeyVersionsOptionsModel.ID = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.Algorithm = []string{"aes"}
+				listManagedKeyVersionsOptionsModel.State = []string{"active"}
+				listManagedKeyVersionsOptionsModel.Limit = core.Int64Ptr(int64(10))
+				listManagedKeyVersionsOptionsModel.Offset = core.Int64Ptr(int64(0))
+				listManagedKeyVersionsOptionsModel.Sort = []string{"-updated_at"}
+				listManagedKeyVersionsOptionsModel.Label = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ActivationDate = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ActivationDateMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ActivationDateMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.DeactivationDate = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.DeactivationDateMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.DeactivationDateMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ExpirationDate = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ExpirationDateMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ExpirationDateMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.CreatedAt = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.CreatedAtMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.CreatedAtMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.UpdatedAt = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.UpdatedAtMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.UpdatedAtMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.RotatedAtMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.RotatedAtMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.Size = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.SizeMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.SizeMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ReferencedKeystoresType = []string{"ibm_cloud_kms"}
+				listManagedKeyVersionsOptionsModel.ReferencedKeystoresName = []string{"testString"}
+				listManagedKeyVersionsOptionsModel.InstancesKeystoreType = []string{"ibm_cloud_kms"}
+				listManagedKeyVersionsOptionsModel.TemplateName = core.StringPtr("AWS-TEMPLATE")
+				listManagedKeyVersionsOptionsModel.TemplateID = []string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"}
+				listManagedKeyVersionsOptionsModel.TemplateType = []string{"user_defined"}
+				listManagedKeyVersionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := ukoService.ListManagedKeyVersionsWithContext(ctx, listManagedKeyVersionsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				ukoService.DisableRetries()
+				result, response, operationErr := ukoService.ListManagedKeyVersions(listManagedKeyVersionsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = ukoService.ListManagedKeyVersionsWithContext(ctx, listManagedKeyVersionsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listManagedKeyVersionsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
+					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
+					Expect(req.URL.Query()["label"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["activation_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["deactivation_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["expiration_date_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["rotated_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["rotated_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["template.name"]).To(Equal([]string{"AWS-TEMPLATE"}))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "managed_keys": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "type": ["user_defined"], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "version": 1, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "label_tags": [{"name": "Name", "value": "Value"}], "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "rotated_at": "2022-02-22T10:27:08.000Z", "status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}], "deactivate_on_rotation": true, "managing_systems": ["web"]}]}`)
+				}))
+			})
+			It(`Invoke ListManagedKeyVersions successfully`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := ukoService.ListManagedKeyVersions(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ListManagedKeyVersionsOptions model
+				listManagedKeyVersionsOptionsModel := new(ukov4.ListManagedKeyVersionsOptions)
+				listManagedKeyVersionsOptionsModel.ID = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.Algorithm = []string{"aes"}
+				listManagedKeyVersionsOptionsModel.State = []string{"active"}
+				listManagedKeyVersionsOptionsModel.Limit = core.Int64Ptr(int64(10))
+				listManagedKeyVersionsOptionsModel.Offset = core.Int64Ptr(int64(0))
+				listManagedKeyVersionsOptionsModel.Sort = []string{"-updated_at"}
+				listManagedKeyVersionsOptionsModel.Label = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ActivationDate = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ActivationDateMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ActivationDateMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.DeactivationDate = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.DeactivationDateMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.DeactivationDateMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ExpirationDate = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ExpirationDateMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ExpirationDateMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.CreatedAt = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.CreatedAtMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.CreatedAtMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.UpdatedAt = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.UpdatedAtMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.UpdatedAtMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.RotatedAtMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.RotatedAtMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.Size = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.SizeMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.SizeMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ReferencedKeystoresType = []string{"ibm_cloud_kms"}
+				listManagedKeyVersionsOptionsModel.ReferencedKeystoresName = []string{"testString"}
+				listManagedKeyVersionsOptionsModel.InstancesKeystoreType = []string{"ibm_cloud_kms"}
+				listManagedKeyVersionsOptionsModel.TemplateName = core.StringPtr("AWS-TEMPLATE")
+				listManagedKeyVersionsOptionsModel.TemplateID = []string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"}
+				listManagedKeyVersionsOptionsModel.TemplateType = []string{"user_defined"}
+				listManagedKeyVersionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = ukoService.ListManagedKeyVersions(listManagedKeyVersionsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ListManagedKeyVersions with error: Operation validation and request error`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Construct an instance of the ListManagedKeyVersionsOptions model
+				listManagedKeyVersionsOptionsModel := new(ukov4.ListManagedKeyVersionsOptions)
+				listManagedKeyVersionsOptionsModel.ID = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.Algorithm = []string{"aes"}
+				listManagedKeyVersionsOptionsModel.State = []string{"active"}
+				listManagedKeyVersionsOptionsModel.Limit = core.Int64Ptr(int64(10))
+				listManagedKeyVersionsOptionsModel.Offset = core.Int64Ptr(int64(0))
+				listManagedKeyVersionsOptionsModel.Sort = []string{"-updated_at"}
+				listManagedKeyVersionsOptionsModel.Label = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ActivationDate = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ActivationDateMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ActivationDateMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.DeactivationDate = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.DeactivationDateMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.DeactivationDateMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ExpirationDate = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ExpirationDateMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ExpirationDateMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.CreatedAt = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.CreatedAtMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.CreatedAtMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.UpdatedAt = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.UpdatedAtMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.UpdatedAtMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.RotatedAtMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.RotatedAtMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.Size = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.SizeMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.SizeMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ReferencedKeystoresType = []string{"ibm_cloud_kms"}
+				listManagedKeyVersionsOptionsModel.ReferencedKeystoresName = []string{"testString"}
+				listManagedKeyVersionsOptionsModel.InstancesKeystoreType = []string{"ibm_cloud_kms"}
+				listManagedKeyVersionsOptionsModel.TemplateName = core.StringPtr("AWS-TEMPLATE")
+				listManagedKeyVersionsOptionsModel.TemplateID = []string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"}
+				listManagedKeyVersionsOptionsModel.TemplateType = []string{"user_defined"}
+				listManagedKeyVersionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := ukoService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := ukoService.ListManagedKeyVersions(listManagedKeyVersionsOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ListManagedKeyVersionsOptions model with no property values
+				listManagedKeyVersionsOptionsModelNew := new(ukov4.ListManagedKeyVersionsOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = ukoService.ListManagedKeyVersions(listManagedKeyVersionsOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ListManagedKeyVersions successfully`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Construct an instance of the ListManagedKeyVersionsOptions model
+				listManagedKeyVersionsOptionsModel := new(ukov4.ListManagedKeyVersionsOptions)
+				listManagedKeyVersionsOptionsModel.ID = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.Algorithm = []string{"aes"}
+				listManagedKeyVersionsOptionsModel.State = []string{"active"}
+				listManagedKeyVersionsOptionsModel.Limit = core.Int64Ptr(int64(10))
+				listManagedKeyVersionsOptionsModel.Offset = core.Int64Ptr(int64(0))
+				listManagedKeyVersionsOptionsModel.Sort = []string{"-updated_at"}
+				listManagedKeyVersionsOptionsModel.Label = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ActivationDate = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ActivationDateMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ActivationDateMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.DeactivationDate = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.DeactivationDateMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.DeactivationDateMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ExpirationDate = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ExpirationDateMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ExpirationDateMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.CreatedAt = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.CreatedAtMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.CreatedAtMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.UpdatedAt = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.UpdatedAtMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.UpdatedAtMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.RotatedAtMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.RotatedAtMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.Size = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.SizeMin = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.SizeMax = core.StringPtr("testString")
+				listManagedKeyVersionsOptionsModel.ReferencedKeystoresType = []string{"ibm_cloud_kms"}
+				listManagedKeyVersionsOptionsModel.ReferencedKeystoresName = []string{"testString"}
+				listManagedKeyVersionsOptionsModel.InstancesKeystoreType = []string{"ibm_cloud_kms"}
+				listManagedKeyVersionsOptionsModel.TemplateName = core.StringPtr("AWS-TEMPLATE")
+				listManagedKeyVersionsOptionsModel.TemplateID = []string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"}
+				listManagedKeyVersionsOptionsModel.TemplateType = []string{"user_defined"}
+				listManagedKeyVersionsOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := ukoService.ListManagedKeyVersions(listManagedKeyVersionsOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Test pagination helper method on response`, func() {
+			It(`Invoke GetNextOffset successfully`, func() {
+				responseObject := new(ukov4.ManagedKeyList)
+				nextObject := new(ukov4.HrefObject)
+				nextObject.Href = core.StringPtr("ibm.com?offset=135")
+				responseObject.Next = nextObject
+	
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
+			})
+			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
+				responseObject := new(ukov4.ManagedKeyList)
+	
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset without any query params in the "Next" URL`, func() {
+				responseObject := new(ukov4.ManagedKeyList)
+				nextObject := new(ukov4.HrefObject)
+				nextObject.Href = core.StringPtr("ibm.com")
+				responseObject.Next = nextObject
+	
+				value, err := responseObject.GetNextOffset()
+				Expect(err).To(BeNil())
+				Expect(value).To(BeNil())
+			})
+			It(`Invoke GetNextOffset with a non-integer query param in the "Next" URL`, func() {
+				responseObject := new(ukov4.ManagedKeyList)
+				nextObject := new(ukov4.HrefObject)
+				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
+				responseObject.Next = nextObject
+	
+				value, err := responseObject.GetNextOffset()
+				Expect(err).NotTo(BeNil())
+				Expect(value).To(BeNil())
+			})
+		})
+		Context(`Using mock server endpoint - paginated response`, func() {
+			BeforeEach(func() {
+				var requestNumber int = 0
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(listManagedKeyVersionsPath))
+					Expect(req.Method).To(Equal("GET"))
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					requestNumber++
+					if requestNumber == 1 {
+						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"managed_keys":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"template":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"AWS-KMS-TEMPLATE","type":["user_defined"],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"version":1,"description":"Managed key description","label":"IBM CLOUD KEY","state":"active","size":"256","algorithm":"aes","verification_patterns":[{"method":"enc-zero","value":"U3dhZ2dlciByb2Nrcw=="}],"activation_date":"2020-12-11","expiration_date":"2030-11-12","label_tags":[{"name":"Name","value":"Value"}],"tags":[{"name":"Name","value":"Value"}],"created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","referenced_keystores":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"instances":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","label_in_keystore":"IBM CLOUD KEY","type":"private_key","keystore":{"group":"Group","type":"ibm_cloud_kms"},"google_key_protection_level":"software","google_key_purpose":"encrypt_decrypt","google_kms_algorithm":"google_symmetric_encryption"}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46","rotated_at":"2022-02-22T10:27:08.000Z","status_in_keystores":[{"keystore":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"status":"active","keystore_sync_flag":"ok","keystore_sync_flag_detail":"pre_active_key_not_present_in_keystore","error":{"status_code":400,"trace":"9daee671-916a-4678-850b-10b9110236d","errors":[{"code":"missing_field","message":"The algorithm field is required","more_info":"https://cloud.ibm.com/apidocs/uko#create-managed-key","message_params":["My Key Template"],"target":{"type":"field","name":"first_name"}}]},"key_id_in_keystore":"123e4567-e89b-12d3-a456-426614174000"}],"deactivate_on_rotation":true,"managing_systems":["web"]}],"total_count":2,"limit":1}`)
+					} else if requestNumber == 2 {
+						fmt.Fprintf(res, "%s", `{"managed_keys":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"template":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"AWS-KMS-TEMPLATE","type":["user_defined"],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"version":1,"description":"Managed key description","label":"IBM CLOUD KEY","state":"active","size":"256","algorithm":"aes","verification_patterns":[{"method":"enc-zero","value":"U3dhZ2dlciByb2Nrcw=="}],"activation_date":"2020-12-11","expiration_date":"2030-11-12","label_tags":[{"name":"Name","value":"Value"}],"tags":[{"name":"Name","value":"Value"}],"created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","referenced_keystores":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"instances":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","label_in_keystore":"IBM CLOUD KEY","type":"private_key","keystore":{"group":"Group","type":"ibm_cloud_kms"},"google_key_protection_level":"software","google_key_purpose":"encrypt_decrypt","google_kms_algorithm":"google_symmetric_encryption"}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46","rotated_at":"2022-02-22T10:27:08.000Z","status_in_keystores":[{"keystore":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"status":"active","keystore_sync_flag":"ok","keystore_sync_flag_detail":"pre_active_key_not_present_in_keystore","error":{"status_code":400,"trace":"9daee671-916a-4678-850b-10b9110236d","errors":[{"code":"missing_field","message":"The algorithm field is required","more_info":"https://cloud.ibm.com/apidocs/uko#create-managed-key","message_params":["My Key Template"],"target":{"type":"field","name":"first_name"}}]},"key_id_in_keystore":"123e4567-e89b-12d3-a456-426614174000"}],"deactivate_on_rotation":true,"managing_systems":["web"]}],"total_count":2,"limit":1}`)
+					} else {
+						res.WriteHeader(400)
+					}
+				}))
+			})
+			It(`Use ManagedKeyVersionsPager.GetNext successfully`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				listManagedKeyVersionsOptionsModel := &ukov4.ListManagedKeyVersionsOptions{
+					ID: core.StringPtr("testString"),
+					Algorithm: []string{"aes"},
+					State: []string{"active"},
+					Limit: core.Int64Ptr(int64(10)),
+					Sort: []string{"-updated_at"},
+					Label: core.StringPtr("testString"),
+					ActivationDate: core.StringPtr("testString"),
+					ActivationDateMin: core.StringPtr("testString"),
+					ActivationDateMax: core.StringPtr("testString"),
+					DeactivationDate: core.StringPtr("testString"),
+					DeactivationDateMin: core.StringPtr("testString"),
+					DeactivationDateMax: core.StringPtr("testString"),
+					ExpirationDate: core.StringPtr("testString"),
+					ExpirationDateMin: core.StringPtr("testString"),
+					ExpirationDateMax: core.StringPtr("testString"),
+					CreatedAt: core.StringPtr("testString"),
+					CreatedAtMin: core.StringPtr("testString"),
+					CreatedAtMax: core.StringPtr("testString"),
+					UpdatedAt: core.StringPtr("testString"),
+					UpdatedAtMin: core.StringPtr("testString"),
+					UpdatedAtMax: core.StringPtr("testString"),
+					RotatedAtMin: core.StringPtr("testString"),
+					RotatedAtMax: core.StringPtr("testString"),
+					Size: core.StringPtr("testString"),
+					SizeMin: core.StringPtr("testString"),
+					SizeMax: core.StringPtr("testString"),
+					ReferencedKeystoresType: []string{"ibm_cloud_kms"},
+					ReferencedKeystoresName: []string{"testString"},
+					InstancesKeystoreType: []string{"ibm_cloud_kms"},
+					TemplateName: core.StringPtr("AWS-TEMPLATE"),
+					TemplateID: []string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"},
+					TemplateType: []string{"user_defined"},
+				}
+
+				pager, err := ukoService.NewManagedKeyVersionsPager(listManagedKeyVersionsOptionsModel)
+				Expect(err).To(BeNil())
+				Expect(pager).ToNot(BeNil())
+
+				var allResults []ukov4.ManagedKey
+				for pager.HasNext() {
+					nextPage, err := pager.GetNext()
+					Expect(err).To(BeNil())
+					Expect(nextPage).ToNot(BeNil())
+					allResults = append(allResults, nextPage...)
+				}
+				Expect(len(allResults)).To(Equal(2))
+			})
+			It(`Use ManagedKeyVersionsPager.GetAll successfully`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				listManagedKeyVersionsOptionsModel := &ukov4.ListManagedKeyVersionsOptions{
+					ID: core.StringPtr("testString"),
+					Algorithm: []string{"aes"},
+					State: []string{"active"},
+					Limit: core.Int64Ptr(int64(10)),
+					Sort: []string{"-updated_at"},
+					Label: core.StringPtr("testString"),
+					ActivationDate: core.StringPtr("testString"),
+					ActivationDateMin: core.StringPtr("testString"),
+					ActivationDateMax: core.StringPtr("testString"),
+					DeactivationDate: core.StringPtr("testString"),
+					DeactivationDateMin: core.StringPtr("testString"),
+					DeactivationDateMax: core.StringPtr("testString"),
+					ExpirationDate: core.StringPtr("testString"),
+					ExpirationDateMin: core.StringPtr("testString"),
+					ExpirationDateMax: core.StringPtr("testString"),
+					CreatedAt: core.StringPtr("testString"),
+					CreatedAtMin: core.StringPtr("testString"),
+					CreatedAtMax: core.StringPtr("testString"),
+					UpdatedAt: core.StringPtr("testString"),
+					UpdatedAtMin: core.StringPtr("testString"),
+					UpdatedAtMax: core.StringPtr("testString"),
+					RotatedAtMin: core.StringPtr("testString"),
+					RotatedAtMax: core.StringPtr("testString"),
+					Size: core.StringPtr("testString"),
+					SizeMin: core.StringPtr("testString"),
+					SizeMax: core.StringPtr("testString"),
+					ReferencedKeystoresType: []string{"ibm_cloud_kms"},
+					ReferencedKeystoresName: []string{"testString"},
+					InstancesKeystoreType: []string{"ibm_cloud_kms"},
+					TemplateName: core.StringPtr("AWS-TEMPLATE"),
+					TemplateID: []string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"},
+					TemplateType: []string{"user_defined"},
+				}
+
+				pager, err := ukoService.NewManagedKeyVersionsPager(listManagedKeyVersionsOptionsModel)
 				Expect(err).To(BeNil())
 				Expect(pager).ToNot(BeNil())
 
@@ -2031,8 +2600,6 @@ var _ = Describe(`UkoV4`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(getKeyDistributionStatusForKeystoresPath))
 					Expect(req.Method).To(Equal("GET"))
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprint(res, `} this is not valid json {`)
@@ -2049,7 +2616,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetKeyDistributionStatusForKeystoresOptions model
 				getKeyDistributionStatusForKeystoresOptionsModel := new(ukov4.GetKeyDistributionStatusForKeystoresOptions)
 				getKeyDistributionStatusForKeystoresOptionsModel.ID = core.StringPtr("testString")
-				getKeyDistributionStatusForKeystoresOptionsModel.UKOVault = core.StringPtr("testString")
 				getKeyDistributionStatusForKeystoresOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := ukoService.GetKeyDistributionStatusForKeystores(getKeyDistributionStatusForKeystoresOptionsModel)
@@ -2080,8 +2646,6 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(getKeyDistributionStatusForKeystoresPath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
@@ -2103,7 +2667,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetKeyDistributionStatusForKeystoresOptions model
 				getKeyDistributionStatusForKeystoresOptionsModel := new(ukov4.GetKeyDistributionStatusForKeystoresOptions)
 				getKeyDistributionStatusForKeystoresOptionsModel.ID = core.StringPtr("testString")
-				getKeyDistributionStatusForKeystoresOptionsModel.UKOVault = core.StringPtr("testString")
 				getKeyDistributionStatusForKeystoresOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -2140,8 +2703,6 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(getKeyDistributionStatusForKeystoresPath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -2165,7 +2726,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetKeyDistributionStatusForKeystoresOptions model
 				getKeyDistributionStatusForKeystoresOptionsModel := new(ukov4.GetKeyDistributionStatusForKeystoresOptions)
 				getKeyDistributionStatusForKeystoresOptionsModel.ID = core.StringPtr("testString")
-				getKeyDistributionStatusForKeystoresOptionsModel.UKOVault = core.StringPtr("testString")
 				getKeyDistributionStatusForKeystoresOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -2186,7 +2746,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetKeyDistributionStatusForKeystoresOptions model
 				getKeyDistributionStatusForKeystoresOptionsModel := new(ukov4.GetKeyDistributionStatusForKeystoresOptions)
 				getKeyDistributionStatusForKeystoresOptionsModel.ID = core.StringPtr("testString")
-				getKeyDistributionStatusForKeystoresOptionsModel.UKOVault = core.StringPtr("testString")
 				getKeyDistributionStatusForKeystoresOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := ukoService.SetServiceURL("")
@@ -2228,7 +2787,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetKeyDistributionStatusForKeystoresOptions model
 				getKeyDistributionStatusForKeystoresOptionsModel := new(ukov4.GetKeyDistributionStatusForKeystoresOptions)
 				getKeyDistributionStatusForKeystoresOptionsModel.ID = core.StringPtr("testString")
-				getKeyDistributionStatusForKeystoresOptionsModel.UKOVault = core.StringPtr("testString")
 				getKeyDistributionStatusForKeystoresOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -2254,10 +2812,9 @@ var _ = Describe(`UkoV4`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(updateManagedKeyFromTemplatePath))
 					Expect(req.Method).To(Equal("POST"))
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// TODO: Add check for dry_run query parameter
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprint(res, `} this is not valid json {`)
@@ -2274,8 +2831,8 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the UpdateManagedKeyFromTemplateOptions model
 				updateManagedKeyFromTemplateOptionsModel := new(ukov4.UpdateManagedKeyFromTemplateOptions)
 				updateManagedKeyFromTemplateOptionsModel.ID = core.StringPtr("testString")
-				updateManagedKeyFromTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				updateManagedKeyFromTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				updateManagedKeyFromTemplateOptionsModel.DryRun = core.BoolPtr(false)
 				updateManagedKeyFromTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := ukoService.UpdateManagedKeyFromTemplate(updateManagedKeyFromTemplateOptionsModel)
@@ -2306,17 +2863,16 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(updateManagedKeyFromTemplatePath))
 					Expect(req.Method).To(Equal("POST"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// TODO: Add check for dry_run query parameter
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "type": ["user_defined"], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "version": 1, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "label_tags": [{"name": "Name", "value": "Value"}], "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "rotated_at": "2022-02-22T10:27:08.000Z", "status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}], "deactivate_on_rotation": true, "managing_systems": ["web"]}`)
 				}))
 			})
 			It(`Invoke UpdateManagedKeyFromTemplate successfully with retries`, func() {
@@ -2331,8 +2887,8 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the UpdateManagedKeyFromTemplateOptions model
 				updateManagedKeyFromTemplateOptionsModel := new(ukov4.UpdateManagedKeyFromTemplateOptions)
 				updateManagedKeyFromTemplateOptionsModel.ID = core.StringPtr("testString")
-				updateManagedKeyFromTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				updateManagedKeyFromTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				updateManagedKeyFromTemplateOptionsModel.DryRun = core.BoolPtr(false)
 				updateManagedKeyFromTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -2369,14 +2925,13 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(updateManagedKeyFromTemplatePath))
 					Expect(req.Method).To(Equal("POST"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// TODO: Add check for dry_run query parameter
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "type": ["user_defined"], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "version": 1, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "label_tags": [{"name": "Name", "value": "Value"}], "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "rotated_at": "2022-02-22T10:27:08.000Z", "status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}], "deactivate_on_rotation": true, "managing_systems": ["web"]}`)
 				}))
 			})
 			It(`Invoke UpdateManagedKeyFromTemplate successfully`, func() {
@@ -2396,8 +2951,8 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the UpdateManagedKeyFromTemplateOptions model
 				updateManagedKeyFromTemplateOptionsModel := new(ukov4.UpdateManagedKeyFromTemplateOptions)
 				updateManagedKeyFromTemplateOptionsModel.ID = core.StringPtr("testString")
-				updateManagedKeyFromTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				updateManagedKeyFromTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				updateManagedKeyFromTemplateOptionsModel.DryRun = core.BoolPtr(false)
 				updateManagedKeyFromTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -2418,8 +2973,8 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the UpdateManagedKeyFromTemplateOptions model
 				updateManagedKeyFromTemplateOptionsModel := new(ukov4.UpdateManagedKeyFromTemplateOptions)
 				updateManagedKeyFromTemplateOptionsModel.ID = core.StringPtr("testString")
-				updateManagedKeyFromTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				updateManagedKeyFromTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				updateManagedKeyFromTemplateOptionsModel.DryRun = core.BoolPtr(false)
 				updateManagedKeyFromTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := ukoService.SetServiceURL("")
@@ -2461,8 +3016,8 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the UpdateManagedKeyFromTemplateOptions model
 				updateManagedKeyFromTemplateOptionsModel := new(ukov4.UpdateManagedKeyFromTemplateOptions)
 				updateManagedKeyFromTemplateOptionsModel.ID = core.StringPtr("testString")
-				updateManagedKeyFromTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				updateManagedKeyFromTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				updateManagedKeyFromTemplateOptionsModel.DryRun = core.BoolPtr(false)
 				updateManagedKeyFromTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -2488,8 +3043,6 @@ var _ = Describe(`UkoV4`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(activateManagedKeyPath))
 					Expect(req.Method).To(Equal("POST"))
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
@@ -2508,7 +3061,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the ActivateManagedKeyOptions model
 				activateManagedKeyOptionsModel := new(ukov4.ActivateManagedKeyOptions)
 				activateManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				activateManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				activateManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				activateManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -2540,8 +3092,6 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(activateManagedKeyPath))
 					Expect(req.Method).To(Equal("POST"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Sleep a short time to support a timeout test
@@ -2550,7 +3100,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "type": ["user_defined"], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "version": 1, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "label_tags": [{"name": "Name", "value": "Value"}], "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "rotated_at": "2022-02-22T10:27:08.000Z", "status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}], "deactivate_on_rotation": true, "managing_systems": ["web"]}`)
 				}))
 			})
 			It(`Invoke ActivateManagedKey successfully with retries`, func() {
@@ -2565,7 +3115,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the ActivateManagedKeyOptions model
 				activateManagedKeyOptionsModel := new(ukov4.ActivateManagedKeyOptions)
 				activateManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				activateManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				activateManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				activateManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -2603,14 +3152,12 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(activateManagedKeyPath))
 					Expect(req.Method).To(Equal("POST"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "type": ["user_defined"], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "version": 1, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "label_tags": [{"name": "Name", "value": "Value"}], "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "rotated_at": "2022-02-22T10:27:08.000Z", "status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}], "deactivate_on_rotation": true, "managing_systems": ["web"]}`)
 				}))
 			})
 			It(`Invoke ActivateManagedKey successfully`, func() {
@@ -2630,7 +3177,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the ActivateManagedKeyOptions model
 				activateManagedKeyOptionsModel := new(ukov4.ActivateManagedKeyOptions)
 				activateManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				activateManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				activateManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				activateManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -2652,7 +3198,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the ActivateManagedKeyOptions model
 				activateManagedKeyOptionsModel := new(ukov4.ActivateManagedKeyOptions)
 				activateManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				activateManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				activateManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				activateManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -2695,7 +3240,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the ActivateManagedKeyOptions model
 				activateManagedKeyOptionsModel := new(ukov4.ActivateManagedKeyOptions)
 				activateManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				activateManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				activateManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				activateManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -2722,8 +3266,6 @@ var _ = Describe(`UkoV4`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(deactivateManagedKeyPath))
 					Expect(req.Method).To(Equal("POST"))
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
@@ -2742,7 +3284,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the DeactivateManagedKeyOptions model
 				deactivateManagedKeyOptionsModel := new(ukov4.DeactivateManagedKeyOptions)
 				deactivateManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				deactivateManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				deactivateManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				deactivateManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -2774,8 +3315,6 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(deactivateManagedKeyPath))
 					Expect(req.Method).To(Equal("POST"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Sleep a short time to support a timeout test
@@ -2784,7 +3323,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "type": ["user_defined"], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "version": 1, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "label_tags": [{"name": "Name", "value": "Value"}], "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "rotated_at": "2022-02-22T10:27:08.000Z", "status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}], "deactivate_on_rotation": true, "managing_systems": ["web"]}`)
 				}))
 			})
 			It(`Invoke DeactivateManagedKey successfully with retries`, func() {
@@ -2799,7 +3338,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the DeactivateManagedKeyOptions model
 				deactivateManagedKeyOptionsModel := new(ukov4.DeactivateManagedKeyOptions)
 				deactivateManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				deactivateManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				deactivateManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				deactivateManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -2837,14 +3375,12 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(deactivateManagedKeyPath))
 					Expect(req.Method).To(Equal("POST"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "type": ["user_defined"], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "version": 1, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "label_tags": [{"name": "Name", "value": "Value"}], "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "rotated_at": "2022-02-22T10:27:08.000Z", "status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}], "deactivate_on_rotation": true, "managing_systems": ["web"]}`)
 				}))
 			})
 			It(`Invoke DeactivateManagedKey successfully`, func() {
@@ -2864,7 +3400,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the DeactivateManagedKeyOptions model
 				deactivateManagedKeyOptionsModel := new(ukov4.DeactivateManagedKeyOptions)
 				deactivateManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				deactivateManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				deactivateManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				deactivateManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -2886,7 +3421,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the DeactivateManagedKeyOptions model
 				deactivateManagedKeyOptionsModel := new(ukov4.DeactivateManagedKeyOptions)
 				deactivateManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				deactivateManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				deactivateManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				deactivateManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -2929,7 +3463,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the DeactivateManagedKeyOptions model
 				deactivateManagedKeyOptionsModel := new(ukov4.DeactivateManagedKeyOptions)
 				deactivateManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				deactivateManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				deactivateManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				deactivateManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -2956,8 +3489,6 @@ var _ = Describe(`UkoV4`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(destroyManagedKeyPath))
 					Expect(req.Method).To(Equal("POST"))
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
@@ -2976,7 +3507,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the DestroyManagedKeyOptions model
 				destroyManagedKeyOptionsModel := new(ukov4.DestroyManagedKeyOptions)
 				destroyManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				destroyManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				destroyManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				destroyManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -3008,8 +3538,6 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(destroyManagedKeyPath))
 					Expect(req.Method).To(Equal("POST"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Sleep a short time to support a timeout test
@@ -3018,7 +3546,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "type": ["user_defined"], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "version": 1, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "label_tags": [{"name": "Name", "value": "Value"}], "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "rotated_at": "2022-02-22T10:27:08.000Z", "status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}], "deactivate_on_rotation": true, "managing_systems": ["web"]}`)
 				}))
 			})
 			It(`Invoke DestroyManagedKey successfully with retries`, func() {
@@ -3033,7 +3561,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the DestroyManagedKeyOptions model
 				destroyManagedKeyOptionsModel := new(ukov4.DestroyManagedKeyOptions)
 				destroyManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				destroyManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				destroyManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				destroyManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3071,14 +3598,12 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(destroyManagedKeyPath))
 					Expect(req.Method).To(Equal("POST"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "type": ["user_defined"], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "version": 1, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "label_tags": [{"name": "Name", "value": "Value"}], "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "rotated_at": "2022-02-22T10:27:08.000Z", "status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}], "deactivate_on_rotation": true, "managing_systems": ["web"]}`)
 				}))
 			})
 			It(`Invoke DestroyManagedKey successfully`, func() {
@@ -3098,7 +3623,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the DestroyManagedKeyOptions model
 				destroyManagedKeyOptionsModel := new(ukov4.DestroyManagedKeyOptions)
 				destroyManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				destroyManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				destroyManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				destroyManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3120,7 +3644,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the DestroyManagedKeyOptions model
 				destroyManagedKeyOptionsModel := new(ukov4.DestroyManagedKeyOptions)
 				destroyManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				destroyManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				destroyManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				destroyManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -3163,7 +3686,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the DestroyManagedKeyOptions model
 				destroyManagedKeyOptionsModel := new(ukov4.DestroyManagedKeyOptions)
 				destroyManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				destroyManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				destroyManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				destroyManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3190,8 +3712,6 @@ var _ = Describe(`UkoV4`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(syncManagedKeyPath))
 					Expect(req.Method).To(Equal("POST"))
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
@@ -3210,7 +3730,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the SyncManagedKeyOptions model
 				syncManagedKeyOptionsModel := new(ukov4.SyncManagedKeyOptions)
 				syncManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				syncManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				syncManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				syncManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -3242,8 +3761,6 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(syncManagedKeyPath))
 					Expect(req.Method).To(Equal("POST"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Sleep a short time to support a timeout test
@@ -3267,7 +3784,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the SyncManagedKeyOptions model
 				syncManagedKeyOptionsModel := new(ukov4.SyncManagedKeyOptions)
 				syncManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				syncManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				syncManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				syncManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3305,8 +3821,6 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(syncManagedKeyPath))
 					Expect(req.Method).To(Equal("POST"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Set mock response
@@ -3332,7 +3846,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the SyncManagedKeyOptions model
 				syncManagedKeyOptionsModel := new(ukov4.SyncManagedKeyOptions)
 				syncManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				syncManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				syncManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				syncManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3354,7 +3867,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the SyncManagedKeyOptions model
 				syncManagedKeyOptionsModel := new(ukov4.SyncManagedKeyOptions)
 				syncManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				syncManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				syncManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				syncManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -3397,12 +3909,234 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the SyncManagedKeyOptions model
 				syncManagedKeyOptionsModel := new(ukov4.SyncManagedKeyOptions)
 				syncManagedKeyOptionsModel.ID = core.StringPtr("testString")
-				syncManagedKeyOptionsModel.UKOVault = core.StringPtr("testString")
 				syncManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
 				syncManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
 				result, response, operationErr := ukoService.SyncManagedKey(syncManagedKeyOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`RotateManagedKey(rotateManagedKeyOptions *RotateManagedKeyOptions) - Operation response error`, func() {
+		rotateManagedKeyPath := "/api/v4/managed_keys/testString/rotate"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(rotateManagedKeyPath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke RotateManagedKey with error: Operation response processing error`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Construct an instance of the RotateManagedKeyOptions model
+				rotateManagedKeyOptionsModel := new(ukov4.RotateManagedKeyOptions)
+				rotateManagedKeyOptionsModel.ID = core.StringPtr("testString")
+				rotateManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
+				rotateManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := ukoService.RotateManagedKey(rotateManagedKeyOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				ukoService.EnableRetries(0, 0)
+				result, response, operationErr = ukoService.RotateManagedKey(rotateManagedKeyOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`RotateManagedKey(rotateManagedKeyOptions *RotateManagedKeyOptions)`, func() {
+		rotateManagedKeyPath := "/api/v4/managed_keys/testString/rotate"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(rotateManagedKeyPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "type": ["user_defined"], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "version": 1, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "label_tags": [{"name": "Name", "value": "Value"}], "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "rotated_at": "2022-02-22T10:27:08.000Z", "status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}], "deactivate_on_rotation": true, "managing_systems": ["web"]}`)
+				}))
+			})
+			It(`Invoke RotateManagedKey successfully with retries`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+				ukoService.EnableRetries(0, 0)
+
+				// Construct an instance of the RotateManagedKeyOptions model
+				rotateManagedKeyOptionsModel := new(ukov4.RotateManagedKeyOptions)
+				rotateManagedKeyOptionsModel.ID = core.StringPtr("testString")
+				rotateManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
+				rotateManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := ukoService.RotateManagedKeyWithContext(ctx, rotateManagedKeyOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				ukoService.DisableRetries()
+				result, response, operationErr := ukoService.RotateManagedKey(rotateManagedKeyOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = ukoService.RotateManagedKeyWithContext(ctx, rotateManagedKeyOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(rotateManagedKeyPath))
+					Expect(req.Method).To(Equal("POST"))
+
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "type": ["user_defined"], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "version": 1, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "label_tags": [{"name": "Name", "value": "Value"}], "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "rotated_at": "2022-02-22T10:27:08.000Z", "status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}], "deactivate_on_rotation": true, "managing_systems": ["web"]}`)
+				}))
+			})
+			It(`Invoke RotateManagedKey successfully`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := ukoService.RotateManagedKey(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the RotateManagedKeyOptions model
+				rotateManagedKeyOptionsModel := new(ukov4.RotateManagedKeyOptions)
+				rotateManagedKeyOptionsModel.ID = core.StringPtr("testString")
+				rotateManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
+				rotateManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = ukoService.RotateManagedKey(rotateManagedKeyOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke RotateManagedKey with error: Operation validation and request error`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Construct an instance of the RotateManagedKeyOptions model
+				rotateManagedKeyOptionsModel := new(ukov4.RotateManagedKeyOptions)
+				rotateManagedKeyOptionsModel.ID = core.StringPtr("testString")
+				rotateManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
+				rotateManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := ukoService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := ukoService.RotateManagedKey(rotateManagedKeyOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the RotateManagedKeyOptions model with no property values
+				rotateManagedKeyOptionsModelNew := new(ukov4.RotateManagedKeyOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = ukoService.RotateManagedKey(rotateManagedKeyOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke RotateManagedKey successfully`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Construct an instance of the RotateManagedKeyOptions model
+				rotateManagedKeyOptionsModel := new(ukov4.RotateManagedKeyOptions)
+				rotateManagedKeyOptionsModel.ID = core.StringPtr("testString")
+				rotateManagedKeyOptionsModel.IfMatch = core.StringPtr("testString")
+				rotateManagedKeyOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := ukoService.RotateManagedKey(rotateManagedKeyOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 
@@ -3424,7 +4158,19 @@ var _ = Describe(`UkoV4`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(listKeyTemplatesPath))
 					Expect(req.Method).To(Equal("GET"))
-					Expect(req.URL.Query()["key.algorithm"]).To(Equal([]string{"aes"}))
+					Expect(req.Header["Accept"]).ToNot(BeNil())
+					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "application/json")))
+					Expect(req.URL.Query()["name"]).To(Equal([]string{"My Example Template"}))
+					Expect(req.URL.Query()["naming_scheme"]).To(Equal([]string{"My Example Template"}))
+					Expect(req.URL.Query()["key.size"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["key.size_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["key.size_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_max"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					res.Header().Set("Content-type", "application/json")
@@ -3442,11 +4188,28 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListKeyTemplatesOptions model
 				listKeyTemplatesOptionsModel := new(ukov4.ListKeyTemplatesOptions)
+				listKeyTemplatesOptionsModel.Accept = core.StringPtr("application/json")
+				listKeyTemplatesOptionsModel.Name = core.StringPtr("My Example Template")
+				listKeyTemplatesOptionsModel.NamingScheme = core.StringPtr("My Example Template")
 				listKeyTemplatesOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
-				listKeyTemplatesOptionsModel.KeyAlgorithm = core.StringPtr("aes")
+				listKeyTemplatesOptionsModel.KeyAlgorithm = []string{"aes"}
+				listKeyTemplatesOptionsModel.KeySize = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.KeySizeMin = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.KeySizeMax = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.KeystoresType = []string{"ibm_cloud_kms"}
+				listKeyTemplatesOptionsModel.KeystoresGroup = []string{"testString"}
+				listKeyTemplatesOptionsModel.CreatedAt = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.CreatedAtMin = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.CreatedAtMax = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.UpdatedAt = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.UpdatedAtMin = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.UpdatedAtMax = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.Type = []string{"user_defined"}
+				listKeyTemplatesOptionsModel.State = []string{"unarchived"}
 				listKeyTemplatesOptionsModel.Sort = []string{"-updated_at"}
 				listKeyTemplatesOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listKeyTemplatesOptionsModel.Offset = core.Int64Ptr(int64(0))
+				listKeyTemplatesOptionsModel.ManagingSystems = []string{"web"}
 				listKeyTemplatesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := ukoService.ListKeyTemplates(listKeyTemplatesOptionsModel)
@@ -3477,7 +4240,19 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(listKeyTemplatesPath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.URL.Query()["key.algorithm"]).To(Equal([]string{"aes"}))
+					Expect(req.Header["Accept"]).ToNot(BeNil())
+					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "application/json")))
+					Expect(req.URL.Query()["name"]).To(Equal([]string{"My Example Template"}))
+					Expect(req.URL.Query()["naming_scheme"]).To(Equal([]string{"My Example Template"}))
+					Expect(req.URL.Query()["key.size"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["key.size_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["key.size_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_max"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					// Sleep a short time to support a timeout test
@@ -3486,7 +4261,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "templates": [{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}]}`)
+					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "templates": [{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": ["user_defined"], "state": "unarchived", "keys_count": 3456, "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active", "deactivate_on_rotation": true}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "managing_systems": ["web"]}]}`)
 				}))
 			})
 			It(`Invoke ListKeyTemplates successfully with retries`, func() {
@@ -3500,11 +4275,28 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListKeyTemplatesOptions model
 				listKeyTemplatesOptionsModel := new(ukov4.ListKeyTemplatesOptions)
+				listKeyTemplatesOptionsModel.Accept = core.StringPtr("application/json")
+				listKeyTemplatesOptionsModel.Name = core.StringPtr("My Example Template")
+				listKeyTemplatesOptionsModel.NamingScheme = core.StringPtr("My Example Template")
 				listKeyTemplatesOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
-				listKeyTemplatesOptionsModel.KeyAlgorithm = core.StringPtr("aes")
+				listKeyTemplatesOptionsModel.KeyAlgorithm = []string{"aes"}
+				listKeyTemplatesOptionsModel.KeySize = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.KeySizeMin = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.KeySizeMax = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.KeystoresType = []string{"ibm_cloud_kms"}
+				listKeyTemplatesOptionsModel.KeystoresGroup = []string{"testString"}
+				listKeyTemplatesOptionsModel.CreatedAt = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.CreatedAtMin = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.CreatedAtMax = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.UpdatedAt = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.UpdatedAtMin = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.UpdatedAtMax = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.Type = []string{"user_defined"}
+				listKeyTemplatesOptionsModel.State = []string{"unarchived"}
 				listKeyTemplatesOptionsModel.Sort = []string{"-updated_at"}
 				listKeyTemplatesOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listKeyTemplatesOptionsModel.Offset = core.Int64Ptr(int64(0))
+				listKeyTemplatesOptionsModel.ManagingSystems = []string{"web"}
 				listKeyTemplatesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -3541,13 +4333,25 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(listKeyTemplatesPath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.URL.Query()["key.algorithm"]).To(Equal([]string{"aes"}))
+					Expect(req.Header["Accept"]).ToNot(BeNil())
+					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "application/json")))
+					Expect(req.URL.Query()["name"]).To(Equal([]string{"My Example Template"}))
+					Expect(req.URL.Query()["naming_scheme"]).To(Equal([]string{"My Example Template"}))
+					Expect(req.URL.Query()["key.size"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["key.size_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["key.size_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["created_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["updated_at_max"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "templates": [{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}]}`)
+					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "templates": [{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": ["user_defined"], "state": "unarchived", "keys_count": 3456, "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active", "deactivate_on_rotation": true}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "managing_systems": ["web"]}]}`)
 				}))
 			})
 			It(`Invoke ListKeyTemplates successfully`, func() {
@@ -3566,11 +4370,28 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListKeyTemplatesOptions model
 				listKeyTemplatesOptionsModel := new(ukov4.ListKeyTemplatesOptions)
+				listKeyTemplatesOptionsModel.Accept = core.StringPtr("application/json")
+				listKeyTemplatesOptionsModel.Name = core.StringPtr("My Example Template")
+				listKeyTemplatesOptionsModel.NamingScheme = core.StringPtr("My Example Template")
 				listKeyTemplatesOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
-				listKeyTemplatesOptionsModel.KeyAlgorithm = core.StringPtr("aes")
+				listKeyTemplatesOptionsModel.KeyAlgorithm = []string{"aes"}
+				listKeyTemplatesOptionsModel.KeySize = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.KeySizeMin = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.KeySizeMax = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.KeystoresType = []string{"ibm_cloud_kms"}
+				listKeyTemplatesOptionsModel.KeystoresGroup = []string{"testString"}
+				listKeyTemplatesOptionsModel.CreatedAt = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.CreatedAtMin = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.CreatedAtMax = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.UpdatedAt = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.UpdatedAtMin = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.UpdatedAtMax = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.Type = []string{"user_defined"}
+				listKeyTemplatesOptionsModel.State = []string{"unarchived"}
 				listKeyTemplatesOptionsModel.Sort = []string{"-updated_at"}
 				listKeyTemplatesOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listKeyTemplatesOptionsModel.Offset = core.Int64Ptr(int64(0))
+				listKeyTemplatesOptionsModel.ManagingSystems = []string{"web"}
 				listKeyTemplatesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -3590,11 +4411,28 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListKeyTemplatesOptions model
 				listKeyTemplatesOptionsModel := new(ukov4.ListKeyTemplatesOptions)
+				listKeyTemplatesOptionsModel.Accept = core.StringPtr("application/json")
+				listKeyTemplatesOptionsModel.Name = core.StringPtr("My Example Template")
+				listKeyTemplatesOptionsModel.NamingScheme = core.StringPtr("My Example Template")
 				listKeyTemplatesOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
-				listKeyTemplatesOptionsModel.KeyAlgorithm = core.StringPtr("aes")
+				listKeyTemplatesOptionsModel.KeyAlgorithm = []string{"aes"}
+				listKeyTemplatesOptionsModel.KeySize = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.KeySizeMin = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.KeySizeMax = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.KeystoresType = []string{"ibm_cloud_kms"}
+				listKeyTemplatesOptionsModel.KeystoresGroup = []string{"testString"}
+				listKeyTemplatesOptionsModel.CreatedAt = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.CreatedAtMin = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.CreatedAtMax = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.UpdatedAt = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.UpdatedAtMin = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.UpdatedAtMax = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.Type = []string{"user_defined"}
+				listKeyTemplatesOptionsModel.State = []string{"unarchived"}
 				listKeyTemplatesOptionsModel.Sort = []string{"-updated_at"}
 				listKeyTemplatesOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listKeyTemplatesOptionsModel.Offset = core.Int64Ptr(int64(0))
+				listKeyTemplatesOptionsModel.ManagingSystems = []string{"web"}
 				listKeyTemplatesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := ukoService.SetServiceURL("")
@@ -3628,11 +4466,28 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListKeyTemplatesOptions model
 				listKeyTemplatesOptionsModel := new(ukov4.ListKeyTemplatesOptions)
+				listKeyTemplatesOptionsModel.Accept = core.StringPtr("application/json")
+				listKeyTemplatesOptionsModel.Name = core.StringPtr("My Example Template")
+				listKeyTemplatesOptionsModel.NamingScheme = core.StringPtr("My Example Template")
 				listKeyTemplatesOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
-				listKeyTemplatesOptionsModel.KeyAlgorithm = core.StringPtr("aes")
+				listKeyTemplatesOptionsModel.KeyAlgorithm = []string{"aes"}
+				listKeyTemplatesOptionsModel.KeySize = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.KeySizeMin = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.KeySizeMax = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.KeystoresType = []string{"ibm_cloud_kms"}
+				listKeyTemplatesOptionsModel.KeystoresGroup = []string{"testString"}
+				listKeyTemplatesOptionsModel.CreatedAt = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.CreatedAtMin = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.CreatedAtMax = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.UpdatedAt = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.UpdatedAtMin = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.UpdatedAtMax = core.StringPtr("testString")
+				listKeyTemplatesOptionsModel.Type = []string{"user_defined"}
+				listKeyTemplatesOptionsModel.State = []string{"unarchived"}
 				listKeyTemplatesOptionsModel.Sort = []string{"-updated_at"}
 				listKeyTemplatesOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listKeyTemplatesOptionsModel.Offset = core.Int64Ptr(int64(0))
+				listKeyTemplatesOptionsModel.ManagingSystems = []string{"web"}
 				listKeyTemplatesOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -3701,9 +4556,9 @@ var _ = Describe(`UkoV4`, func() {
 					res.WriteHeader(200)
 					requestNumber++
 					if requestNumber == 1 {
-						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"templates":[{"vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","version":1,"name":"AWS-TEMPLATE","key":{"size":"256","algorithm":"aes","activation_date":"P5Y1M1W2D","expiration_date":"P1Y2M1W4D","state":"active"},"description":"The description of the template","created_at":"2022-02-05T23:00:14.000Z","updated_at":"2022-02-05T23:00:14.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","keystores":[{"group":"Production","type":"ibm_cloud_kms","google_key_protection_level":"software","google_key_purpose":"encrypt_decrypt","google_kms_algorithm":"google_symmetric_encryption"}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"limit":1}`)
+						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"templates":[{"vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","version":1,"name":"AWS-TEMPLATE","naming_scheme":"A-<APP>-AES256-<ENV>-<GROUP>","type":["user_defined"],"state":"unarchived","keys_count":3456,"key":{"size":"256","algorithm":"aes","activation_date":"P5Y1M1W2D","expiration_date":"P1Y2M1W4D","state":"active","deactivate_on_rotation":true},"description":"The description of the template","created_at":"2022-02-05T23:00:14.000Z","updated_at":"2022-02-05T23:00:14.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","keystores":[{"group":"Production","naming_scheme":"A-<APP>-AES256-<ENV>-<GROUP>","type":"ibm_cloud_kms","google_key_protection_level":"software","google_key_purpose":"encrypt_decrypt","google_kms_algorithm":"google_symmetric_encryption"}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46","managing_systems":["web"]}],"limit":1}`)
 					} else if requestNumber == 2 {
-						fmt.Fprintf(res, "%s", `{"total_count":2,"templates":[{"vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","version":1,"name":"AWS-TEMPLATE","key":{"size":"256","algorithm":"aes","activation_date":"P5Y1M1W2D","expiration_date":"P1Y2M1W4D","state":"active"},"description":"The description of the template","created_at":"2022-02-05T23:00:14.000Z","updated_at":"2022-02-05T23:00:14.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","keystores":[{"group":"Production","type":"ibm_cloud_kms","google_key_protection_level":"software","google_key_purpose":"encrypt_decrypt","google_kms_algorithm":"google_symmetric_encryption"}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"limit":1}`)
+						fmt.Fprintf(res, "%s", `{"total_count":2,"templates":[{"vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","version":1,"name":"AWS-TEMPLATE","naming_scheme":"A-<APP>-AES256-<ENV>-<GROUP>","type":["user_defined"],"state":"unarchived","keys_count":3456,"key":{"size":"256","algorithm":"aes","activation_date":"P5Y1M1W2D","expiration_date":"P1Y2M1W4D","state":"active","deactivate_on_rotation":true},"description":"The description of the template","created_at":"2022-02-05T23:00:14.000Z","updated_at":"2022-02-05T23:00:14.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","keystores":[{"group":"Production","naming_scheme":"A-<APP>-AES256-<ENV>-<GROUP>","type":"ibm_cloud_kms","google_key_protection_level":"software","google_key_purpose":"encrypt_decrypt","google_kms_algorithm":"google_symmetric_encryption"}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46","managing_systems":["web"]}],"limit":1}`)
 					} else {
 						res.WriteHeader(400)
 					}
@@ -3718,10 +4573,27 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(ukoService).ToNot(BeNil())
 
 				listKeyTemplatesOptionsModel := &ukov4.ListKeyTemplatesOptions{
+					Accept: core.StringPtr("application/json"),
+					Name: core.StringPtr("My Example Template"),
+					NamingScheme: core.StringPtr("My Example Template"),
 					VaultID: []string{"123e4567-e89b-12d3-a456-426614174000"},
-					KeyAlgorithm: core.StringPtr("aes"),
+					KeyAlgorithm: []string{"aes"},
+					KeySize: core.StringPtr("testString"),
+					KeySizeMin: core.StringPtr("testString"),
+					KeySizeMax: core.StringPtr("testString"),
+					KeystoresType: []string{"ibm_cloud_kms"},
+					KeystoresGroup: []string{"testString"},
+					CreatedAt: core.StringPtr("testString"),
+					CreatedAtMin: core.StringPtr("testString"),
+					CreatedAtMax: core.StringPtr("testString"),
+					UpdatedAt: core.StringPtr("testString"),
+					UpdatedAtMin: core.StringPtr("testString"),
+					UpdatedAtMax: core.StringPtr("testString"),
+					Type: []string{"user_defined"},
+					State: []string{"unarchived"},
 					Sort: []string{"-updated_at"},
 					Limit: core.Int64Ptr(int64(10)),
+					ManagingSystems: []string{"web"},
 				}
 
 				pager, err := ukoService.NewKeyTemplatesPager(listKeyTemplatesOptionsModel)
@@ -3746,10 +4618,27 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(ukoService).ToNot(BeNil())
 
 				listKeyTemplatesOptionsModel := &ukov4.ListKeyTemplatesOptions{
+					Accept: core.StringPtr("application/json"),
+					Name: core.StringPtr("My Example Template"),
+					NamingScheme: core.StringPtr("My Example Template"),
 					VaultID: []string{"123e4567-e89b-12d3-a456-426614174000"},
-					KeyAlgorithm: core.StringPtr("aes"),
+					KeyAlgorithm: []string{"aes"},
+					KeySize: core.StringPtr("testString"),
+					KeySizeMin: core.StringPtr("testString"),
+					KeySizeMax: core.StringPtr("testString"),
+					KeystoresType: []string{"ibm_cloud_kms"},
+					KeystoresGroup: []string{"testString"},
+					CreatedAt: core.StringPtr("testString"),
+					CreatedAtMin: core.StringPtr("testString"),
+					CreatedAtMax: core.StringPtr("testString"),
+					UpdatedAt: core.StringPtr("testString"),
+					UpdatedAtMin: core.StringPtr("testString"),
+					UpdatedAtMax: core.StringPtr("testString"),
+					Type: []string{"user_defined"},
+					State: []string{"unarchived"},
 					Sort: []string{"-updated_at"},
 					Limit: core.Int64Ptr(int64(10)),
+					ManagingSystems: []string{"web"},
 				}
 
 				pager, err := ukoService.NewKeyTemplatesPager(listKeyTemplatesOptionsModel)
@@ -3773,8 +4662,6 @@ var _ = Describe(`UkoV4`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(createKeyTemplatePath))
 					Expect(req.Method).To(Equal("POST"))
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
 					fmt.Fprint(res, `} this is not valid json {`)
@@ -3799,10 +4686,12 @@ var _ = Describe(`UkoV4`, func() {
 				keyPropertiesModel.ActivationDate = core.StringPtr("P5Y1M1W2D")
 				keyPropertiesModel.ExpirationDate = core.StringPtr("P1Y2M1W4D")
 				keyPropertiesModel.State = core.StringPtr("active")
+				keyPropertiesModel.DeactivateOnRotation = core.BoolPtr(true)
 
 				// Construct an instance of the KeystoresPropertiesCreateGoogleKms model
 				keystoresPropertiesCreateModel := new(ukov4.KeystoresPropertiesCreateGoogleKms)
 				keystoresPropertiesCreateModel.Group = core.StringPtr("Production")
+				keystoresPropertiesCreateModel.NamingScheme = core.StringPtr("A-<APP>-AES256-<ENV>-<GROUP>")
 				keystoresPropertiesCreateModel.Type = core.StringPtr("ibm_cloud_kms")
 				keystoresPropertiesCreateModel.GoogleKeyProtectionLevel = core.StringPtr("software")
 				keystoresPropertiesCreateModel.GoogleKeyPurpose = core.StringPtr("encrypt_decrypt")
@@ -3810,12 +4699,14 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the CreateKeyTemplateOptions model
 				createKeyTemplateOptionsModel := new(ukov4.CreateKeyTemplateOptions)
-				createKeyTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				createKeyTemplateOptionsModel.Vault = vaultReferenceInCreationRequestModel
 				createKeyTemplateOptionsModel.Name = core.StringPtr("EXAMPLE-TEMPLATE")
 				createKeyTemplateOptionsModel.Key = keyPropertiesModel
 				createKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesCreateIntf{keystoresPropertiesCreateModel}
 				createKeyTemplateOptionsModel.Description = core.StringPtr("testString")
+				createKeyTemplateOptionsModel.NamingScheme = core.StringPtr("A-<APP>-AES256-<ENV>-<GROUP>")
+				createKeyTemplateOptionsModel.Type = []string{"user_defined"}
+				createKeyTemplateOptionsModel.State = core.StringPtr("unarchived")
 				createKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := ukoService.CreateKeyTemplate(createKeyTemplateOptionsModel)
@@ -3862,15 +4753,13 @@ var _ = Describe(`UkoV4`, func() {
 					}
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": ["user_defined"], "state": "unarchived", "keys_count": 3456, "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active", "deactivate_on_rotation": true}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "managing_systems": ["web"]}`)
 				}))
 			})
 			It(`Invoke CreateKeyTemplate successfully with retries`, func() {
@@ -3893,10 +4782,12 @@ var _ = Describe(`UkoV4`, func() {
 				keyPropertiesModel.ActivationDate = core.StringPtr("P5Y1M1W2D")
 				keyPropertiesModel.ExpirationDate = core.StringPtr("P1Y2M1W4D")
 				keyPropertiesModel.State = core.StringPtr("active")
+				keyPropertiesModel.DeactivateOnRotation = core.BoolPtr(true)
 
 				// Construct an instance of the KeystoresPropertiesCreateGoogleKms model
 				keystoresPropertiesCreateModel := new(ukov4.KeystoresPropertiesCreateGoogleKms)
 				keystoresPropertiesCreateModel.Group = core.StringPtr("Production")
+				keystoresPropertiesCreateModel.NamingScheme = core.StringPtr("A-<APP>-AES256-<ENV>-<GROUP>")
 				keystoresPropertiesCreateModel.Type = core.StringPtr("ibm_cloud_kms")
 				keystoresPropertiesCreateModel.GoogleKeyProtectionLevel = core.StringPtr("software")
 				keystoresPropertiesCreateModel.GoogleKeyPurpose = core.StringPtr("encrypt_decrypt")
@@ -3904,12 +4795,14 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the CreateKeyTemplateOptions model
 				createKeyTemplateOptionsModel := new(ukov4.CreateKeyTemplateOptions)
-				createKeyTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				createKeyTemplateOptionsModel.Vault = vaultReferenceInCreationRequestModel
 				createKeyTemplateOptionsModel.Name = core.StringPtr("EXAMPLE-TEMPLATE")
 				createKeyTemplateOptionsModel.Key = keyPropertiesModel
 				createKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesCreateIntf{keystoresPropertiesCreateModel}
 				createKeyTemplateOptionsModel.Description = core.StringPtr("testString")
+				createKeyTemplateOptionsModel.NamingScheme = core.StringPtr("A-<APP>-AES256-<ENV>-<GROUP>")
+				createKeyTemplateOptionsModel.Type = []string{"user_defined"}
+				createKeyTemplateOptionsModel.State = core.StringPtr("unarchived")
 				createKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -3962,12 +4855,10 @@ var _ = Describe(`UkoV4`, func() {
 					}
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": ["user_defined"], "state": "unarchived", "keys_count": 3456, "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active", "deactivate_on_rotation": true}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "managing_systems": ["web"]}`)
 				}))
 			})
 			It(`Invoke CreateKeyTemplate successfully`, func() {
@@ -3995,10 +4886,12 @@ var _ = Describe(`UkoV4`, func() {
 				keyPropertiesModel.ActivationDate = core.StringPtr("P5Y1M1W2D")
 				keyPropertiesModel.ExpirationDate = core.StringPtr("P1Y2M1W4D")
 				keyPropertiesModel.State = core.StringPtr("active")
+				keyPropertiesModel.DeactivateOnRotation = core.BoolPtr(true)
 
 				// Construct an instance of the KeystoresPropertiesCreateGoogleKms model
 				keystoresPropertiesCreateModel := new(ukov4.KeystoresPropertiesCreateGoogleKms)
 				keystoresPropertiesCreateModel.Group = core.StringPtr("Production")
+				keystoresPropertiesCreateModel.NamingScheme = core.StringPtr("A-<APP>-AES256-<ENV>-<GROUP>")
 				keystoresPropertiesCreateModel.Type = core.StringPtr("ibm_cloud_kms")
 				keystoresPropertiesCreateModel.GoogleKeyProtectionLevel = core.StringPtr("software")
 				keystoresPropertiesCreateModel.GoogleKeyPurpose = core.StringPtr("encrypt_decrypt")
@@ -4006,12 +4899,14 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the CreateKeyTemplateOptions model
 				createKeyTemplateOptionsModel := new(ukov4.CreateKeyTemplateOptions)
-				createKeyTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				createKeyTemplateOptionsModel.Vault = vaultReferenceInCreationRequestModel
 				createKeyTemplateOptionsModel.Name = core.StringPtr("EXAMPLE-TEMPLATE")
 				createKeyTemplateOptionsModel.Key = keyPropertiesModel
 				createKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesCreateIntf{keystoresPropertiesCreateModel}
 				createKeyTemplateOptionsModel.Description = core.StringPtr("testString")
+				createKeyTemplateOptionsModel.NamingScheme = core.StringPtr("A-<APP>-AES256-<ENV>-<GROUP>")
+				createKeyTemplateOptionsModel.Type = []string{"user_defined"}
+				createKeyTemplateOptionsModel.State = core.StringPtr("unarchived")
 				createKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -4040,10 +4935,12 @@ var _ = Describe(`UkoV4`, func() {
 				keyPropertiesModel.ActivationDate = core.StringPtr("P5Y1M1W2D")
 				keyPropertiesModel.ExpirationDate = core.StringPtr("P1Y2M1W4D")
 				keyPropertiesModel.State = core.StringPtr("active")
+				keyPropertiesModel.DeactivateOnRotation = core.BoolPtr(true)
 
 				// Construct an instance of the KeystoresPropertiesCreateGoogleKms model
 				keystoresPropertiesCreateModel := new(ukov4.KeystoresPropertiesCreateGoogleKms)
 				keystoresPropertiesCreateModel.Group = core.StringPtr("Production")
+				keystoresPropertiesCreateModel.NamingScheme = core.StringPtr("A-<APP>-AES256-<ENV>-<GROUP>")
 				keystoresPropertiesCreateModel.Type = core.StringPtr("ibm_cloud_kms")
 				keystoresPropertiesCreateModel.GoogleKeyProtectionLevel = core.StringPtr("software")
 				keystoresPropertiesCreateModel.GoogleKeyPurpose = core.StringPtr("encrypt_decrypt")
@@ -4051,12 +4948,14 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the CreateKeyTemplateOptions model
 				createKeyTemplateOptionsModel := new(ukov4.CreateKeyTemplateOptions)
-				createKeyTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				createKeyTemplateOptionsModel.Vault = vaultReferenceInCreationRequestModel
 				createKeyTemplateOptionsModel.Name = core.StringPtr("EXAMPLE-TEMPLATE")
 				createKeyTemplateOptionsModel.Key = keyPropertiesModel
 				createKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesCreateIntf{keystoresPropertiesCreateModel}
 				createKeyTemplateOptionsModel.Description = core.StringPtr("testString")
+				createKeyTemplateOptionsModel.NamingScheme = core.StringPtr("A-<APP>-AES256-<ENV>-<GROUP>")
+				createKeyTemplateOptionsModel.Type = []string{"user_defined"}
+				createKeyTemplateOptionsModel.State = core.StringPtr("unarchived")
 				createKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := ukoService.SetServiceURL("")
@@ -4106,10 +5005,12 @@ var _ = Describe(`UkoV4`, func() {
 				keyPropertiesModel.ActivationDate = core.StringPtr("P5Y1M1W2D")
 				keyPropertiesModel.ExpirationDate = core.StringPtr("P1Y2M1W4D")
 				keyPropertiesModel.State = core.StringPtr("active")
+				keyPropertiesModel.DeactivateOnRotation = core.BoolPtr(true)
 
 				// Construct an instance of the KeystoresPropertiesCreateGoogleKms model
 				keystoresPropertiesCreateModel := new(ukov4.KeystoresPropertiesCreateGoogleKms)
 				keystoresPropertiesCreateModel.Group = core.StringPtr("Production")
+				keystoresPropertiesCreateModel.NamingScheme = core.StringPtr("A-<APP>-AES256-<ENV>-<GROUP>")
 				keystoresPropertiesCreateModel.Type = core.StringPtr("ibm_cloud_kms")
 				keystoresPropertiesCreateModel.GoogleKeyProtectionLevel = core.StringPtr("software")
 				keystoresPropertiesCreateModel.GoogleKeyPurpose = core.StringPtr("encrypt_decrypt")
@@ -4117,12 +5018,14 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the CreateKeyTemplateOptions model
 				createKeyTemplateOptionsModel := new(ukov4.CreateKeyTemplateOptions)
-				createKeyTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				createKeyTemplateOptionsModel.Vault = vaultReferenceInCreationRequestModel
 				createKeyTemplateOptionsModel.Name = core.StringPtr("EXAMPLE-TEMPLATE")
 				createKeyTemplateOptionsModel.Key = keyPropertiesModel
 				createKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesCreateIntf{keystoresPropertiesCreateModel}
 				createKeyTemplateOptionsModel.Description = core.StringPtr("testString")
+				createKeyTemplateOptionsModel.NamingScheme = core.StringPtr("A-<APP>-AES256-<ENV>-<GROUP>")
+				createKeyTemplateOptionsModel.Type = []string{"user_defined"}
+				createKeyTemplateOptionsModel.State = core.StringPtr("unarchived")
 				createKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -4149,8 +5052,6 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(deleteKeyTemplatePath))
 					Expect(req.Method).To(Equal("DELETE"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.WriteHeader(204)
@@ -4172,7 +5073,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the DeleteKeyTemplateOptions model
 				deleteKeyTemplateOptionsModel := new(ukov4.DeleteKeyTemplateOptions)
 				deleteKeyTemplateOptionsModel.ID = core.StringPtr("testString")
-				deleteKeyTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				deleteKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
 				deleteKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -4192,7 +5092,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the DeleteKeyTemplateOptions model
 				deleteKeyTemplateOptionsModel := new(ukov4.DeleteKeyTemplateOptions)
 				deleteKeyTemplateOptionsModel.ID = core.StringPtr("testString")
-				deleteKeyTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				deleteKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
 				deleteKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -4224,8 +5123,6 @@ var _ = Describe(`UkoV4`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(getKeyTemplatePath))
 					Expect(req.Method).To(Equal("GET"))
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprint(res, `} this is not valid json {`)
@@ -4242,7 +5139,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetKeyTemplateOptions model
 				getKeyTemplateOptionsModel := new(ukov4.GetKeyTemplateOptions)
 				getKeyTemplateOptionsModel.ID = core.StringPtr("testString")
-				getKeyTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				getKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := ukoService.GetKeyTemplate(getKeyTemplateOptionsModel)
@@ -4273,15 +5169,13 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(getKeyTemplatePath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": ["user_defined"], "state": "unarchived", "keys_count": 3456, "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active", "deactivate_on_rotation": true}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "managing_systems": ["web"]}`)
 				}))
 			})
 			It(`Invoke GetKeyTemplate successfully with retries`, func() {
@@ -4296,7 +5190,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetKeyTemplateOptions model
 				getKeyTemplateOptionsModel := new(ukov4.GetKeyTemplateOptions)
 				getKeyTemplateOptionsModel.ID = core.StringPtr("testString")
-				getKeyTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				getKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -4333,12 +5226,10 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(getKeyTemplatePath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": ["user_defined"], "state": "unarchived", "keys_count": 3456, "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active", "deactivate_on_rotation": true}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "managing_systems": ["web"]}`)
 				}))
 			})
 			It(`Invoke GetKeyTemplate successfully`, func() {
@@ -4358,7 +5249,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetKeyTemplateOptions model
 				getKeyTemplateOptionsModel := new(ukov4.GetKeyTemplateOptions)
 				getKeyTemplateOptionsModel.ID = core.StringPtr("testString")
-				getKeyTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				getKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -4379,7 +5269,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetKeyTemplateOptions model
 				getKeyTemplateOptionsModel := new(ukov4.GetKeyTemplateOptions)
 				getKeyTemplateOptionsModel.ID = core.StringPtr("testString")
-				getKeyTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				getKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := ukoService.SetServiceURL("")
@@ -4421,7 +5310,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetKeyTemplateOptions model
 				getKeyTemplateOptionsModel := new(ukov4.GetKeyTemplateOptions)
 				getKeyTemplateOptionsModel.ID = core.StringPtr("testString")
-				getKeyTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				getKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -4447,8 +5335,6 @@ var _ = Describe(`UkoV4`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(updateKeyTemplatePath))
 					Expect(req.Method).To(Equal("PATCH"))
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
@@ -4477,12 +5363,13 @@ var _ = Describe(`UkoV4`, func() {
 				keyPropertiesUpdateModel.ActivationDate = core.StringPtr("P5Y1M1W2D")
 				keyPropertiesUpdateModel.ExpirationDate = core.StringPtr("P1Y2M1W4D")
 				keyPropertiesUpdateModel.State = core.StringPtr("active")
+				keyPropertiesUpdateModel.DeactivateOnRotation = core.BoolPtr(true)
 
 				// Construct an instance of the UpdateKeyTemplateOptions model
 				updateKeyTemplateOptionsModel := new(ukov4.UpdateKeyTemplateOptions)
 				updateKeyTemplateOptionsModel.ID = core.StringPtr("testString")
-				updateKeyTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				updateKeyTemplateOptionsModel.Name = core.StringPtr("EXAMPLE-TEMPLATE")
 				updateKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesUpdateIntf{keystoresPropertiesUpdateModel}
 				updateKeyTemplateOptionsModel.Description = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.Key = keyPropertiesUpdateModel
@@ -4532,8 +5419,6 @@ var _ = Describe(`UkoV4`, func() {
 					}
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Sleep a short time to support a timeout test
@@ -4542,7 +5427,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": ["user_defined"], "state": "unarchived", "keys_count": 3456, "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active", "deactivate_on_rotation": true}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "managing_systems": ["web"]}`)
 				}))
 			})
 			It(`Invoke UpdateKeyTemplate successfully with retries`, func() {
@@ -4567,12 +5452,13 @@ var _ = Describe(`UkoV4`, func() {
 				keyPropertiesUpdateModel.ActivationDate = core.StringPtr("P5Y1M1W2D")
 				keyPropertiesUpdateModel.ExpirationDate = core.StringPtr("P1Y2M1W4D")
 				keyPropertiesUpdateModel.State = core.StringPtr("active")
+				keyPropertiesUpdateModel.DeactivateOnRotation = core.BoolPtr(true)
 
 				// Construct an instance of the UpdateKeyTemplateOptions model
 				updateKeyTemplateOptionsModel := new(ukov4.UpdateKeyTemplateOptions)
 				updateKeyTemplateOptionsModel.ID = core.StringPtr("testString")
-				updateKeyTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				updateKeyTemplateOptionsModel.Name = core.StringPtr("EXAMPLE-TEMPLATE")
 				updateKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesUpdateIntf{keystoresPropertiesUpdateModel}
 				updateKeyTemplateOptionsModel.Description = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.Key = keyPropertiesUpdateModel
@@ -4628,14 +5514,12 @@ var _ = Describe(`UkoV4`, func() {
 					}
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active"}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": ["user_defined"], "state": "unarchived", "keys_count": 3456, "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active", "deactivate_on_rotation": true}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "managing_systems": ["web"]}`)
 				}))
 			})
 			It(`Invoke UpdateKeyTemplate successfully`, func() {
@@ -4665,12 +5549,13 @@ var _ = Describe(`UkoV4`, func() {
 				keyPropertiesUpdateModel.ActivationDate = core.StringPtr("P5Y1M1W2D")
 				keyPropertiesUpdateModel.ExpirationDate = core.StringPtr("P1Y2M1W4D")
 				keyPropertiesUpdateModel.State = core.StringPtr("active")
+				keyPropertiesUpdateModel.DeactivateOnRotation = core.BoolPtr(true)
 
 				// Construct an instance of the UpdateKeyTemplateOptions model
 				updateKeyTemplateOptionsModel := new(ukov4.UpdateKeyTemplateOptions)
 				updateKeyTemplateOptionsModel.ID = core.StringPtr("testString")
-				updateKeyTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				updateKeyTemplateOptionsModel.Name = core.StringPtr("EXAMPLE-TEMPLATE")
 				updateKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesUpdateIntf{keystoresPropertiesUpdateModel}
 				updateKeyTemplateOptionsModel.Description = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.Key = keyPropertiesUpdateModel
@@ -4704,12 +5589,13 @@ var _ = Describe(`UkoV4`, func() {
 				keyPropertiesUpdateModel.ActivationDate = core.StringPtr("P5Y1M1W2D")
 				keyPropertiesUpdateModel.ExpirationDate = core.StringPtr("P1Y2M1W4D")
 				keyPropertiesUpdateModel.State = core.StringPtr("active")
+				keyPropertiesUpdateModel.DeactivateOnRotation = core.BoolPtr(true)
 
 				// Construct an instance of the UpdateKeyTemplateOptions model
 				updateKeyTemplateOptionsModel := new(ukov4.UpdateKeyTemplateOptions)
 				updateKeyTemplateOptionsModel.ID = core.StringPtr("testString")
-				updateKeyTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				updateKeyTemplateOptionsModel.Name = core.StringPtr("EXAMPLE-TEMPLATE")
 				updateKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesUpdateIntf{keystoresPropertiesUpdateModel}
 				updateKeyTemplateOptionsModel.Description = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.Key = keyPropertiesUpdateModel
@@ -4764,12 +5650,13 @@ var _ = Describe(`UkoV4`, func() {
 				keyPropertiesUpdateModel.ActivationDate = core.StringPtr("P5Y1M1W2D")
 				keyPropertiesUpdateModel.ExpirationDate = core.StringPtr("P1Y2M1W4D")
 				keyPropertiesUpdateModel.State = core.StringPtr("active")
+				keyPropertiesUpdateModel.DeactivateOnRotation = core.BoolPtr(true)
 
 				// Construct an instance of the UpdateKeyTemplateOptions model
 				updateKeyTemplateOptionsModel := new(ukov4.UpdateKeyTemplateOptions)
 				updateKeyTemplateOptionsModel.ID = core.StringPtr("testString")
-				updateKeyTemplateOptionsModel.UKOVault = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				updateKeyTemplateOptionsModel.Name = core.StringPtr("EXAMPLE-TEMPLATE")
 				updateKeyTemplateOptionsModel.Keystores = []ukov4.KeystoresPropertiesUpdateIntf{keystoresPropertiesUpdateModel}
 				updateKeyTemplateOptionsModel.Description = core.StringPtr("testString")
 				updateKeyTemplateOptionsModel.Key = keyPropertiesUpdateModel
@@ -4798,11 +5685,12 @@ var _ = Describe(`UkoV4`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(listKeystoresPath))
 					Expect(req.Method).To(Equal("GET"))
+					Expect(req.Header["Accept"]).ToNot(BeNil())
+					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "application/json")))
 					Expect(req.URL.Query()["name"]).To(Equal([]string{"Main IBM Cloud"}))
 					Expect(req.URL.Query()["description"]).To(Equal([]string{"My Example Keystore Description"}))
 					Expect(req.URL.Query()["group"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["groups[]"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["location"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					res.Header().Set("Content-type", "application/json")
@@ -4820,13 +5708,14 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListKeystoresOptions model
 				listKeystoresOptionsModel := new(ukov4.ListKeystoresOptions)
+				listKeystoresOptionsModel.Accept = core.StringPtr("application/json")
 				listKeystoresOptionsModel.Type = []string{"ibm_cloud_kms"}
 				listKeystoresOptionsModel.Name = core.StringPtr("Main IBM Cloud")
 				listKeystoresOptionsModel.Description = core.StringPtr("My Example Keystore Description")
 				listKeystoresOptionsModel.Group = core.StringPtr("testString")
 				listKeystoresOptionsModel.Groups = core.StringPtr("testString")
 				listKeystoresOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
-				listKeystoresOptionsModel.Location = core.StringPtr("testString")
+				listKeystoresOptionsModel.Location = []string{"testString"}
 				listKeystoresOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listKeystoresOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listKeystoresOptionsModel.Sort = []string{"-updated_at"}
@@ -4860,11 +5749,12 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(listKeystoresPath))
 					Expect(req.Method).To(Equal("GET"))
 
+					Expect(req.Header["Accept"]).ToNot(BeNil())
+					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "application/json")))
 					Expect(req.URL.Query()["name"]).To(Equal([]string{"Main IBM Cloud"}))
 					Expect(req.URL.Query()["description"]).To(Equal([]string{"My Example Keystore Description"}))
 					Expect(req.URL.Query()["group"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["groups[]"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["location"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					// Sleep a short time to support a timeout test
@@ -4873,7 +5763,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "keystores": [{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}]}`)
+					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "keystores": [{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "tls_proxy": "c-04.private.us-east.link.satellite.cloud.ibm.com:12358", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}]}`)
 				}))
 			})
 			It(`Invoke ListKeystores successfully with retries`, func() {
@@ -4887,13 +5777,14 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListKeystoresOptions model
 				listKeystoresOptionsModel := new(ukov4.ListKeystoresOptions)
+				listKeystoresOptionsModel.Accept = core.StringPtr("application/json")
 				listKeystoresOptionsModel.Type = []string{"ibm_cloud_kms"}
 				listKeystoresOptionsModel.Name = core.StringPtr("Main IBM Cloud")
 				listKeystoresOptionsModel.Description = core.StringPtr("My Example Keystore Description")
 				listKeystoresOptionsModel.Group = core.StringPtr("testString")
 				listKeystoresOptionsModel.Groups = core.StringPtr("testString")
 				listKeystoresOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
-				listKeystoresOptionsModel.Location = core.StringPtr("testString")
+				listKeystoresOptionsModel.Location = []string{"testString"}
 				listKeystoresOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listKeystoresOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listKeystoresOptionsModel.Sort = []string{"-updated_at"}
@@ -4933,17 +5824,18 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(listKeystoresPath))
 					Expect(req.Method).To(Equal("GET"))
 
+					Expect(req.Header["Accept"]).ToNot(BeNil())
+					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "application/json")))
 					Expect(req.URL.Query()["name"]).To(Equal([]string{"Main IBM Cloud"}))
 					Expect(req.URL.Query()["description"]).To(Equal([]string{"My Example Keystore Description"}))
 					Expect(req.URL.Query()["group"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["groups[]"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["location"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "keystores": [{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}]}`)
+					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "keystores": [{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "tls_proxy": "c-04.private.us-east.link.satellite.cloud.ibm.com:12358", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}]}`)
 				}))
 			})
 			It(`Invoke ListKeystores successfully`, func() {
@@ -4962,13 +5854,14 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListKeystoresOptions model
 				listKeystoresOptionsModel := new(ukov4.ListKeystoresOptions)
+				listKeystoresOptionsModel.Accept = core.StringPtr("application/json")
 				listKeystoresOptionsModel.Type = []string{"ibm_cloud_kms"}
 				listKeystoresOptionsModel.Name = core.StringPtr("Main IBM Cloud")
 				listKeystoresOptionsModel.Description = core.StringPtr("My Example Keystore Description")
 				listKeystoresOptionsModel.Group = core.StringPtr("testString")
 				listKeystoresOptionsModel.Groups = core.StringPtr("testString")
 				listKeystoresOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
-				listKeystoresOptionsModel.Location = core.StringPtr("testString")
+				listKeystoresOptionsModel.Location = []string{"testString"}
 				listKeystoresOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listKeystoresOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listKeystoresOptionsModel.Sort = []string{"-updated_at"}
@@ -4991,13 +5884,14 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListKeystoresOptions model
 				listKeystoresOptionsModel := new(ukov4.ListKeystoresOptions)
+				listKeystoresOptionsModel.Accept = core.StringPtr("application/json")
 				listKeystoresOptionsModel.Type = []string{"ibm_cloud_kms"}
 				listKeystoresOptionsModel.Name = core.StringPtr("Main IBM Cloud")
 				listKeystoresOptionsModel.Description = core.StringPtr("My Example Keystore Description")
 				listKeystoresOptionsModel.Group = core.StringPtr("testString")
 				listKeystoresOptionsModel.Groups = core.StringPtr("testString")
 				listKeystoresOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
-				listKeystoresOptionsModel.Location = core.StringPtr("testString")
+				listKeystoresOptionsModel.Location = []string{"testString"}
 				listKeystoresOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listKeystoresOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listKeystoresOptionsModel.Sort = []string{"-updated_at"}
@@ -5034,13 +5928,14 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListKeystoresOptions model
 				listKeystoresOptionsModel := new(ukov4.ListKeystoresOptions)
+				listKeystoresOptionsModel.Accept = core.StringPtr("application/json")
 				listKeystoresOptionsModel.Type = []string{"ibm_cloud_kms"}
 				listKeystoresOptionsModel.Name = core.StringPtr("Main IBM Cloud")
 				listKeystoresOptionsModel.Description = core.StringPtr("My Example Keystore Description")
 				listKeystoresOptionsModel.Group = core.StringPtr("testString")
 				listKeystoresOptionsModel.Groups = core.StringPtr("testString")
 				listKeystoresOptionsModel.VaultID = []string{"123e4567-e89b-12d3-a456-426614174000"}
-				listKeystoresOptionsModel.Location = core.StringPtr("testString")
+				listKeystoresOptionsModel.Location = []string{"testString"}
 				listKeystoresOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listKeystoresOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listKeystoresOptionsModel.Sort = []string{"-updated_at"}
@@ -5112,9 +6007,9 @@ var _ = Describe(`UkoV4`, func() {
 					res.WriteHeader(200)
 					requestNumber++
 					if requestNumber == 1 {
-						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"keystores":[{"vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Accounting","location":"us-south","description":"IBM Cloud keystore for testing","groups":["Production"],"type":"ibm_cloud_kms","created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46","google_credentials":"eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=","google_location":"europe-central2","google_project_id":"demo-project","google_private_key_id":"f871b60d0617be19393bb66ea142887fc9621360","google_key_ring":"my-key-ring"}],"limit":1}`)
+						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"keystores":[{"vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Accounting","location":"us-south","description":"IBM Cloud keystore for testing","groups":["Production"],"type":"ibm_cloud_kms","created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46","tls_proxy":"c-04.private.us-east.link.satellite.cloud.ibm.com:12358","google_credentials":"eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=","google_location":"europe-central2","google_project_id":"demo-project","google_private_key_id":"f871b60d0617be19393bb66ea142887fc9621360","google_key_ring":"my-key-ring"}],"limit":1}`)
 					} else if requestNumber == 2 {
-						fmt.Fprintf(res, "%s", `{"total_count":2,"keystores":[{"vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Accounting","location":"us-south","description":"IBM Cloud keystore for testing","groups":["Production"],"type":"ibm_cloud_kms","created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46","google_credentials":"eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=","google_location":"europe-central2","google_project_id":"demo-project","google_private_key_id":"f871b60d0617be19393bb66ea142887fc9621360","google_key_ring":"my-key-ring"}],"limit":1}`)
+						fmt.Fprintf(res, "%s", `{"total_count":2,"keystores":[{"vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Accounting","location":"us-south","description":"IBM Cloud keystore for testing","groups":["Production"],"type":"ibm_cloud_kms","created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46","tls_proxy":"c-04.private.us-east.link.satellite.cloud.ibm.com:12358","google_credentials":"eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=","google_location":"europe-central2","google_project_id":"demo-project","google_private_key_id":"f871b60d0617be19393bb66ea142887fc9621360","google_key_ring":"my-key-ring"}],"limit":1}`)
 					} else {
 						res.WriteHeader(400)
 					}
@@ -5129,13 +6024,14 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(ukoService).ToNot(BeNil())
 
 				listKeystoresOptionsModel := &ukov4.ListKeystoresOptions{
+					Accept: core.StringPtr("application/json"),
 					Type: []string{"ibm_cloud_kms"},
 					Name: core.StringPtr("Main IBM Cloud"),
 					Description: core.StringPtr("My Example Keystore Description"),
 					Group: core.StringPtr("testString"),
 					Groups: core.StringPtr("testString"),
 					VaultID: []string{"123e4567-e89b-12d3-a456-426614174000"},
-					Location: core.StringPtr("testString"),
+					Location: []string{"testString"},
 					Limit: core.Int64Ptr(int64(10)),
 					Sort: []string{"-updated_at"},
 				}
@@ -5162,13 +6058,14 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(ukoService).ToNot(BeNil())
 
 				listKeystoresOptionsModel := &ukov4.ListKeystoresOptions{
+					Accept: core.StringPtr("application/json"),
 					Type: []string{"ibm_cloud_kms"},
 					Name: core.StringPtr("Main IBM Cloud"),
 					Description: core.StringPtr("My Example Keystore Description"),
 					Group: core.StringPtr("testString"),
 					Groups: core.StringPtr("testString"),
 					VaultID: []string{"123e4567-e89b-12d3-a456-426614174000"},
-					Location: core.StringPtr("testString"),
+					Location: []string{"testString"},
 					Limit: core.Int64Ptr(int64(10)),
 					Sort: []string{"-updated_at"},
 				}
@@ -5194,8 +6091,6 @@ var _ = Describe(`UkoV4`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(createKeystorePath))
 					Expect(req.Method).To(Equal("POST"))
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// TODO: Add check for dry_run query parameter
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
@@ -5220,6 +6115,7 @@ var _ = Describe(`UkoV4`, func() {
 				keystoreCreationRequestModel.Vault = vaultReferenceInCreationRequestModel
 				keystoreCreationRequestModel.Name = core.StringPtr("IBM Cloud Keystore Name")
 				keystoreCreationRequestModel.Description = core.StringPtr("Azure keystore")
+				keystoreCreationRequestModel.TlsProxy = core.StringPtr("c-04.private.us-east.link.satellite.cloud.ibm.com:12358")
 				keystoreCreationRequestModel.Groups = []string{"Production"}
 				keystoreCreationRequestModel.AwsRegion = core.StringPtr("af_south_1")
 				keystoreCreationRequestModel.AwsAccessKeyID = core.StringPtr("BSDFWERUANLKJDN54AAS")
@@ -5227,7 +6123,6 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the CreateKeystoreOptions model
 				createKeystoreOptionsModel := new(ukov4.CreateKeystoreOptions)
-				createKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				createKeystoreOptionsModel.KeystoreBody = keystoreCreationRequestModel
 				createKeystoreOptionsModel.DryRun = core.BoolPtr(false)
 				createKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -5276,8 +6171,6 @@ var _ = Describe(`UkoV4`, func() {
 					}
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// TODO: Add check for dry_run query parameter
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
@@ -5285,7 +6178,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "tls_proxy": "c-04.private.us-east.link.satellite.cloud.ibm.com:12358", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}`)
 				}))
 			})
 			It(`Invoke CreateKeystore successfully with retries`, func() {
@@ -5307,6 +6200,7 @@ var _ = Describe(`UkoV4`, func() {
 				keystoreCreationRequestModel.Vault = vaultReferenceInCreationRequestModel
 				keystoreCreationRequestModel.Name = core.StringPtr("IBM Cloud Keystore Name")
 				keystoreCreationRequestModel.Description = core.StringPtr("Azure keystore")
+				keystoreCreationRequestModel.TlsProxy = core.StringPtr("c-04.private.us-east.link.satellite.cloud.ibm.com:12358")
 				keystoreCreationRequestModel.Groups = []string{"Production"}
 				keystoreCreationRequestModel.AwsRegion = core.StringPtr("af_south_1")
 				keystoreCreationRequestModel.AwsAccessKeyID = core.StringPtr("BSDFWERUANLKJDN54AAS")
@@ -5314,7 +6208,6 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the CreateKeystoreOptions model
 				createKeystoreOptionsModel := new(ukov4.CreateKeystoreOptions)
-				createKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				createKeystoreOptionsModel.KeystoreBody = keystoreCreationRequestModel
 				createKeystoreOptionsModel.DryRun = core.BoolPtr(false)
 				createKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -5369,13 +6262,11 @@ var _ = Describe(`UkoV4`, func() {
 					}
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// TODO: Add check for dry_run query parameter
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "tls_proxy": "c-04.private.us-east.link.satellite.cloud.ibm.com:12358", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}`)
 				}))
 			})
 			It(`Invoke CreateKeystore successfully`, func() {
@@ -5402,6 +6293,7 @@ var _ = Describe(`UkoV4`, func() {
 				keystoreCreationRequestModel.Vault = vaultReferenceInCreationRequestModel
 				keystoreCreationRequestModel.Name = core.StringPtr("IBM Cloud Keystore Name")
 				keystoreCreationRequestModel.Description = core.StringPtr("Azure keystore")
+				keystoreCreationRequestModel.TlsProxy = core.StringPtr("c-04.private.us-east.link.satellite.cloud.ibm.com:12358")
 				keystoreCreationRequestModel.Groups = []string{"Production"}
 				keystoreCreationRequestModel.AwsRegion = core.StringPtr("af_south_1")
 				keystoreCreationRequestModel.AwsAccessKeyID = core.StringPtr("BSDFWERUANLKJDN54AAS")
@@ -5409,7 +6301,6 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the CreateKeystoreOptions model
 				createKeystoreOptionsModel := new(ukov4.CreateKeystoreOptions)
-				createKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				createKeystoreOptionsModel.KeystoreBody = keystoreCreationRequestModel
 				createKeystoreOptionsModel.DryRun = core.BoolPtr(false)
 				createKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -5439,6 +6330,7 @@ var _ = Describe(`UkoV4`, func() {
 				keystoreCreationRequestModel.Vault = vaultReferenceInCreationRequestModel
 				keystoreCreationRequestModel.Name = core.StringPtr("IBM Cloud Keystore Name")
 				keystoreCreationRequestModel.Description = core.StringPtr("Azure keystore")
+				keystoreCreationRequestModel.TlsProxy = core.StringPtr("c-04.private.us-east.link.satellite.cloud.ibm.com:12358")
 				keystoreCreationRequestModel.Groups = []string{"Production"}
 				keystoreCreationRequestModel.AwsRegion = core.StringPtr("af_south_1")
 				keystoreCreationRequestModel.AwsAccessKeyID = core.StringPtr("BSDFWERUANLKJDN54AAS")
@@ -5446,7 +6338,6 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the CreateKeystoreOptions model
 				createKeystoreOptionsModel := new(ukov4.CreateKeystoreOptions)
-				createKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				createKeystoreOptionsModel.KeystoreBody = keystoreCreationRequestModel
 				createKeystoreOptionsModel.DryRun = core.BoolPtr(false)
 				createKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -5497,6 +6388,7 @@ var _ = Describe(`UkoV4`, func() {
 				keystoreCreationRequestModel.Vault = vaultReferenceInCreationRequestModel
 				keystoreCreationRequestModel.Name = core.StringPtr("IBM Cloud Keystore Name")
 				keystoreCreationRequestModel.Description = core.StringPtr("Azure keystore")
+				keystoreCreationRequestModel.TlsProxy = core.StringPtr("c-04.private.us-east.link.satellite.cloud.ibm.com:12358")
 				keystoreCreationRequestModel.Groups = []string{"Production"}
 				keystoreCreationRequestModel.AwsRegion = core.StringPtr("af_south_1")
 				keystoreCreationRequestModel.AwsAccessKeyID = core.StringPtr("BSDFWERUANLKJDN54AAS")
@@ -5504,7 +6396,6 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the CreateKeystoreOptions model
 				createKeystoreOptionsModel := new(ukov4.CreateKeystoreOptions)
-				createKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				createKeystoreOptionsModel.KeystoreBody = keystoreCreationRequestModel
 				createKeystoreOptionsModel.DryRun = core.BoolPtr(false)
 				createKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -5533,10 +6424,9 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(deleteKeystorePath))
 					Expect(req.Method).To(Equal("DELETE"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.URL.Query()["mode"]).To(Equal([]string{"restrict"}))
 					res.WriteHeader(204)
 				}))
 			})
@@ -5556,8 +6446,8 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the DeleteKeystoreOptions model
 				deleteKeystoreOptionsModel := new(ukov4.DeleteKeystoreOptions)
 				deleteKeystoreOptionsModel.ID = core.StringPtr("testString")
-				deleteKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				deleteKeystoreOptionsModel.IfMatch = core.StringPtr("testString")
+				deleteKeystoreOptionsModel.Mode = core.StringPtr("restrict")
 				deleteKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -5576,8 +6466,8 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the DeleteKeystoreOptions model
 				deleteKeystoreOptionsModel := new(ukov4.DeleteKeystoreOptions)
 				deleteKeystoreOptionsModel.ID = core.StringPtr("testString")
-				deleteKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				deleteKeystoreOptionsModel.IfMatch = core.StringPtr("testString")
+				deleteKeystoreOptionsModel.Mode = core.StringPtr("restrict")
 				deleteKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := ukoService.SetServiceURL("")
@@ -5608,8 +6498,6 @@ var _ = Describe(`UkoV4`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(getKeystorePath))
 					Expect(req.Method).To(Equal("GET"))
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprint(res, `} this is not valid json {`)
@@ -5626,7 +6514,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetKeystoreOptions model
 				getKeystoreOptionsModel := new(ukov4.GetKeystoreOptions)
 				getKeystoreOptionsModel.ID = core.StringPtr("testString")
-				getKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				getKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := ukoService.GetKeystore(getKeystoreOptionsModel)
@@ -5657,15 +6544,13 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(getKeystorePath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "tls_proxy": "c-04.private.us-east.link.satellite.cloud.ibm.com:12358", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}`)
 				}))
 			})
 			It(`Invoke GetKeystore successfully with retries`, func() {
@@ -5680,7 +6565,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetKeystoreOptions model
 				getKeystoreOptionsModel := new(ukov4.GetKeystoreOptions)
 				getKeystoreOptionsModel.ID = core.StringPtr("testString")
-				getKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				getKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -5717,12 +6601,10 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(getKeystorePath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "tls_proxy": "c-04.private.us-east.link.satellite.cloud.ibm.com:12358", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}`)
 				}))
 			})
 			It(`Invoke GetKeystore successfully`, func() {
@@ -5742,7 +6624,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetKeystoreOptions model
 				getKeystoreOptionsModel := new(ukov4.GetKeystoreOptions)
 				getKeystoreOptionsModel.ID = core.StringPtr("testString")
-				getKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				getKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -5763,7 +6644,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetKeystoreOptions model
 				getKeystoreOptionsModel := new(ukov4.GetKeystoreOptions)
 				getKeystoreOptionsModel.ID = core.StringPtr("testString")
-				getKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				getKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := ukoService.SetServiceURL("")
@@ -5805,7 +6685,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetKeystoreOptions model
 				getKeystoreOptionsModel := new(ukov4.GetKeystoreOptions)
 				getKeystoreOptionsModel.ID = core.StringPtr("testString")
-				getKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				getKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -5831,8 +6710,6 @@ var _ = Describe(`UkoV4`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(updateKeystorePath))
 					Expect(req.Method).To(Equal("PATCH"))
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
@@ -5852,6 +6729,7 @@ var _ = Describe(`UkoV4`, func() {
 				keystoreUpdateRequestModel := new(ukov4.KeystoreUpdateRequestKeystoreTypeGoogleKmsUpdate)
 				keystoreUpdateRequestModel.Name = core.StringPtr("IBM Cloud Keystore Name")
 				keystoreUpdateRequestModel.Description = core.StringPtr("Azure keystore")
+				keystoreUpdateRequestModel.TlsProxy = core.StringPtr("c-04.private.us-east.link.satellite.cloud.ibm.com:12358")
 				keystoreUpdateRequestModel.Groups = []string{"Production"}
 				keystoreUpdateRequestModel.GoogleCredentials = core.StringPtr("eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=")
 				keystoreUpdateRequestModel.GoogleLocation = core.StringPtr("europe-central2")
@@ -5860,7 +6738,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the UpdateKeystoreOptions model
 				updateKeystoreOptionsModel := new(ukov4.UpdateKeystoreOptions)
 				updateKeystoreOptionsModel.ID = core.StringPtr("testString")
-				updateKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				updateKeystoreOptionsModel.IfMatch = core.StringPtr("testString")
 				updateKeystoreOptionsModel.KeystoreBody = keystoreUpdateRequestModel
 				updateKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -5909,8 +6786,6 @@ var _ = Describe(`UkoV4`, func() {
 					}
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Sleep a short time to support a timeout test
@@ -5919,7 +6794,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "tls_proxy": "c-04.private.us-east.link.satellite.cloud.ibm.com:12358", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}`)
 				}))
 			})
 			It(`Invoke UpdateKeystore successfully with retries`, func() {
@@ -5935,6 +6810,7 @@ var _ = Describe(`UkoV4`, func() {
 				keystoreUpdateRequestModel := new(ukov4.KeystoreUpdateRequestKeystoreTypeGoogleKmsUpdate)
 				keystoreUpdateRequestModel.Name = core.StringPtr("IBM Cloud Keystore Name")
 				keystoreUpdateRequestModel.Description = core.StringPtr("Azure keystore")
+				keystoreUpdateRequestModel.TlsProxy = core.StringPtr("c-04.private.us-east.link.satellite.cloud.ibm.com:12358")
 				keystoreUpdateRequestModel.Groups = []string{"Production"}
 				keystoreUpdateRequestModel.GoogleCredentials = core.StringPtr("eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=")
 				keystoreUpdateRequestModel.GoogleLocation = core.StringPtr("europe-central2")
@@ -5943,7 +6819,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the UpdateKeystoreOptions model
 				updateKeystoreOptionsModel := new(ukov4.UpdateKeystoreOptions)
 				updateKeystoreOptionsModel.ID = core.StringPtr("testString")
-				updateKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				updateKeystoreOptionsModel.IfMatch = core.StringPtr("testString")
 				updateKeystoreOptionsModel.KeystoreBody = keystoreUpdateRequestModel
 				updateKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -5998,14 +6873,12 @@ var _ = Describe(`UkoV4`, func() {
 					}
 					fmt.Fprintf(GinkgoWriter, "  Request body: %s", bodyBuf.String())
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.Header["If-Match"]).ToNot(BeNil())
 					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}`)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Accounting", "location": "us-south", "description": "IBM Cloud keystore for testing", "groups": ["Production"], "type": "ibm_cloud_kms", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "tls_proxy": "c-04.private.us-east.link.satellite.cloud.ibm.com:12358", "google_credentials": "eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=", "google_location": "europe-central2", "google_project_id": "demo-project", "google_private_key_id": "f871b60d0617be19393bb66ea142887fc9621360", "google_key_ring": "my-key-ring"}`)
 				}))
 			})
 			It(`Invoke UpdateKeystore successfully`, func() {
@@ -6026,6 +6899,7 @@ var _ = Describe(`UkoV4`, func() {
 				keystoreUpdateRequestModel := new(ukov4.KeystoreUpdateRequestKeystoreTypeGoogleKmsUpdate)
 				keystoreUpdateRequestModel.Name = core.StringPtr("IBM Cloud Keystore Name")
 				keystoreUpdateRequestModel.Description = core.StringPtr("Azure keystore")
+				keystoreUpdateRequestModel.TlsProxy = core.StringPtr("c-04.private.us-east.link.satellite.cloud.ibm.com:12358")
 				keystoreUpdateRequestModel.Groups = []string{"Production"}
 				keystoreUpdateRequestModel.GoogleCredentials = core.StringPtr("eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=")
 				keystoreUpdateRequestModel.GoogleLocation = core.StringPtr("europe-central2")
@@ -6034,7 +6908,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the UpdateKeystoreOptions model
 				updateKeystoreOptionsModel := new(ukov4.UpdateKeystoreOptions)
 				updateKeystoreOptionsModel.ID = core.StringPtr("testString")
-				updateKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				updateKeystoreOptionsModel.IfMatch = core.StringPtr("testString")
 				updateKeystoreOptionsModel.KeystoreBody = keystoreUpdateRequestModel
 				updateKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -6058,6 +6931,7 @@ var _ = Describe(`UkoV4`, func() {
 				keystoreUpdateRequestModel := new(ukov4.KeystoreUpdateRequestKeystoreTypeGoogleKmsUpdate)
 				keystoreUpdateRequestModel.Name = core.StringPtr("IBM Cloud Keystore Name")
 				keystoreUpdateRequestModel.Description = core.StringPtr("Azure keystore")
+				keystoreUpdateRequestModel.TlsProxy = core.StringPtr("c-04.private.us-east.link.satellite.cloud.ibm.com:12358")
 				keystoreUpdateRequestModel.Groups = []string{"Production"}
 				keystoreUpdateRequestModel.GoogleCredentials = core.StringPtr("eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=")
 				keystoreUpdateRequestModel.GoogleLocation = core.StringPtr("europe-central2")
@@ -6066,7 +6940,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the UpdateKeystoreOptions model
 				updateKeystoreOptionsModel := new(ukov4.UpdateKeystoreOptions)
 				updateKeystoreOptionsModel.ID = core.StringPtr("testString")
-				updateKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				updateKeystoreOptionsModel.IfMatch = core.StringPtr("testString")
 				updateKeystoreOptionsModel.KeystoreBody = keystoreUpdateRequestModel
 				updateKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -6111,6 +6984,7 @@ var _ = Describe(`UkoV4`, func() {
 				keystoreUpdateRequestModel := new(ukov4.KeystoreUpdateRequestKeystoreTypeGoogleKmsUpdate)
 				keystoreUpdateRequestModel.Name = core.StringPtr("IBM Cloud Keystore Name")
 				keystoreUpdateRequestModel.Description = core.StringPtr("Azure keystore")
+				keystoreUpdateRequestModel.TlsProxy = core.StringPtr("c-04.private.us-east.link.satellite.cloud.ibm.com:12358")
 				keystoreUpdateRequestModel.Groups = []string{"Production"}
 				keystoreUpdateRequestModel.GoogleCredentials = core.StringPtr("eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=")
 				keystoreUpdateRequestModel.GoogleLocation = core.StringPtr("europe-central2")
@@ -6119,7 +6993,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the UpdateKeystoreOptions model
 				updateKeystoreOptionsModel := new(ukov4.UpdateKeystoreOptions)
 				updateKeystoreOptionsModel.ID = core.StringPtr("testString")
-				updateKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				updateKeystoreOptionsModel.IfMatch = core.StringPtr("testString")
 				updateKeystoreOptionsModel.KeystoreBody = keystoreUpdateRequestModel
 				updateKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -6147,8 +7020,6 @@ var _ = Describe(`UkoV4`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(listAssociatedResourcesForTargetKeystorePath))
 					Expect(req.Method).To(Equal("GET"))
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					res.Header().Set("Content-type", "application/json")
@@ -6167,7 +7038,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the ListAssociatedResourcesForTargetKeystoreOptions model
 				listAssociatedResourcesForTargetKeystoreOptionsModel := new(ukov4.ListAssociatedResourcesForTargetKeystoreOptions)
 				listAssociatedResourcesForTargetKeystoreOptionsModel.ID = core.StringPtr("testString")
-				listAssociatedResourcesForTargetKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				listAssociatedResourcesForTargetKeystoreOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listAssociatedResourcesForTargetKeystoreOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listAssociatedResourcesForTargetKeystoreOptionsModel.Sort = []string{"name"}
@@ -6201,8 +7071,6 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(listAssociatedResourcesForTargetKeystorePath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					// Sleep a short time to support a timeout test
@@ -6226,7 +7094,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the ListAssociatedResourcesForTargetKeystoreOptions model
 				listAssociatedResourcesForTargetKeystoreOptionsModel := new(ukov4.ListAssociatedResourcesForTargetKeystoreOptions)
 				listAssociatedResourcesForTargetKeystoreOptionsModel.ID = core.StringPtr("testString")
-				listAssociatedResourcesForTargetKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				listAssociatedResourcesForTargetKeystoreOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listAssociatedResourcesForTargetKeystoreOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listAssociatedResourcesForTargetKeystoreOptionsModel.Sort = []string{"name"}
@@ -6266,8 +7133,6 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(listAssociatedResourcesForTargetKeystorePath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					// Set mock response
@@ -6293,7 +7158,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the ListAssociatedResourcesForTargetKeystoreOptions model
 				listAssociatedResourcesForTargetKeystoreOptionsModel := new(ukov4.ListAssociatedResourcesForTargetKeystoreOptions)
 				listAssociatedResourcesForTargetKeystoreOptionsModel.ID = core.StringPtr("testString")
-				listAssociatedResourcesForTargetKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				listAssociatedResourcesForTargetKeystoreOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listAssociatedResourcesForTargetKeystoreOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listAssociatedResourcesForTargetKeystoreOptionsModel.Sort = []string{"name"}
@@ -6317,7 +7181,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the ListAssociatedResourcesForTargetKeystoreOptions model
 				listAssociatedResourcesForTargetKeystoreOptionsModel := new(ukov4.ListAssociatedResourcesForTargetKeystoreOptions)
 				listAssociatedResourcesForTargetKeystoreOptionsModel.ID = core.StringPtr("testString")
-				listAssociatedResourcesForTargetKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				listAssociatedResourcesForTargetKeystoreOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listAssociatedResourcesForTargetKeystoreOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listAssociatedResourcesForTargetKeystoreOptionsModel.Sort = []string{"name"}
@@ -6362,7 +7225,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the ListAssociatedResourcesForTargetKeystoreOptions model
 				listAssociatedResourcesForTargetKeystoreOptionsModel := new(ukov4.ListAssociatedResourcesForTargetKeystoreOptions)
 				listAssociatedResourcesForTargetKeystoreOptionsModel.ID = core.StringPtr("testString")
-				listAssociatedResourcesForTargetKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				listAssociatedResourcesForTargetKeystoreOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listAssociatedResourcesForTargetKeystoreOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listAssociatedResourcesForTargetKeystoreOptionsModel.Sort = []string{"name"}
@@ -6452,7 +7314,6 @@ var _ = Describe(`UkoV4`, func() {
 
 				listAssociatedResourcesForTargetKeystoreOptionsModel := &ukov4.ListAssociatedResourcesForTargetKeystoreOptions{
 					ID: core.StringPtr("testString"),
-					UKOVault: core.StringPtr("testString"),
 					Limit: core.Int64Ptr(int64(10)),
 					Sort: []string{"name"},
 				}
@@ -6480,7 +7341,6 @@ var _ = Describe(`UkoV4`, func() {
 
 				listAssociatedResourcesForTargetKeystoreOptionsModel := &ukov4.ListAssociatedResourcesForTargetKeystoreOptions{
 					ID: core.StringPtr("testString"),
-					UKOVault: core.StringPtr("testString"),
 					Limit: core.Int64Ptr(int64(10)),
 					Sort: []string{"name"},
 				}
@@ -6506,8 +7366,6 @@ var _ = Describe(`UkoV4`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(getKeystoreStatusPath))
 					Expect(req.Method).To(Equal("GET"))
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprint(res, `} this is not valid json {`)
@@ -6524,7 +7382,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetKeystoreStatusOptions model
 				getKeystoreStatusOptionsModel := new(ukov4.GetKeystoreStatusOptions)
 				getKeystoreStatusOptionsModel.ID = core.StringPtr("testString")
-				getKeystoreStatusOptionsModel.UKOVault = core.StringPtr("testString")
 				getKeystoreStatusOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := ukoService.GetKeystoreStatus(getKeystoreStatusOptionsModel)
@@ -6555,8 +7412,6 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(getKeystoreStatusPath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
@@ -6578,7 +7433,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetKeystoreStatusOptions model
 				getKeystoreStatusOptionsModel := new(ukov4.GetKeystoreStatusOptions)
 				getKeystoreStatusOptionsModel.ID = core.StringPtr("testString")
-				getKeystoreStatusOptionsModel.UKOVault = core.StringPtr("testString")
 				getKeystoreStatusOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -6615,8 +7469,6 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(getKeystoreStatusPath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
@@ -6640,7 +7492,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetKeystoreStatusOptions model
 				getKeystoreStatusOptionsModel := new(ukov4.GetKeystoreStatusOptions)
 				getKeystoreStatusOptionsModel.ID = core.StringPtr("testString")
-				getKeystoreStatusOptionsModel.UKOVault = core.StringPtr("testString")
 				getKeystoreStatusOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -6661,7 +7512,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetKeystoreStatusOptions model
 				getKeystoreStatusOptionsModel := new(ukov4.GetKeystoreStatusOptions)
 				getKeystoreStatusOptionsModel.ID = core.StringPtr("testString")
-				getKeystoreStatusOptionsModel.UKOVault = core.StringPtr("testString")
 				getKeystoreStatusOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := ukoService.SetServiceURL("")
@@ -6703,7 +7553,6 @@ var _ = Describe(`UkoV4`, func() {
 				// Construct an instance of the GetKeystoreStatusOptions model
 				getKeystoreStatusOptionsModel := new(ukov4.GetKeystoreStatusOptions)
 				getKeystoreStatusOptionsModel.ID = core.StringPtr("testString")
-				getKeystoreStatusOptionsModel.UKOVault = core.StringPtr("testString")
 				getKeystoreStatusOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -6729,8 +7578,8 @@ var _ = Describe(`UkoV4`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(listManagedKeysFromKeystorePath))
 					Expect(req.Method).To(Equal("GET"))
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.Header["Accept"]).ToNot(BeNil())
+					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "application/json")))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					Expect(req.URL.Query()["label"]).To(Equal([]string{"testString"}))
@@ -6749,9 +7598,12 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.Query()["updated_at"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["updated_at_min"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["updated_at_max"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["size"]).To(Equal([]string{fmt.Sprint(int64(38))}))
-					Expect(req.URL.Query()["size_min"]).To(Equal([]string{fmt.Sprint(int64(38))}))
-					Expect(req.URL.Query()["size_max"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["rotated_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["rotated_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["template.name"]).To(Equal([]string{"AWS-TEMPLATE"}))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
 					fmt.Fprint(res, `} this is not valid json {`)
@@ -6767,8 +7619,8 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListManagedKeysFromKeystoreOptions model
 				listManagedKeysFromKeystoreOptionsModel := new(ukov4.ListManagedKeysFromKeystoreOptions)
-				listManagedKeysFromKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.ID = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.Accept = core.StringPtr("application/json")
 				listManagedKeysFromKeystoreOptionsModel.Algorithm = []string{"aes"}
 				listManagedKeysFromKeystoreOptionsModel.State = []string{"pre_activation", "active"}
 				listManagedKeysFromKeystoreOptionsModel.Limit = core.Int64Ptr(int64(10))
@@ -6790,9 +7642,14 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysFromKeystoreOptionsModel.UpdatedAt = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.UpdatedAtMin = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.UpdatedAtMax = core.StringPtr("testString")
-				listManagedKeysFromKeystoreOptionsModel.Size = core.Int64Ptr(int64(38))
-				listManagedKeysFromKeystoreOptionsModel.SizeMin = core.Int64Ptr(int64(38))
-				listManagedKeysFromKeystoreOptionsModel.SizeMax = core.Int64Ptr(int64(38))
+				listManagedKeysFromKeystoreOptionsModel.RotatedAtMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.RotatedAtMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.Size = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.SizeMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.SizeMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.TemplateName = core.StringPtr("AWS-TEMPLATE")
+				listManagedKeysFromKeystoreOptionsModel.TemplateID = []string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"}
+				listManagedKeysFromKeystoreOptionsModel.TemplateType = []string{"user_defined"}
 				listManagedKeysFromKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := ukoService.ListManagedKeysFromKeystore(listManagedKeysFromKeystoreOptionsModel)
@@ -6823,8 +7680,8 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(listManagedKeysFromKeystorePath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.Header["Accept"]).ToNot(BeNil())
+					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "application/json")))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					Expect(req.URL.Query()["label"]).To(Equal([]string{"testString"}))
@@ -6843,16 +7700,19 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.Query()["updated_at"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["updated_at_min"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["updated_at_max"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["size"]).To(Equal([]string{fmt.Sprint(int64(38))}))
-					Expect(req.URL.Query()["size_min"]).To(Equal([]string{fmt.Sprint(int64(38))}))
-					Expect(req.URL.Query()["size_max"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["rotated_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["rotated_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["template.name"]).To(Equal([]string{"AWS-TEMPLATE"}))
 					// Sleep a short time to support a timeout test
 					time.Sleep(100 * time.Millisecond)
 
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "managed_keys": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}]}`)
+					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "managed_keys": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "type": ["user_defined"], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "version": 1, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "label_tags": [{"name": "Name", "value": "Value"}], "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "rotated_at": "2022-02-22T10:27:08.000Z", "status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}], "deactivate_on_rotation": true, "managing_systems": ["web"]}]}`)
 				}))
 			})
 			It(`Invoke ListManagedKeysFromKeystore successfully with retries`, func() {
@@ -6866,8 +7726,8 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListManagedKeysFromKeystoreOptions model
 				listManagedKeysFromKeystoreOptionsModel := new(ukov4.ListManagedKeysFromKeystoreOptions)
-				listManagedKeysFromKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.ID = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.Accept = core.StringPtr("application/json")
 				listManagedKeysFromKeystoreOptionsModel.Algorithm = []string{"aes"}
 				listManagedKeysFromKeystoreOptionsModel.State = []string{"pre_activation", "active"}
 				listManagedKeysFromKeystoreOptionsModel.Limit = core.Int64Ptr(int64(10))
@@ -6889,9 +7749,14 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysFromKeystoreOptionsModel.UpdatedAt = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.UpdatedAtMin = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.UpdatedAtMax = core.StringPtr("testString")
-				listManagedKeysFromKeystoreOptionsModel.Size = core.Int64Ptr(int64(38))
-				listManagedKeysFromKeystoreOptionsModel.SizeMin = core.Int64Ptr(int64(38))
-				listManagedKeysFromKeystoreOptionsModel.SizeMax = core.Int64Ptr(int64(38))
+				listManagedKeysFromKeystoreOptionsModel.RotatedAtMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.RotatedAtMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.Size = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.SizeMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.SizeMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.TemplateName = core.StringPtr("AWS-TEMPLATE")
+				listManagedKeysFromKeystoreOptionsModel.TemplateID = []string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"}
+				listManagedKeysFromKeystoreOptionsModel.TemplateType = []string{"user_defined"}
 				listManagedKeysFromKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -6928,8 +7793,8 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(listManagedKeysFromKeystorePath))
 					Expect(req.Method).To(Equal("GET"))
 
-					Expect(req.Header["Uko-Vault"]).ToNot(BeNil())
-					Expect(req.Header["Uko-Vault"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					Expect(req.Header["Accept"]).ToNot(BeNil())
+					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "application/json")))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					Expect(req.URL.Query()["label"]).To(Equal([]string{"testString"}))
@@ -6948,13 +7813,16 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.Query()["updated_at"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["updated_at_min"]).To(Equal([]string{"testString"}))
 					Expect(req.URL.Query()["updated_at_max"]).To(Equal([]string{"testString"}))
-					Expect(req.URL.Query()["size"]).To(Equal([]string{fmt.Sprint(int64(38))}))
-					Expect(req.URL.Query()["size_min"]).To(Equal([]string{fmt.Sprint(int64(38))}))
-					Expect(req.URL.Query()["size_max"]).To(Equal([]string{fmt.Sprint(int64(38))}))
+					Expect(req.URL.Query()["rotated_at_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["rotated_at_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size_min"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["size_max"]).To(Equal([]string{"testString"}))
+					Expect(req.URL.Query()["template.name"]).To(Equal([]string{"AWS-TEMPLATE"}))
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "managed_keys": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}]}`)
+					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "managed_keys": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "template": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "AWS-KMS-TEMPLATE", "type": ["user_defined"], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "version": 1, "description": "Managed key description", "label": "IBM CLOUD KEY", "state": "active", "size": "256", "algorithm": "aes", "verification_patterns": [{"method": "enc-zero", "value": "U3dhZ2dlciByb2Nrcw=="}], "activation_date": "2020-12-11", "expiration_date": "2030-11-12", "label_tags": [{"name": "Name", "value": "Value"}], "tags": [{"name": "Name", "value": "Value"}], "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "referenced_keystores": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}], "instances": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "label_in_keystore": "IBM CLOUD KEY", "type": "private_key", "keystore": {"group": "Group", "type": "ibm_cloud_kms"}, "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "rotated_at": "2022-02-22T10:27:08.000Z", "status_in_keystores": [{"keystore": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "ibm-cloud", "type": "ibm_cloud_kms", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "status": "active", "keystore_sync_flag": "ok", "keystore_sync_flag_detail": "pre_active_key_not_present_in_keystore", "error": {"status_code": 400, "trace": "9daee671-916a-4678-850b-10b9110236d", "errors": [{"code": "missing_field", "message": "The algorithm field is required", "more_info": "https://cloud.ibm.com/apidocs/uko#create-managed-key", "message_params": ["My Key Template"], "target": {"type": "field", "name": "first_name"}}]}, "key_id_in_keystore": "123e4567-e89b-12d3-a456-426614174000"}], "deactivate_on_rotation": true, "managing_systems": ["web"]}]}`)
 				}))
 			})
 			It(`Invoke ListManagedKeysFromKeystore successfully`, func() {
@@ -6973,8 +7841,8 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListManagedKeysFromKeystoreOptions model
 				listManagedKeysFromKeystoreOptionsModel := new(ukov4.ListManagedKeysFromKeystoreOptions)
-				listManagedKeysFromKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.ID = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.Accept = core.StringPtr("application/json")
 				listManagedKeysFromKeystoreOptionsModel.Algorithm = []string{"aes"}
 				listManagedKeysFromKeystoreOptionsModel.State = []string{"pre_activation", "active"}
 				listManagedKeysFromKeystoreOptionsModel.Limit = core.Int64Ptr(int64(10))
@@ -6996,9 +7864,14 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysFromKeystoreOptionsModel.UpdatedAt = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.UpdatedAtMin = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.UpdatedAtMax = core.StringPtr("testString")
-				listManagedKeysFromKeystoreOptionsModel.Size = core.Int64Ptr(int64(38))
-				listManagedKeysFromKeystoreOptionsModel.SizeMin = core.Int64Ptr(int64(38))
-				listManagedKeysFromKeystoreOptionsModel.SizeMax = core.Int64Ptr(int64(38))
+				listManagedKeysFromKeystoreOptionsModel.RotatedAtMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.RotatedAtMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.Size = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.SizeMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.SizeMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.TemplateName = core.StringPtr("AWS-TEMPLATE")
+				listManagedKeysFromKeystoreOptionsModel.TemplateID = []string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"}
+				listManagedKeysFromKeystoreOptionsModel.TemplateType = []string{"user_defined"}
 				listManagedKeysFromKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -7018,8 +7891,8 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListManagedKeysFromKeystoreOptions model
 				listManagedKeysFromKeystoreOptionsModel := new(ukov4.ListManagedKeysFromKeystoreOptions)
-				listManagedKeysFromKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.ID = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.Accept = core.StringPtr("application/json")
 				listManagedKeysFromKeystoreOptionsModel.Algorithm = []string{"aes"}
 				listManagedKeysFromKeystoreOptionsModel.State = []string{"pre_activation", "active"}
 				listManagedKeysFromKeystoreOptionsModel.Limit = core.Int64Ptr(int64(10))
@@ -7041,9 +7914,14 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysFromKeystoreOptionsModel.UpdatedAt = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.UpdatedAtMin = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.UpdatedAtMax = core.StringPtr("testString")
-				listManagedKeysFromKeystoreOptionsModel.Size = core.Int64Ptr(int64(38))
-				listManagedKeysFromKeystoreOptionsModel.SizeMin = core.Int64Ptr(int64(38))
-				listManagedKeysFromKeystoreOptionsModel.SizeMax = core.Int64Ptr(int64(38))
+				listManagedKeysFromKeystoreOptionsModel.RotatedAtMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.RotatedAtMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.Size = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.SizeMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.SizeMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.TemplateName = core.StringPtr("AWS-TEMPLATE")
+				listManagedKeysFromKeystoreOptionsModel.TemplateID = []string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"}
+				listManagedKeysFromKeystoreOptionsModel.TemplateType = []string{"user_defined"}
 				listManagedKeysFromKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := ukoService.SetServiceURL("")
@@ -7084,8 +7962,8 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListManagedKeysFromKeystoreOptions model
 				listManagedKeysFromKeystoreOptionsModel := new(ukov4.ListManagedKeysFromKeystoreOptions)
-				listManagedKeysFromKeystoreOptionsModel.UKOVault = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.ID = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.Accept = core.StringPtr("application/json")
 				listManagedKeysFromKeystoreOptionsModel.Algorithm = []string{"aes"}
 				listManagedKeysFromKeystoreOptionsModel.State = []string{"pre_activation", "active"}
 				listManagedKeysFromKeystoreOptionsModel.Limit = core.Int64Ptr(int64(10))
@@ -7107,9 +7985,14 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysFromKeystoreOptionsModel.UpdatedAt = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.UpdatedAtMin = core.StringPtr("testString")
 				listManagedKeysFromKeystoreOptionsModel.UpdatedAtMax = core.StringPtr("testString")
-				listManagedKeysFromKeystoreOptionsModel.Size = core.Int64Ptr(int64(38))
-				listManagedKeysFromKeystoreOptionsModel.SizeMin = core.Int64Ptr(int64(38))
-				listManagedKeysFromKeystoreOptionsModel.SizeMax = core.Int64Ptr(int64(38))
+				listManagedKeysFromKeystoreOptionsModel.RotatedAtMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.RotatedAtMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.Size = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.SizeMin = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.SizeMax = core.StringPtr("testString")
+				listManagedKeysFromKeystoreOptionsModel.TemplateName = core.StringPtr("AWS-TEMPLATE")
+				listManagedKeysFromKeystoreOptionsModel.TemplateID = []string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"}
+				listManagedKeysFromKeystoreOptionsModel.TemplateType = []string{"user_defined"}
 				listManagedKeysFromKeystoreOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -7178,9 +8061,9 @@ var _ = Describe(`UkoV4`, func() {
 					res.WriteHeader(200)
 					requestNumber++
 					if requestNumber == 1 {
-						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"managed_keys":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"template":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"AWS-KMS-TEMPLATE","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"description":"Managed key description","label":"IBM CLOUD KEY","state":"active","size":"256","algorithm":"aes","verification_patterns":[{"method":"enc-zero","value":"U3dhZ2dlciByb2Nrcw=="}],"activation_date":"2020-12-11","expiration_date":"2030-11-12","tags":[{"name":"Name","value":"Value"}],"created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","referenced_keystores":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"instances":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","label_in_keystore":"IBM CLOUD KEY","type":"private_key","keystore":{"group":"Group","type":"ibm_cloud_kms"},"google_key_protection_level":"software","google_key_purpose":"encrypt_decrypt","google_kms_algorithm":"google_symmetric_encryption"}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"total_count":2,"limit":1}`)
+						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"managed_keys":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"template":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"AWS-KMS-TEMPLATE","type":["user_defined"],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"version":1,"description":"Managed key description","label":"IBM CLOUD KEY","state":"active","size":"256","algorithm":"aes","verification_patterns":[{"method":"enc-zero","value":"U3dhZ2dlciByb2Nrcw=="}],"activation_date":"2020-12-11","expiration_date":"2030-11-12","label_tags":[{"name":"Name","value":"Value"}],"tags":[{"name":"Name","value":"Value"}],"created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","referenced_keystores":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"instances":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","label_in_keystore":"IBM CLOUD KEY","type":"private_key","keystore":{"group":"Group","type":"ibm_cloud_kms"},"google_key_protection_level":"software","google_key_purpose":"encrypt_decrypt","google_kms_algorithm":"google_symmetric_encryption"}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46","rotated_at":"2022-02-22T10:27:08.000Z","status_in_keystores":[{"keystore":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"status":"active","keystore_sync_flag":"ok","keystore_sync_flag_detail":"pre_active_key_not_present_in_keystore","error":{"status_code":400,"trace":"9daee671-916a-4678-850b-10b9110236d","errors":[{"code":"missing_field","message":"The algorithm field is required","more_info":"https://cloud.ibm.com/apidocs/uko#create-managed-key","message_params":["My Key Template"],"target":{"type":"field","name":"first_name"}}]},"key_id_in_keystore":"123e4567-e89b-12d3-a456-426614174000"}],"deactivate_on_rotation":true,"managing_systems":["web"]}],"total_count":2,"limit":1}`)
 					} else if requestNumber == 2 {
-						fmt.Fprintf(res, "%s", `{"managed_keys":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"template":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"AWS-KMS-TEMPLATE","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"description":"Managed key description","label":"IBM CLOUD KEY","state":"active","size":"256","algorithm":"aes","verification_patterns":[{"method":"enc-zero","value":"U3dhZ2dlciByb2Nrcw=="}],"activation_date":"2020-12-11","expiration_date":"2030-11-12","tags":[{"name":"Name","value":"Value"}],"created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","referenced_keystores":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"instances":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","label_in_keystore":"IBM CLOUD KEY","type":"private_key","keystore":{"group":"Group","type":"ibm_cloud_kms"},"google_key_protection_level":"software","google_key_purpose":"encrypt_decrypt","google_kms_algorithm":"google_symmetric_encryption"}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"total_count":2,"limit":1}`)
+						fmt.Fprintf(res, "%s", `{"managed_keys":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","vault":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"Vault-1","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"template":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"AWS-KMS-TEMPLATE","type":["user_defined"],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"version":1,"description":"Managed key description","label":"IBM CLOUD KEY","state":"active","size":"256","algorithm":"aes","verification_patterns":[{"method":"enc-zero","value":"U3dhZ2dlciByb2Nrcw=="}],"activation_date":"2020-12-11","expiration_date":"2030-11-12","label_tags":[{"name":"Name","value":"Value"}],"tags":[{"name":"Name","value":"Value"}],"created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","referenced_keystores":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}],"instances":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","label_in_keystore":"IBM CLOUD KEY","type":"private_key","keystore":{"group":"Group","type":"ibm_cloud_kms"},"google_key_protection_level":"software","google_key_purpose":"encrypt_decrypt","google_kms_algorithm":"google_symmetric_encryption"}],"href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46","rotated_at":"2022-02-22T10:27:08.000Z","status_in_keystores":[{"keystore":{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"ibm-cloud","type":"ibm_cloud_kms","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"},"status":"active","keystore_sync_flag":"ok","keystore_sync_flag_detail":"pre_active_key_not_present_in_keystore","error":{"status_code":400,"trace":"9daee671-916a-4678-850b-10b9110236d","errors":[{"code":"missing_field","message":"The algorithm field is required","more_info":"https://cloud.ibm.com/apidocs/uko#create-managed-key","message_params":["My Key Template"],"target":{"type":"field","name":"first_name"}}]},"key_id_in_keystore":"123e4567-e89b-12d3-a456-426614174000"}],"deactivate_on_rotation":true,"managing_systems":["web"]}],"total_count":2,"limit":1}`)
 					} else {
 						res.WriteHeader(400)
 					}
@@ -7195,8 +8078,8 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(ukoService).ToNot(BeNil())
 
 				listManagedKeysFromKeystoreOptionsModel := &ukov4.ListManagedKeysFromKeystoreOptions{
-					UKOVault: core.StringPtr("testString"),
 					ID: core.StringPtr("testString"),
+					Accept: core.StringPtr("application/json"),
 					Algorithm: []string{"aes"},
 					State: []string{"pre_activation", "active"},
 					Limit: core.Int64Ptr(int64(10)),
@@ -7217,9 +8100,14 @@ var _ = Describe(`UkoV4`, func() {
 					UpdatedAt: core.StringPtr("testString"),
 					UpdatedAtMin: core.StringPtr("testString"),
 					UpdatedAtMax: core.StringPtr("testString"),
-					Size: core.Int64Ptr(int64(38)),
-					SizeMin: core.Int64Ptr(int64(38)),
-					SizeMax: core.Int64Ptr(int64(38)),
+					RotatedAtMin: core.StringPtr("testString"),
+					RotatedAtMax: core.StringPtr("testString"),
+					Size: core.StringPtr("testString"),
+					SizeMin: core.StringPtr("testString"),
+					SizeMax: core.StringPtr("testString"),
+					TemplateName: core.StringPtr("AWS-TEMPLATE"),
+					TemplateID: []string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"},
+					TemplateType: []string{"user_defined"},
 				}
 
 				pager, err := ukoService.NewManagedKeysFromKeystorePager(listManagedKeysFromKeystoreOptionsModel)
@@ -7244,8 +8132,8 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(ukoService).ToNot(BeNil())
 
 				listManagedKeysFromKeystoreOptionsModel := &ukov4.ListManagedKeysFromKeystoreOptions{
-					UKOVault: core.StringPtr("testString"),
 					ID: core.StringPtr("testString"),
+					Accept: core.StringPtr("application/json"),
 					Algorithm: []string{"aes"},
 					State: []string{"pre_activation", "active"},
 					Limit: core.Int64Ptr(int64(10)),
@@ -7266,9 +8154,14 @@ var _ = Describe(`UkoV4`, func() {
 					UpdatedAt: core.StringPtr("testString"),
 					UpdatedAtMin: core.StringPtr("testString"),
 					UpdatedAtMax: core.StringPtr("testString"),
-					Size: core.Int64Ptr(int64(38)),
-					SizeMin: core.Int64Ptr(int64(38)),
-					SizeMax: core.Int64Ptr(int64(38)),
+					RotatedAtMin: core.StringPtr("testString"),
+					RotatedAtMax: core.StringPtr("testString"),
+					Size: core.StringPtr("testString"),
+					SizeMin: core.StringPtr("testString"),
+					SizeMax: core.StringPtr("testString"),
+					TemplateName: core.StringPtr("AWS-TEMPLATE"),
+					TemplateID: []string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"},
+					TemplateType: []string{"user_defined"},
 				}
 
 				pager, err := ukoService.NewManagedKeysFromKeystorePager(listManagedKeysFromKeystoreOptionsModel)
@@ -7292,6 +8185,8 @@ var _ = Describe(`UkoV4`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.EscapedPath()).To(Equal(listVaultsPath))
 					Expect(req.Method).To(Equal("GET"))
+					Expect(req.Header["Accept"]).ToNot(BeNil())
+					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "application/json")))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					Expect(req.URL.Query()["name"]).To(Equal([]string{"My Example Vault"}))
@@ -7311,6 +8206,7 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListVaultsOptions model
 				listVaultsOptionsModel := new(ukov4.ListVaultsOptions)
+				listVaultsOptionsModel.Accept = core.StringPtr("application/json")
 				listVaultsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listVaultsOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listVaultsOptionsModel.Sort = []string{"-updated_at"}
@@ -7346,6 +8242,8 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(listVaultsPath))
 					Expect(req.Method).To(Equal("GET"))
 
+					Expect(req.Header["Accept"]).ToNot(BeNil())
+					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "application/json")))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					Expect(req.URL.Query()["name"]).To(Equal([]string{"My Example Vault"}))
@@ -7356,7 +8254,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "vaults": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "My Example Vault", "description": "The description of the vault", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}]}`)
+					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "vaults": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "My Example Vault", "description": "The description of the vault", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "recovery_key_label": "TEKMF.AES.RECOVERY.00001", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "keys_count": 1023, "key_templates_count": 100, "keystores_count": 10}]}`)
 				}))
 			})
 			It(`Invoke ListVaults successfully with retries`, func() {
@@ -7370,6 +8268,7 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListVaultsOptions model
 				listVaultsOptionsModel := new(ukov4.ListVaultsOptions)
+				listVaultsOptionsModel.Accept = core.StringPtr("application/json")
 				listVaultsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listVaultsOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listVaultsOptionsModel.Sort = []string{"-updated_at"}
@@ -7411,6 +8310,8 @@ var _ = Describe(`UkoV4`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(listVaultsPath))
 					Expect(req.Method).To(Equal("GET"))
 
+					Expect(req.Header["Accept"]).ToNot(BeNil())
+					Expect(req.Header["Accept"][0]).To(Equal(fmt.Sprintf("%v", "application/json")))
 					Expect(req.URL.Query()["limit"]).To(Equal([]string{fmt.Sprint(int64(10))}))
 					Expect(req.URL.Query()["offset"]).To(Equal([]string{fmt.Sprint(int64(0))}))
 					Expect(req.URL.Query()["name"]).To(Equal([]string{"My Example Vault"}))
@@ -7418,7 +8319,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "vaults": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "My Example Vault", "description": "The description of the vault", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}]}`)
+					fmt.Fprintf(res, "%s", `{"total_count": 3456, "limit": 200, "offset": 100, "first": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "last": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "previous": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "next": {"href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "vaults": [{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "My Example Vault", "description": "The description of the vault", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "recovery_key_label": "TEKMF.AES.RECOVERY.00001", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "keys_count": 1023, "key_templates_count": 100, "keystores_count": 10}]}`)
 				}))
 			})
 			It(`Invoke ListVaults successfully`, func() {
@@ -7437,6 +8338,7 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListVaultsOptions model
 				listVaultsOptionsModel := new(ukov4.ListVaultsOptions)
+				listVaultsOptionsModel.Accept = core.StringPtr("application/json")
 				listVaultsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listVaultsOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listVaultsOptionsModel.Sort = []string{"-updated_at"}
@@ -7461,6 +8363,7 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListVaultsOptions model
 				listVaultsOptionsModel := new(ukov4.ListVaultsOptions)
+				listVaultsOptionsModel.Accept = core.StringPtr("application/json")
 				listVaultsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listVaultsOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listVaultsOptionsModel.Sort = []string{"-updated_at"}
@@ -7499,6 +8402,7 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the ListVaultsOptions model
 				listVaultsOptionsModel := new(ukov4.ListVaultsOptions)
+				listVaultsOptionsModel.Accept = core.StringPtr("application/json")
 				listVaultsOptionsModel.Limit = core.Int64Ptr(int64(10))
 				listVaultsOptionsModel.Offset = core.Int64Ptr(int64(0))
 				listVaultsOptionsModel.Sort = []string{"-updated_at"}
@@ -7572,9 +8476,9 @@ var _ = Describe(`UkoV4`, func() {
 					res.WriteHeader(200)
 					requestNumber++
 					if requestNumber == 1 {
-						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"limit":1,"vaults":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"My Example Vault","description":"The description of the vault","created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}]}`)
+						fmt.Fprintf(res, "%s", `{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"limit":1,"vaults":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"My Example Vault","description":"The description of the vault","created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","recovery_key_label":"TEKMF.AES.RECOVERY.00001","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46","keys_count":1023,"key_templates_count":100,"keystores_count":10}]}`)
 					} else if requestNumber == 2 {
-						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"vaults":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"My Example Vault","description":"The description of the vault","created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}]}`)
+						fmt.Fprintf(res, "%s", `{"total_count":2,"limit":1,"vaults":[{"id":"5295ad47-2ce9-43c3-b9e7-e5a9482c362b","name":"My Example Vault","description":"The description of the vault","created_at":"2022-02-22T10:27:08.000Z","updated_at":"2022-02-22T10:27:08.000Z","created_by":"IBMid-1308197YB4","updated_by":"IBMid-1308197YB4","recovery_key_label":"TEKMF.AES.RECOVERY.00001","href":"https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46","keys_count":1023,"key_templates_count":100,"keystores_count":10}]}`)
 					} else {
 						res.WriteHeader(400)
 					}
@@ -7589,6 +8493,7 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(ukoService).ToNot(BeNil())
 
 				listVaultsOptionsModel := &ukov4.ListVaultsOptions{
+					Accept: core.StringPtr("application/json"),
 					Limit: core.Int64Ptr(int64(10)),
 					Sort: []string{"-updated_at"},
 					Name: core.StringPtr("My Example Vault"),
@@ -7617,6 +8522,7 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(ukoService).ToNot(BeNil())
 
 				listVaultsOptionsModel := &ukov4.ListVaultsOptions{
+					Accept: core.StringPtr("application/json"),
 					Limit: core.Int64Ptr(int64(10)),
 					Sort: []string{"-updated_at"},
 					Name: core.StringPtr("My Example Vault"),
@@ -7661,6 +8567,7 @@ var _ = Describe(`UkoV4`, func() {
 				createVaultOptionsModel := new(ukov4.CreateVaultOptions)
 				createVaultOptionsModel.Name = core.StringPtr("Example Vault")
 				createVaultOptionsModel.Description = core.StringPtr("The description of the creating vault")
+				createVaultOptionsModel.RecoveryKeyLabel = core.StringPtr("testString")
 				createVaultOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := ukoService.CreateVault(createVaultOptionsModel)
@@ -7713,7 +8620,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "My Example Vault", "description": "The description of the vault", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "My Example Vault", "description": "The description of the vault", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "recovery_key_label": "TEKMF.AES.RECOVERY.00001", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "keys_count": 1023, "key_templates_count": 100, "keystores_count": 10}`)
 				}))
 			})
 			It(`Invoke CreateVault successfully with retries`, func() {
@@ -7729,6 +8636,7 @@ var _ = Describe(`UkoV4`, func() {
 				createVaultOptionsModel := new(ukov4.CreateVaultOptions)
 				createVaultOptionsModel.Name = core.StringPtr("Example Vault")
 				createVaultOptionsModel.Description = core.StringPtr("The description of the creating vault")
+				createVaultOptionsModel.RecoveryKeyLabel = core.StringPtr("testString")
 				createVaultOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -7784,7 +8692,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(201)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "My Example Vault", "description": "The description of the vault", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "My Example Vault", "description": "The description of the vault", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "recovery_key_label": "TEKMF.AES.RECOVERY.00001", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "keys_count": 1023, "key_templates_count": 100, "keystores_count": 10}`)
 				}))
 			})
 			It(`Invoke CreateVault successfully`, func() {
@@ -7805,6 +8713,7 @@ var _ = Describe(`UkoV4`, func() {
 				createVaultOptionsModel := new(ukov4.CreateVaultOptions)
 				createVaultOptionsModel.Name = core.StringPtr("Example Vault")
 				createVaultOptionsModel.Description = core.StringPtr("The description of the creating vault")
+				createVaultOptionsModel.RecoveryKeyLabel = core.StringPtr("testString")
 				createVaultOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -7826,6 +8735,7 @@ var _ = Describe(`UkoV4`, func() {
 				createVaultOptionsModel := new(ukov4.CreateVaultOptions)
 				createVaultOptionsModel.Name = core.StringPtr("Example Vault")
 				createVaultOptionsModel.Description = core.StringPtr("The description of the creating vault")
+				createVaultOptionsModel.RecoveryKeyLabel = core.StringPtr("testString")
 				createVaultOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := ukoService.SetServiceURL("")
@@ -7868,6 +8778,7 @@ var _ = Describe(`UkoV4`, func() {
 				createVaultOptionsModel := new(ukov4.CreateVaultOptions)
 				createVaultOptionsModel.Name = core.StringPtr("Example Vault")
 				createVaultOptionsModel.Description = core.StringPtr("The description of the creating vault")
+				createVaultOptionsModel.RecoveryKeyLabel = core.StringPtr("testString")
 				createVaultOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -8017,7 +8928,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "My Example Vault", "description": "The description of the vault", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "My Example Vault", "description": "The description of the vault", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "recovery_key_label": "TEKMF.AES.RECOVERY.00001", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "keys_count": 1023, "key_templates_count": 100, "keystores_count": 10}`)
 				}))
 			})
 			It(`Invoke GetVault successfully with retries`, func() {
@@ -8071,7 +8982,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "My Example Vault", "description": "The description of the vault", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "My Example Vault", "description": "The description of the vault", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "recovery_key_label": "TEKMF.AES.RECOVERY.00001", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "keys_count": 1023, "key_templates_count": 100, "keystores_count": 10}`)
 				}))
 			})
 			It(`Invoke GetVault successfully`, func() {
@@ -8198,6 +9109,7 @@ var _ = Describe(`UkoV4`, func() {
 				updateVaultOptionsModel.IfMatch = core.StringPtr("testString")
 				updateVaultOptionsModel.Name = core.StringPtr("Jakub's Vault")
 				updateVaultOptionsModel.Description = core.StringPtr("Updated description of the vault")
+				updateVaultOptionsModel.RecoveryKeyLabel = core.StringPtr("TEKMF.AES.RECOVERY.00001")
 				updateVaultOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := ukoService.UpdateVault(updateVaultOptionsModel)
@@ -8252,7 +9164,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "My Example Vault", "description": "The description of the vault", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "My Example Vault", "description": "The description of the vault", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "recovery_key_label": "TEKMF.AES.RECOVERY.00001", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "keys_count": 1023, "key_templates_count": 100, "keystores_count": 10}`)
 				}))
 			})
 			It(`Invoke UpdateVault successfully with retries`, func() {
@@ -8270,6 +9182,7 @@ var _ = Describe(`UkoV4`, func() {
 				updateVaultOptionsModel.IfMatch = core.StringPtr("testString")
 				updateVaultOptionsModel.Name = core.StringPtr("Jakub's Vault")
 				updateVaultOptionsModel.Description = core.StringPtr("Updated description of the vault")
+				updateVaultOptionsModel.RecoveryKeyLabel = core.StringPtr("TEKMF.AES.RECOVERY.00001")
 				updateVaultOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -8327,7 +9240,7 @@ var _ = Describe(`UkoV4`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "My Example Vault", "description": "The description of the vault", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}`)
+					fmt.Fprintf(res, "%s", `{"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "My Example Vault", "description": "The description of the vault", "created_at": "2022-02-22T10:27:08.000Z", "updated_at": "2022-02-22T10:27:08.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "recovery_key_label": "TEKMF.AES.RECOVERY.00001", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "keys_count": 1023, "key_templates_count": 100, "keystores_count": 10}`)
 				}))
 			})
 			It(`Invoke UpdateVault successfully`, func() {
@@ -8350,6 +9263,7 @@ var _ = Describe(`UkoV4`, func() {
 				updateVaultOptionsModel.IfMatch = core.StringPtr("testString")
 				updateVaultOptionsModel.Name = core.StringPtr("Jakub's Vault")
 				updateVaultOptionsModel.Description = core.StringPtr("Updated description of the vault")
+				updateVaultOptionsModel.RecoveryKeyLabel = core.StringPtr("TEKMF.AES.RECOVERY.00001")
 				updateVaultOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -8373,6 +9287,7 @@ var _ = Describe(`UkoV4`, func() {
 				updateVaultOptionsModel.IfMatch = core.StringPtr("testString")
 				updateVaultOptionsModel.Name = core.StringPtr("Jakub's Vault")
 				updateVaultOptionsModel.Description = core.StringPtr("Updated description of the vault")
+				updateVaultOptionsModel.RecoveryKeyLabel = core.StringPtr("TEKMF.AES.RECOVERY.00001")
 				updateVaultOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := ukoService.SetServiceURL("")
@@ -8417,10 +9332,680 @@ var _ = Describe(`UkoV4`, func() {
 				updateVaultOptionsModel.IfMatch = core.StringPtr("testString")
 				updateVaultOptionsModel.Name = core.StringPtr("Jakub's Vault")
 				updateVaultOptionsModel.Description = core.StringPtr("Updated description of the vault")
+				updateVaultOptionsModel.RecoveryKeyLabel = core.StringPtr("TEKMF.AES.RECOVERY.00001")
 				updateVaultOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
 				result, response, operationErr := ukoService.UpdateVault(updateVaultOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UnarchiveKeyTemplate(unarchiveKeyTemplateOptions *UnarchiveKeyTemplateOptions) - Operation response error`, func() {
+		unarchiveKeyTemplatePath := "/api/v4/templates/testString/unarchive"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(unarchiveKeyTemplatePath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke UnarchiveKeyTemplate with error: Operation response processing error`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Construct an instance of the UnarchiveKeyTemplateOptions model
+				unarchiveKeyTemplateOptionsModel := new(ukov4.UnarchiveKeyTemplateOptions)
+				unarchiveKeyTemplateOptionsModel.ID = core.StringPtr("testString")
+				unarchiveKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				unarchiveKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := ukoService.UnarchiveKeyTemplate(unarchiveKeyTemplateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				ukoService.EnableRetries(0, 0)
+				result, response, operationErr = ukoService.UnarchiveKeyTemplate(unarchiveKeyTemplateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`UnarchiveKeyTemplate(unarchiveKeyTemplateOptions *UnarchiveKeyTemplateOptions)`, func() {
+		unarchiveKeyTemplatePath := "/api/v4/templates/testString/unarchive"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(unarchiveKeyTemplatePath))
+					Expect(req.Method).To(Equal("POST"))
+
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": ["user_defined"], "state": "unarchived", "keys_count": 3456, "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active", "deactivate_on_rotation": true}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "managing_systems": ["web"]}`)
+				}))
+			})
+			It(`Invoke UnarchiveKeyTemplate successfully with retries`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+				ukoService.EnableRetries(0, 0)
+
+				// Construct an instance of the UnarchiveKeyTemplateOptions model
+				unarchiveKeyTemplateOptionsModel := new(ukov4.UnarchiveKeyTemplateOptions)
+				unarchiveKeyTemplateOptionsModel.ID = core.StringPtr("testString")
+				unarchiveKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				unarchiveKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := ukoService.UnarchiveKeyTemplateWithContext(ctx, unarchiveKeyTemplateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				ukoService.DisableRetries()
+				result, response, operationErr := ukoService.UnarchiveKeyTemplate(unarchiveKeyTemplateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = ukoService.UnarchiveKeyTemplateWithContext(ctx, unarchiveKeyTemplateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(unarchiveKeyTemplatePath))
+					Expect(req.Method).To(Equal("POST"))
+
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": ["user_defined"], "state": "unarchived", "keys_count": 3456, "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active", "deactivate_on_rotation": true}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "managing_systems": ["web"]}`)
+				}))
+			})
+			It(`Invoke UnarchiveKeyTemplate successfully`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := ukoService.UnarchiveKeyTemplate(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the UnarchiveKeyTemplateOptions model
+				unarchiveKeyTemplateOptionsModel := new(ukov4.UnarchiveKeyTemplateOptions)
+				unarchiveKeyTemplateOptionsModel.ID = core.StringPtr("testString")
+				unarchiveKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				unarchiveKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = ukoService.UnarchiveKeyTemplate(unarchiveKeyTemplateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke UnarchiveKeyTemplate with error: Operation validation and request error`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Construct an instance of the UnarchiveKeyTemplateOptions model
+				unarchiveKeyTemplateOptionsModel := new(ukov4.UnarchiveKeyTemplateOptions)
+				unarchiveKeyTemplateOptionsModel.ID = core.StringPtr("testString")
+				unarchiveKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				unarchiveKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := ukoService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := ukoService.UnarchiveKeyTemplate(unarchiveKeyTemplateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the UnarchiveKeyTemplateOptions model with no property values
+				unarchiveKeyTemplateOptionsModelNew := new(ukov4.UnarchiveKeyTemplateOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = ukoService.UnarchiveKeyTemplate(unarchiveKeyTemplateOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke UnarchiveKeyTemplate successfully`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Construct an instance of the UnarchiveKeyTemplateOptions model
+				unarchiveKeyTemplateOptionsModel := new(ukov4.UnarchiveKeyTemplateOptions)
+				unarchiveKeyTemplateOptionsModel.ID = core.StringPtr("testString")
+				unarchiveKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				unarchiveKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := ukoService.UnarchiveKeyTemplate(unarchiveKeyTemplateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ArchiveKeyTemplate(archiveKeyTemplateOptions *ArchiveKeyTemplateOptions) - Operation response error`, func() {
+		archiveKeyTemplatePath := "/api/v4/templates/testString/archive"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(archiveKeyTemplatePath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ArchiveKeyTemplate with error: Operation response processing error`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Construct an instance of the ArchiveKeyTemplateOptions model
+				archiveKeyTemplateOptionsModel := new(ukov4.ArchiveKeyTemplateOptions)
+				archiveKeyTemplateOptionsModel.ID = core.StringPtr("testString")
+				archiveKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				archiveKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := ukoService.ArchiveKeyTemplate(archiveKeyTemplateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				ukoService.EnableRetries(0, 0)
+				result, response, operationErr = ukoService.ArchiveKeyTemplate(archiveKeyTemplateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ArchiveKeyTemplate(archiveKeyTemplateOptions *ArchiveKeyTemplateOptions)`, func() {
+		archiveKeyTemplatePath := "/api/v4/templates/testString/archive"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(archiveKeyTemplatePath))
+					Expect(req.Method).To(Equal("POST"))
+
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": ["user_defined"], "state": "unarchived", "keys_count": 3456, "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active", "deactivate_on_rotation": true}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "managing_systems": ["web"]}`)
+				}))
+			})
+			It(`Invoke ArchiveKeyTemplate successfully with retries`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+				ukoService.EnableRetries(0, 0)
+
+				// Construct an instance of the ArchiveKeyTemplateOptions model
+				archiveKeyTemplateOptionsModel := new(ukov4.ArchiveKeyTemplateOptions)
+				archiveKeyTemplateOptionsModel.ID = core.StringPtr("testString")
+				archiveKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				archiveKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := ukoService.ArchiveKeyTemplateWithContext(ctx, archiveKeyTemplateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				ukoService.DisableRetries()
+				result, response, operationErr := ukoService.ArchiveKeyTemplate(archiveKeyTemplateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = ukoService.ArchiveKeyTemplateWithContext(ctx, archiveKeyTemplateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(archiveKeyTemplatePath))
+					Expect(req.Method).To(Equal("POST"))
+
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": ["user_defined"], "state": "unarchived", "keys_count": 3456, "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active", "deactivate_on_rotation": true}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "managing_systems": ["web"]}`)
+				}))
+			})
+			It(`Invoke ArchiveKeyTemplate successfully`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := ukoService.ArchiveKeyTemplate(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ArchiveKeyTemplateOptions model
+				archiveKeyTemplateOptionsModel := new(ukov4.ArchiveKeyTemplateOptions)
+				archiveKeyTemplateOptionsModel.ID = core.StringPtr("testString")
+				archiveKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				archiveKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = ukoService.ArchiveKeyTemplate(archiveKeyTemplateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ArchiveKeyTemplate with error: Operation validation and request error`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Construct an instance of the ArchiveKeyTemplateOptions model
+				archiveKeyTemplateOptionsModel := new(ukov4.ArchiveKeyTemplateOptions)
+				archiveKeyTemplateOptionsModel.ID = core.StringPtr("testString")
+				archiveKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				archiveKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := ukoService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := ukoService.ArchiveKeyTemplate(archiveKeyTemplateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ArchiveKeyTemplateOptions model with no property values
+				archiveKeyTemplateOptionsModelNew := new(ukov4.ArchiveKeyTemplateOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = ukoService.ArchiveKeyTemplate(archiveKeyTemplateOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ArchiveKeyTemplate successfully`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Construct an instance of the ArchiveKeyTemplateOptions model
+				archiveKeyTemplateOptionsModel := new(ukov4.ArchiveKeyTemplateOptions)
+				archiveKeyTemplateOptionsModel.ID = core.StringPtr("testString")
+				archiveKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				archiveKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := ukoService.ArchiveKeyTemplate(archiveKeyTemplateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+
+				// Verify a nil result
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ExposeKeyTemplate(exposeKeyTemplateOptions *ExposeKeyTemplateOptions) - Operation response error`, func() {
+		exposeKeyTemplatePath := "/api/v4/templates/testString/expose"
+		Context(`Using mock server endpoint with invalid JSON response`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(exposeKeyTemplatePath))
+					Expect(req.Method).To(Equal("POST"))
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprint(res, `} this is not valid json {`)
+				}))
+			})
+			It(`Invoke ExposeKeyTemplate with error: Operation response processing error`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Construct an instance of the ExposeKeyTemplateOptions model
+				exposeKeyTemplateOptionsModel := new(ukov4.ExposeKeyTemplateOptions)
+				exposeKeyTemplateOptionsModel.ID = core.StringPtr("testString")
+				exposeKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				exposeKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Expect response parsing to fail since we are receiving a text/plain response
+				result, response, operationErr := ukoService.ExposeKeyTemplate(exposeKeyTemplateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+
+				// Enable retries and test again
+				ukoService.EnableRetries(0, 0)
+				result, response, operationErr = ukoService.ExposeKeyTemplate(exposeKeyTemplateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+	})
+	Describe(`ExposeKeyTemplate(exposeKeyTemplateOptions *ExposeKeyTemplateOptions)`, func() {
+		exposeKeyTemplatePath := "/api/v4/templates/testString/expose"
+		Context(`Using mock server endpoint with timeout`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(exposeKeyTemplatePath))
+					Expect(req.Method).To(Equal("POST"))
+
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Sleep a short time to support a timeout test
+					time.Sleep(100 * time.Millisecond)
+
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": ["user_defined"], "state": "unarchived", "keys_count": 3456, "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active", "deactivate_on_rotation": true}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "managing_systems": ["web"]}`)
+				}))
+			})
+			It(`Invoke ExposeKeyTemplate successfully with retries`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+				ukoService.EnableRetries(0, 0)
+
+				// Construct an instance of the ExposeKeyTemplateOptions model
+				exposeKeyTemplateOptionsModel := new(ukov4.ExposeKeyTemplateOptions)
+				exposeKeyTemplateOptionsModel.ID = core.StringPtr("testString")
+				exposeKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				exposeKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with a Context to test a timeout error
+				ctx, cancelFunc := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc()
+				_, _, operationErr := ukoService.ExposeKeyTemplateWithContext(ctx, exposeKeyTemplateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+
+				// Disable retries and test again
+				ukoService.DisableRetries()
+				result, response, operationErr := ukoService.ExposeKeyTemplate(exposeKeyTemplateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+				// Re-test the timeout error with retries disabled
+				ctx, cancelFunc2 := context.WithTimeout(context.Background(), 80*time.Millisecond)
+				defer cancelFunc2()
+				_, _, operationErr = ukoService.ExposeKeyTemplateWithContext(ctx, exposeKeyTemplateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring("deadline exceeded"))
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Verify the contents of the request
+					Expect(req.URL.EscapedPath()).To(Equal(exposeKeyTemplatePath))
+					Expect(req.Method).To(Equal("POST"))
+
+					Expect(req.Header["If-Match"]).ToNot(BeNil())
+					Expect(req.Header["If-Match"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
+					// Set mock response
+					res.Header().Set("Content-type", "application/json")
+					res.WriteHeader(200)
+					fmt.Fprintf(res, "%s", `{"vault": {"id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "name": "Vault-1", "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46"}, "id": "5295ad47-2ce9-43c3-b9e7-e5a9482c362b", "version": 1, "name": "AWS-TEMPLATE", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": ["user_defined"], "state": "unarchived", "keys_count": 3456, "key": {"size": "256", "algorithm": "aes", "activation_date": "P5Y1M1W2D", "expiration_date": "P1Y2M1W4D", "state": "active", "deactivate_on_rotation": true}, "description": "The description of the template", "created_at": "2022-02-05T23:00:14.000Z", "updated_at": "2022-02-05T23:00:14.000Z", "created_by": "IBMid-1308197YB4", "updated_by": "IBMid-1308197YB4", "keystores": [{"group": "Production", "naming_scheme": "A-<APP>-AES256-<ENV>-<GROUP>", "type": "ibm_cloud_kms", "google_key_protection_level": "software", "google_key_purpose": "encrypt_decrypt", "google_kms_algorithm": "google_symmetric_encryption"}], "href": "https://uko.us-south.hs-crypto.cloud.ibm.com:9549/api/v4/managed_keys/c2d8d0ee-c333-414f-8e64-af47320e5a46", "managing_systems": ["web"]}`)
+				}))
+			})
+			It(`Invoke ExposeKeyTemplate successfully`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Invoke operation with nil options model (negative test)
+				result, response, operationErr := ukoService.ExposeKeyTemplate(nil)
+				Expect(operationErr).NotTo(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+
+				// Construct an instance of the ExposeKeyTemplateOptions model
+				exposeKeyTemplateOptionsModel := new(ukov4.ExposeKeyTemplateOptions)
+				exposeKeyTemplateOptionsModel.ID = core.StringPtr("testString")
+				exposeKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				exposeKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation with valid options model (positive test)
+				result, response, operationErr = ukoService.ExposeKeyTemplate(exposeKeyTemplateOptionsModel)
+				Expect(operationErr).To(BeNil())
+				Expect(response).ToNot(BeNil())
+				Expect(result).ToNot(BeNil())
+
+			})
+			It(`Invoke ExposeKeyTemplate with error: Operation validation and request error`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Construct an instance of the ExposeKeyTemplateOptions model
+				exposeKeyTemplateOptionsModel := new(ukov4.ExposeKeyTemplateOptions)
+				exposeKeyTemplateOptionsModel.ID = core.StringPtr("testString")
+				exposeKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				exposeKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Invoke operation with empty URL (negative test)
+				err := ukoService.SetServiceURL("")
+				Expect(err).To(BeNil())
+				result, response, operationErr := ukoService.ExposeKeyTemplate(exposeKeyTemplateOptionsModel)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+				// Construct a second instance of the ExposeKeyTemplateOptions model with no property values
+				exposeKeyTemplateOptionsModelNew := new(ukov4.ExposeKeyTemplateOptions)
+				// Invoke operation with invalid model (negative test)
+				result, response, operationErr = ukoService.ExposeKeyTemplate(exposeKeyTemplateOptionsModelNew)
+				Expect(operationErr).ToNot(BeNil())
+				Expect(response).To(BeNil())
+				Expect(result).To(BeNil())
+			})
+			AfterEach(func() {
+				testServer.Close()
+			})
+		})
+		Context(`Using mock server endpoint with missing response body`, func() {
+			BeforeEach(func() {
+				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+					defer GinkgoRecover()
+
+					// Set success status code with no respoonse body
+					res.WriteHeader(200)
+				}))
+			})
+			It(`Invoke ExposeKeyTemplate successfully`, func() {
+				ukoService, serviceErr := ukov4.NewUkoV4(&ukov4.UkoV4Options{
+					URL:           testServer.URL,
+					Authenticator: &core.NoAuthAuthenticator{},
+				})
+				Expect(serviceErr).To(BeNil())
+				Expect(ukoService).ToNot(BeNil())
+
+				// Construct an instance of the ExposeKeyTemplateOptions model
+				exposeKeyTemplateOptionsModel := new(ukov4.ExposeKeyTemplateOptions)
+				exposeKeyTemplateOptionsModel.ID = core.StringPtr("testString")
+				exposeKeyTemplateOptionsModel.IfMatch = core.StringPtr("testString")
+				exposeKeyTemplateOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+
+				// Invoke operation
+				result, response, operationErr := ukoService.ExposeKeyTemplate(exposeKeyTemplateOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 
@@ -8441,18 +10026,28 @@ var _ = Describe(`UkoV4`, func() {
 			It(`Invoke NewActivateManagedKeyOptions successfully`, func() {
 				// Construct an instance of the ActivateManagedKeyOptions model
 				id := "testString"
-				ukoVault := "testString"
 				ifMatch := "testString"
-				activateManagedKeyOptionsModel := ukoService.NewActivateManagedKeyOptions(id, ukoVault, ifMatch)
+				activateManagedKeyOptionsModel := ukoService.NewActivateManagedKeyOptions(id, ifMatch)
 				activateManagedKeyOptionsModel.SetID("testString")
-				activateManagedKeyOptionsModel.SetUKOVault("testString")
 				activateManagedKeyOptionsModel.SetIfMatch("testString")
 				activateManagedKeyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(activateManagedKeyOptionsModel).ToNot(BeNil())
 				Expect(activateManagedKeyOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(activateManagedKeyOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
 				Expect(activateManagedKeyOptionsModel.IfMatch).To(Equal(core.StringPtr("testString")))
 				Expect(activateManagedKeyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewArchiveKeyTemplateOptions successfully`, func() {
+				// Construct an instance of the ArchiveKeyTemplateOptions model
+				id := "testString"
+				ifMatch := "testString"
+				archiveKeyTemplateOptionsModel := ukoService.NewArchiveKeyTemplateOptions(id, ifMatch)
+				archiveKeyTemplateOptionsModel.SetID("testString")
+				archiveKeyTemplateOptionsModel.SetIfMatch("testString")
+				archiveKeyTemplateOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(archiveKeyTemplateOptionsModel).ToNot(BeNil())
+				Expect(archiveKeyTemplateOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(archiveKeyTemplateOptionsModel.IfMatch).To(Equal(core.StringPtr("testString")))
+				Expect(archiveKeyTemplateOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateKeyTemplateOptions successfully`, func() {
 				// Construct an instance of the VaultReferenceInCreationRequest model
@@ -8469,47 +10064,54 @@ var _ = Describe(`UkoV4`, func() {
 				keyPropertiesModel.ActivationDate = core.StringPtr("P5Y1M1W2D")
 				keyPropertiesModel.ExpirationDate = core.StringPtr("P1Y2M1W4D")
 				keyPropertiesModel.State = core.StringPtr("active")
+				keyPropertiesModel.DeactivateOnRotation = core.BoolPtr(true)
 				Expect(keyPropertiesModel.Size).To(Equal(core.StringPtr("256")))
 				Expect(keyPropertiesModel.Algorithm).To(Equal(core.StringPtr("aes")))
 				Expect(keyPropertiesModel.ActivationDate).To(Equal(core.StringPtr("P5Y1M1W2D")))
 				Expect(keyPropertiesModel.ExpirationDate).To(Equal(core.StringPtr("P1Y2M1W4D")))
 				Expect(keyPropertiesModel.State).To(Equal(core.StringPtr("active")))
+				Expect(keyPropertiesModel.DeactivateOnRotation).To(Equal(core.BoolPtr(true)))
 
 				// Construct an instance of the KeystoresPropertiesCreateGoogleKms model
 				keystoresPropertiesCreateModel := new(ukov4.KeystoresPropertiesCreateGoogleKms)
 				Expect(keystoresPropertiesCreateModel).ToNot(BeNil())
 				keystoresPropertiesCreateModel.Group = core.StringPtr("Production")
+				keystoresPropertiesCreateModel.NamingScheme = core.StringPtr("A-<APP>-AES256-<ENV>-<GROUP>")
 				keystoresPropertiesCreateModel.Type = core.StringPtr("ibm_cloud_kms")
 				keystoresPropertiesCreateModel.GoogleKeyProtectionLevel = core.StringPtr("software")
 				keystoresPropertiesCreateModel.GoogleKeyPurpose = core.StringPtr("encrypt_decrypt")
 				keystoresPropertiesCreateModel.GoogleKmsAlgorithm = core.StringPtr("google_symmetric_encryption")
 				Expect(keystoresPropertiesCreateModel.Group).To(Equal(core.StringPtr("Production")))
+				Expect(keystoresPropertiesCreateModel.NamingScheme).To(Equal(core.StringPtr("A-<APP>-AES256-<ENV>-<GROUP>")))
 				Expect(keystoresPropertiesCreateModel.Type).To(Equal(core.StringPtr("ibm_cloud_kms")))
 				Expect(keystoresPropertiesCreateModel.GoogleKeyProtectionLevel).To(Equal(core.StringPtr("software")))
 				Expect(keystoresPropertiesCreateModel.GoogleKeyPurpose).To(Equal(core.StringPtr("encrypt_decrypt")))
 				Expect(keystoresPropertiesCreateModel.GoogleKmsAlgorithm).To(Equal(core.StringPtr("google_symmetric_encryption")))
 
 				// Construct an instance of the CreateKeyTemplateOptions model
-				ukoVault := "testString"
 				var createKeyTemplateOptionsVault *ukov4.VaultReferenceInCreationRequest = nil
 				createKeyTemplateOptionsName := "EXAMPLE-TEMPLATE"
 				var createKeyTemplateOptionsKey *ukov4.KeyProperties = nil
 				createKeyTemplateOptionsKeystores := []ukov4.KeystoresPropertiesCreateIntf{}
-				createKeyTemplateOptionsModel := ukoService.NewCreateKeyTemplateOptions(ukoVault, createKeyTemplateOptionsVault, createKeyTemplateOptionsName, createKeyTemplateOptionsKey, createKeyTemplateOptionsKeystores)
-				createKeyTemplateOptionsModel.SetUKOVault("testString")
+				createKeyTemplateOptionsModel := ukoService.NewCreateKeyTemplateOptions(createKeyTemplateOptionsVault, createKeyTemplateOptionsName, createKeyTemplateOptionsKey, createKeyTemplateOptionsKeystores)
 				createKeyTemplateOptionsModel.SetVault(vaultReferenceInCreationRequestModel)
 				createKeyTemplateOptionsModel.SetName("EXAMPLE-TEMPLATE")
 				createKeyTemplateOptionsModel.SetKey(keyPropertiesModel)
 				createKeyTemplateOptionsModel.SetKeystores([]ukov4.KeystoresPropertiesCreateIntf{keystoresPropertiesCreateModel})
 				createKeyTemplateOptionsModel.SetDescription("testString")
+				createKeyTemplateOptionsModel.SetNamingScheme("A-<APP>-AES256-<ENV>-<GROUP>")
+				createKeyTemplateOptionsModel.SetType([]string{"user_defined"})
+				createKeyTemplateOptionsModel.SetState("unarchived")
 				createKeyTemplateOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createKeyTemplateOptionsModel).ToNot(BeNil())
-				Expect(createKeyTemplateOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
 				Expect(createKeyTemplateOptionsModel.Vault).To(Equal(vaultReferenceInCreationRequestModel))
 				Expect(createKeyTemplateOptionsModel.Name).To(Equal(core.StringPtr("EXAMPLE-TEMPLATE")))
 				Expect(createKeyTemplateOptionsModel.Key).To(Equal(keyPropertiesModel))
 				Expect(createKeyTemplateOptionsModel.Keystores).To(Equal([]ukov4.KeystoresPropertiesCreateIntf{keystoresPropertiesCreateModel}))
 				Expect(createKeyTemplateOptionsModel.Description).To(Equal(core.StringPtr("testString")))
+				Expect(createKeyTemplateOptionsModel.NamingScheme).To(Equal(core.StringPtr("A-<APP>-AES256-<ENV>-<GROUP>")))
+				Expect(createKeyTemplateOptionsModel.Type).To(Equal([]string{"user_defined"}))
+				Expect(createKeyTemplateOptionsModel.State).To(Equal(core.StringPtr("unarchived")))
 				Expect(createKeyTemplateOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateKeystoreOptions successfully`, func() {
@@ -8526,6 +10128,7 @@ var _ = Describe(`UkoV4`, func() {
 				keystoreCreationRequestModel.Vault = vaultReferenceInCreationRequestModel
 				keystoreCreationRequestModel.Name = core.StringPtr("IBM Cloud Keystore Name")
 				keystoreCreationRequestModel.Description = core.StringPtr("Azure keystore")
+				keystoreCreationRequestModel.TlsProxy = core.StringPtr("c-04.private.us-east.link.satellite.cloud.ibm.com:12358")
 				keystoreCreationRequestModel.Groups = []string{"Production"}
 				keystoreCreationRequestModel.AwsRegion = core.StringPtr("af_south_1")
 				keystoreCreationRequestModel.AwsAccessKeyID = core.StringPtr("BSDFWERUANLKJDN54AAS")
@@ -8534,21 +10137,19 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(keystoreCreationRequestModel.Vault).To(Equal(vaultReferenceInCreationRequestModel))
 				Expect(keystoreCreationRequestModel.Name).To(Equal(core.StringPtr("IBM Cloud Keystore Name")))
 				Expect(keystoreCreationRequestModel.Description).To(Equal(core.StringPtr("Azure keystore")))
+				Expect(keystoreCreationRequestModel.TlsProxy).To(Equal(core.StringPtr("c-04.private.us-east.link.satellite.cloud.ibm.com:12358")))
 				Expect(keystoreCreationRequestModel.Groups).To(Equal([]string{"Production"}))
 				Expect(keystoreCreationRequestModel.AwsRegion).To(Equal(core.StringPtr("af_south_1")))
 				Expect(keystoreCreationRequestModel.AwsAccessKeyID).To(Equal(core.StringPtr("BSDFWERUANLKJDN54AAS")))
 				Expect(keystoreCreationRequestModel.AwsSecretAccessKey).To(Equal(core.StringPtr("6HSz234KBjMrASFasfg5PasAFGNasg87asdgQzgs")))
 
 				// Construct an instance of the CreateKeystoreOptions model
-				ukoVault := "testString"
 				var keystoreBody ukov4.KeystoreCreationRequestIntf = nil
-				createKeystoreOptionsModel := ukoService.NewCreateKeystoreOptions(ukoVault, keystoreBody)
-				createKeystoreOptionsModel.SetUKOVault("testString")
+				createKeystoreOptionsModel := ukoService.NewCreateKeystoreOptions(keystoreBody)
 				createKeystoreOptionsModel.SetKeystoreBody(keystoreCreationRequestModel)
 				createKeystoreOptionsModel.SetDryRun(false)
 				createKeystoreOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createKeystoreOptionsModel).ToNot(BeNil())
-				Expect(createKeystoreOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
 				Expect(createKeystoreOptionsModel.KeystoreBody).To(Equal(keystoreCreationRequestModel))
 				Expect(createKeystoreOptionsModel.DryRun).To(Equal(core.BoolPtr(false)))
 				Expect(createKeystoreOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
@@ -8560,33 +10161,19 @@ var _ = Describe(`UkoV4`, func() {
 				vaultReferenceInCreationRequestModel.ID = core.StringPtr("5295ad47-2ce9-43c3-b9e7-e5a9482c362b")
 				Expect(vaultReferenceInCreationRequestModel.ID).To(Equal(core.StringPtr("5295ad47-2ce9-43c3-b9e7-e5a9482c362b")))
 
-				// Construct an instance of the Tag model
-				tagModel := new(ukov4.Tag)
-				Expect(tagModel).ToNot(BeNil())
-				tagModel.Name = core.StringPtr("testString")
-				tagModel.Value = core.StringPtr("testString")
-				Expect(tagModel.Name).To(Equal(core.StringPtr("testString")))
-				Expect(tagModel.Value).To(Equal(core.StringPtr("testString")))
-
 				// Construct an instance of the CreateManagedKeyOptions model
-				ukoVault := "testString"
 				createManagedKeyOptionsTemplateName := "testString"
 				var createManagedKeyOptionsVault *ukov4.VaultReferenceInCreationRequest = nil
-				createManagedKeyOptionsLabel := "IBM CLOUD KEY"
-				createManagedKeyOptionsModel := ukoService.NewCreateManagedKeyOptions(ukoVault, createManagedKeyOptionsTemplateName, createManagedKeyOptionsVault, createManagedKeyOptionsLabel)
-				createManagedKeyOptionsModel.SetUKOVault("testString")
+				createManagedKeyOptionsModel := ukoService.NewCreateManagedKeyOptions(createManagedKeyOptionsTemplateName, createManagedKeyOptionsVault)
 				createManagedKeyOptionsModel.SetTemplateName("testString")
 				createManagedKeyOptionsModel.SetVault(vaultReferenceInCreationRequestModel)
 				createManagedKeyOptionsModel.SetLabel("IBM CLOUD KEY")
-				createManagedKeyOptionsModel.SetTags([]ukov4.Tag{*tagModel})
 				createManagedKeyOptionsModel.SetDescription("testString")
 				createManagedKeyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createManagedKeyOptionsModel).ToNot(BeNil())
-				Expect(createManagedKeyOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
 				Expect(createManagedKeyOptionsModel.TemplateName).To(Equal(core.StringPtr("testString")))
 				Expect(createManagedKeyOptionsModel.Vault).To(Equal(vaultReferenceInCreationRequestModel))
 				Expect(createManagedKeyOptionsModel.Label).To(Equal(core.StringPtr("IBM CLOUD KEY")))
-				Expect(createManagedKeyOptionsModel.Tags).To(Equal([]ukov4.Tag{*tagModel}))
 				Expect(createManagedKeyOptionsModel.Description).To(Equal(core.StringPtr("testString")))
 				Expect(createManagedKeyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -8596,73 +10183,63 @@ var _ = Describe(`UkoV4`, func() {
 				createVaultOptionsModel := ukoService.NewCreateVaultOptions(createVaultOptionsName)
 				createVaultOptionsModel.SetName("Example Vault")
 				createVaultOptionsModel.SetDescription("The description of the creating vault")
+				createVaultOptionsModel.SetRecoveryKeyLabel("testString")
 				createVaultOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createVaultOptionsModel).ToNot(BeNil())
 				Expect(createVaultOptionsModel.Name).To(Equal(core.StringPtr("Example Vault")))
 				Expect(createVaultOptionsModel.Description).To(Equal(core.StringPtr("The description of the creating vault")))
+				Expect(createVaultOptionsModel.RecoveryKeyLabel).To(Equal(core.StringPtr("testString")))
 				Expect(createVaultOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewDeactivateManagedKeyOptions successfully`, func() {
 				// Construct an instance of the DeactivateManagedKeyOptions model
 				id := "testString"
-				ukoVault := "testString"
 				ifMatch := "testString"
-				deactivateManagedKeyOptionsModel := ukoService.NewDeactivateManagedKeyOptions(id, ukoVault, ifMatch)
+				deactivateManagedKeyOptionsModel := ukoService.NewDeactivateManagedKeyOptions(id, ifMatch)
 				deactivateManagedKeyOptionsModel.SetID("testString")
-				deactivateManagedKeyOptionsModel.SetUKOVault("testString")
 				deactivateManagedKeyOptionsModel.SetIfMatch("testString")
 				deactivateManagedKeyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(deactivateManagedKeyOptionsModel).ToNot(BeNil())
 				Expect(deactivateManagedKeyOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(deactivateManagedKeyOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
 				Expect(deactivateManagedKeyOptionsModel.IfMatch).To(Equal(core.StringPtr("testString")))
 				Expect(deactivateManagedKeyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewDeleteKeyTemplateOptions successfully`, func() {
 				// Construct an instance of the DeleteKeyTemplateOptions model
 				id := "testString"
-				ukoVault := "testString"
 				ifMatch := "testString"
-				deleteKeyTemplateOptionsModel := ukoService.NewDeleteKeyTemplateOptions(id, ukoVault, ifMatch)
+				deleteKeyTemplateOptionsModel := ukoService.NewDeleteKeyTemplateOptions(id, ifMatch)
 				deleteKeyTemplateOptionsModel.SetID("testString")
-				deleteKeyTemplateOptionsModel.SetUKOVault("testString")
 				deleteKeyTemplateOptionsModel.SetIfMatch("testString")
 				deleteKeyTemplateOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(deleteKeyTemplateOptionsModel).ToNot(BeNil())
 				Expect(deleteKeyTemplateOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(deleteKeyTemplateOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
 				Expect(deleteKeyTemplateOptionsModel.IfMatch).To(Equal(core.StringPtr("testString")))
 				Expect(deleteKeyTemplateOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewDeleteKeystoreOptions successfully`, func() {
 				// Construct an instance of the DeleteKeystoreOptions model
 				id := "testString"
-				ukoVault := "testString"
 				ifMatch := "testString"
-				deleteKeystoreOptionsModel := ukoService.NewDeleteKeystoreOptions(id, ukoVault, ifMatch)
+				deleteKeystoreOptionsModel := ukoService.NewDeleteKeystoreOptions(id, ifMatch)
 				deleteKeystoreOptionsModel.SetID("testString")
-				deleteKeystoreOptionsModel.SetUKOVault("testString")
 				deleteKeystoreOptionsModel.SetIfMatch("testString")
 				deleteKeystoreOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(deleteKeystoreOptionsModel).ToNot(BeNil())
 				Expect(deleteKeystoreOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(deleteKeystoreOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
 				Expect(deleteKeystoreOptionsModel.IfMatch).To(Equal(core.StringPtr("testString")))
 				Expect(deleteKeystoreOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewDeleteManagedKeyOptions successfully`, func() {
 				// Construct an instance of the DeleteManagedKeyOptions model
 				id := "testString"
-				ukoVault := "testString"
 				ifMatch := "testString"
-				deleteManagedKeyOptionsModel := ukoService.NewDeleteManagedKeyOptions(id, ukoVault, ifMatch)
+				deleteManagedKeyOptionsModel := ukoService.NewDeleteManagedKeyOptions(id, ifMatch)
 				deleteManagedKeyOptionsModel.SetID("testString")
-				deleteManagedKeyOptionsModel.SetUKOVault("testString")
 				deleteManagedKeyOptionsModel.SetIfMatch("testString")
 				deleteManagedKeyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(deleteManagedKeyOptionsModel).ToNot(BeNil())
 				Expect(deleteManagedKeyOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(deleteManagedKeyOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
 				Expect(deleteManagedKeyOptionsModel.IfMatch).To(Equal(core.StringPtr("testString")))
 				Expect(deleteManagedKeyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -8682,82 +10259,77 @@ var _ = Describe(`UkoV4`, func() {
 			It(`Invoke NewDestroyManagedKeyOptions successfully`, func() {
 				// Construct an instance of the DestroyManagedKeyOptions model
 				id := "testString"
-				ukoVault := "testString"
 				ifMatch := "testString"
-				destroyManagedKeyOptionsModel := ukoService.NewDestroyManagedKeyOptions(id, ukoVault, ifMatch)
+				destroyManagedKeyOptionsModel := ukoService.NewDestroyManagedKeyOptions(id, ifMatch)
 				destroyManagedKeyOptionsModel.SetID("testString")
-				destroyManagedKeyOptionsModel.SetUKOVault("testString")
 				destroyManagedKeyOptionsModel.SetIfMatch("testString")
 				destroyManagedKeyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(destroyManagedKeyOptionsModel).ToNot(BeNil())
 				Expect(destroyManagedKeyOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(destroyManagedKeyOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
 				Expect(destroyManagedKeyOptionsModel.IfMatch).To(Equal(core.StringPtr("testString")))
 				Expect(destroyManagedKeyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewExposeKeyTemplateOptions successfully`, func() {
+				// Construct an instance of the ExposeKeyTemplateOptions model
+				id := "testString"
+				ifMatch := "testString"
+				exposeKeyTemplateOptionsModel := ukoService.NewExposeKeyTemplateOptions(id, ifMatch)
+				exposeKeyTemplateOptionsModel.SetID("testString")
+				exposeKeyTemplateOptionsModel.SetIfMatch("testString")
+				exposeKeyTemplateOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(exposeKeyTemplateOptionsModel).ToNot(BeNil())
+				Expect(exposeKeyTemplateOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(exposeKeyTemplateOptionsModel.IfMatch).To(Equal(core.StringPtr("testString")))
+				Expect(exposeKeyTemplateOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetKeyDistributionStatusForKeystoresOptions successfully`, func() {
 				// Construct an instance of the GetKeyDistributionStatusForKeystoresOptions model
 				id := "testString"
-				ukoVault := "testString"
-				getKeyDistributionStatusForKeystoresOptionsModel := ukoService.NewGetKeyDistributionStatusForKeystoresOptions(id, ukoVault)
+				getKeyDistributionStatusForKeystoresOptionsModel := ukoService.NewGetKeyDistributionStatusForKeystoresOptions(id)
 				getKeyDistributionStatusForKeystoresOptionsModel.SetID("testString")
-				getKeyDistributionStatusForKeystoresOptionsModel.SetUKOVault("testString")
 				getKeyDistributionStatusForKeystoresOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getKeyDistributionStatusForKeystoresOptionsModel).ToNot(BeNil())
 				Expect(getKeyDistributionStatusForKeystoresOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(getKeyDistributionStatusForKeystoresOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
 				Expect(getKeyDistributionStatusForKeystoresOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetKeyTemplateOptions successfully`, func() {
 				// Construct an instance of the GetKeyTemplateOptions model
 				id := "testString"
-				ukoVault := "testString"
-				getKeyTemplateOptionsModel := ukoService.NewGetKeyTemplateOptions(id, ukoVault)
+				getKeyTemplateOptionsModel := ukoService.NewGetKeyTemplateOptions(id)
 				getKeyTemplateOptionsModel.SetID("testString")
-				getKeyTemplateOptionsModel.SetUKOVault("testString")
 				getKeyTemplateOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getKeyTemplateOptionsModel).ToNot(BeNil())
 				Expect(getKeyTemplateOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(getKeyTemplateOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
 				Expect(getKeyTemplateOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetKeystoreOptions successfully`, func() {
 				// Construct an instance of the GetKeystoreOptions model
 				id := "testString"
-				ukoVault := "testString"
-				getKeystoreOptionsModel := ukoService.NewGetKeystoreOptions(id, ukoVault)
+				getKeystoreOptionsModel := ukoService.NewGetKeystoreOptions(id)
 				getKeystoreOptionsModel.SetID("testString")
-				getKeystoreOptionsModel.SetUKOVault("testString")
 				getKeystoreOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getKeystoreOptionsModel).ToNot(BeNil())
 				Expect(getKeystoreOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(getKeystoreOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
 				Expect(getKeystoreOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetKeystoreStatusOptions successfully`, func() {
 				// Construct an instance of the GetKeystoreStatusOptions model
 				id := "testString"
-				ukoVault := "testString"
-				getKeystoreStatusOptionsModel := ukoService.NewGetKeystoreStatusOptions(id, ukoVault)
+				getKeystoreStatusOptionsModel := ukoService.NewGetKeystoreStatusOptions(id)
 				getKeystoreStatusOptionsModel.SetID("testString")
-				getKeystoreStatusOptionsModel.SetUKOVault("testString")
 				getKeystoreStatusOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getKeystoreStatusOptionsModel).ToNot(BeNil())
 				Expect(getKeystoreStatusOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(getKeystoreStatusOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
 				Expect(getKeystoreStatusOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetManagedKeyOptions successfully`, func() {
 				// Construct an instance of the GetManagedKeyOptions model
 				id := "testString"
-				ukoVault := "testString"
-				getManagedKeyOptionsModel := ukoService.NewGetManagedKeyOptions(id, ukoVault)
+				getManagedKeyOptionsModel := ukoService.NewGetManagedKeyOptions(id)
 				getManagedKeyOptionsModel.SetID("testString")
-				getManagedKeyOptionsModel.SetUKOVault("testString")
 				getManagedKeyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getManagedKeyOptionsModel).ToNot(BeNil())
 				Expect(getManagedKeyOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(getManagedKeyOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
 				Expect(getManagedKeyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetVaultOptions successfully`, func() {
@@ -8773,17 +10345,14 @@ var _ = Describe(`UkoV4`, func() {
 			It(`Invoke NewListAssociatedResourcesForManagedKeyOptions successfully`, func() {
 				// Construct an instance of the ListAssociatedResourcesForManagedKeyOptions model
 				id := "testString"
-				ukoVault := "testString"
-				listAssociatedResourcesForManagedKeyOptionsModel := ukoService.NewListAssociatedResourcesForManagedKeyOptions(id, ukoVault)
+				listAssociatedResourcesForManagedKeyOptionsModel := ukoService.NewListAssociatedResourcesForManagedKeyOptions(id)
 				listAssociatedResourcesForManagedKeyOptionsModel.SetID("testString")
-				listAssociatedResourcesForManagedKeyOptionsModel.SetUKOVault("testString")
 				listAssociatedResourcesForManagedKeyOptionsModel.SetLimit(int64(10))
 				listAssociatedResourcesForManagedKeyOptionsModel.SetOffset(int64(0))
 				listAssociatedResourcesForManagedKeyOptionsModel.SetSort([]string{"name"})
 				listAssociatedResourcesForManagedKeyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listAssociatedResourcesForManagedKeyOptionsModel).ToNot(BeNil())
 				Expect(listAssociatedResourcesForManagedKeyOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(listAssociatedResourcesForManagedKeyOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
 				Expect(listAssociatedResourcesForManagedKeyOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(10))))
 				Expect(listAssociatedResourcesForManagedKeyOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(0))))
 				Expect(listAssociatedResourcesForManagedKeyOptionsModel.Sort).To(Equal([]string{"name"}))
@@ -8792,17 +10361,14 @@ var _ = Describe(`UkoV4`, func() {
 			It(`Invoke NewListAssociatedResourcesForTargetKeystoreOptions successfully`, func() {
 				// Construct an instance of the ListAssociatedResourcesForTargetKeystoreOptions model
 				id := "testString"
-				ukoVault := "testString"
-				listAssociatedResourcesForTargetKeystoreOptionsModel := ukoService.NewListAssociatedResourcesForTargetKeystoreOptions(id, ukoVault)
+				listAssociatedResourcesForTargetKeystoreOptionsModel := ukoService.NewListAssociatedResourcesForTargetKeystoreOptions(id)
 				listAssociatedResourcesForTargetKeystoreOptionsModel.SetID("testString")
-				listAssociatedResourcesForTargetKeystoreOptionsModel.SetUKOVault("testString")
 				listAssociatedResourcesForTargetKeystoreOptionsModel.SetLimit(int64(10))
 				listAssociatedResourcesForTargetKeystoreOptionsModel.SetOffset(int64(0))
 				listAssociatedResourcesForTargetKeystoreOptionsModel.SetSort([]string{"name"})
 				listAssociatedResourcesForTargetKeystoreOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listAssociatedResourcesForTargetKeystoreOptionsModel).ToNot(BeNil())
 				Expect(listAssociatedResourcesForTargetKeystoreOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(listAssociatedResourcesForTargetKeystoreOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
 				Expect(listAssociatedResourcesForTargetKeystoreOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(10))))
 				Expect(listAssociatedResourcesForTargetKeystoreOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(0))))
 				Expect(listAssociatedResourcesForTargetKeystoreOptionsModel.Sort).To(Equal([]string{"name"}))
@@ -8811,54 +10377,163 @@ var _ = Describe(`UkoV4`, func() {
 			It(`Invoke NewListKeyTemplatesOptions successfully`, func() {
 				// Construct an instance of the ListKeyTemplatesOptions model
 				listKeyTemplatesOptionsModel := ukoService.NewListKeyTemplatesOptions()
+				listKeyTemplatesOptionsModel.SetAccept("application/json")
+				listKeyTemplatesOptionsModel.SetName("My Example Template")
+				listKeyTemplatesOptionsModel.SetNamingScheme("My Example Template")
 				listKeyTemplatesOptionsModel.SetVaultID([]string{"123e4567-e89b-12d3-a456-426614174000"})
-				listKeyTemplatesOptionsModel.SetKeyAlgorithm("aes")
+				listKeyTemplatesOptionsModel.SetKeyAlgorithm([]string{"aes"})
+				listKeyTemplatesOptionsModel.SetKeySize("testString")
+				listKeyTemplatesOptionsModel.SetKeySizeMin("testString")
+				listKeyTemplatesOptionsModel.SetKeySizeMax("testString")
+				listKeyTemplatesOptionsModel.SetKeystoresType([]string{"ibm_cloud_kms"})
+				listKeyTemplatesOptionsModel.SetKeystoresGroup([]string{"testString"})
+				listKeyTemplatesOptionsModel.SetCreatedAt("testString")
+				listKeyTemplatesOptionsModel.SetCreatedAtMin("testString")
+				listKeyTemplatesOptionsModel.SetCreatedAtMax("testString")
+				listKeyTemplatesOptionsModel.SetUpdatedAt("testString")
+				listKeyTemplatesOptionsModel.SetUpdatedAtMin("testString")
+				listKeyTemplatesOptionsModel.SetUpdatedAtMax("testString")
+				listKeyTemplatesOptionsModel.SetType([]string{"user_defined"})
+				listKeyTemplatesOptionsModel.SetState([]string{"unarchived"})
 				listKeyTemplatesOptionsModel.SetSort([]string{"-updated_at"})
 				listKeyTemplatesOptionsModel.SetLimit(int64(10))
 				listKeyTemplatesOptionsModel.SetOffset(int64(0))
+				listKeyTemplatesOptionsModel.SetManagingSystems([]string{"web"})
 				listKeyTemplatesOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listKeyTemplatesOptionsModel).ToNot(BeNil())
+				Expect(listKeyTemplatesOptionsModel.Accept).To(Equal(core.StringPtr("application/json")))
+				Expect(listKeyTemplatesOptionsModel.Name).To(Equal(core.StringPtr("My Example Template")))
+				Expect(listKeyTemplatesOptionsModel.NamingScheme).To(Equal(core.StringPtr("My Example Template")))
 				Expect(listKeyTemplatesOptionsModel.VaultID).To(Equal([]string{"123e4567-e89b-12d3-a456-426614174000"}))
-				Expect(listKeyTemplatesOptionsModel.KeyAlgorithm).To(Equal(core.StringPtr("aes")))
+				Expect(listKeyTemplatesOptionsModel.KeyAlgorithm).To(Equal([]string{"aes"}))
+				Expect(listKeyTemplatesOptionsModel.KeySize).To(Equal(core.StringPtr("testString")))
+				Expect(listKeyTemplatesOptionsModel.KeySizeMin).To(Equal(core.StringPtr("testString")))
+				Expect(listKeyTemplatesOptionsModel.KeySizeMax).To(Equal(core.StringPtr("testString")))
+				Expect(listKeyTemplatesOptionsModel.KeystoresType).To(Equal([]string{"ibm_cloud_kms"}))
+				Expect(listKeyTemplatesOptionsModel.KeystoresGroup).To(Equal([]string{"testString"}))
+				Expect(listKeyTemplatesOptionsModel.CreatedAt).To(Equal(core.StringPtr("testString")))
+				Expect(listKeyTemplatesOptionsModel.CreatedAtMin).To(Equal(core.StringPtr("testString")))
+				Expect(listKeyTemplatesOptionsModel.CreatedAtMax).To(Equal(core.StringPtr("testString")))
+				Expect(listKeyTemplatesOptionsModel.UpdatedAt).To(Equal(core.StringPtr("testString")))
+				Expect(listKeyTemplatesOptionsModel.UpdatedAtMin).To(Equal(core.StringPtr("testString")))
+				Expect(listKeyTemplatesOptionsModel.UpdatedAtMax).To(Equal(core.StringPtr("testString")))
+				Expect(listKeyTemplatesOptionsModel.Type).To(Equal([]string{"user_defined"}))
+				Expect(listKeyTemplatesOptionsModel.State).To(Equal([]string{"unarchived"}))
 				Expect(listKeyTemplatesOptionsModel.Sort).To(Equal([]string{"-updated_at"}))
 				Expect(listKeyTemplatesOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(10))))
 				Expect(listKeyTemplatesOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(0))))
+				Expect(listKeyTemplatesOptionsModel.ManagingSystems).To(Equal([]string{"web"}))
 				Expect(listKeyTemplatesOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListKeystoresOptions successfully`, func() {
 				// Construct an instance of the ListKeystoresOptions model
 				listKeystoresOptionsModel := ukoService.NewListKeystoresOptions()
+				listKeystoresOptionsModel.SetAccept("application/json")
 				listKeystoresOptionsModel.SetType([]string{"ibm_cloud_kms"})
 				listKeystoresOptionsModel.SetName("Main IBM Cloud")
 				listKeystoresOptionsModel.SetDescription("My Example Keystore Description")
 				listKeystoresOptionsModel.SetGroup("testString")
 				listKeystoresOptionsModel.SetGroups("testString")
 				listKeystoresOptionsModel.SetVaultID([]string{"123e4567-e89b-12d3-a456-426614174000"})
-				listKeystoresOptionsModel.SetLocation("testString")
+				listKeystoresOptionsModel.SetLocation([]string{"testString"})
 				listKeystoresOptionsModel.SetLimit(int64(10))
 				listKeystoresOptionsModel.SetOffset(int64(0))
 				listKeystoresOptionsModel.SetSort([]string{"-updated_at"})
 				listKeystoresOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listKeystoresOptionsModel).ToNot(BeNil())
+				Expect(listKeystoresOptionsModel.Accept).To(Equal(core.StringPtr("application/json")))
 				Expect(listKeystoresOptionsModel.Type).To(Equal([]string{"ibm_cloud_kms"}))
 				Expect(listKeystoresOptionsModel.Name).To(Equal(core.StringPtr("Main IBM Cloud")))
 				Expect(listKeystoresOptionsModel.Description).To(Equal(core.StringPtr("My Example Keystore Description")))
 				Expect(listKeystoresOptionsModel.Group).To(Equal(core.StringPtr("testString")))
 				Expect(listKeystoresOptionsModel.Groups).To(Equal(core.StringPtr("testString")))
 				Expect(listKeystoresOptionsModel.VaultID).To(Equal([]string{"123e4567-e89b-12d3-a456-426614174000"}))
-				Expect(listKeystoresOptionsModel.Location).To(Equal(core.StringPtr("testString")))
+				Expect(listKeystoresOptionsModel.Location).To(Equal([]string{"testString"}))
 				Expect(listKeystoresOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(10))))
 				Expect(listKeystoresOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(0))))
 				Expect(listKeystoresOptionsModel.Sort).To(Equal([]string{"-updated_at"}))
 				Expect(listKeystoresOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewListManagedKeyVersionsOptions successfully`, func() {
+				// Construct an instance of the ListManagedKeyVersionsOptions model
+				id := "testString"
+				listManagedKeyVersionsOptionsModel := ukoService.NewListManagedKeyVersionsOptions(id)
+				listManagedKeyVersionsOptionsModel.SetID("testString")
+				listManagedKeyVersionsOptionsModel.SetAlgorithm([]string{"aes"})
+				listManagedKeyVersionsOptionsModel.SetState([]string{"active"})
+				listManagedKeyVersionsOptionsModel.SetLimit(int64(10))
+				listManagedKeyVersionsOptionsModel.SetOffset(int64(0))
+				listManagedKeyVersionsOptionsModel.SetSort([]string{"-updated_at"})
+				listManagedKeyVersionsOptionsModel.SetLabel("testString")
+				listManagedKeyVersionsOptionsModel.SetActivationDate("testString")
+				listManagedKeyVersionsOptionsModel.SetActivationDateMin("testString")
+				listManagedKeyVersionsOptionsModel.SetActivationDateMax("testString")
+				listManagedKeyVersionsOptionsModel.SetDeactivationDate("testString")
+				listManagedKeyVersionsOptionsModel.SetDeactivationDateMin("testString")
+				listManagedKeyVersionsOptionsModel.SetDeactivationDateMax("testString")
+				listManagedKeyVersionsOptionsModel.SetExpirationDate("testString")
+				listManagedKeyVersionsOptionsModel.SetExpirationDateMin("testString")
+				listManagedKeyVersionsOptionsModel.SetExpirationDateMax("testString")
+				listManagedKeyVersionsOptionsModel.SetCreatedAt("testString")
+				listManagedKeyVersionsOptionsModel.SetCreatedAtMin("testString")
+				listManagedKeyVersionsOptionsModel.SetCreatedAtMax("testString")
+				listManagedKeyVersionsOptionsModel.SetUpdatedAt("testString")
+				listManagedKeyVersionsOptionsModel.SetUpdatedAtMin("testString")
+				listManagedKeyVersionsOptionsModel.SetUpdatedAtMax("testString")
+				listManagedKeyVersionsOptionsModel.SetRotatedAtMin("testString")
+				listManagedKeyVersionsOptionsModel.SetRotatedAtMax("testString")
+				listManagedKeyVersionsOptionsModel.SetSize("testString")
+				listManagedKeyVersionsOptionsModel.SetSizeMin("testString")
+				listManagedKeyVersionsOptionsModel.SetSizeMax("testString")
+				listManagedKeyVersionsOptionsModel.SetReferencedKeystoresType([]string{"ibm_cloud_kms"})
+				listManagedKeyVersionsOptionsModel.SetReferencedKeystoresName([]string{"testString"})
+				listManagedKeyVersionsOptionsModel.SetInstancesKeystoreType([]string{"ibm_cloud_kms"})
+				listManagedKeyVersionsOptionsModel.SetTemplateName("AWS-TEMPLATE")
+				listManagedKeyVersionsOptionsModel.SetTemplateID([]string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"})
+				listManagedKeyVersionsOptionsModel.SetTemplateType([]string{"user_defined"})
+				listManagedKeyVersionsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(listManagedKeyVersionsOptionsModel).ToNot(BeNil())
+				Expect(listManagedKeyVersionsOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeyVersionsOptionsModel.Algorithm).To(Equal([]string{"aes"}))
+				Expect(listManagedKeyVersionsOptionsModel.State).To(Equal([]string{"active"}))
+				Expect(listManagedKeyVersionsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(10))))
+				Expect(listManagedKeyVersionsOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(0))))
+				Expect(listManagedKeyVersionsOptionsModel.Sort).To(Equal([]string{"-updated_at"}))
+				Expect(listManagedKeyVersionsOptionsModel.Label).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeyVersionsOptionsModel.ActivationDate).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeyVersionsOptionsModel.ActivationDateMin).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeyVersionsOptionsModel.ActivationDateMax).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeyVersionsOptionsModel.DeactivationDate).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeyVersionsOptionsModel.DeactivationDateMin).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeyVersionsOptionsModel.DeactivationDateMax).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeyVersionsOptionsModel.ExpirationDate).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeyVersionsOptionsModel.ExpirationDateMin).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeyVersionsOptionsModel.ExpirationDateMax).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeyVersionsOptionsModel.CreatedAt).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeyVersionsOptionsModel.CreatedAtMin).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeyVersionsOptionsModel.CreatedAtMax).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeyVersionsOptionsModel.UpdatedAt).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeyVersionsOptionsModel.UpdatedAtMin).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeyVersionsOptionsModel.UpdatedAtMax).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeyVersionsOptionsModel.RotatedAtMin).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeyVersionsOptionsModel.RotatedAtMax).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeyVersionsOptionsModel.Size).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeyVersionsOptionsModel.SizeMin).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeyVersionsOptionsModel.SizeMax).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeyVersionsOptionsModel.ReferencedKeystoresType).To(Equal([]string{"ibm_cloud_kms"}))
+				Expect(listManagedKeyVersionsOptionsModel.ReferencedKeystoresName).To(Equal([]string{"testString"}))
+				Expect(listManagedKeyVersionsOptionsModel.InstancesKeystoreType).To(Equal([]string{"ibm_cloud_kms"}))
+				Expect(listManagedKeyVersionsOptionsModel.TemplateName).To(Equal(core.StringPtr("AWS-TEMPLATE")))
+				Expect(listManagedKeyVersionsOptionsModel.TemplateID).To(Equal([]string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"}))
+				Expect(listManagedKeyVersionsOptionsModel.TemplateType).To(Equal([]string{"user_defined"}))
+				Expect(listManagedKeyVersionsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewListManagedKeysFromKeystoreOptions successfully`, func() {
 				// Construct an instance of the ListManagedKeysFromKeystoreOptions model
-				ukoVault := "testString"
 				id := "testString"
-				listManagedKeysFromKeystoreOptionsModel := ukoService.NewListManagedKeysFromKeystoreOptions(ukoVault, id)
-				listManagedKeysFromKeystoreOptionsModel.SetUKOVault("testString")
+				listManagedKeysFromKeystoreOptionsModel := ukoService.NewListManagedKeysFromKeystoreOptions(id)
 				listManagedKeysFromKeystoreOptionsModel.SetID("testString")
+				listManagedKeysFromKeystoreOptionsModel.SetAccept("application/json")
 				listManagedKeysFromKeystoreOptionsModel.SetAlgorithm([]string{"aes"})
 				listManagedKeysFromKeystoreOptionsModel.SetState([]string{"pre_activation", "active"})
 				listManagedKeysFromKeystoreOptionsModel.SetLimit(int64(10))
@@ -8880,13 +10555,18 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysFromKeystoreOptionsModel.SetUpdatedAt("testString")
 				listManagedKeysFromKeystoreOptionsModel.SetUpdatedAtMin("testString")
 				listManagedKeysFromKeystoreOptionsModel.SetUpdatedAtMax("testString")
-				listManagedKeysFromKeystoreOptionsModel.SetSize(int64(38))
-				listManagedKeysFromKeystoreOptionsModel.SetSizeMin(int64(38))
-				listManagedKeysFromKeystoreOptionsModel.SetSizeMax(int64(38))
+				listManagedKeysFromKeystoreOptionsModel.SetRotatedAtMin("testString")
+				listManagedKeysFromKeystoreOptionsModel.SetRotatedAtMax("testString")
+				listManagedKeysFromKeystoreOptionsModel.SetSize("testString")
+				listManagedKeysFromKeystoreOptionsModel.SetSizeMin("testString")
+				listManagedKeysFromKeystoreOptionsModel.SetSizeMax("testString")
+				listManagedKeysFromKeystoreOptionsModel.SetTemplateName("AWS-TEMPLATE")
+				listManagedKeysFromKeystoreOptionsModel.SetTemplateID([]string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"})
+				listManagedKeysFromKeystoreOptionsModel.SetTemplateType([]string{"user_defined"})
 				listManagedKeysFromKeystoreOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listManagedKeysFromKeystoreOptionsModel).ToNot(BeNil())
-				Expect(listManagedKeysFromKeystoreOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
 				Expect(listManagedKeysFromKeystoreOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysFromKeystoreOptionsModel.Accept).To(Equal(core.StringPtr("application/json")))
 				Expect(listManagedKeysFromKeystoreOptionsModel.Algorithm).To(Equal([]string{"aes"}))
 				Expect(listManagedKeysFromKeystoreOptionsModel.State).To(Equal([]string{"pre_activation", "active"}))
 				Expect(listManagedKeysFromKeystoreOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(10))))
@@ -8908,14 +10588,20 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(listManagedKeysFromKeystoreOptionsModel.UpdatedAt).To(Equal(core.StringPtr("testString")))
 				Expect(listManagedKeysFromKeystoreOptionsModel.UpdatedAtMin).To(Equal(core.StringPtr("testString")))
 				Expect(listManagedKeysFromKeystoreOptionsModel.UpdatedAtMax).To(Equal(core.StringPtr("testString")))
-				Expect(listManagedKeysFromKeystoreOptionsModel.Size).To(Equal(core.Int64Ptr(int64(38))))
-				Expect(listManagedKeysFromKeystoreOptionsModel.SizeMin).To(Equal(core.Int64Ptr(int64(38))))
-				Expect(listManagedKeysFromKeystoreOptionsModel.SizeMax).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listManagedKeysFromKeystoreOptionsModel.RotatedAtMin).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysFromKeystoreOptionsModel.RotatedAtMax).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysFromKeystoreOptionsModel.Size).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysFromKeystoreOptionsModel.SizeMin).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysFromKeystoreOptionsModel.SizeMax).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysFromKeystoreOptionsModel.TemplateName).To(Equal(core.StringPtr("AWS-TEMPLATE")))
+				Expect(listManagedKeysFromKeystoreOptionsModel.TemplateID).To(Equal([]string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"}))
+				Expect(listManagedKeysFromKeystoreOptionsModel.TemplateType).To(Equal([]string{"user_defined"}))
 				Expect(listManagedKeysFromKeystoreOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListManagedKeysOptions successfully`, func() {
 				// Construct an instance of the ListManagedKeysOptions model
 				listManagedKeysOptionsModel := ukoService.NewListManagedKeysOptions()
+				listManagedKeysOptionsModel.SetAccept("application/json")
 				listManagedKeysOptionsModel.SetVaultID([]string{"123e4567-e89b-12d3-a456-426614174000"})
 				listManagedKeysOptionsModel.SetAlgorithm([]string{"aes"})
 				listManagedKeysOptionsModel.SetState([]string{"pre_activation", "active"})
@@ -8938,14 +10624,21 @@ var _ = Describe(`UkoV4`, func() {
 				listManagedKeysOptionsModel.SetUpdatedAt("testString")
 				listManagedKeysOptionsModel.SetUpdatedAtMin("testString")
 				listManagedKeysOptionsModel.SetUpdatedAtMax("testString")
-				listManagedKeysOptionsModel.SetSize(int64(38))
-				listManagedKeysOptionsModel.SetSizeMin(int64(38))
-				listManagedKeysOptionsModel.SetSizeMax(int64(38))
+				listManagedKeysOptionsModel.SetRotatedAtMin("testString")
+				listManagedKeysOptionsModel.SetRotatedAtMax("testString")
+				listManagedKeysOptionsModel.SetSize("testString")
+				listManagedKeysOptionsModel.SetSizeMin("testString")
+				listManagedKeysOptionsModel.SetSizeMax("testString")
 				listManagedKeysOptionsModel.SetReferencedKeystoresType([]string{"ibm_cloud_kms"})
 				listManagedKeysOptionsModel.SetReferencedKeystoresName([]string{"testString"})
 				listManagedKeysOptionsModel.SetInstancesKeystoreType([]string{"ibm_cloud_kms"})
+				listManagedKeysOptionsModel.SetTemplateName("AWS-TEMPLATE")
+				listManagedKeysOptionsModel.SetTemplateID([]string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"})
+				listManagedKeysOptionsModel.SetTemplateType([]string{"user_defined"})
+				listManagedKeysOptionsModel.SetManagingSystems([]string{"web"})
 				listManagedKeysOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listManagedKeysOptionsModel).ToNot(BeNil())
+				Expect(listManagedKeysOptionsModel.Accept).To(Equal(core.StringPtr("application/json")))
 				Expect(listManagedKeysOptionsModel.VaultID).To(Equal([]string{"123e4567-e89b-12d3-a456-426614174000"}))
 				Expect(listManagedKeysOptionsModel.Algorithm).To(Equal([]string{"aes"}))
 				Expect(listManagedKeysOptionsModel.State).To(Equal([]string{"pre_activation", "active"}))
@@ -8968,17 +10661,24 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(listManagedKeysOptionsModel.UpdatedAt).To(Equal(core.StringPtr("testString")))
 				Expect(listManagedKeysOptionsModel.UpdatedAtMin).To(Equal(core.StringPtr("testString")))
 				Expect(listManagedKeysOptionsModel.UpdatedAtMax).To(Equal(core.StringPtr("testString")))
-				Expect(listManagedKeysOptionsModel.Size).To(Equal(core.Int64Ptr(int64(38))))
-				Expect(listManagedKeysOptionsModel.SizeMin).To(Equal(core.Int64Ptr(int64(38))))
-				Expect(listManagedKeysOptionsModel.SizeMax).To(Equal(core.Int64Ptr(int64(38))))
+				Expect(listManagedKeysOptionsModel.RotatedAtMin).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysOptionsModel.RotatedAtMax).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysOptionsModel.Size).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysOptionsModel.SizeMin).To(Equal(core.StringPtr("testString")))
+				Expect(listManagedKeysOptionsModel.SizeMax).To(Equal(core.StringPtr("testString")))
 				Expect(listManagedKeysOptionsModel.ReferencedKeystoresType).To(Equal([]string{"ibm_cloud_kms"}))
 				Expect(listManagedKeysOptionsModel.ReferencedKeystoresName).To(Equal([]string{"testString"}))
 				Expect(listManagedKeysOptionsModel.InstancesKeystoreType).To(Equal([]string{"ibm_cloud_kms"}))
+				Expect(listManagedKeysOptionsModel.TemplateName).To(Equal(core.StringPtr("AWS-TEMPLATE")))
+				Expect(listManagedKeysOptionsModel.TemplateID).To(Equal([]string{"5295ad47-2ce9-43c3-b9e7-e5a9482c362b"}))
+				Expect(listManagedKeysOptionsModel.TemplateType).To(Equal([]string{"user_defined"}))
+				Expect(listManagedKeysOptionsModel.ManagingSystems).To(Equal([]string{"web"}))
 				Expect(listManagedKeysOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListVaultsOptions successfully`, func() {
 				// Construct an instance of the ListVaultsOptions model
 				listVaultsOptionsModel := ukoService.NewListVaultsOptions()
+				listVaultsOptionsModel.SetAccept("application/json")
 				listVaultsOptionsModel.SetLimit(int64(10))
 				listVaultsOptionsModel.SetOffset(int64(0))
 				listVaultsOptionsModel.SetSort([]string{"-updated_at"})
@@ -8986,6 +10686,7 @@ var _ = Describe(`UkoV4`, func() {
 				listVaultsOptionsModel.SetDescription("My Example Vault Description")
 				listVaultsOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(listVaultsOptionsModel).ToNot(BeNil())
+				Expect(listVaultsOptionsModel.Accept).To(Equal(core.StringPtr("application/json")))
 				Expect(listVaultsOptionsModel.Limit).To(Equal(core.Int64Ptr(int64(10))))
 				Expect(listVaultsOptionsModel.Offset).To(Equal(core.Int64Ptr(int64(0))))
 				Expect(listVaultsOptionsModel.Sort).To(Equal([]string{"-updated_at"}))
@@ -8993,21 +10694,44 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(listVaultsOptionsModel.Description).To(Equal(core.StringPtr("My Example Vault Description")))
 				Expect(listVaultsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
+			It(`Invoke NewRotateManagedKeyOptions successfully`, func() {
+				// Construct an instance of the RotateManagedKeyOptions model
+				id := "testString"
+				ifMatch := "testString"
+				rotateManagedKeyOptionsModel := ukoService.NewRotateManagedKeyOptions(id, ifMatch)
+				rotateManagedKeyOptionsModel.SetID("testString")
+				rotateManagedKeyOptionsModel.SetIfMatch("testString")
+				rotateManagedKeyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(rotateManagedKeyOptionsModel).ToNot(BeNil())
+				Expect(rotateManagedKeyOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(rotateManagedKeyOptionsModel.IfMatch).To(Equal(core.StringPtr("testString")))
+				Expect(rotateManagedKeyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
 			It(`Invoke NewSyncManagedKeyOptions successfully`, func() {
 				// Construct an instance of the SyncManagedKeyOptions model
 				id := "testString"
-				ukoVault := "testString"
 				ifMatch := "testString"
-				syncManagedKeyOptionsModel := ukoService.NewSyncManagedKeyOptions(id, ukoVault, ifMatch)
+				syncManagedKeyOptionsModel := ukoService.NewSyncManagedKeyOptions(id, ifMatch)
 				syncManagedKeyOptionsModel.SetID("testString")
-				syncManagedKeyOptionsModel.SetUKOVault("testString")
 				syncManagedKeyOptionsModel.SetIfMatch("testString")
 				syncManagedKeyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(syncManagedKeyOptionsModel).ToNot(BeNil())
 				Expect(syncManagedKeyOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(syncManagedKeyOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
 				Expect(syncManagedKeyOptionsModel.IfMatch).To(Equal(core.StringPtr("testString")))
 				Expect(syncManagedKeyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewUnarchiveKeyTemplateOptions successfully`, func() {
+				// Construct an instance of the UnarchiveKeyTemplateOptions model
+				id := "testString"
+				ifMatch := "testString"
+				unarchiveKeyTemplateOptionsModel := ukoService.NewUnarchiveKeyTemplateOptions(id, ifMatch)
+				unarchiveKeyTemplateOptionsModel.SetID("testString")
+				unarchiveKeyTemplateOptionsModel.SetIfMatch("testString")
+				unarchiveKeyTemplateOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(unarchiveKeyTemplateOptionsModel).ToNot(BeNil())
+				Expect(unarchiveKeyTemplateOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(unarchiveKeyTemplateOptionsModel.IfMatch).To(Equal(core.StringPtr("testString")))
+				Expect(unarchiveKeyTemplateOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateKeyTemplateOptions successfully`, func() {
 				// Construct an instance of the KeystoresPropertiesUpdateGoogleKms model
@@ -9029,27 +10753,28 @@ var _ = Describe(`UkoV4`, func() {
 				keyPropertiesUpdateModel.ActivationDate = core.StringPtr("P5Y1M1W2D")
 				keyPropertiesUpdateModel.ExpirationDate = core.StringPtr("P1Y2M1W4D")
 				keyPropertiesUpdateModel.State = core.StringPtr("active")
+				keyPropertiesUpdateModel.DeactivateOnRotation = core.BoolPtr(true)
 				Expect(keyPropertiesUpdateModel.Size).To(Equal(core.StringPtr("256")))
 				Expect(keyPropertiesUpdateModel.ActivationDate).To(Equal(core.StringPtr("P5Y1M1W2D")))
 				Expect(keyPropertiesUpdateModel.ExpirationDate).To(Equal(core.StringPtr("P1Y2M1W4D")))
 				Expect(keyPropertiesUpdateModel.State).To(Equal(core.StringPtr("active")))
+				Expect(keyPropertiesUpdateModel.DeactivateOnRotation).To(Equal(core.BoolPtr(true)))
 
 				// Construct an instance of the UpdateKeyTemplateOptions model
 				id := "testString"
-				ukoVault := "testString"
 				ifMatch := "testString"
-				updateKeyTemplateOptionsModel := ukoService.NewUpdateKeyTemplateOptions(id, ukoVault, ifMatch)
+				updateKeyTemplateOptionsModel := ukoService.NewUpdateKeyTemplateOptions(id, ifMatch)
 				updateKeyTemplateOptionsModel.SetID("testString")
-				updateKeyTemplateOptionsModel.SetUKOVault("testString")
 				updateKeyTemplateOptionsModel.SetIfMatch("testString")
+				updateKeyTemplateOptionsModel.SetName("EXAMPLE-TEMPLATE")
 				updateKeyTemplateOptionsModel.SetKeystores([]ukov4.KeystoresPropertiesUpdateIntf{keystoresPropertiesUpdateModel})
 				updateKeyTemplateOptionsModel.SetDescription("testString")
 				updateKeyTemplateOptionsModel.SetKey(keyPropertiesUpdateModel)
 				updateKeyTemplateOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateKeyTemplateOptionsModel).ToNot(BeNil())
 				Expect(updateKeyTemplateOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateKeyTemplateOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
 				Expect(updateKeyTemplateOptionsModel.IfMatch).To(Equal(core.StringPtr("testString")))
+				Expect(updateKeyTemplateOptionsModel.Name).To(Equal(core.StringPtr("EXAMPLE-TEMPLATE")))
 				Expect(updateKeyTemplateOptionsModel.Keystores).To(Equal([]ukov4.KeystoresPropertiesUpdateIntf{keystoresPropertiesUpdateModel}))
 				Expect(updateKeyTemplateOptionsModel.Description).To(Equal(core.StringPtr("testString")))
 				Expect(updateKeyTemplateOptionsModel.Key).To(Equal(keyPropertiesUpdateModel))
@@ -9061,12 +10786,14 @@ var _ = Describe(`UkoV4`, func() {
 				Expect(keystoreUpdateRequestModel).ToNot(BeNil())
 				keystoreUpdateRequestModel.Name = core.StringPtr("IBM Cloud Keystore Name")
 				keystoreUpdateRequestModel.Description = core.StringPtr("Azure keystore")
+				keystoreUpdateRequestModel.TlsProxy = core.StringPtr("c-04.private.us-east.link.satellite.cloud.ibm.com:12358")
 				keystoreUpdateRequestModel.Groups = []string{"Production"}
 				keystoreUpdateRequestModel.GoogleCredentials = core.StringPtr("eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=")
 				keystoreUpdateRequestModel.GoogleLocation = core.StringPtr("europe-central2")
 				keystoreUpdateRequestModel.GoogleKeyRing = core.StringPtr("my-key-ring")
 				Expect(keystoreUpdateRequestModel.Name).To(Equal(core.StringPtr("IBM Cloud Keystore Name")))
 				Expect(keystoreUpdateRequestModel.Description).To(Equal(core.StringPtr("Azure keystore")))
+				Expect(keystoreUpdateRequestModel.TlsProxy).To(Equal(core.StringPtr("c-04.private.us-east.link.satellite.cloud.ibm.com:12358")))
 				Expect(keystoreUpdateRequestModel.Groups).To(Equal([]string{"Production"}))
 				Expect(keystoreUpdateRequestModel.GoogleCredentials).To(Equal(core.StringPtr("eyJleGFtcGxlIjogImdvb2dsZV9jbG91ZF9rbXMifQo=")))
 				Expect(keystoreUpdateRequestModel.GoogleLocation).To(Equal(core.StringPtr("europe-central2")))
@@ -9074,18 +10801,15 @@ var _ = Describe(`UkoV4`, func() {
 
 				// Construct an instance of the UpdateKeystoreOptions model
 				id := "testString"
-				ukoVault := "testString"
 				ifMatch := "testString"
 				var keystoreBody ukov4.KeystoreUpdateRequestIntf = nil
-				updateKeystoreOptionsModel := ukoService.NewUpdateKeystoreOptions(id, ukoVault, ifMatch, keystoreBody)
+				updateKeystoreOptionsModel := ukoService.NewUpdateKeystoreOptions(id, ifMatch, keystoreBody)
 				updateKeystoreOptionsModel.SetID("testString")
-				updateKeystoreOptionsModel.SetUKOVault("testString")
 				updateKeystoreOptionsModel.SetIfMatch("testString")
 				updateKeystoreOptionsModel.SetKeystoreBody(keystoreUpdateRequestModel)
 				updateKeystoreOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateKeystoreOptionsModel).ToNot(BeNil())
 				Expect(updateKeystoreOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateKeystoreOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
 				Expect(updateKeystoreOptionsModel.IfMatch).To(Equal(core.StringPtr("testString")))
 				Expect(updateKeystoreOptionsModel.KeystoreBody).To(Equal(keystoreUpdateRequestModel))
 				Expect(updateKeystoreOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
@@ -9093,50 +10817,36 @@ var _ = Describe(`UkoV4`, func() {
 			It(`Invoke NewUpdateManagedKeyFromTemplateOptions successfully`, func() {
 				// Construct an instance of the UpdateManagedKeyFromTemplateOptions model
 				id := "testString"
-				ukoVault := "testString"
 				ifMatch := "testString"
-				updateManagedKeyFromTemplateOptionsModel := ukoService.NewUpdateManagedKeyFromTemplateOptions(id, ukoVault, ifMatch)
+				updateManagedKeyFromTemplateOptionsModel := ukoService.NewUpdateManagedKeyFromTemplateOptions(id, ifMatch)
 				updateManagedKeyFromTemplateOptionsModel.SetID("testString")
-				updateManagedKeyFromTemplateOptionsModel.SetUKOVault("testString")
 				updateManagedKeyFromTemplateOptionsModel.SetIfMatch("testString")
+				updateManagedKeyFromTemplateOptionsModel.SetDryRun(false)
 				updateManagedKeyFromTemplateOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateManagedKeyFromTemplateOptionsModel).ToNot(BeNil())
 				Expect(updateManagedKeyFromTemplateOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateManagedKeyFromTemplateOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
 				Expect(updateManagedKeyFromTemplateOptionsModel.IfMatch).To(Equal(core.StringPtr("testString")))
+				Expect(updateManagedKeyFromTemplateOptionsModel.DryRun).To(Equal(core.BoolPtr(false)))
 				Expect(updateManagedKeyFromTemplateOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateManagedKeyOptions successfully`, func() {
-				// Construct an instance of the Tag model
-				tagModel := new(ukov4.Tag)
-				Expect(tagModel).ToNot(BeNil())
-				tagModel.Name = core.StringPtr("testString")
-				tagModel.Value = core.StringPtr("testString")
-				Expect(tagModel.Name).To(Equal(core.StringPtr("testString")))
-				Expect(tagModel.Value).To(Equal(core.StringPtr("testString")))
-
 				// Construct an instance of the UpdateManagedKeyOptions model
 				id := "testString"
-				ukoVault := "testString"
 				ifMatch := "testString"
-				updateManagedKeyOptionsModel := ukoService.NewUpdateManagedKeyOptions(id, ukoVault, ifMatch)
+				updateManagedKeyOptionsModel := ukoService.NewUpdateManagedKeyOptions(id, ifMatch)
 				updateManagedKeyOptionsModel.SetID("testString")
-				updateManagedKeyOptionsModel.SetUKOVault("testString")
 				updateManagedKeyOptionsModel.SetIfMatch("testString")
 				updateManagedKeyOptionsModel.SetLabel("IBM CLOUD KEY")
 				updateManagedKeyOptionsModel.SetActivationDate(CreateMockDate("2020-12-11"))
 				updateManagedKeyOptionsModel.SetExpirationDate(CreateMockDate("2030-11-12"))
-				updateManagedKeyOptionsModel.SetTags([]ukov4.Tag{*tagModel})
 				updateManagedKeyOptionsModel.SetDescription("testString")
 				updateManagedKeyOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateManagedKeyOptionsModel).ToNot(BeNil())
 				Expect(updateManagedKeyOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(updateManagedKeyOptionsModel.UKOVault).To(Equal(core.StringPtr("testString")))
 				Expect(updateManagedKeyOptionsModel.IfMatch).To(Equal(core.StringPtr("testString")))
 				Expect(updateManagedKeyOptionsModel.Label).To(Equal(core.StringPtr("IBM CLOUD KEY")))
 				Expect(updateManagedKeyOptionsModel.ActivationDate).To(Equal(CreateMockDate("2020-12-11")))
 				Expect(updateManagedKeyOptionsModel.ExpirationDate).To(Equal(CreateMockDate("2030-11-12")))
-				Expect(updateManagedKeyOptionsModel.Tags).To(Equal([]ukov4.Tag{*tagModel}))
 				Expect(updateManagedKeyOptionsModel.Description).To(Equal(core.StringPtr("testString")))
 				Expect(updateManagedKeyOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -9149,12 +10859,14 @@ var _ = Describe(`UkoV4`, func() {
 				updateVaultOptionsModel.SetIfMatch("testString")
 				updateVaultOptionsModel.SetName("Jakub's Vault")
 				updateVaultOptionsModel.SetDescription("Updated description of the vault")
+				updateVaultOptionsModel.SetRecoveryKeyLabel("TEKMF.AES.RECOVERY.00001")
 				updateVaultOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateVaultOptionsModel).ToNot(BeNil())
 				Expect(updateVaultOptionsModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(updateVaultOptionsModel.IfMatch).To(Equal(core.StringPtr("testString")))
 				Expect(updateVaultOptionsModel.Name).To(Equal(core.StringPtr("Jakub's Vault")))
 				Expect(updateVaultOptionsModel.Description).To(Equal(core.StringPtr("Updated description of the vault")))
+				Expect(updateVaultOptionsModel.RecoveryKeyLabel).To(Equal(core.StringPtr("TEKMF.AES.RECOVERY.00001")))
 				Expect(updateVaultOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewKeyProperties successfully`, func() {
@@ -9202,6 +10914,16 @@ var _ = Describe(`UkoV4`, func() {
 				azureSubscriptionID := "a98667h9b-5fhf-42f3-9392-26856b045g08"
 				azureEnvironment := "azure"
 				_, err := ukoService.NewKeystoreCreationRequestKeystoreTypeAzureCreate(typeVar, vault, azureServiceName, azureResourceGroup, azureLocation, azureServicePrincipalClientID, azureServicePrincipalPassword, azureTenant, azureSubscriptionID, azureEnvironment)
+				Expect(err).ToNot(BeNil())
+			})
+			It(`Invoke NewKeystoreCreationRequestKeystoreTypeCcaCreate successfully`, func() {
+				typeVar := "cca"
+				var vault *ukov4.VaultReferenceInCreationRequest = nil
+				name := "IBM Cloud Keystore Name"
+				ccaHost := "192.168.94.33"
+				ccaPort := int64(56777)
+				ccaPublicKeyHash := "EF207CE9CDB3C1AC81F594886FA7CE996828E9C84571868B0879675DB4025F1A"
+				_, err := ukoService.NewKeystoreCreationRequestKeystoreTypeCcaCreate(typeVar, vault, name, ccaHost, ccaPort, ccaPublicKeyHash)
 				Expect(err).ToNot(BeNil())
 			})
 			It(`Invoke NewKeystoreCreationRequestKeystoreTypeGoogleKmsCreate successfully`, func() {
