@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.62.0-a2a22f95-20221115-162524
+ * IBM OpenAPI SDK Code Generator Version: 3.62.2-e5d4c32b-20221214-193750
  */
 
 // Package ukov4 : Operations and models for the UkoV4 service
@@ -38,7 +38,7 @@ import (
 
 // UkoV4 : API for UKO used for key management.
 //
-// API Version: 4.7.7
+// API Version: 4.12.6
 type UkoV4 struct {
 	Service *core.BaseService
 }
@@ -159,7 +159,7 @@ func (uko *UkoV4) DisableRetries() {
 }
 
 // ListManagedKeys : List managed keys
-// List all managed keys in the instance. It is possible to sort by the following parameters: name, algorithm, state,
+// List all managed keys in the instance. It is possible to sort by the following parameters: label, algorithm, state,
 // activation_date, deactivation_date, created_at, updated_at, size, vault.id.
 func (uko *UkoV4) ListManagedKeys(listManagedKeysOptions *ListManagedKeysOptions) (result *ManagedKeyList, response *core.DetailedResponse, err error) {
 	return uko.ListManagedKeysWithContext(context.Background(), listManagedKeysOptions)
@@ -189,6 +189,9 @@ func (uko *UkoV4) ListManagedKeysWithContext(ctx context.Context, listManagedKey
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
+	if listManagedKeysOptions.Accept != nil {
+		builder.AddHeader("Accept", fmt.Sprint(*listManagedKeysOptions.Accept))
+	}
 
 	if listManagedKeysOptions.VaultID != nil {
 		builder.AddQuery("vault.id", strings.Join(listManagedKeysOptions.VaultID, ","))
@@ -256,6 +259,12 @@ func (uko *UkoV4) ListManagedKeysWithContext(ctx context.Context, listManagedKey
 	if listManagedKeysOptions.UpdatedAtMax != nil {
 		builder.AddQuery("updated_at_max", fmt.Sprint(*listManagedKeysOptions.UpdatedAtMax))
 	}
+	if listManagedKeysOptions.RotatedAtMin != nil {
+		builder.AddQuery("rotated_at_min", fmt.Sprint(*listManagedKeysOptions.RotatedAtMin))
+	}
+	if listManagedKeysOptions.RotatedAtMax != nil {
+		builder.AddQuery("rotated_at_max", fmt.Sprint(*listManagedKeysOptions.RotatedAtMax))
+	}
 	if listManagedKeysOptions.Size != nil {
 		builder.AddQuery("size", fmt.Sprint(*listManagedKeysOptions.Size))
 	}
@@ -273,6 +282,18 @@ func (uko *UkoV4) ListManagedKeysWithContext(ctx context.Context, listManagedKey
 	}
 	if listManagedKeysOptions.InstancesKeystoreType != nil {
 		builder.AddQuery("instances[].keystore.type", strings.Join(listManagedKeysOptions.InstancesKeystoreType, ","))
+	}
+	if listManagedKeysOptions.TemplateName != nil {
+		builder.AddQuery("template.name", fmt.Sprint(*listManagedKeysOptions.TemplateName))
+	}
+	if listManagedKeysOptions.TemplateID != nil {
+		builder.AddQuery("template.id", strings.Join(listManagedKeysOptions.TemplateID, ","))
+	}
+	if listManagedKeysOptions.TemplateType != nil {
+		builder.AddQuery("template.type[]", strings.Join(listManagedKeysOptions.TemplateType, ","))
+	}
+	if listManagedKeysOptions.ManagingSystems != nil {
+		builder.AddQuery("managing_systems", strings.Join(listManagedKeysOptions.ManagingSystems, ","))
 	}
 
 	request, err := builder.Build()
@@ -331,9 +352,6 @@ func (uko *UkoV4) CreateManagedKeyWithContext(ctx context.Context, createManaged
 	}
 	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/json")
-	if createManagedKeyOptions.UKOVault != nil {
-		builder.AddHeader("UKO-Vault", fmt.Sprint(*createManagedKeyOptions.UKOVault))
-	}
 
 	body := make(map[string]interface{})
 	if createManagedKeyOptions.TemplateName != nil {
@@ -344,9 +362,6 @@ func (uko *UkoV4) CreateManagedKeyWithContext(ctx context.Context, createManaged
 	}
 	if createManagedKeyOptions.Label != nil {
 		body["label"] = createManagedKeyOptions.Label
-	}
-	if createManagedKeyOptions.Tags != nil {
-		body["tags"] = createManagedKeyOptions.Tags
 	}
 	if createManagedKeyOptions.Description != nil {
 		body["description"] = createManagedKeyOptions.Description
@@ -378,7 +393,7 @@ func (uko *UkoV4) CreateManagedKeyWithContext(ctx context.Context, createManaged
 }
 
 // DeleteManagedKey : Delete a managed key
-// Deletes a managed key by ID from the vault. A key must be in a 'destroyed' state for it to be eligible for deletion.
+// Delete a managed key by ID from the vault. A key must be in a 'destroyed' state for it to be eligible for deletion.
 func (uko *UkoV4) DeleteManagedKey(deleteManagedKeyOptions *DeleteManagedKeyOptions) (response *core.DetailedResponse, err error) {
 	return uko.DeleteManagedKeyWithContext(context.Background(), deleteManagedKeyOptions)
 }
@@ -414,9 +429,6 @@ func (uko *UkoV4) DeleteManagedKeyWithContext(ctx context.Context, deleteManaged
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
-	if deleteManagedKeyOptions.UKOVault != nil {
-		builder.AddHeader("UKO-Vault", fmt.Sprint(*deleteManagedKeyOptions.UKOVault))
-	}
 	if deleteManagedKeyOptions.IfMatch != nil {
 		builder.AddHeader("If-Match", fmt.Sprint(*deleteManagedKeyOptions.IfMatch))
 	}
@@ -432,7 +444,7 @@ func (uko *UkoV4) DeleteManagedKeyWithContext(ctx context.Context, deleteManaged
 }
 
 // GetManagedKey : Retrieve a managed key
-// Retrieves a managed key and its details by specifying the ID.
+// Retrieve a managed key and its details by specifying the ID.
 func (uko *UkoV4) GetManagedKey(getManagedKeyOptions *GetManagedKeyOptions) (result *ManagedKey, response *core.DetailedResponse, err error) {
 	return uko.GetManagedKeyWithContext(context.Background(), getManagedKeyOptions)
 }
@@ -469,9 +481,6 @@ func (uko *UkoV4) GetManagedKeyWithContext(ctx context.Context, getManagedKeyOpt
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
-	if getManagedKeyOptions.UKOVault != nil {
-		builder.AddHeader("UKO-Vault", fmt.Sprint(*getManagedKeyOptions.UKOVault))
-	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -495,7 +504,7 @@ func (uko *UkoV4) GetManagedKeyWithContext(ctx context.Context, getManagedKeyOpt
 }
 
 // UpdateManagedKey : Update a managed key
-// Updates attributes of a managed key. It is only possible to modify the key's state separately from other changes.
+// Update attributes of a managed key. It is only possible to modify the key's state separately from other changes.
 // Changing a key's state affects its availablity for crypto operations in keystores.
 func (uko *UkoV4) UpdateManagedKey(updateManagedKeyOptions *UpdateManagedKeyOptions) (result *ManagedKey, response *core.DetailedResponse, err error) {
 	return uko.UpdateManagedKeyWithContext(context.Background(), updateManagedKeyOptions)
@@ -534,9 +543,6 @@ func (uko *UkoV4) UpdateManagedKeyWithContext(ctx context.Context, updateManaged
 	}
 	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/json")
-	if updateManagedKeyOptions.UKOVault != nil {
-		builder.AddHeader("UKO-Vault", fmt.Sprint(*updateManagedKeyOptions.UKOVault))
-	}
 	if updateManagedKeyOptions.IfMatch != nil {
 		builder.AddHeader("If-Match", fmt.Sprint(*updateManagedKeyOptions.IfMatch))
 	}
@@ -550,9 +556,6 @@ func (uko *UkoV4) UpdateManagedKeyWithContext(ctx context.Context, updateManaged
 	}
 	if updateManagedKeyOptions.ExpirationDate != nil {
 		body["expiration_date"] = updateManagedKeyOptions.ExpirationDate
-	}
-	if updateManagedKeyOptions.Tags != nil {
-		body["tags"] = updateManagedKeyOptions.Tags
 	}
 	if updateManagedKeyOptions.Description != nil {
 		body["description"] = updateManagedKeyOptions.Description
@@ -622,9 +625,6 @@ func (uko *UkoV4) ListAssociatedResourcesForManagedKeyWithContext(ctx context.Co
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
-	if listAssociatedResourcesForManagedKeyOptions.UKOVault != nil {
-		builder.AddHeader("UKO-Vault", fmt.Sprint(*listAssociatedResourcesForManagedKeyOptions.UKOVault))
-	}
 
 	if listAssociatedResourcesForManagedKeyOptions.Limit != nil {
 		builder.AddQuery("limit", fmt.Sprint(*listAssociatedResourcesForManagedKeyOptions.Limit))
@@ -648,6 +648,163 @@ func (uko *UkoV4) ListAssociatedResourcesForManagedKeyWithContext(ctx context.Co
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAssociatedResourceList)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// ListManagedKeyVersions : List managed key versions
+// List all managed key versions in the instance.
+func (uko *UkoV4) ListManagedKeyVersions(listManagedKeyVersionsOptions *ListManagedKeyVersionsOptions) (result *ManagedKeyList, response *core.DetailedResponse, err error) {
+	return uko.ListManagedKeyVersionsWithContext(context.Background(), listManagedKeyVersionsOptions)
+}
+
+// ListManagedKeyVersionsWithContext is an alternate form of the ListManagedKeyVersions method which supports a Context parameter
+func (uko *UkoV4) ListManagedKeyVersionsWithContext(ctx context.Context, listManagedKeyVersionsOptions *ListManagedKeyVersionsOptions) (result *ManagedKeyList, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listManagedKeyVersionsOptions, "listManagedKeyVersionsOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(listManagedKeyVersionsOptions, "listManagedKeyVersionsOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"id": *listManagedKeyVersionsOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys/{id}/versions`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range listManagedKeyVersionsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("uko", "V4", "ListManagedKeyVersions")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	if listManagedKeyVersionsOptions.Algorithm != nil {
+		builder.AddQuery("algorithm", strings.Join(listManagedKeyVersionsOptions.Algorithm, ","))
+	}
+	if listManagedKeyVersionsOptions.State != nil {
+		builder.AddQuery("state", strings.Join(listManagedKeyVersionsOptions.State, ","))
+	}
+	if listManagedKeyVersionsOptions.Limit != nil {
+		builder.AddQuery("limit", fmt.Sprint(*listManagedKeyVersionsOptions.Limit))
+	}
+	if listManagedKeyVersionsOptions.Offset != nil {
+		builder.AddQuery("offset", fmt.Sprint(*listManagedKeyVersionsOptions.Offset))
+	}
+	if listManagedKeyVersionsOptions.Sort != nil {
+		builder.AddQuery("sort", strings.Join(listManagedKeyVersionsOptions.Sort, ","))
+	}
+	if listManagedKeyVersionsOptions.Label != nil {
+		builder.AddQuery("label", fmt.Sprint(*listManagedKeyVersionsOptions.Label))
+	}
+	if listManagedKeyVersionsOptions.ActivationDate != nil {
+		builder.AddQuery("activation_date", fmt.Sprint(*listManagedKeyVersionsOptions.ActivationDate))
+	}
+	if listManagedKeyVersionsOptions.ActivationDateMin != nil {
+		builder.AddQuery("activation_date_min", fmt.Sprint(*listManagedKeyVersionsOptions.ActivationDateMin))
+	}
+	if listManagedKeyVersionsOptions.ActivationDateMax != nil {
+		builder.AddQuery("activation_date_max", fmt.Sprint(*listManagedKeyVersionsOptions.ActivationDateMax))
+	}
+	if listManagedKeyVersionsOptions.DeactivationDate != nil {
+		builder.AddQuery("deactivation_date", fmt.Sprint(*listManagedKeyVersionsOptions.DeactivationDate))
+	}
+	if listManagedKeyVersionsOptions.DeactivationDateMin != nil {
+		builder.AddQuery("deactivation_date_min", fmt.Sprint(*listManagedKeyVersionsOptions.DeactivationDateMin))
+	}
+	if listManagedKeyVersionsOptions.DeactivationDateMax != nil {
+		builder.AddQuery("deactivation_date_max", fmt.Sprint(*listManagedKeyVersionsOptions.DeactivationDateMax))
+	}
+	if listManagedKeyVersionsOptions.ExpirationDate != nil {
+		builder.AddQuery("expiration_date", fmt.Sprint(*listManagedKeyVersionsOptions.ExpirationDate))
+	}
+	if listManagedKeyVersionsOptions.ExpirationDateMin != nil {
+		builder.AddQuery("expiration_date_min", fmt.Sprint(*listManagedKeyVersionsOptions.ExpirationDateMin))
+	}
+	if listManagedKeyVersionsOptions.ExpirationDateMax != nil {
+		builder.AddQuery("expiration_date_max", fmt.Sprint(*listManagedKeyVersionsOptions.ExpirationDateMax))
+	}
+	if listManagedKeyVersionsOptions.CreatedAt != nil {
+		builder.AddQuery("created_at", fmt.Sprint(*listManagedKeyVersionsOptions.CreatedAt))
+	}
+	if listManagedKeyVersionsOptions.CreatedAtMin != nil {
+		builder.AddQuery("created_at_min", fmt.Sprint(*listManagedKeyVersionsOptions.CreatedAtMin))
+	}
+	if listManagedKeyVersionsOptions.CreatedAtMax != nil {
+		builder.AddQuery("created_at_max", fmt.Sprint(*listManagedKeyVersionsOptions.CreatedAtMax))
+	}
+	if listManagedKeyVersionsOptions.UpdatedAt != nil {
+		builder.AddQuery("updated_at", fmt.Sprint(*listManagedKeyVersionsOptions.UpdatedAt))
+	}
+	if listManagedKeyVersionsOptions.UpdatedAtMin != nil {
+		builder.AddQuery("updated_at_min", fmt.Sprint(*listManagedKeyVersionsOptions.UpdatedAtMin))
+	}
+	if listManagedKeyVersionsOptions.UpdatedAtMax != nil {
+		builder.AddQuery("updated_at_max", fmt.Sprint(*listManagedKeyVersionsOptions.UpdatedAtMax))
+	}
+	if listManagedKeyVersionsOptions.RotatedAtMin != nil {
+		builder.AddQuery("rotated_at_min", fmt.Sprint(*listManagedKeyVersionsOptions.RotatedAtMin))
+	}
+	if listManagedKeyVersionsOptions.RotatedAtMax != nil {
+		builder.AddQuery("rotated_at_max", fmt.Sprint(*listManagedKeyVersionsOptions.RotatedAtMax))
+	}
+	if listManagedKeyVersionsOptions.Size != nil {
+		builder.AddQuery("size", fmt.Sprint(*listManagedKeyVersionsOptions.Size))
+	}
+	if listManagedKeyVersionsOptions.SizeMin != nil {
+		builder.AddQuery("size_min", fmt.Sprint(*listManagedKeyVersionsOptions.SizeMin))
+	}
+	if listManagedKeyVersionsOptions.SizeMax != nil {
+		builder.AddQuery("size_max", fmt.Sprint(*listManagedKeyVersionsOptions.SizeMax))
+	}
+	if listManagedKeyVersionsOptions.ReferencedKeystoresType != nil {
+		builder.AddQuery("referenced_keystores[].type", strings.Join(listManagedKeyVersionsOptions.ReferencedKeystoresType, ","))
+	}
+	if listManagedKeyVersionsOptions.ReferencedKeystoresName != nil {
+		builder.AddQuery("referenced_keystores[].name", strings.Join(listManagedKeyVersionsOptions.ReferencedKeystoresName, ","))
+	}
+	if listManagedKeyVersionsOptions.InstancesKeystoreType != nil {
+		builder.AddQuery("instances[].keystore.type", strings.Join(listManagedKeyVersionsOptions.InstancesKeystoreType, ","))
+	}
+	if listManagedKeyVersionsOptions.TemplateName != nil {
+		builder.AddQuery("template.name", fmt.Sprint(*listManagedKeyVersionsOptions.TemplateName))
+	}
+	if listManagedKeyVersionsOptions.TemplateID != nil {
+		builder.AddQuery("template.id", strings.Join(listManagedKeyVersionsOptions.TemplateID, ","))
+	}
+	if listManagedKeyVersionsOptions.TemplateType != nil {
+		builder.AddQuery("template.type[]", strings.Join(listManagedKeyVersionsOptions.TemplateType, ","))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = uko.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalManagedKeyList)
 		if err != nil {
 			return
 		}
@@ -697,9 +854,6 @@ func (uko *UkoV4) GetKeyDistributionStatusForKeystoresWithContext(ctx context.Co
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
-	if getKeyDistributionStatusForKeystoresOptions.UKOVault != nil {
-		builder.AddHeader("UKO-Vault", fmt.Sprint(*getKeyDistributionStatusForKeystoresOptions.UKOVault))
-	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -761,11 +915,12 @@ func (uko *UkoV4) UpdateManagedKeyFromTemplateWithContext(ctx context.Context, u
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
-	if updateManagedKeyFromTemplateOptions.UKOVault != nil {
-		builder.AddHeader("UKO-Vault", fmt.Sprint(*updateManagedKeyFromTemplateOptions.UKOVault))
-	}
 	if updateManagedKeyFromTemplateOptions.IfMatch != nil {
 		builder.AddHeader("If-Match", fmt.Sprint(*updateManagedKeyFromTemplateOptions.IfMatch))
+	}
+
+	if updateManagedKeyFromTemplateOptions.DryRun != nil {
+		builder.AddQuery("dry_run", fmt.Sprint(*updateManagedKeyFromTemplateOptions.DryRun))
 	}
 
 	request, err := builder.Build()
@@ -790,7 +945,7 @@ func (uko *UkoV4) UpdateManagedKeyFromTemplateWithContext(ctx context.Context, u
 }
 
 // ActivateManagedKey : Activate a managed key
-// Activates a managed key and performs key installation or activation operations on keystores in the keystore group
+// Activate a managed key and perform key installation or activation operations on keystores in the keystore group
 // associated with the managed key.
 func (uko *UkoV4) ActivateManagedKey(activateManagedKeyOptions *ActivateManagedKeyOptions) (result *ManagedKey, response *core.DetailedResponse, err error) {
 	return uko.ActivateManagedKeyWithContext(context.Background(), activateManagedKeyOptions)
@@ -828,9 +983,6 @@ func (uko *UkoV4) ActivateManagedKeyWithContext(ctx context.Context, activateMan
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
-	if activateManagedKeyOptions.UKOVault != nil {
-		builder.AddHeader("UKO-Vault", fmt.Sprint(*activateManagedKeyOptions.UKOVault))
-	}
 	if activateManagedKeyOptions.IfMatch != nil {
 		builder.AddHeader("If-Match", fmt.Sprint(*activateManagedKeyOptions.IfMatch))
 	}
@@ -895,9 +1047,6 @@ func (uko *UkoV4) DeactivateManagedKeyWithContext(ctx context.Context, deactivat
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
-	if deactivateManagedKeyOptions.UKOVault != nil {
-		builder.AddHeader("UKO-Vault", fmt.Sprint(*deactivateManagedKeyOptions.UKOVault))
-	}
 	if deactivateManagedKeyOptions.IfMatch != nil {
 		builder.AddHeader("If-Match", fmt.Sprint(*deactivateManagedKeyOptions.IfMatch))
 	}
@@ -924,7 +1073,7 @@ func (uko *UkoV4) DeactivateManagedKeyWithContext(ctx context.Context, deactivat
 }
 
 // DestroyManagedKey : Destroy a managed key
-// Destroys a managed key and performs key destruction operations on keystores in the keystore group associated with the
+// Destroy a managed key and perform key destruction operations on keystores in the keystore group associated with the
 // managed key. This operation cannot be undone. The managed key must be in a 'deactivated' state.
 func (uko *UkoV4) DestroyManagedKey(destroyManagedKeyOptions *DestroyManagedKeyOptions) (result *ManagedKey, response *core.DetailedResponse, err error) {
 	return uko.DestroyManagedKeyWithContext(context.Background(), destroyManagedKeyOptions)
@@ -962,9 +1111,6 @@ func (uko *UkoV4) DestroyManagedKeyWithContext(ctx context.Context, destroyManag
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
-	if destroyManagedKeyOptions.UKOVault != nil {
-		builder.AddHeader("UKO-Vault", fmt.Sprint(*destroyManagedKeyOptions.UKOVault))
-	}
 	if destroyManagedKeyOptions.IfMatch != nil {
 		builder.AddHeader("If-Match", fmt.Sprint(*destroyManagedKeyOptions.IfMatch))
 	}
@@ -991,7 +1137,7 @@ func (uko *UkoV4) DestroyManagedKeyWithContext(ctx context.Context, destroyManag
 }
 
 // SyncManagedKey : Sync a managed key in keystores
-// Perform the synchronisation operation on a managed key to align the states in the associated keystores.
+// Perform the synchronization operation on a managed key to align the states in the associated keystores.
 func (uko *UkoV4) SyncManagedKey(syncManagedKeyOptions *SyncManagedKeyOptions) (result *StatusInKeystores, response *core.DetailedResponse, err error) {
 	return uko.SyncManagedKeyWithContext(context.Background(), syncManagedKeyOptions)
 }
@@ -1028,9 +1174,6 @@ func (uko *UkoV4) SyncManagedKeyWithContext(ctx context.Context, syncManagedKeyO
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
-	if syncManagedKeyOptions.UKOVault != nil {
-		builder.AddHeader("UKO-Vault", fmt.Sprint(*syncManagedKeyOptions.UKOVault))
-	}
 	if syncManagedKeyOptions.IfMatch != nil {
 		builder.AddHeader("If-Match", fmt.Sprint(*syncManagedKeyOptions.IfMatch))
 	}
@@ -1047,6 +1190,69 @@ func (uko *UkoV4) SyncManagedKeyWithContext(ctx context.Context, syncManagedKeyO
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalStatusInKeystores)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// RotateManagedKey : Rotate the managed key
+// Rotate the managed key.
+func (uko *UkoV4) RotateManagedKey(rotateManagedKeyOptions *RotateManagedKeyOptions) (result *ManagedKey, response *core.DetailedResponse, err error) {
+	return uko.RotateManagedKeyWithContext(context.Background(), rotateManagedKeyOptions)
+}
+
+// RotateManagedKeyWithContext is an alternate form of the RotateManagedKey method which supports a Context parameter
+func (uko *UkoV4) RotateManagedKeyWithContext(ctx context.Context, rotateManagedKeyOptions *RotateManagedKeyOptions) (result *ManagedKey, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(rotateManagedKeyOptions, "rotateManagedKeyOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(rotateManagedKeyOptions, "rotateManagedKeyOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"id": *rotateManagedKeyOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys/{id}/rotate`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range rotateManagedKeyOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("uko", "V4", "RotateManagedKey")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	if rotateManagedKeyOptions.IfMatch != nil {
+		builder.AddHeader("If-Match", fmt.Sprint(*rotateManagedKeyOptions.IfMatch))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = uko.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalManagedKey)
 		if err != nil {
 			return
 		}
@@ -1086,12 +1292,60 @@ func (uko *UkoV4) ListKeyTemplatesWithContext(ctx context.Context, listKeyTempla
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
+	if listKeyTemplatesOptions.Accept != nil {
+		builder.AddHeader("Accept", fmt.Sprint(*listKeyTemplatesOptions.Accept))
+	}
 
+	if listKeyTemplatesOptions.Name != nil {
+		builder.AddQuery("name", fmt.Sprint(*listKeyTemplatesOptions.Name))
+	}
+	if listKeyTemplatesOptions.NamingScheme != nil {
+		builder.AddQuery("naming_scheme", fmt.Sprint(*listKeyTemplatesOptions.NamingScheme))
+	}
 	if listKeyTemplatesOptions.VaultID != nil {
 		builder.AddQuery("vault.id", strings.Join(listKeyTemplatesOptions.VaultID, ","))
 	}
 	if listKeyTemplatesOptions.KeyAlgorithm != nil {
-		builder.AddQuery("key.algorithm", fmt.Sprint(*listKeyTemplatesOptions.KeyAlgorithm))
+		builder.AddQuery("key.algorithm", strings.Join(listKeyTemplatesOptions.KeyAlgorithm, ","))
+	}
+	if listKeyTemplatesOptions.KeySize != nil {
+		builder.AddQuery("key.size", fmt.Sprint(*listKeyTemplatesOptions.KeySize))
+	}
+	if listKeyTemplatesOptions.KeySizeMin != nil {
+		builder.AddQuery("key.size_min", fmt.Sprint(*listKeyTemplatesOptions.KeySizeMin))
+	}
+	if listKeyTemplatesOptions.KeySizeMax != nil {
+		builder.AddQuery("key.size_max", fmt.Sprint(*listKeyTemplatesOptions.KeySizeMax))
+	}
+	if listKeyTemplatesOptions.KeystoresType != nil {
+		builder.AddQuery("keystores[].type", strings.Join(listKeyTemplatesOptions.KeystoresType, ","))
+	}
+	if listKeyTemplatesOptions.KeystoresGroup != nil {
+		builder.AddQuery("keystores[].group", strings.Join(listKeyTemplatesOptions.KeystoresGroup, ","))
+	}
+	if listKeyTemplatesOptions.CreatedAt != nil {
+		builder.AddQuery("created_at", fmt.Sprint(*listKeyTemplatesOptions.CreatedAt))
+	}
+	if listKeyTemplatesOptions.CreatedAtMin != nil {
+		builder.AddQuery("created_at_min", fmt.Sprint(*listKeyTemplatesOptions.CreatedAtMin))
+	}
+	if listKeyTemplatesOptions.CreatedAtMax != nil {
+		builder.AddQuery("created_at_max", fmt.Sprint(*listKeyTemplatesOptions.CreatedAtMax))
+	}
+	if listKeyTemplatesOptions.UpdatedAt != nil {
+		builder.AddQuery("updated_at", fmt.Sprint(*listKeyTemplatesOptions.UpdatedAt))
+	}
+	if listKeyTemplatesOptions.UpdatedAtMin != nil {
+		builder.AddQuery("updated_at_min", fmt.Sprint(*listKeyTemplatesOptions.UpdatedAtMin))
+	}
+	if listKeyTemplatesOptions.UpdatedAtMax != nil {
+		builder.AddQuery("updated_at_max", fmt.Sprint(*listKeyTemplatesOptions.UpdatedAtMax))
+	}
+	if listKeyTemplatesOptions.Type != nil {
+		builder.AddQuery("type[]", strings.Join(listKeyTemplatesOptions.Type, ","))
+	}
+	if listKeyTemplatesOptions.State != nil {
+		builder.AddQuery("state", strings.Join(listKeyTemplatesOptions.State, ","))
 	}
 	if listKeyTemplatesOptions.Sort != nil {
 		builder.AddQuery("sort", strings.Join(listKeyTemplatesOptions.Sort, ","))
@@ -1101,6 +1355,9 @@ func (uko *UkoV4) ListKeyTemplatesWithContext(ctx context.Context, listKeyTempla
 	}
 	if listKeyTemplatesOptions.Offset != nil {
 		builder.AddQuery("offset", fmt.Sprint(*listKeyTemplatesOptions.Offset))
+	}
+	if listKeyTemplatesOptions.ManagingSystems != nil {
+		builder.AddQuery("managing_systems", strings.Join(listKeyTemplatesOptions.ManagingSystems, ","))
 	}
 
 	request, err := builder.Build()
@@ -1125,7 +1382,7 @@ func (uko *UkoV4) ListKeyTemplatesWithContext(ctx context.Context, listKeyTempla
 }
 
 // CreateKeyTemplate : Create a key template
-// Creates a new key template. Key templates are used to combine information necessary when creating a key that allow
+// Create a new key template. Key templates are used to combine information necessary when creating a key that allow
 // easy subsequent key creation, without needing to specify any of its details.
 func (uko *UkoV4) CreateKeyTemplate(createKeyTemplateOptions *CreateKeyTemplateOptions) (result *Template, response *core.DetailedResponse, err error) {
 	return uko.CreateKeyTemplateWithContext(context.Background(), createKeyTemplateOptions)
@@ -1160,9 +1417,6 @@ func (uko *UkoV4) CreateKeyTemplateWithContext(ctx context.Context, createKeyTem
 	}
 	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/json")
-	if createKeyTemplateOptions.UKOVault != nil {
-		builder.AddHeader("UKO-Vault", fmt.Sprint(*createKeyTemplateOptions.UKOVault))
-	}
 
 	body := make(map[string]interface{})
 	if createKeyTemplateOptions.Vault != nil {
@@ -1179,6 +1433,15 @@ func (uko *UkoV4) CreateKeyTemplateWithContext(ctx context.Context, createKeyTem
 	}
 	if createKeyTemplateOptions.Description != nil {
 		body["description"] = createKeyTemplateOptions.Description
+	}
+	if createKeyTemplateOptions.NamingScheme != nil {
+		body["naming_scheme"] = createKeyTemplateOptions.NamingScheme
+	}
+	if createKeyTemplateOptions.Type != nil {
+		body["type"] = createKeyTemplateOptions.Type
+	}
+	if createKeyTemplateOptions.State != nil {
+		body["state"] = createKeyTemplateOptions.State
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
@@ -1207,8 +1470,8 @@ func (uko *UkoV4) CreateKeyTemplateWithContext(ctx context.Context, createKeyTem
 }
 
 // DeleteKeyTemplate : Delete a template
-// Deletes a key template from the vault. The key template must not have any managed keys associated with it for it to
-// be eligible for deletion.
+// Delete a key template from the vault. The key template must not have any managed keys associated with it for it to be
+// eligible for deletion.
 func (uko *UkoV4) DeleteKeyTemplate(deleteKeyTemplateOptions *DeleteKeyTemplateOptions) (response *core.DetailedResponse, err error) {
 	return uko.DeleteKeyTemplateWithContext(context.Background(), deleteKeyTemplateOptions)
 }
@@ -1244,9 +1507,6 @@ func (uko *UkoV4) DeleteKeyTemplateWithContext(ctx context.Context, deleteKeyTem
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
-	if deleteKeyTemplateOptions.UKOVault != nil {
-		builder.AddHeader("UKO-Vault", fmt.Sprint(*deleteKeyTemplateOptions.UKOVault))
-	}
 	if deleteKeyTemplateOptions.IfMatch != nil {
 		builder.AddHeader("If-Match", fmt.Sprint(*deleteKeyTemplateOptions.IfMatch))
 	}
@@ -1262,7 +1522,7 @@ func (uko *UkoV4) DeleteKeyTemplateWithContext(ctx context.Context, deleteKeyTem
 }
 
 // GetKeyTemplate : Retrieve a key template
-// Retrieves a key template and its details by specifying the ID.
+// Retrieve a key template and its details by specifying the ID.
 func (uko *UkoV4) GetKeyTemplate(getKeyTemplateOptions *GetKeyTemplateOptions) (result *Template, response *core.DetailedResponse, err error) {
 	return uko.GetKeyTemplateWithContext(context.Background(), getKeyTemplateOptions)
 }
@@ -1299,9 +1559,6 @@ func (uko *UkoV4) GetKeyTemplateWithContext(ctx context.Context, getKeyTemplateO
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
-	if getKeyTemplateOptions.UKOVault != nil {
-		builder.AddHeader("UKO-Vault", fmt.Sprint(*getKeyTemplateOptions.UKOVault))
-	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -1325,7 +1582,7 @@ func (uko *UkoV4) GetKeyTemplateWithContext(ctx context.Context, getKeyTemplateO
 }
 
 // UpdateKeyTemplate : Update a key template
-// Updates attributes of a key template.
+// Update attributes of a key template.
 func (uko *UkoV4) UpdateKeyTemplate(updateKeyTemplateOptions *UpdateKeyTemplateOptions) (result *Template, response *core.DetailedResponse, err error) {
 	return uko.UpdateKeyTemplateWithContext(context.Background(), updateKeyTemplateOptions)
 }
@@ -1363,14 +1620,14 @@ func (uko *UkoV4) UpdateKeyTemplateWithContext(ctx context.Context, updateKeyTem
 	}
 	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/json")
-	if updateKeyTemplateOptions.UKOVault != nil {
-		builder.AddHeader("UKO-Vault", fmt.Sprint(*updateKeyTemplateOptions.UKOVault))
-	}
 	if updateKeyTemplateOptions.IfMatch != nil {
 		builder.AddHeader("If-Match", fmt.Sprint(*updateKeyTemplateOptions.IfMatch))
 	}
 
 	body := make(map[string]interface{})
+	if updateKeyTemplateOptions.Name != nil {
+		body["name"] = updateKeyTemplateOptions.Name
+	}
 	if updateKeyTemplateOptions.Keystores != nil {
 		body["keystores"] = updateKeyTemplateOptions.Keystores
 	}
@@ -1436,6 +1693,9 @@ func (uko *UkoV4) ListKeystoresWithContext(ctx context.Context, listKeystoresOpt
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
+	if listKeystoresOptions.Accept != nil {
+		builder.AddHeader("Accept", fmt.Sprint(*listKeystoresOptions.Accept))
+	}
 
 	if listKeystoresOptions.Type != nil {
 		builder.AddQuery("type", strings.Join(listKeystoresOptions.Type, ","))
@@ -1456,7 +1716,7 @@ func (uko *UkoV4) ListKeystoresWithContext(ctx context.Context, listKeystoresOpt
 		builder.AddQuery("vault.id", strings.Join(listKeystoresOptions.VaultID, ","))
 	}
 	if listKeystoresOptions.Location != nil {
-		builder.AddQuery("location", fmt.Sprint(*listKeystoresOptions.Location))
+		builder.AddQuery("location", strings.Join(listKeystoresOptions.Location, ","))
 	}
 	if listKeystoresOptions.Limit != nil {
 		builder.AddQuery("limit", fmt.Sprint(*listKeystoresOptions.Limit))
@@ -1490,10 +1750,10 @@ func (uko *UkoV4) ListKeystoresWithContext(ctx context.Context, listKeystoresOpt
 }
 
 // CreateKeystore : Create an internal keystore or a keystore connection
-// Creates a new internal keystore or a connection to an external keystore of the requested type.  If the `dry_run`
-// query parameter is used, then a new keystore is not created in the database,  only a test is performed to verify if
-// the connection information is correct. It is possible to sort by the following parameters: name, created_at,
-// updated_at, vault.id.
+// Create a new internal keystore or a connection to an external keystore of the requested type.  If the `dry_run` query
+// parameter is used, then a new keystore is not created in the database,  only a test is performed to verify if the
+// connection information is correct. It is possible to sort by the following parameters: name, created_at, updated_at,
+// vault.id.
 func (uko *UkoV4) CreateKeystore(createKeystoreOptions *CreateKeystoreOptions) (result KeystoreIntf, response *core.DetailedResponse, err error) {
 	return uko.CreateKeystoreWithContext(context.Background(), createKeystoreOptions)
 }
@@ -1527,9 +1787,6 @@ func (uko *UkoV4) CreateKeystoreWithContext(ctx context.Context, createKeystoreO
 	}
 	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/json")
-	if createKeystoreOptions.UKOVault != nil {
-		builder.AddHeader("UKO-Vault", fmt.Sprint(*createKeystoreOptions.UKOVault))
-	}
 
 	if createKeystoreOptions.DryRun != nil {
 		builder.AddQuery("dry_run", fmt.Sprint(*createKeystoreOptions.DryRun))
@@ -1562,7 +1819,7 @@ func (uko *UkoV4) CreateKeystoreWithContext(ctx context.Context, createKeystoreO
 }
 
 // DeleteKeystore : Delete an internal keystore or a connection to an external keystore
-// Deletes an internal keystore or a connection to an external keystore (in that case, the keystore on the remote system
+// Delete an internal keystore or a connection to an external keystore (in that case, the keystore on the remote system
 // is unchanged).
 func (uko *UkoV4) DeleteKeystore(deleteKeystoreOptions *DeleteKeystoreOptions) (response *core.DetailedResponse, err error) {
 	return uko.DeleteKeystoreWithContext(context.Background(), deleteKeystoreOptions)
@@ -1599,11 +1856,12 @@ func (uko *UkoV4) DeleteKeystoreWithContext(ctx context.Context, deleteKeystoreO
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
-	if deleteKeystoreOptions.UKOVault != nil {
-		builder.AddHeader("UKO-Vault", fmt.Sprint(*deleteKeystoreOptions.UKOVault))
-	}
 	if deleteKeystoreOptions.IfMatch != nil {
 		builder.AddHeader("If-Match", fmt.Sprint(*deleteKeystoreOptions.IfMatch))
+	}
+
+	if deleteKeystoreOptions.Mode != nil {
+		builder.AddQuery("mode", fmt.Sprint(*deleteKeystoreOptions.Mode))
 	}
 
 	request, err := builder.Build()
@@ -1617,7 +1875,7 @@ func (uko *UkoV4) DeleteKeystoreWithContext(ctx context.Context, deleteKeystoreO
 }
 
 // GetKeystore : Retrieve a target keystore
-// Retrieves a target keystore (either an internal keystore or a keystore connection) and its details by specifying the
+// Retrieve a target keystore (either an internal keystore or a keystore connection) and its details by specifying the
 // ID.
 func (uko *UkoV4) GetKeystore(getKeystoreOptions *GetKeystoreOptions) (result KeystoreIntf, response *core.DetailedResponse, err error) {
 	return uko.GetKeystoreWithContext(context.Background(), getKeystoreOptions)
@@ -1655,9 +1913,6 @@ func (uko *UkoV4) GetKeystoreWithContext(ctx context.Context, getKeystoreOptions
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
-	if getKeystoreOptions.UKOVault != nil {
-		builder.AddHeader("UKO-Vault", fmt.Sprint(*getKeystoreOptions.UKOVault))
-	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -1719,9 +1974,6 @@ func (uko *UkoV4) UpdateKeystoreWithContext(ctx context.Context, updateKeystoreO
 	}
 	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/json")
-	if updateKeystoreOptions.UKOVault != nil {
-		builder.AddHeader("UKO-Vault", fmt.Sprint(*updateKeystoreOptions.UKOVault))
-	}
 	if updateKeystoreOptions.IfMatch != nil {
 		builder.AddHeader("If-Match", fmt.Sprint(*updateKeystoreOptions.IfMatch))
 	}
@@ -1790,9 +2042,6 @@ func (uko *UkoV4) ListAssociatedResourcesForTargetKeystoreWithContext(ctx contex
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
-	if listAssociatedResourcesForTargetKeystoreOptions.UKOVault != nil {
-		builder.AddHeader("UKO-Vault", fmt.Sprint(*listAssociatedResourcesForTargetKeystoreOptions.UKOVault))
-	}
 
 	if listAssociatedResourcesForTargetKeystoreOptions.Limit != nil {
 		builder.AddQuery("limit", fmt.Sprint(*listAssociatedResourcesForTargetKeystoreOptions.Limit))
@@ -1826,7 +2075,7 @@ func (uko *UkoV4) ListAssociatedResourcesForTargetKeystoreWithContext(ctx contex
 }
 
 // GetKeystoreStatus : Retrieve target keystore status
-// Retrieves status of a single target keystore (either a keystore connection or an internal keystore).
+// Retrieve status of a single target keystore (either a keystore connection or an internal keystore).
 func (uko *UkoV4) GetKeystoreStatus(getKeystoreStatusOptions *GetKeystoreStatusOptions) (result *KeystoreStatus, response *core.DetailedResponse, err error) {
 	return uko.GetKeystoreStatusWithContext(context.Background(), getKeystoreStatusOptions)
 }
@@ -1863,9 +2112,6 @@ func (uko *UkoV4) GetKeystoreStatusWithContext(ctx context.Context, getKeystoreS
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
-	if getKeystoreStatusOptions.UKOVault != nil {
-		builder.AddHeader("UKO-Vault", fmt.Sprint(*getKeystoreStatusOptions.UKOVault))
-	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -1889,7 +2135,8 @@ func (uko *UkoV4) GetKeystoreStatusWithContext(ctx context.Context, getKeystoreS
 }
 
 // ListManagedKeysFromKeystore : List managed keys on the target keystore
-// Lists all managed keys installed on the target keystore (either a keystore connection or an internal keystore).
+// Lists all managed keys installed on the target keystore (either a keystore connection or an internal keystore). Note
+// that `pre_activation` and `destroyed` keys are not installed.
 func (uko *UkoV4) ListManagedKeysFromKeystore(listManagedKeysFromKeystoreOptions *ListManagedKeysFromKeystoreOptions) (result *ManagedKeyList, response *core.DetailedResponse, err error) {
 	return uko.ListManagedKeysFromKeystoreWithContext(context.Background(), listManagedKeysFromKeystoreOptions)
 }
@@ -1926,8 +2173,8 @@ func (uko *UkoV4) ListManagedKeysFromKeystoreWithContext(ctx context.Context, li
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
-	if listManagedKeysFromKeystoreOptions.UKOVault != nil {
-		builder.AddHeader("UKO-Vault", fmt.Sprint(*listManagedKeysFromKeystoreOptions.UKOVault))
+	if listManagedKeysFromKeystoreOptions.Accept != nil {
+		builder.AddHeader("Accept", fmt.Sprint(*listManagedKeysFromKeystoreOptions.Accept))
 	}
 
 	if listManagedKeysFromKeystoreOptions.Algorithm != nil {
@@ -1993,6 +2240,12 @@ func (uko *UkoV4) ListManagedKeysFromKeystoreWithContext(ctx context.Context, li
 	if listManagedKeysFromKeystoreOptions.UpdatedAtMax != nil {
 		builder.AddQuery("updated_at_max", fmt.Sprint(*listManagedKeysFromKeystoreOptions.UpdatedAtMax))
 	}
+	if listManagedKeysFromKeystoreOptions.RotatedAtMin != nil {
+		builder.AddQuery("rotated_at_min", fmt.Sprint(*listManagedKeysFromKeystoreOptions.RotatedAtMin))
+	}
+	if listManagedKeysFromKeystoreOptions.RotatedAtMax != nil {
+		builder.AddQuery("rotated_at_max", fmt.Sprint(*listManagedKeysFromKeystoreOptions.RotatedAtMax))
+	}
 	if listManagedKeysFromKeystoreOptions.Size != nil {
 		builder.AddQuery("size", fmt.Sprint(*listManagedKeysFromKeystoreOptions.Size))
 	}
@@ -2001,6 +2254,15 @@ func (uko *UkoV4) ListManagedKeysFromKeystoreWithContext(ctx context.Context, li
 	}
 	if listManagedKeysFromKeystoreOptions.SizeMax != nil {
 		builder.AddQuery("size_max", fmt.Sprint(*listManagedKeysFromKeystoreOptions.SizeMax))
+	}
+	if listManagedKeysFromKeystoreOptions.TemplateName != nil {
+		builder.AddQuery("template.name", fmt.Sprint(*listManagedKeysFromKeystoreOptions.TemplateName))
+	}
+	if listManagedKeysFromKeystoreOptions.TemplateID != nil {
+		builder.AddQuery("template.id", strings.Join(listManagedKeysFromKeystoreOptions.TemplateID, ","))
+	}
+	if listManagedKeysFromKeystoreOptions.TemplateType != nil {
+		builder.AddQuery("template.type[]", strings.Join(listManagedKeysFromKeystoreOptions.TemplateType, ","))
 	}
 
 	request, err := builder.Build()
@@ -2054,6 +2316,9 @@ func (uko *UkoV4) ListVaultsWithContext(ctx context.Context, listVaultsOptions *
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
+	if listVaultsOptions.Accept != nil {
+		builder.AddHeader("Accept", fmt.Sprint(*listVaultsOptions.Accept))
+	}
 
 	if listVaultsOptions.Limit != nil {
 		builder.AddQuery("limit", fmt.Sprint(*listVaultsOptions.Limit))
@@ -2093,7 +2358,7 @@ func (uko *UkoV4) ListVaultsWithContext(ctx context.Context, listVaultsOptions *
 }
 
 // CreateVault : Create a vault
-// Creates a new vault in the instance with the specified name and description.
+// Create a new vault in the instance with the specified name and description.
 func (uko *UkoV4) CreateVault(createVaultOptions *CreateVaultOptions) (result *Vault, response *core.DetailedResponse, err error) {
 	return uko.CreateVaultWithContext(context.Background(), createVaultOptions)
 }
@@ -2135,6 +2400,9 @@ func (uko *UkoV4) CreateVaultWithContext(ctx context.Context, createVaultOptions
 	if createVaultOptions.Description != nil {
 		body["description"] = createVaultOptions.Description
 	}
+	if createVaultOptions.RecoveryKeyLabel != nil {
+		body["recovery_key_label"] = createVaultOptions.RecoveryKeyLabel
+	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
 		return
@@ -2162,7 +2430,7 @@ func (uko *UkoV4) CreateVaultWithContext(ctx context.Context, createVaultOptions
 }
 
 // DeleteVault : Delete an existing vault
-// Deletes an existing vault from the system. A vault must be empty (that is, no managed keys or keystores remain in the
+// Delete an existing vault from the system. A vault must be empty (that is, no managed keys or keystores remain in the
 // vault) before the vault can be deleted.
 func (uko *UkoV4) DeleteVault(deleteVaultOptions *DeleteVaultOptions) (response *core.DetailedResponse, err error) {
 	return uko.DeleteVaultWithContext(context.Background(), deleteVaultOptions)
@@ -2214,7 +2482,7 @@ func (uko *UkoV4) DeleteVaultWithContext(ctx context.Context, deleteVaultOptions
 }
 
 // GetVault : Retrieve a vault
-// Retrieves a vault and its details by specifying the ID.
+// Retrieve a vault and its details by specifying the ID.
 func (uko *UkoV4) GetVault(getVaultOptions *GetVaultOptions) (result *Vault, response *core.DetailedResponse, err error) {
 	return uko.GetVaultWithContext(context.Background(), getVaultOptions)
 }
@@ -2323,6 +2591,9 @@ func (uko *UkoV4) UpdateVaultWithContext(ctx context.Context, updateVaultOptions
 	if updateVaultOptions.Description != nil {
 		body["description"] = updateVaultOptions.Description
 	}
+	if updateVaultOptions.RecoveryKeyLabel != nil {
+		body["recovery_key_label"] = updateVaultOptions.RecoveryKeyLabel
+	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
 		return
@@ -2349,13 +2620,199 @@ func (uko *UkoV4) UpdateVaultWithContext(ctx context.Context, updateVaultOptions
 	return
 }
 
+// UnarchiveKeyTemplate : Unarchive a key template
+// Unarchive a key template.
+func (uko *UkoV4) UnarchiveKeyTemplate(unarchiveKeyTemplateOptions *UnarchiveKeyTemplateOptions) (result *Template, response *core.DetailedResponse, err error) {
+	return uko.UnarchiveKeyTemplateWithContext(context.Background(), unarchiveKeyTemplateOptions)
+}
+
+// UnarchiveKeyTemplateWithContext is an alternate form of the UnarchiveKeyTemplate method which supports a Context parameter
+func (uko *UkoV4) UnarchiveKeyTemplateWithContext(ctx context.Context, unarchiveKeyTemplateOptions *UnarchiveKeyTemplateOptions) (result *Template, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(unarchiveKeyTemplateOptions, "unarchiveKeyTemplateOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(unarchiveKeyTemplateOptions, "unarchiveKeyTemplateOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"id": *unarchiveKeyTemplateOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/templates/{id}/unarchive`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range unarchiveKeyTemplateOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("uko", "V4", "UnarchiveKeyTemplate")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	if unarchiveKeyTemplateOptions.IfMatch != nil {
+		builder.AddHeader("If-Match", fmt.Sprint(*unarchiveKeyTemplateOptions.IfMatch))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = uko.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTemplate)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// ArchiveKeyTemplate : Archive a key template
+// Archive a key template.
+func (uko *UkoV4) ArchiveKeyTemplate(archiveKeyTemplateOptions *ArchiveKeyTemplateOptions) (result *Template, response *core.DetailedResponse, err error) {
+	return uko.ArchiveKeyTemplateWithContext(context.Background(), archiveKeyTemplateOptions)
+}
+
+// ArchiveKeyTemplateWithContext is an alternate form of the ArchiveKeyTemplate method which supports a Context parameter
+func (uko *UkoV4) ArchiveKeyTemplateWithContext(ctx context.Context, archiveKeyTemplateOptions *ArchiveKeyTemplateOptions) (result *Template, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(archiveKeyTemplateOptions, "archiveKeyTemplateOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(archiveKeyTemplateOptions, "archiveKeyTemplateOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"id": *archiveKeyTemplateOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/templates/{id}/archive`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range archiveKeyTemplateOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("uko", "V4", "ArchiveKeyTemplate")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	if archiveKeyTemplateOptions.IfMatch != nil {
+		builder.AddHeader("If-Match", fmt.Sprint(*archiveKeyTemplateOptions.IfMatch))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = uko.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTemplate)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// ExposeKeyTemplate : Expose a key template that was previously a shadow template
+// Expose a key template.
+func (uko *UkoV4) ExposeKeyTemplate(exposeKeyTemplateOptions *ExposeKeyTemplateOptions) (result *Template, response *core.DetailedResponse, err error) {
+	return uko.ExposeKeyTemplateWithContext(context.Background(), exposeKeyTemplateOptions)
+}
+
+// ExposeKeyTemplateWithContext is an alternate form of the ExposeKeyTemplate method which supports a Context parameter
+func (uko *UkoV4) ExposeKeyTemplateWithContext(ctx context.Context, exposeKeyTemplateOptions *ExposeKeyTemplateOptions) (result *Template, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(exposeKeyTemplateOptions, "exposeKeyTemplateOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(exposeKeyTemplateOptions, "exposeKeyTemplateOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"id": *exposeKeyTemplateOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/templates/{id}/expose`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range exposeKeyTemplateOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("uko", "V4", "ExposeKeyTemplate")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	if exposeKeyTemplateOptions.IfMatch != nil {
+		builder.AddHeader("If-Match", fmt.Sprint(*exposeKeyTemplateOptions.IfMatch))
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = uko.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalTemplate)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
 // ActivateManagedKeyOptions : The ActivateManagedKey options.
 type ActivateManagedKeyOptions struct {
 	// UUID of the key.
 	ID *string `json:"id" validate:"required,ne="`
-
-	// The UUID of the Vault in which the update is to take place.
-	UKOVault *string `json:"UKO-Vault" validate:"required"`
 
 	// Precondition of the update; Value of the ETag from the header on a GET request.
 	IfMatch *string `json:"If-Match" validate:"required"`
@@ -2365,10 +2822,9 @@ type ActivateManagedKeyOptions struct {
 }
 
 // NewActivateManagedKeyOptions : Instantiate ActivateManagedKeyOptions
-func (*UkoV4) NewActivateManagedKeyOptions(id string, uKOVault string, ifMatch string) *ActivateManagedKeyOptions {
+func (*UkoV4) NewActivateManagedKeyOptions(id string, ifMatch string) *ActivateManagedKeyOptions {
 	return &ActivateManagedKeyOptions{
 		ID: core.StringPtr(id),
-		UKOVault: core.StringPtr(uKOVault),
 		IfMatch: core.StringPtr(ifMatch),
 	}
 }
@@ -2376,12 +2832,6 @@ func (*UkoV4) NewActivateManagedKeyOptions(id string, uKOVault string, ifMatch s
 // SetID : Allow user to set ID
 func (_options *ActivateManagedKeyOptions) SetID(id string) *ActivateManagedKeyOptions {
 	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetUKOVault : Allow user to set UKOVault
-func (_options *ActivateManagedKeyOptions) SetUKOVault(uKOVault string) *ActivateManagedKeyOptions {
-	_options.UKOVault = core.StringPtr(uKOVault)
 	return _options
 }
 
@@ -2397,15 +2847,50 @@ func (options *ActivateManagedKeyOptions) SetHeaders(param map[string]string) *A
 	return options
 }
 
+// ArchiveKeyTemplateOptions : The ArchiveKeyTemplate options.
+type ArchiveKeyTemplateOptions struct {
+	// UUID of the template.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// Precondition of the update; Value of the ETag from the header on a GET request.
+	IfMatch *string `json:"If-Match" validate:"required"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewArchiveKeyTemplateOptions : Instantiate ArchiveKeyTemplateOptions
+func (*UkoV4) NewArchiveKeyTemplateOptions(id string, ifMatch string) *ArchiveKeyTemplateOptions {
+	return &ArchiveKeyTemplateOptions{
+		ID: core.StringPtr(id),
+		IfMatch: core.StringPtr(ifMatch),
+	}
+}
+
+// SetID : Allow user to set ID
+func (_options *ArchiveKeyTemplateOptions) SetID(id string) *ArchiveKeyTemplateOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetIfMatch : Allow user to set IfMatch
+func (_options *ArchiveKeyTemplateOptions) SetIfMatch(ifMatch string) *ArchiveKeyTemplateOptions {
+	_options.IfMatch = core.StringPtr(ifMatch)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ArchiveKeyTemplateOptions) SetHeaders(param map[string]string) *ArchiveKeyTemplateOptions {
+	options.Headers = param
+	return options
+}
+
 // CreateKeyTemplateOptions : The CreateKeyTemplate options.
 type CreateKeyTemplateOptions struct {
-	// The UUID of the Vault in which the update is to take place.
-	UKOVault *string `json:"UKO-Vault" validate:"required"`
-
 	// ID of the Vault where the entity is to be created in.
 	Vault *VaultReferenceInCreationRequest `json:"vault" validate:"required"`
 
-	// Name of the template, it will be referenced when creating managed keys.
+	// A human-readable name to assign to your template.
 	Name *string `json:"name" validate:"required"`
 
 	// Properties describing the properties of the managed key.
@@ -2417,25 +2902,44 @@ type CreateKeyTemplateOptions struct {
 	// Description of the key template.
 	Description *string `json:"description,omitempty"`
 
+	// Managed key naming scheme which will be applied to every key created with this template. Every tag in the naming
+	// scheme must be enclosed in angle brackets. For Every tag in the naming scheme, a value will need to be either
+	// provided by the user during key creation or computed by the service for the set of special tags.
+	NamingScheme *string `json:"naming_scheme,omitempty"`
+
+	Type []string `json:"type,omitempty"`
+
+	// State of the template which determines if the template is archived or unarchived.
+	State *string `json:"state,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
+// Constants associated with the CreateKeyTemplateOptions.Type property.
+// Type of the template which determines template origins. Ones created by user are 'user_defined' where 'shadow' means
+// it was created under the hood by the UKO.
+const (
+	CreateKeyTemplateOptions_Type_Shadow = "shadow"
+	CreateKeyTemplateOptions_Type_System = "system"
+	CreateKeyTemplateOptions_Type_UserDefined = "user_defined"
+)
+
+// Constants associated with the CreateKeyTemplateOptions.State property.
+// State of the template which determines if the template is archived or unarchived.
+const (
+	CreateKeyTemplateOptions_State_Archived = "archived"
+	CreateKeyTemplateOptions_State_Unarchived = "unarchived"
+)
+
 // NewCreateKeyTemplateOptions : Instantiate CreateKeyTemplateOptions
-func (*UkoV4) NewCreateKeyTemplateOptions(uKOVault string, vault *VaultReferenceInCreationRequest, name string, key *KeyProperties, keystores []KeystoresPropertiesCreateIntf) *CreateKeyTemplateOptions {
+func (*UkoV4) NewCreateKeyTemplateOptions(vault *VaultReferenceInCreationRequest, name string, key *KeyProperties, keystores []KeystoresPropertiesCreateIntf) *CreateKeyTemplateOptions {
 	return &CreateKeyTemplateOptions{
-		UKOVault: core.StringPtr(uKOVault),
 		Vault: vault,
 		Name: core.StringPtr(name),
 		Key: key,
 		Keystores: keystores,
 	}
-}
-
-// SetUKOVault : Allow user to set UKOVault
-func (_options *CreateKeyTemplateOptions) SetUKOVault(uKOVault string) *CreateKeyTemplateOptions {
-	_options.UKOVault = core.StringPtr(uKOVault)
-	return _options
 }
 
 // SetVault : Allow user to set Vault
@@ -2468,6 +2972,24 @@ func (_options *CreateKeyTemplateOptions) SetDescription(description string) *Cr
 	return _options
 }
 
+// SetNamingScheme : Allow user to set NamingScheme
+func (_options *CreateKeyTemplateOptions) SetNamingScheme(namingScheme string) *CreateKeyTemplateOptions {
+	_options.NamingScheme = core.StringPtr(namingScheme)
+	return _options
+}
+
+// SetType : Allow user to set Type
+func (_options *CreateKeyTemplateOptions) SetType(typeVar []string) *CreateKeyTemplateOptions {
+	_options.Type = typeVar
+	return _options
+}
+
+// SetState : Allow user to set State
+func (_options *CreateKeyTemplateOptions) SetState(state string) *CreateKeyTemplateOptions {
+	_options.State = core.StringPtr(state)
+	return _options
+}
+
 // SetHeaders : Allow user to set Headers
 func (options *CreateKeyTemplateOptions) SetHeaders(param map[string]string) *CreateKeyTemplateOptions {
 	options.Headers = param
@@ -2476,14 +2998,11 @@ func (options *CreateKeyTemplateOptions) SetHeaders(param map[string]string) *Cr
 
 // CreateKeystoreOptions : The CreateKeystore options.
 type CreateKeystoreOptions struct {
-	// The UUID of the Vault in which the update is to take place.
-	UKOVault *string `json:"UKO-Vault" validate:"required"`
-
 	// Keystore properties to update.
 	KeystoreBody KeystoreCreationRequestIntf `json:"keystoreBody" validate:"required"`
 
-	// Do not create a keystore, only verify if keystore created with given parameters can be communicated with
-	// successfully.
+	// Do not create/update/delete a resource, only verify and validate if resource can be created/updated/deleted with
+	// given request successfully.
 	DryRun *bool `json:"dry_run,omitempty"`
 
 	// Allows users to set headers on API requests
@@ -2491,17 +3010,10 @@ type CreateKeystoreOptions struct {
 }
 
 // NewCreateKeystoreOptions : Instantiate CreateKeystoreOptions
-func (*UkoV4) NewCreateKeystoreOptions(uKOVault string, keystoreBody KeystoreCreationRequestIntf) *CreateKeystoreOptions {
+func (*UkoV4) NewCreateKeystoreOptions(keystoreBody KeystoreCreationRequestIntf) *CreateKeystoreOptions {
 	return &CreateKeystoreOptions{
-		UKOVault: core.StringPtr(uKOVault),
 		KeystoreBody: keystoreBody,
 	}
-}
-
-// SetUKOVault : Allow user to set UKOVault
-func (_options *CreateKeystoreOptions) SetUKOVault(uKOVault string) *CreateKeystoreOptions {
-	_options.UKOVault = core.StringPtr(uKOVault)
-	return _options
 }
 
 // SetKeystoreBody : Allow user to set KeystoreBody
@@ -2524,9 +3036,6 @@ func (options *CreateKeystoreOptions) SetHeaders(param map[string]string) *Creat
 
 // CreateManagedKeyOptions : The CreateManagedKey options.
 type CreateManagedKeyOptions struct {
-	// The UUID of the Vault in which the update is to take place.
-	UKOVault *string `json:"UKO-Vault" validate:"required"`
-
 	// Name of the key template to use when creating a key.
 	TemplateName *string `json:"template_name" validate:"required"`
 
@@ -2534,10 +3043,7 @@ type CreateManagedKeyOptions struct {
 	Vault *VaultReferenceInCreationRequest `json:"vault" validate:"required"`
 
 	// The label of the key.
-	Label *string `json:"label" validate:"required"`
-
-	// Key-value pairs associated with the key.
-	Tags []Tag `json:"tags,omitempty"`
+	Label *string `json:"label,omitempty"`
 
 	// Description of the managed key.
 	Description *string `json:"description,omitempty"`
@@ -2547,19 +3053,11 @@ type CreateManagedKeyOptions struct {
 }
 
 // NewCreateManagedKeyOptions : Instantiate CreateManagedKeyOptions
-func (*UkoV4) NewCreateManagedKeyOptions(uKOVault string, templateName string, vault *VaultReferenceInCreationRequest, label string) *CreateManagedKeyOptions {
+func (*UkoV4) NewCreateManagedKeyOptions(templateName string, vault *VaultReferenceInCreationRequest) *CreateManagedKeyOptions {
 	return &CreateManagedKeyOptions{
-		UKOVault: core.StringPtr(uKOVault),
 		TemplateName: core.StringPtr(templateName),
 		Vault: vault,
-		Label: core.StringPtr(label),
 	}
-}
-
-// SetUKOVault : Allow user to set UKOVault
-func (_options *CreateManagedKeyOptions) SetUKOVault(uKOVault string) *CreateManagedKeyOptions {
-	_options.UKOVault = core.StringPtr(uKOVault)
-	return _options
 }
 
 // SetTemplateName : Allow user to set TemplateName
@@ -2577,12 +3075,6 @@ func (_options *CreateManagedKeyOptions) SetVault(vault *VaultReferenceInCreatio
 // SetLabel : Allow user to set Label
 func (_options *CreateManagedKeyOptions) SetLabel(label string) *CreateManagedKeyOptions {
 	_options.Label = core.StringPtr(label)
-	return _options
-}
-
-// SetTags : Allow user to set Tags
-func (_options *CreateManagedKeyOptions) SetTags(tags []Tag) *CreateManagedKeyOptions {
-	_options.Tags = tags
 	return _options
 }
 
@@ -2607,6 +3099,9 @@ type CreateVaultOptions struct {
 	// Description of the vault.
 	Description *string `json:"description,omitempty"`
 
+	// The label of the recovery key to use for this vault.
+	RecoveryKeyLabel *string `json:"recovery_key_label,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -2630,6 +3125,12 @@ func (_options *CreateVaultOptions) SetDescription(description string) *CreateVa
 	return _options
 }
 
+// SetRecoveryKeyLabel : Allow user to set RecoveryKeyLabel
+func (_options *CreateVaultOptions) SetRecoveryKeyLabel(recoveryKeyLabel string) *CreateVaultOptions {
+	_options.RecoveryKeyLabel = core.StringPtr(recoveryKeyLabel)
+	return _options
+}
+
 // SetHeaders : Allow user to set Headers
 func (options *CreateVaultOptions) SetHeaders(param map[string]string) *CreateVaultOptions {
 	options.Headers = param
@@ -2641,9 +3142,6 @@ type DeactivateManagedKeyOptions struct {
 	// UUID of the key.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// The UUID of the Vault in which the update is to take place.
-	UKOVault *string `json:"UKO-Vault" validate:"required"`
-
 	// Precondition of the update; Value of the ETag from the header on a GET request.
 	IfMatch *string `json:"If-Match" validate:"required"`
 
@@ -2652,10 +3150,9 @@ type DeactivateManagedKeyOptions struct {
 }
 
 // NewDeactivateManagedKeyOptions : Instantiate DeactivateManagedKeyOptions
-func (*UkoV4) NewDeactivateManagedKeyOptions(id string, uKOVault string, ifMatch string) *DeactivateManagedKeyOptions {
+func (*UkoV4) NewDeactivateManagedKeyOptions(id string, ifMatch string) *DeactivateManagedKeyOptions {
 	return &DeactivateManagedKeyOptions{
 		ID: core.StringPtr(id),
-		UKOVault: core.StringPtr(uKOVault),
 		IfMatch: core.StringPtr(ifMatch),
 	}
 }
@@ -2663,12 +3160,6 @@ func (*UkoV4) NewDeactivateManagedKeyOptions(id string, uKOVault string, ifMatch
 // SetID : Allow user to set ID
 func (_options *DeactivateManagedKeyOptions) SetID(id string) *DeactivateManagedKeyOptions {
 	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetUKOVault : Allow user to set UKOVault
-func (_options *DeactivateManagedKeyOptions) SetUKOVault(uKOVault string) *DeactivateManagedKeyOptions {
-	_options.UKOVault = core.StringPtr(uKOVault)
 	return _options
 }
 
@@ -2689,9 +3180,6 @@ type DeleteKeyTemplateOptions struct {
 	// UUID of the template.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// The UUID of the Vault in which the update is to take place.
-	UKOVault *string `json:"UKO-Vault" validate:"required"`
-
 	// Precondition of the update; Value of the ETag from the header on a GET request.
 	IfMatch *string `json:"If-Match" validate:"required"`
 
@@ -2700,10 +3188,9 @@ type DeleteKeyTemplateOptions struct {
 }
 
 // NewDeleteKeyTemplateOptions : Instantiate DeleteKeyTemplateOptions
-func (*UkoV4) NewDeleteKeyTemplateOptions(id string, uKOVault string, ifMatch string) *DeleteKeyTemplateOptions {
+func (*UkoV4) NewDeleteKeyTemplateOptions(id string, ifMatch string) *DeleteKeyTemplateOptions {
 	return &DeleteKeyTemplateOptions{
 		ID: core.StringPtr(id),
-		UKOVault: core.StringPtr(uKOVault),
 		IfMatch: core.StringPtr(ifMatch),
 	}
 }
@@ -2711,12 +3198,6 @@ func (*UkoV4) NewDeleteKeyTemplateOptions(id string, uKOVault string, ifMatch st
 // SetID : Allow user to set ID
 func (_options *DeleteKeyTemplateOptions) SetID(id string) *DeleteKeyTemplateOptions {
 	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetUKOVault : Allow user to set UKOVault
-func (_options *DeleteKeyTemplateOptions) SetUKOVault(uKOVault string) *DeleteKeyTemplateOptions {
-	_options.UKOVault = core.StringPtr(uKOVault)
 	return _options
 }
 
@@ -2737,21 +3218,29 @@ type DeleteKeystoreOptions struct {
 	// UUID of the keystore.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// The UUID of the Vault in which the update is to take place.
-	UKOVault *string `json:"UKO-Vault" validate:"required"`
-
 	// Precondition of the update; Value of the ETag from the header on a GET request.
 	IfMatch *string `json:"If-Match" validate:"required"`
+
+	// Mode of disconnecting from keystore.
+	Mode *string `json:"mode,omitempty"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
+// Constants associated with the DeleteKeystoreOptions.Mode property.
+// Mode of disconnecting from keystore.
+const (
+	DeleteKeystoreOptions_Mode_Deactivate = "deactivate"
+	DeleteKeystoreOptions_Mode_Destroy = "destroy"
+	DeleteKeystoreOptions_Mode_Disconnect = "disconnect"
+	DeleteKeystoreOptions_Mode_Restrict = "restrict"
+)
+
 // NewDeleteKeystoreOptions : Instantiate DeleteKeystoreOptions
-func (*UkoV4) NewDeleteKeystoreOptions(id string, uKOVault string, ifMatch string) *DeleteKeystoreOptions {
+func (*UkoV4) NewDeleteKeystoreOptions(id string, ifMatch string) *DeleteKeystoreOptions {
 	return &DeleteKeystoreOptions{
 		ID: core.StringPtr(id),
-		UKOVault: core.StringPtr(uKOVault),
 		IfMatch: core.StringPtr(ifMatch),
 	}
 }
@@ -2762,15 +3251,15 @@ func (_options *DeleteKeystoreOptions) SetID(id string) *DeleteKeystoreOptions {
 	return _options
 }
 
-// SetUKOVault : Allow user to set UKOVault
-func (_options *DeleteKeystoreOptions) SetUKOVault(uKOVault string) *DeleteKeystoreOptions {
-	_options.UKOVault = core.StringPtr(uKOVault)
-	return _options
-}
-
 // SetIfMatch : Allow user to set IfMatch
 func (_options *DeleteKeystoreOptions) SetIfMatch(ifMatch string) *DeleteKeystoreOptions {
 	_options.IfMatch = core.StringPtr(ifMatch)
+	return _options
+}
+
+// SetMode : Allow user to set Mode
+func (_options *DeleteKeystoreOptions) SetMode(mode string) *DeleteKeystoreOptions {
+	_options.Mode = core.StringPtr(mode)
 	return _options
 }
 
@@ -2785,9 +3274,6 @@ type DeleteManagedKeyOptions struct {
 	// UUID of the key.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// The UUID of the Vault in which the update is to take place.
-	UKOVault *string `json:"UKO-Vault" validate:"required"`
-
 	// Precondition of the update; Value of the ETag from the header on a GET request.
 	IfMatch *string `json:"If-Match" validate:"required"`
 
@@ -2796,10 +3282,9 @@ type DeleteManagedKeyOptions struct {
 }
 
 // NewDeleteManagedKeyOptions : Instantiate DeleteManagedKeyOptions
-func (*UkoV4) NewDeleteManagedKeyOptions(id string, uKOVault string, ifMatch string) *DeleteManagedKeyOptions {
+func (*UkoV4) NewDeleteManagedKeyOptions(id string, ifMatch string) *DeleteManagedKeyOptions {
 	return &DeleteManagedKeyOptions{
 		ID: core.StringPtr(id),
-		UKOVault: core.StringPtr(uKOVault),
 		IfMatch: core.StringPtr(ifMatch),
 	}
 }
@@ -2807,12 +3292,6 @@ func (*UkoV4) NewDeleteManagedKeyOptions(id string, uKOVault string, ifMatch str
 // SetID : Allow user to set ID
 func (_options *DeleteManagedKeyOptions) SetID(id string) *DeleteManagedKeyOptions {
 	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetUKOVault : Allow user to set UKOVault
-func (_options *DeleteManagedKeyOptions) SetUKOVault(uKOVault string) *DeleteManagedKeyOptions {
-	_options.UKOVault = core.StringPtr(uKOVault)
 	return _options
 }
 
@@ -2871,9 +3350,6 @@ type DestroyManagedKeyOptions struct {
 	// UUID of the key.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// The UUID of the Vault in which the update is to take place.
-	UKOVault *string `json:"UKO-Vault" validate:"required"`
-
 	// Precondition of the update; Value of the ETag from the header on a GET request.
 	IfMatch *string `json:"If-Match" validate:"required"`
 
@@ -2882,10 +3358,9 @@ type DestroyManagedKeyOptions struct {
 }
 
 // NewDestroyManagedKeyOptions : Instantiate DestroyManagedKeyOptions
-func (*UkoV4) NewDestroyManagedKeyOptions(id string, uKOVault string, ifMatch string) *DestroyManagedKeyOptions {
+func (*UkoV4) NewDestroyManagedKeyOptions(id string, ifMatch string) *DestroyManagedKeyOptions {
 	return &DestroyManagedKeyOptions{
 		ID: core.StringPtr(id),
-		UKOVault: core.StringPtr(uKOVault),
 		IfMatch: core.StringPtr(ifMatch),
 	}
 }
@@ -2893,12 +3368,6 @@ func (*UkoV4) NewDestroyManagedKeyOptions(id string, uKOVault string, ifMatch st
 // SetID : Allow user to set ID
 func (_options *DestroyManagedKeyOptions) SetID(id string) *DestroyManagedKeyOptions {
 	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetUKOVault : Allow user to set UKOVault
-func (_options *DestroyManagedKeyOptions) SetUKOVault(uKOVault string) *DestroyManagedKeyOptions {
-	_options.UKOVault = core.StringPtr(uKOVault)
 	return _options
 }
 
@@ -2914,35 +3383,63 @@ func (options *DestroyManagedKeyOptions) SetHeaders(param map[string]string) *De
 	return options
 }
 
+// ExposeKeyTemplateOptions : The ExposeKeyTemplate options.
+type ExposeKeyTemplateOptions struct {
+	// UUID of the template.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// Precondition of the update; Value of the ETag from the header on a GET request.
+	IfMatch *string `json:"If-Match" validate:"required"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewExposeKeyTemplateOptions : Instantiate ExposeKeyTemplateOptions
+func (*UkoV4) NewExposeKeyTemplateOptions(id string, ifMatch string) *ExposeKeyTemplateOptions {
+	return &ExposeKeyTemplateOptions{
+		ID: core.StringPtr(id),
+		IfMatch: core.StringPtr(ifMatch),
+	}
+}
+
+// SetID : Allow user to set ID
+func (_options *ExposeKeyTemplateOptions) SetID(id string) *ExposeKeyTemplateOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetIfMatch : Allow user to set IfMatch
+func (_options *ExposeKeyTemplateOptions) SetIfMatch(ifMatch string) *ExposeKeyTemplateOptions {
+	_options.IfMatch = core.StringPtr(ifMatch)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ExposeKeyTemplateOptions) SetHeaders(param map[string]string) *ExposeKeyTemplateOptions {
+	options.Headers = param
+	return options
+}
+
 // GetKeyDistributionStatusForKeystoresOptions : The GetKeyDistributionStatusForKeystores options.
 type GetKeyDistributionStatusForKeystoresOptions struct {
 	// UUID of the key.
 	ID *string `json:"id" validate:"required,ne="`
-
-	// The UUID of the Vault in which the update is to take place.
-	UKOVault *string `json:"UKO-Vault" validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
 // NewGetKeyDistributionStatusForKeystoresOptions : Instantiate GetKeyDistributionStatusForKeystoresOptions
-func (*UkoV4) NewGetKeyDistributionStatusForKeystoresOptions(id string, uKOVault string) *GetKeyDistributionStatusForKeystoresOptions {
+func (*UkoV4) NewGetKeyDistributionStatusForKeystoresOptions(id string) *GetKeyDistributionStatusForKeystoresOptions {
 	return &GetKeyDistributionStatusForKeystoresOptions{
 		ID: core.StringPtr(id),
-		UKOVault: core.StringPtr(uKOVault),
 	}
 }
 
 // SetID : Allow user to set ID
 func (_options *GetKeyDistributionStatusForKeystoresOptions) SetID(id string) *GetKeyDistributionStatusForKeystoresOptions {
 	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetUKOVault : Allow user to set UKOVault
-func (_options *GetKeyDistributionStatusForKeystoresOptions) SetUKOVault(uKOVault string) *GetKeyDistributionStatusForKeystoresOptions {
-	_options.UKOVault = core.StringPtr(uKOVault)
 	return _options
 }
 
@@ -2957,30 +3454,20 @@ type GetKeyTemplateOptions struct {
 	// UUID of the template.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// The UUID of the Vault in which the update is to take place.
-	UKOVault *string `json:"UKO-Vault" validate:"required"`
-
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
 // NewGetKeyTemplateOptions : Instantiate GetKeyTemplateOptions
-func (*UkoV4) NewGetKeyTemplateOptions(id string, uKOVault string) *GetKeyTemplateOptions {
+func (*UkoV4) NewGetKeyTemplateOptions(id string) *GetKeyTemplateOptions {
 	return &GetKeyTemplateOptions{
 		ID: core.StringPtr(id),
-		UKOVault: core.StringPtr(uKOVault),
 	}
 }
 
 // SetID : Allow user to set ID
 func (_options *GetKeyTemplateOptions) SetID(id string) *GetKeyTemplateOptions {
 	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetUKOVault : Allow user to set UKOVault
-func (_options *GetKeyTemplateOptions) SetUKOVault(uKOVault string) *GetKeyTemplateOptions {
-	_options.UKOVault = core.StringPtr(uKOVault)
 	return _options
 }
 
@@ -2995,30 +3482,20 @@ type GetKeystoreOptions struct {
 	// UUID of the keystore.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// The UUID of the Vault in which the update is to take place.
-	UKOVault *string `json:"UKO-Vault" validate:"required"`
-
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
 // NewGetKeystoreOptions : Instantiate GetKeystoreOptions
-func (*UkoV4) NewGetKeystoreOptions(id string, uKOVault string) *GetKeystoreOptions {
+func (*UkoV4) NewGetKeystoreOptions(id string) *GetKeystoreOptions {
 	return &GetKeystoreOptions{
 		ID: core.StringPtr(id),
-		UKOVault: core.StringPtr(uKOVault),
 	}
 }
 
 // SetID : Allow user to set ID
 func (_options *GetKeystoreOptions) SetID(id string) *GetKeystoreOptions {
 	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetUKOVault : Allow user to set UKOVault
-func (_options *GetKeystoreOptions) SetUKOVault(uKOVault string) *GetKeystoreOptions {
-	_options.UKOVault = core.StringPtr(uKOVault)
 	return _options
 }
 
@@ -3033,30 +3510,20 @@ type GetKeystoreStatusOptions struct {
 	// UUID of the keystore.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// The UUID of the Vault in which the update is to take place.
-	UKOVault *string `json:"UKO-Vault" validate:"required"`
-
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
 // NewGetKeystoreStatusOptions : Instantiate GetKeystoreStatusOptions
-func (*UkoV4) NewGetKeystoreStatusOptions(id string, uKOVault string) *GetKeystoreStatusOptions {
+func (*UkoV4) NewGetKeystoreStatusOptions(id string) *GetKeystoreStatusOptions {
 	return &GetKeystoreStatusOptions{
 		ID: core.StringPtr(id),
-		UKOVault: core.StringPtr(uKOVault),
 	}
 }
 
 // SetID : Allow user to set ID
 func (_options *GetKeystoreStatusOptions) SetID(id string) *GetKeystoreStatusOptions {
 	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetUKOVault : Allow user to set UKOVault
-func (_options *GetKeystoreStatusOptions) SetUKOVault(uKOVault string) *GetKeystoreStatusOptions {
-	_options.UKOVault = core.StringPtr(uKOVault)
 	return _options
 }
 
@@ -3071,30 +3538,20 @@ type GetManagedKeyOptions struct {
 	// UUID of the key.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// The UUID of the Vault in which the update is to take place.
-	UKOVault *string `json:"UKO-Vault" validate:"required"`
-
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
 // NewGetManagedKeyOptions : Instantiate GetManagedKeyOptions
-func (*UkoV4) NewGetManagedKeyOptions(id string, uKOVault string) *GetManagedKeyOptions {
+func (*UkoV4) NewGetManagedKeyOptions(id string) *GetManagedKeyOptions {
 	return &GetManagedKeyOptions{
 		ID: core.StringPtr(id),
-		UKOVault: core.StringPtr(uKOVault),
 	}
 }
 
 // SetID : Allow user to set ID
 func (_options *GetManagedKeyOptions) SetID(id string) *GetManagedKeyOptions {
 	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetUKOVault : Allow user to set UKOVault
-func (_options *GetManagedKeyOptions) SetUKOVault(uKOVault string) *GetManagedKeyOptions {
-	_options.UKOVault = core.StringPtr(uKOVault)
 	return _options
 }
 
@@ -3137,9 +3594,6 @@ type ListAssociatedResourcesForManagedKeyOptions struct {
 	// UUID of the key.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// The UUID of the Vault in which the update is to take place.
-	UKOVault *string `json:"UKO-Vault" validate:"required"`
-
 	// The number of resources to retrieve.
 	Limit *int64 `json:"limit,omitempty"`
 
@@ -3154,22 +3608,15 @@ type ListAssociatedResourcesForManagedKeyOptions struct {
 }
 
 // NewListAssociatedResourcesForManagedKeyOptions : Instantiate ListAssociatedResourcesForManagedKeyOptions
-func (*UkoV4) NewListAssociatedResourcesForManagedKeyOptions(id string, uKOVault string) *ListAssociatedResourcesForManagedKeyOptions {
+func (*UkoV4) NewListAssociatedResourcesForManagedKeyOptions(id string) *ListAssociatedResourcesForManagedKeyOptions {
 	return &ListAssociatedResourcesForManagedKeyOptions{
 		ID: core.StringPtr(id),
-		UKOVault: core.StringPtr(uKOVault),
 	}
 }
 
 // SetID : Allow user to set ID
 func (_options *ListAssociatedResourcesForManagedKeyOptions) SetID(id string) *ListAssociatedResourcesForManagedKeyOptions {
 	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetUKOVault : Allow user to set UKOVault
-func (_options *ListAssociatedResourcesForManagedKeyOptions) SetUKOVault(uKOVault string) *ListAssociatedResourcesForManagedKeyOptions {
-	_options.UKOVault = core.StringPtr(uKOVault)
 	return _options
 }
 
@@ -3202,9 +3649,6 @@ type ListAssociatedResourcesForTargetKeystoreOptions struct {
 	// UUID of the keystore.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// The UUID of the Vault in which the update is to take place.
-	UKOVault *string `json:"UKO-Vault" validate:"required"`
-
 	// The number of resources to retrieve.
 	Limit *int64 `json:"limit,omitempty"`
 
@@ -3219,22 +3663,15 @@ type ListAssociatedResourcesForTargetKeystoreOptions struct {
 }
 
 // NewListAssociatedResourcesForTargetKeystoreOptions : Instantiate ListAssociatedResourcesForTargetKeystoreOptions
-func (*UkoV4) NewListAssociatedResourcesForTargetKeystoreOptions(id string, uKOVault string) *ListAssociatedResourcesForTargetKeystoreOptions {
+func (*UkoV4) NewListAssociatedResourcesForTargetKeystoreOptions(id string) *ListAssociatedResourcesForTargetKeystoreOptions {
 	return &ListAssociatedResourcesForTargetKeystoreOptions{
 		ID: core.StringPtr(id),
-		UKOVault: core.StringPtr(uKOVault),
 	}
 }
 
 // SetID : Allow user to set ID
 func (_options *ListAssociatedResourcesForTargetKeystoreOptions) SetID(id string) *ListAssociatedResourcesForTargetKeystoreOptions {
 	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetUKOVault : Allow user to set UKOVault
-func (_options *ListAssociatedResourcesForTargetKeystoreOptions) SetUKOVault(uKOVault string) *ListAssociatedResourcesForTargetKeystoreOptions {
-	_options.UKOVault = core.StringPtr(uKOVault)
 	return _options
 }
 
@@ -3264,11 +3701,64 @@ func (options *ListAssociatedResourcesForTargetKeystoreOptions) SetHeaders(param
 
 // ListKeyTemplatesOptions : The ListKeyTemplates options.
 type ListKeyTemplatesOptions struct {
+	// The type of the response: application/json, application/vnd.ibm.uko.key-template-list.v4.1+json,
+	// application/vnd.ibm.uko.key-template-list.v4.1.json+zip, or application/vnd.ibm.uko.key-template-list.v4.1.csv+zip.
+	Accept *string `json:"Accept,omitempty"`
+
+	// Return only templates whose name begin with the string.
+	Name *string `json:"name,omitempty"`
+
+	// Return only templates whose naming scheme contains the string.
+	NamingScheme *string `json:"naming_scheme,omitempty"`
+
 	// The UUID of the Vault.
 	VaultID []string `json:"vault.id,omitempty"`
 
-	// The algorithm of a returned key templates.
-	KeyAlgorithm *string `json:"key.algorithm,omitempty"`
+	// The algorithm of a returned key template.
+	KeyAlgorithm []string `json:"key.algorithm,omitempty"`
+
+	// The size of the key.
+	KeySize *string `json:"key.size,omitempty"`
+
+	// The minimum size of the key. This query parameter cannot be used in conjunction with the 'key.size' query parameter.
+	KeySizeMin *string `json:"key.size_min,omitempty"`
+
+	// The maximum size of the key. This query parameter cannot be used in conjunction with the 'key.size' query parameter.
+	KeySizeMax *string `json:"key.size_max,omitempty"`
+
+	// Type of referenced keystore.
+	KeystoresType []string `json:"keystores[].type,omitempty"`
+
+	// Group of referenced keystore.
+	KeystoresGroup []string `json:"keystores[].group,omitempty"`
+
+	// Return only managed keys whose created_at matches the parameter.
+	CreatedAt *string `json:"created_at,omitempty"`
+
+	// Return only managed keys whose created_at is at or after the parameter value. This query parameter cannot be used in
+	// conjunction with the 'created_at' query parameter.
+	CreatedAtMin *string `json:"created_at_min,omitempty"`
+
+	// Return only managed keys whose created_at is at or before the parameter value. This query parameter cannot be used
+	// in conjunction with the 'created_at' query parameter.
+	CreatedAtMax *string `json:"created_at_max,omitempty"`
+
+	// Return only managed keys whose updated_at matches the parameter.
+	UpdatedAt *string `json:"updated_at,omitempty"`
+
+	// Return only managed keys whose updated_at is after the parameter value. This query parameter cannot be used in
+	// conjunction with the 'updated_at' query parameter.
+	UpdatedAtMin *string `json:"updated_at_min,omitempty"`
+
+	// Return only managed keys whose updated_at is before the parameter value. This query parameter cannot be used in
+	// conjunction with the 'updated_at' query parameter.
+	UpdatedAtMax *string `json:"updated_at_max,omitempty"`
+
+	// The types of returned templates.
+	Type []string `json:"type[],omitempty"`
+
+	// Return only template whose state contains the string.
+	State []string `json:"state,omitempty"`
 
 	// Define sorting order.
 	Sort []string `json:"sort,omitempty"`
@@ -3279,22 +3769,78 @@ type ListKeyTemplatesOptions struct {
 	// The number of resources to skip.
 	Offset *int64 `json:"offset,omitempty"`
 
+	// Return only managed keys with the given managing systems.
+	ManagingSystems []string `json:"managing_systems,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
 // Constants associated with the ListKeyTemplatesOptions.KeyAlgorithm property.
-// The algorithm of a returned key templates.
+// The algorithm of the key.
 const (
 	ListKeyTemplatesOptions_KeyAlgorithm_Aes = "aes"
+	ListKeyTemplatesOptions_KeyAlgorithm_Des = "des"
+	ListKeyTemplatesOptions_KeyAlgorithm_Dilithium = "dilithium"
 	ListKeyTemplatesOptions_KeyAlgorithm_Ec = "ec"
 	ListKeyTemplatesOptions_KeyAlgorithm_Hmac = "hmac"
 	ListKeyTemplatesOptions_KeyAlgorithm_Rsa = "rsa"
 )
 
+// Constants associated with the ListKeyTemplatesOptions.KeystoresType property.
+// Type of keystore.
+const (
+	ListKeyTemplatesOptions_KeystoresType_AwsKms = "aws_kms"
+	ListKeyTemplatesOptions_KeystoresType_AzureKeyVault = "azure_key_vault"
+	ListKeyTemplatesOptions_KeystoresType_Cca = "cca"
+	ListKeyTemplatesOptions_KeystoresType_GoogleKms = "google_kms"
+	ListKeyTemplatesOptions_KeystoresType_IbmCloudKms = "ibm_cloud_kms"
+)
+
+// Constants associated with the ListKeyTemplatesOptions.Type property.
+// Type of the template which determines template origins. Ones created by user are 'user_defined' where 'shadow' means
+// it was created under the hood by the UKO.
+const (
+	ListKeyTemplatesOptions_Type_Shadow = "shadow"
+	ListKeyTemplatesOptions_Type_System = "system"
+	ListKeyTemplatesOptions_Type_UserDefined = "user_defined"
+)
+
+// Constants associated with the ListKeyTemplatesOptions.State property.
+// State of the template which determines if the template is archived or unarchived.
+const (
+	ListKeyTemplatesOptions_State_Archived = "archived"
+	ListKeyTemplatesOptions_State_Unarchived = "unarchived"
+)
+
+// Constants associated with the ListKeyTemplatesOptions.ManagingSystems property.
+// Managing system of templates and keys.
+const (
+	ListKeyTemplatesOptions_ManagingSystems_Web = "web"
+	ListKeyTemplatesOptions_ManagingSystems_Workstation = "workstation"
+)
+
 // NewListKeyTemplatesOptions : Instantiate ListKeyTemplatesOptions
 func (*UkoV4) NewListKeyTemplatesOptions() *ListKeyTemplatesOptions {
 	return &ListKeyTemplatesOptions{}
+}
+
+// SetAccept : Allow user to set Accept
+func (_options *ListKeyTemplatesOptions) SetAccept(accept string) *ListKeyTemplatesOptions {
+	_options.Accept = core.StringPtr(accept)
+	return _options
+}
+
+// SetName : Allow user to set Name
+func (_options *ListKeyTemplatesOptions) SetName(name string) *ListKeyTemplatesOptions {
+	_options.Name = core.StringPtr(name)
+	return _options
+}
+
+// SetNamingScheme : Allow user to set NamingScheme
+func (_options *ListKeyTemplatesOptions) SetNamingScheme(namingScheme string) *ListKeyTemplatesOptions {
+	_options.NamingScheme = core.StringPtr(namingScheme)
+	return _options
 }
 
 // SetVaultID : Allow user to set VaultID
@@ -3304,8 +3850,86 @@ func (_options *ListKeyTemplatesOptions) SetVaultID(vaultID []string) *ListKeyTe
 }
 
 // SetKeyAlgorithm : Allow user to set KeyAlgorithm
-func (_options *ListKeyTemplatesOptions) SetKeyAlgorithm(keyAlgorithm string) *ListKeyTemplatesOptions {
-	_options.KeyAlgorithm = core.StringPtr(keyAlgorithm)
+func (_options *ListKeyTemplatesOptions) SetKeyAlgorithm(keyAlgorithm []string) *ListKeyTemplatesOptions {
+	_options.KeyAlgorithm = keyAlgorithm
+	return _options
+}
+
+// SetKeySize : Allow user to set KeySize
+func (_options *ListKeyTemplatesOptions) SetKeySize(keySize string) *ListKeyTemplatesOptions {
+	_options.KeySize = core.StringPtr(keySize)
+	return _options
+}
+
+// SetKeySizeMin : Allow user to set KeySizeMin
+func (_options *ListKeyTemplatesOptions) SetKeySizeMin(keySizeMin string) *ListKeyTemplatesOptions {
+	_options.KeySizeMin = core.StringPtr(keySizeMin)
+	return _options
+}
+
+// SetKeySizeMax : Allow user to set KeySizeMax
+func (_options *ListKeyTemplatesOptions) SetKeySizeMax(keySizeMax string) *ListKeyTemplatesOptions {
+	_options.KeySizeMax = core.StringPtr(keySizeMax)
+	return _options
+}
+
+// SetKeystoresType : Allow user to set KeystoresType
+func (_options *ListKeyTemplatesOptions) SetKeystoresType(keystoresType []string) *ListKeyTemplatesOptions {
+	_options.KeystoresType = keystoresType
+	return _options
+}
+
+// SetKeystoresGroup : Allow user to set KeystoresGroup
+func (_options *ListKeyTemplatesOptions) SetKeystoresGroup(keystoresGroup []string) *ListKeyTemplatesOptions {
+	_options.KeystoresGroup = keystoresGroup
+	return _options
+}
+
+// SetCreatedAt : Allow user to set CreatedAt
+func (_options *ListKeyTemplatesOptions) SetCreatedAt(createdAt string) *ListKeyTemplatesOptions {
+	_options.CreatedAt = core.StringPtr(createdAt)
+	return _options
+}
+
+// SetCreatedAtMin : Allow user to set CreatedAtMin
+func (_options *ListKeyTemplatesOptions) SetCreatedAtMin(createdAtMin string) *ListKeyTemplatesOptions {
+	_options.CreatedAtMin = core.StringPtr(createdAtMin)
+	return _options
+}
+
+// SetCreatedAtMax : Allow user to set CreatedAtMax
+func (_options *ListKeyTemplatesOptions) SetCreatedAtMax(createdAtMax string) *ListKeyTemplatesOptions {
+	_options.CreatedAtMax = core.StringPtr(createdAtMax)
+	return _options
+}
+
+// SetUpdatedAt : Allow user to set UpdatedAt
+func (_options *ListKeyTemplatesOptions) SetUpdatedAt(updatedAt string) *ListKeyTemplatesOptions {
+	_options.UpdatedAt = core.StringPtr(updatedAt)
+	return _options
+}
+
+// SetUpdatedAtMin : Allow user to set UpdatedAtMin
+func (_options *ListKeyTemplatesOptions) SetUpdatedAtMin(updatedAtMin string) *ListKeyTemplatesOptions {
+	_options.UpdatedAtMin = core.StringPtr(updatedAtMin)
+	return _options
+}
+
+// SetUpdatedAtMax : Allow user to set UpdatedAtMax
+func (_options *ListKeyTemplatesOptions) SetUpdatedAtMax(updatedAtMax string) *ListKeyTemplatesOptions {
+	_options.UpdatedAtMax = core.StringPtr(updatedAtMax)
+	return _options
+}
+
+// SetType : Allow user to set Type
+func (_options *ListKeyTemplatesOptions) SetType(typeVar []string) *ListKeyTemplatesOptions {
+	_options.Type = typeVar
+	return _options
+}
+
+// SetState : Allow user to set State
+func (_options *ListKeyTemplatesOptions) SetState(state []string) *ListKeyTemplatesOptions {
+	_options.State = state
 	return _options
 }
 
@@ -3327,6 +3951,12 @@ func (_options *ListKeyTemplatesOptions) SetOffset(offset int64) *ListKeyTemplat
 	return _options
 }
 
+// SetManagingSystems : Allow user to set ManagingSystems
+func (_options *ListKeyTemplatesOptions) SetManagingSystems(managingSystems []string) *ListKeyTemplatesOptions {
+	_options.ManagingSystems = managingSystems
+	return _options
+}
+
 // SetHeaders : Allow user to set Headers
 func (options *ListKeyTemplatesOptions) SetHeaders(param map[string]string) *ListKeyTemplatesOptions {
 	options.Headers = param
@@ -3335,6 +3965,10 @@ func (options *ListKeyTemplatesOptions) SetHeaders(param map[string]string) *Lis
 
 // ListKeystoresOptions : The ListKeystores options.
 type ListKeystoresOptions struct {
+	// The type of the response: application/json, application/vnd.ibm.uko.keystore-list.v4.1+json,
+	// application/vnd.ibm.uko.keystore-list.v4.1.json+zip, or application/vnd.ibm.uko.keystore-list.v4.1.csv+zip.
+	Accept *string `json:"Accept,omitempty"`
+
 	// Keystore type.
 	Type []string `json:"type,omitempty"`
 
@@ -3354,7 +3988,7 @@ type ListKeystoresOptions struct {
 	VaultID []string `json:"vault.id,omitempty"`
 
 	// Keystore location.
-	Location *string `json:"location,omitempty"`
+	Location []string `json:"location,omitempty"`
 
 	// The number of resources to retrieve.
 	Limit *int64 `json:"limit,omitempty"`
@@ -3374,6 +4008,7 @@ type ListKeystoresOptions struct {
 const (
 	ListKeystoresOptions_Type_AwsKms = "aws_kms"
 	ListKeystoresOptions_Type_AzureKeyVault = "azure_key_vault"
+	ListKeystoresOptions_Type_Cca = "cca"
 	ListKeystoresOptions_Type_GoogleKms = "google_kms"
 	ListKeystoresOptions_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -3381,6 +4016,12 @@ const (
 // NewListKeystoresOptions : Instantiate ListKeystoresOptions
 func (*UkoV4) NewListKeystoresOptions() *ListKeystoresOptions {
 	return &ListKeystoresOptions{}
+}
+
+// SetAccept : Allow user to set Accept
+func (_options *ListKeystoresOptions) SetAccept(accept string) *ListKeystoresOptions {
+	_options.Accept = core.StringPtr(accept)
+	return _options
 }
 
 // SetType : Allow user to set Type
@@ -3420,8 +4061,8 @@ func (_options *ListKeystoresOptions) SetVaultID(vaultID []string) *ListKeystore
 }
 
 // SetLocation : Allow user to set Location
-func (_options *ListKeystoresOptions) SetLocation(location string) *ListKeystoresOptions {
-	_options.Location = core.StringPtr(location)
+func (_options *ListKeystoresOptions) SetLocation(location []string) *ListKeystoresOptions {
+	_options.Location = location
 	return _options
 }
 
@@ -3449,15 +4090,12 @@ func (options *ListKeystoresOptions) SetHeaders(param map[string]string) *ListKe
 	return options
 }
 
-// ListManagedKeysFromKeystoreOptions : The ListManagedKeysFromKeystore options.
-type ListManagedKeysFromKeystoreOptions struct {
-	// The UUID of the Vault in which the update is to take place.
-	UKOVault *string `json:"UKO-Vault" validate:"required"`
-
-	// UUID of the keystore.
+// ListManagedKeyVersionsOptions : The ListManagedKeyVersions options.
+type ListManagedKeyVersionsOptions struct {
+	// UUID of the key.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// The algorithm of a returned keys.
+	// The algorithm of a returned key.
 	Algorithm []string `json:"algorithm,omitempty"`
 
 	// The state that returned keys are to be in.
@@ -3535,14 +4173,417 @@ type ListManagedKeysFromKeystoreOptions struct {
 	// conjunction with the 'updated_at' query parameter.
 	UpdatedAtMax *string `json:"updated_at_max,omitempty"`
 
+	// Return only managed keys whose rotated_at is after the parameter value.
+	RotatedAtMin *string `json:"rotated_at_min,omitempty"`
+
+	// Return only managed keys whose rotated_at is before the parameter value.
+	RotatedAtMax *string `json:"rotated_at_max,omitempty"`
+
 	// The size of the key.
-	Size *int64 `json:"size,omitempty"`
+	Size *string `json:"size,omitempty"`
 
 	// The minimum size of the key. This query parameter cannot be used in conjunction with the 'size' query parameter.
-	SizeMin *int64 `json:"size_min,omitempty"`
+	SizeMin *string `json:"size_min,omitempty"`
 
 	// The maximum size of the key. This query parameter cannot be used in conjunction with the 'size' query parameter.
-	SizeMax *int64 `json:"size_max,omitempty"`
+	SizeMax *string `json:"size_max,omitempty"`
+
+	// Type of referenced keystore. This query parameter cannot be used in conjunction with the 'instances[].keystore.type'
+	// query parameter.
+	ReferencedKeystoresType []string `json:"referenced_keystores[].type,omitempty"`
+
+	// Name of referenced keystore.
+	ReferencedKeystoresName []string `json:"referenced_keystores[].name,omitempty"`
+
+	// Type of keystore supported by one of the instances. This query parameter cannot be used in conjunction with the
+	// 'referenced_keystores[].type' query parameter.
+	InstancesKeystoreType []string `json:"instances[].keystore.type,omitempty"`
+
+	// Return only managed keys whose template name begins with the string.
+	TemplateName *string `json:"template.name,omitempty"`
+
+	// Return only managed keys with the given template UUID.
+	TemplateID []string `json:"template.id,omitempty"`
+
+	// Return only managed keys with the given template type.
+	TemplateType []string `json:"template.type[],omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// Constants associated with the ListManagedKeyVersionsOptions.Algorithm property.
+// The algorithm of the key.
+const (
+	ListManagedKeyVersionsOptions_Algorithm_Aes = "aes"
+	ListManagedKeyVersionsOptions_Algorithm_Des = "des"
+	ListManagedKeyVersionsOptions_Algorithm_Dilithium = "dilithium"
+	ListManagedKeyVersionsOptions_Algorithm_Ec = "ec"
+	ListManagedKeyVersionsOptions_Algorithm_Hmac = "hmac"
+	ListManagedKeyVersionsOptions_Algorithm_Rsa = "rsa"
+)
+
+// Constants associated with the ListManagedKeyVersionsOptions.State property.
+// The state of the key.
+const (
+	ListManagedKeyVersionsOptions_State_Active = "active"
+	ListManagedKeyVersionsOptions_State_Compromised = "compromised"
+	ListManagedKeyVersionsOptions_State_Deactivated = "deactivated"
+	ListManagedKeyVersionsOptions_State_Destroyed = "destroyed"
+	ListManagedKeyVersionsOptions_State_DestroyedCompromised = "destroyed_compromised"
+	ListManagedKeyVersionsOptions_State_PreActivation = "pre_activation"
+)
+
+// Constants associated with the ListManagedKeyVersionsOptions.ReferencedKeystoresType property.
+// Type of keystore.
+const (
+	ListManagedKeyVersionsOptions_ReferencedKeystoresType_AwsKms = "aws_kms"
+	ListManagedKeyVersionsOptions_ReferencedKeystoresType_AzureKeyVault = "azure_key_vault"
+	ListManagedKeyVersionsOptions_ReferencedKeystoresType_Cca = "cca"
+	ListManagedKeyVersionsOptions_ReferencedKeystoresType_GoogleKms = "google_kms"
+	ListManagedKeyVersionsOptions_ReferencedKeystoresType_IbmCloudKms = "ibm_cloud_kms"
+)
+
+// Constants associated with the ListManagedKeyVersionsOptions.InstancesKeystoreType property.
+// Type of keystore.
+const (
+	ListManagedKeyVersionsOptions_InstancesKeystoreType_AwsKms = "aws_kms"
+	ListManagedKeyVersionsOptions_InstancesKeystoreType_AzureKeyVault = "azure_key_vault"
+	ListManagedKeyVersionsOptions_InstancesKeystoreType_Cca = "cca"
+	ListManagedKeyVersionsOptions_InstancesKeystoreType_GoogleKms = "google_kms"
+	ListManagedKeyVersionsOptions_InstancesKeystoreType_IbmCloudKms = "ibm_cloud_kms"
+)
+
+// Constants associated with the ListManagedKeyVersionsOptions.TemplateType property.
+// Type of the template which determines template origins. Ones created by user are 'user_defined' where 'shadow' means
+// it was created under the hood by the UKO.
+const (
+	ListManagedKeyVersionsOptions_TemplateType_Shadow = "shadow"
+	ListManagedKeyVersionsOptions_TemplateType_System = "system"
+	ListManagedKeyVersionsOptions_TemplateType_UserDefined = "user_defined"
+)
+
+// NewListManagedKeyVersionsOptions : Instantiate ListManagedKeyVersionsOptions
+func (*UkoV4) NewListManagedKeyVersionsOptions(id string) *ListManagedKeyVersionsOptions {
+	return &ListManagedKeyVersionsOptions{
+		ID: core.StringPtr(id),
+	}
+}
+
+// SetID : Allow user to set ID
+func (_options *ListManagedKeyVersionsOptions) SetID(id string) *ListManagedKeyVersionsOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetAlgorithm : Allow user to set Algorithm
+func (_options *ListManagedKeyVersionsOptions) SetAlgorithm(algorithm []string) *ListManagedKeyVersionsOptions {
+	_options.Algorithm = algorithm
+	return _options
+}
+
+// SetState : Allow user to set State
+func (_options *ListManagedKeyVersionsOptions) SetState(state []string) *ListManagedKeyVersionsOptions {
+	_options.State = state
+	return _options
+}
+
+// SetLimit : Allow user to set Limit
+func (_options *ListManagedKeyVersionsOptions) SetLimit(limit int64) *ListManagedKeyVersionsOptions {
+	_options.Limit = core.Int64Ptr(limit)
+	return _options
+}
+
+// SetOffset : Allow user to set Offset
+func (_options *ListManagedKeyVersionsOptions) SetOffset(offset int64) *ListManagedKeyVersionsOptions {
+	_options.Offset = core.Int64Ptr(offset)
+	return _options
+}
+
+// SetSort : Allow user to set Sort
+func (_options *ListManagedKeyVersionsOptions) SetSort(sort []string) *ListManagedKeyVersionsOptions {
+	_options.Sort = sort
+	return _options
+}
+
+// SetLabel : Allow user to set Label
+func (_options *ListManagedKeyVersionsOptions) SetLabel(label string) *ListManagedKeyVersionsOptions {
+	_options.Label = core.StringPtr(label)
+	return _options
+}
+
+// SetActivationDate : Allow user to set ActivationDate
+func (_options *ListManagedKeyVersionsOptions) SetActivationDate(activationDate string) *ListManagedKeyVersionsOptions {
+	_options.ActivationDate = core.StringPtr(activationDate)
+	return _options
+}
+
+// SetActivationDateMin : Allow user to set ActivationDateMin
+func (_options *ListManagedKeyVersionsOptions) SetActivationDateMin(activationDateMin string) *ListManagedKeyVersionsOptions {
+	_options.ActivationDateMin = core.StringPtr(activationDateMin)
+	return _options
+}
+
+// SetActivationDateMax : Allow user to set ActivationDateMax
+func (_options *ListManagedKeyVersionsOptions) SetActivationDateMax(activationDateMax string) *ListManagedKeyVersionsOptions {
+	_options.ActivationDateMax = core.StringPtr(activationDateMax)
+	return _options
+}
+
+// SetDeactivationDate : Allow user to set DeactivationDate
+func (_options *ListManagedKeyVersionsOptions) SetDeactivationDate(deactivationDate string) *ListManagedKeyVersionsOptions {
+	_options.DeactivationDate = core.StringPtr(deactivationDate)
+	return _options
+}
+
+// SetDeactivationDateMin : Allow user to set DeactivationDateMin
+func (_options *ListManagedKeyVersionsOptions) SetDeactivationDateMin(deactivationDateMin string) *ListManagedKeyVersionsOptions {
+	_options.DeactivationDateMin = core.StringPtr(deactivationDateMin)
+	return _options
+}
+
+// SetDeactivationDateMax : Allow user to set DeactivationDateMax
+func (_options *ListManagedKeyVersionsOptions) SetDeactivationDateMax(deactivationDateMax string) *ListManagedKeyVersionsOptions {
+	_options.DeactivationDateMax = core.StringPtr(deactivationDateMax)
+	return _options
+}
+
+// SetExpirationDate : Allow user to set ExpirationDate
+func (_options *ListManagedKeyVersionsOptions) SetExpirationDate(expirationDate string) *ListManagedKeyVersionsOptions {
+	_options.ExpirationDate = core.StringPtr(expirationDate)
+	return _options
+}
+
+// SetExpirationDateMin : Allow user to set ExpirationDateMin
+func (_options *ListManagedKeyVersionsOptions) SetExpirationDateMin(expirationDateMin string) *ListManagedKeyVersionsOptions {
+	_options.ExpirationDateMin = core.StringPtr(expirationDateMin)
+	return _options
+}
+
+// SetExpirationDateMax : Allow user to set ExpirationDateMax
+func (_options *ListManagedKeyVersionsOptions) SetExpirationDateMax(expirationDateMax string) *ListManagedKeyVersionsOptions {
+	_options.ExpirationDateMax = core.StringPtr(expirationDateMax)
+	return _options
+}
+
+// SetCreatedAt : Allow user to set CreatedAt
+func (_options *ListManagedKeyVersionsOptions) SetCreatedAt(createdAt string) *ListManagedKeyVersionsOptions {
+	_options.CreatedAt = core.StringPtr(createdAt)
+	return _options
+}
+
+// SetCreatedAtMin : Allow user to set CreatedAtMin
+func (_options *ListManagedKeyVersionsOptions) SetCreatedAtMin(createdAtMin string) *ListManagedKeyVersionsOptions {
+	_options.CreatedAtMin = core.StringPtr(createdAtMin)
+	return _options
+}
+
+// SetCreatedAtMax : Allow user to set CreatedAtMax
+func (_options *ListManagedKeyVersionsOptions) SetCreatedAtMax(createdAtMax string) *ListManagedKeyVersionsOptions {
+	_options.CreatedAtMax = core.StringPtr(createdAtMax)
+	return _options
+}
+
+// SetUpdatedAt : Allow user to set UpdatedAt
+func (_options *ListManagedKeyVersionsOptions) SetUpdatedAt(updatedAt string) *ListManagedKeyVersionsOptions {
+	_options.UpdatedAt = core.StringPtr(updatedAt)
+	return _options
+}
+
+// SetUpdatedAtMin : Allow user to set UpdatedAtMin
+func (_options *ListManagedKeyVersionsOptions) SetUpdatedAtMin(updatedAtMin string) *ListManagedKeyVersionsOptions {
+	_options.UpdatedAtMin = core.StringPtr(updatedAtMin)
+	return _options
+}
+
+// SetUpdatedAtMax : Allow user to set UpdatedAtMax
+func (_options *ListManagedKeyVersionsOptions) SetUpdatedAtMax(updatedAtMax string) *ListManagedKeyVersionsOptions {
+	_options.UpdatedAtMax = core.StringPtr(updatedAtMax)
+	return _options
+}
+
+// SetRotatedAtMin : Allow user to set RotatedAtMin
+func (_options *ListManagedKeyVersionsOptions) SetRotatedAtMin(rotatedAtMin string) *ListManagedKeyVersionsOptions {
+	_options.RotatedAtMin = core.StringPtr(rotatedAtMin)
+	return _options
+}
+
+// SetRotatedAtMax : Allow user to set RotatedAtMax
+func (_options *ListManagedKeyVersionsOptions) SetRotatedAtMax(rotatedAtMax string) *ListManagedKeyVersionsOptions {
+	_options.RotatedAtMax = core.StringPtr(rotatedAtMax)
+	return _options
+}
+
+// SetSize : Allow user to set Size
+func (_options *ListManagedKeyVersionsOptions) SetSize(size string) *ListManagedKeyVersionsOptions {
+	_options.Size = core.StringPtr(size)
+	return _options
+}
+
+// SetSizeMin : Allow user to set SizeMin
+func (_options *ListManagedKeyVersionsOptions) SetSizeMin(sizeMin string) *ListManagedKeyVersionsOptions {
+	_options.SizeMin = core.StringPtr(sizeMin)
+	return _options
+}
+
+// SetSizeMax : Allow user to set SizeMax
+func (_options *ListManagedKeyVersionsOptions) SetSizeMax(sizeMax string) *ListManagedKeyVersionsOptions {
+	_options.SizeMax = core.StringPtr(sizeMax)
+	return _options
+}
+
+// SetReferencedKeystoresType : Allow user to set ReferencedKeystoresType
+func (_options *ListManagedKeyVersionsOptions) SetReferencedKeystoresType(referencedKeystoresType []string) *ListManagedKeyVersionsOptions {
+	_options.ReferencedKeystoresType = referencedKeystoresType
+	return _options
+}
+
+// SetReferencedKeystoresName : Allow user to set ReferencedKeystoresName
+func (_options *ListManagedKeyVersionsOptions) SetReferencedKeystoresName(referencedKeystoresName []string) *ListManagedKeyVersionsOptions {
+	_options.ReferencedKeystoresName = referencedKeystoresName
+	return _options
+}
+
+// SetInstancesKeystoreType : Allow user to set InstancesKeystoreType
+func (_options *ListManagedKeyVersionsOptions) SetInstancesKeystoreType(instancesKeystoreType []string) *ListManagedKeyVersionsOptions {
+	_options.InstancesKeystoreType = instancesKeystoreType
+	return _options
+}
+
+// SetTemplateName : Allow user to set TemplateName
+func (_options *ListManagedKeyVersionsOptions) SetTemplateName(templateName string) *ListManagedKeyVersionsOptions {
+	_options.TemplateName = core.StringPtr(templateName)
+	return _options
+}
+
+// SetTemplateID : Allow user to set TemplateID
+func (_options *ListManagedKeyVersionsOptions) SetTemplateID(templateID []string) *ListManagedKeyVersionsOptions {
+	_options.TemplateID = templateID
+	return _options
+}
+
+// SetTemplateType : Allow user to set TemplateType
+func (_options *ListManagedKeyVersionsOptions) SetTemplateType(templateType []string) *ListManagedKeyVersionsOptions {
+	_options.TemplateType = templateType
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListManagedKeyVersionsOptions) SetHeaders(param map[string]string) *ListManagedKeyVersionsOptions {
+	options.Headers = param
+	return options
+}
+
+// ListManagedKeysFromKeystoreOptions : The ListManagedKeysFromKeystore options.
+type ListManagedKeysFromKeystoreOptions struct {
+	// UUID of the keystore.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// The type of the response: application/json, application/vnd.ibm.uko.managed-key-list.v4.1+json,
+	// application/vnd.ibm.uko.managed-key-list.v4.1.json+zip, or application/vnd.ibm.uko.managed-key-list.v4.1.csv+zip.
+	Accept *string `json:"Accept,omitempty"`
+
+	// The algorithm of a returned key.
+	Algorithm []string `json:"algorithm,omitempty"`
+
+	// The state that returned keys are to be in.
+	State []string `json:"state,omitempty"`
+
+	// The number of resources to retrieve.
+	Limit *int64 `json:"limit,omitempty"`
+
+	// The number of resources to skip.
+	Offset *int64 `json:"offset,omitempty"`
+
+	// Define sorting order.
+	Sort []string `json:"sort,omitempty"`
+
+	// The label of the key.
+	Label *string `json:"label,omitempty"`
+
+	// Return only managed keys whose activation_date matches the parameter.
+	ActivationDate *string `json:"activation_date,omitempty"`
+
+	// Return only managed keys whose activation_date is at or after the parameter value. This query parameter cannot be
+	// used in conjunction with the 'activation_date' query parameter.
+	ActivationDateMin *string `json:"activation_date_min,omitempty"`
+
+	// Return only managed keys whose activation_date is at or before the parameter value. This query parameter cannot be
+	// used in conjunction with the 'activation_date' query parameter.
+	ActivationDateMax *string `json:"activation_date_max,omitempty"`
+
+	// Return only managed keys whose deactivation_date matches the parameter. This query parameter cannot be used in
+	// conjunction with the 'expiration_date' query parameter.
+	DeactivationDate *string `json:"deactivation_date,omitempty"`
+
+	// Return only managed keys whose deactivation_date is at or after the parameter value. This query parameter cannot be
+	// used in conjunction with the 'deactivation_date', 'expiration_date', 'expiration_date_min' and 'expiration_date_max'
+	// query parameters.
+	DeactivationDateMin *string `json:"deactivation_date_min,omitempty"`
+
+	// Return only managed keys whose deactivation_date is at or before the parameter value. This query parameter cannot be
+	// used in conjunction with the 'deactivation_date', 'expiration_date', 'expiration_date_min' and 'expiration_date_max'
+	// query parameters.
+	DeactivationDateMax *string `json:"deactivation_date_max,omitempty"`
+
+	// Return only managed keys whose deactivation_date matches the parameter.
+	ExpirationDate *string `json:"expiration_date,omitempty"`
+
+	// Return only managed keys whose deactivation_date is at or after the parameter value. This query parameter cannot be
+	// used in conjunction with the 'deactivation_date', 'expiration_date', 'deactivation_date_min' and
+	// 'deactivation_date_max' query parameters.
+	ExpirationDateMin *string `json:"expiration_date_min,omitempty"`
+
+	// Return only managed keys whose deactivation_date is at or before the parameter value. This query parameter cannot be
+	// used in conjunction with the 'deactivation_date', 'expiration_date', 'deactivation_date_min' and
+	// 'deactivation_date_max' query parameters.
+	ExpirationDateMax *string `json:"expiration_date_max,omitempty"`
+
+	// Return only managed keys whose created_at matches the parameter.
+	CreatedAt *string `json:"created_at,omitempty"`
+
+	// Return only managed keys whose created_at is at or after the parameter value. This query parameter cannot be used in
+	// conjunction with the 'created_at' query parameter.
+	CreatedAtMin *string `json:"created_at_min,omitempty"`
+
+	// Return only managed keys whose created_at is at or before the parameter value. This query parameter cannot be used
+	// in conjunction with the 'created_at' query parameter.
+	CreatedAtMax *string `json:"created_at_max,omitempty"`
+
+	// Return only managed keys whose updated_at matches the parameter.
+	UpdatedAt *string `json:"updated_at,omitempty"`
+
+	// Return only managed keys whose updated_at is after the parameter value. This query parameter cannot be used in
+	// conjunction with the 'updated_at' query parameter.
+	UpdatedAtMin *string `json:"updated_at_min,omitempty"`
+
+	// Return only managed keys whose updated_at is before the parameter value. This query parameter cannot be used in
+	// conjunction with the 'updated_at' query parameter.
+	UpdatedAtMax *string `json:"updated_at_max,omitempty"`
+
+	// Return only managed keys whose rotated_at is after the parameter value.
+	RotatedAtMin *string `json:"rotated_at_min,omitempty"`
+
+	// Return only managed keys whose rotated_at is before the parameter value.
+	RotatedAtMax *string `json:"rotated_at_max,omitempty"`
+
+	// The size of the key.
+	Size *string `json:"size,omitempty"`
+
+	// The minimum size of the key. This query parameter cannot be used in conjunction with the 'size' query parameter.
+	SizeMin *string `json:"size_min,omitempty"`
+
+	// The maximum size of the key. This query parameter cannot be used in conjunction with the 'size' query parameter.
+	SizeMax *string `json:"size_max,omitempty"`
+
+	// Return only managed keys whose template name begins with the string.
+	TemplateName *string `json:"template.name,omitempty"`
+
+	// Return only managed keys with the given template UUID.
+	TemplateID []string `json:"template.id,omitempty"`
+
+	// Return only managed keys with the given template type.
+	TemplateType []string `json:"template.type[],omitempty"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3552,6 +4593,8 @@ type ListManagedKeysFromKeystoreOptions struct {
 // The algorithm of the key.
 const (
 	ListManagedKeysFromKeystoreOptions_Algorithm_Aes = "aes"
+	ListManagedKeysFromKeystoreOptions_Algorithm_Des = "des"
+	ListManagedKeysFromKeystoreOptions_Algorithm_Dilithium = "dilithium"
 	ListManagedKeysFromKeystoreOptions_Algorithm_Ec = "ec"
 	ListManagedKeysFromKeystoreOptions_Algorithm_Hmac = "hmac"
 	ListManagedKeysFromKeystoreOptions_Algorithm_Rsa = "rsa"
@@ -3561,28 +4604,38 @@ const (
 // The state of the key.
 const (
 	ListManagedKeysFromKeystoreOptions_State_Active = "active"
+	ListManagedKeysFromKeystoreOptions_State_Compromised = "compromised"
 	ListManagedKeysFromKeystoreOptions_State_Deactivated = "deactivated"
 	ListManagedKeysFromKeystoreOptions_State_Destroyed = "destroyed"
+	ListManagedKeysFromKeystoreOptions_State_DestroyedCompromised = "destroyed_compromised"
 	ListManagedKeysFromKeystoreOptions_State_PreActivation = "pre_activation"
 )
 
+// Constants associated with the ListManagedKeysFromKeystoreOptions.TemplateType property.
+// Type of the template which determines template origins. Ones created by user are 'user_defined' where 'shadow' means
+// it was created under the hood by the UKO.
+const (
+	ListManagedKeysFromKeystoreOptions_TemplateType_Shadow = "shadow"
+	ListManagedKeysFromKeystoreOptions_TemplateType_System = "system"
+	ListManagedKeysFromKeystoreOptions_TemplateType_UserDefined = "user_defined"
+)
+
 // NewListManagedKeysFromKeystoreOptions : Instantiate ListManagedKeysFromKeystoreOptions
-func (*UkoV4) NewListManagedKeysFromKeystoreOptions(uKOVault string, id string) *ListManagedKeysFromKeystoreOptions {
+func (*UkoV4) NewListManagedKeysFromKeystoreOptions(id string) *ListManagedKeysFromKeystoreOptions {
 	return &ListManagedKeysFromKeystoreOptions{
-		UKOVault: core.StringPtr(uKOVault),
 		ID: core.StringPtr(id),
 	}
-}
-
-// SetUKOVault : Allow user to set UKOVault
-func (_options *ListManagedKeysFromKeystoreOptions) SetUKOVault(uKOVault string) *ListManagedKeysFromKeystoreOptions {
-	_options.UKOVault = core.StringPtr(uKOVault)
-	return _options
 }
 
 // SetID : Allow user to set ID
 func (_options *ListManagedKeysFromKeystoreOptions) SetID(id string) *ListManagedKeysFromKeystoreOptions {
 	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetAccept : Allow user to set Accept
+func (_options *ListManagedKeysFromKeystoreOptions) SetAccept(accept string) *ListManagedKeysFromKeystoreOptions {
+	_options.Accept = core.StringPtr(accept)
 	return _options
 }
 
@@ -3712,21 +4765,51 @@ func (_options *ListManagedKeysFromKeystoreOptions) SetUpdatedAtMax(updatedAtMax
 	return _options
 }
 
+// SetRotatedAtMin : Allow user to set RotatedAtMin
+func (_options *ListManagedKeysFromKeystoreOptions) SetRotatedAtMin(rotatedAtMin string) *ListManagedKeysFromKeystoreOptions {
+	_options.RotatedAtMin = core.StringPtr(rotatedAtMin)
+	return _options
+}
+
+// SetRotatedAtMax : Allow user to set RotatedAtMax
+func (_options *ListManagedKeysFromKeystoreOptions) SetRotatedAtMax(rotatedAtMax string) *ListManagedKeysFromKeystoreOptions {
+	_options.RotatedAtMax = core.StringPtr(rotatedAtMax)
+	return _options
+}
+
 // SetSize : Allow user to set Size
-func (_options *ListManagedKeysFromKeystoreOptions) SetSize(size int64) *ListManagedKeysFromKeystoreOptions {
-	_options.Size = core.Int64Ptr(size)
+func (_options *ListManagedKeysFromKeystoreOptions) SetSize(size string) *ListManagedKeysFromKeystoreOptions {
+	_options.Size = core.StringPtr(size)
 	return _options
 }
 
 // SetSizeMin : Allow user to set SizeMin
-func (_options *ListManagedKeysFromKeystoreOptions) SetSizeMin(sizeMin int64) *ListManagedKeysFromKeystoreOptions {
-	_options.SizeMin = core.Int64Ptr(sizeMin)
+func (_options *ListManagedKeysFromKeystoreOptions) SetSizeMin(sizeMin string) *ListManagedKeysFromKeystoreOptions {
+	_options.SizeMin = core.StringPtr(sizeMin)
 	return _options
 }
 
 // SetSizeMax : Allow user to set SizeMax
-func (_options *ListManagedKeysFromKeystoreOptions) SetSizeMax(sizeMax int64) *ListManagedKeysFromKeystoreOptions {
-	_options.SizeMax = core.Int64Ptr(sizeMax)
+func (_options *ListManagedKeysFromKeystoreOptions) SetSizeMax(sizeMax string) *ListManagedKeysFromKeystoreOptions {
+	_options.SizeMax = core.StringPtr(sizeMax)
+	return _options
+}
+
+// SetTemplateName : Allow user to set TemplateName
+func (_options *ListManagedKeysFromKeystoreOptions) SetTemplateName(templateName string) *ListManagedKeysFromKeystoreOptions {
+	_options.TemplateName = core.StringPtr(templateName)
+	return _options
+}
+
+// SetTemplateID : Allow user to set TemplateID
+func (_options *ListManagedKeysFromKeystoreOptions) SetTemplateID(templateID []string) *ListManagedKeysFromKeystoreOptions {
+	_options.TemplateID = templateID
+	return _options
+}
+
+// SetTemplateType : Allow user to set TemplateType
+func (_options *ListManagedKeysFromKeystoreOptions) SetTemplateType(templateType []string) *ListManagedKeysFromKeystoreOptions {
+	_options.TemplateType = templateType
 	return _options
 }
 
@@ -3738,10 +4821,14 @@ func (options *ListManagedKeysFromKeystoreOptions) SetHeaders(param map[string]s
 
 // ListManagedKeysOptions : The ListManagedKeys options.
 type ListManagedKeysOptions struct {
+	// The type of the response: application/json, application/vnd.ibm.uko.managed-key-list.v4.1+json,
+	// application/vnd.ibm.uko.managed-key-list.v4.1.json+zip, or application/vnd.ibm.uko.managed-key-list.v4.1.csv+zip.
+	Accept *string `json:"Accept,omitempty"`
+
 	// The UUID of the Vault.
 	VaultID []string `json:"vault.id,omitempty"`
 
-	// The algorithm of a returned keys.
+	// The algorithm of a returned key.
 	Algorithm []string `json:"algorithm,omitempty"`
 
 	// The state that returned keys are to be in.
@@ -3819,23 +4906,43 @@ type ListManagedKeysOptions struct {
 	// conjunction with the 'updated_at' query parameter.
 	UpdatedAtMax *string `json:"updated_at_max,omitempty"`
 
+	// Return only managed keys whose rotated_at is after the parameter value.
+	RotatedAtMin *string `json:"rotated_at_min,omitempty"`
+
+	// Return only managed keys whose rotated_at is before the parameter value.
+	RotatedAtMax *string `json:"rotated_at_max,omitempty"`
+
 	// The size of the key.
-	Size *int64 `json:"size,omitempty"`
+	Size *string `json:"size,omitempty"`
 
 	// The minimum size of the key. This query parameter cannot be used in conjunction with the 'size' query parameter.
-	SizeMin *int64 `json:"size_min,omitempty"`
+	SizeMin *string `json:"size_min,omitempty"`
 
 	// The maximum size of the key. This query parameter cannot be used in conjunction with the 'size' query parameter.
-	SizeMax *int64 `json:"size_max,omitempty"`
+	SizeMax *string `json:"size_max,omitempty"`
 
-	// Type of referenced keystore.
+	// Type of referenced keystore. This query parameter cannot be used in conjunction with the 'instances[].keystore.type'
+	// query parameter.
 	ReferencedKeystoresType []string `json:"referenced_keystores[].type,omitempty"`
 
 	// Name of referenced keystore.
 	ReferencedKeystoresName []string `json:"referenced_keystores[].name,omitempty"`
 
-	// Type of keystore supported by one of the instances.
+	// Type of keystore supported by one of the instances. This query parameter cannot be used in conjunction with the
+	// 'referenced_keystores[].type' query parameter.
 	InstancesKeystoreType []string `json:"instances[].keystore.type,omitempty"`
+
+	// Return only managed keys whose template name begins with the string.
+	TemplateName *string `json:"template.name,omitempty"`
+
+	// Return only managed keys with the given template UUID.
+	TemplateID []string `json:"template.id,omitempty"`
+
+	// Return only managed keys with the given template type.
+	TemplateType []string `json:"template.type[],omitempty"`
+
+	// Return only managed keys with the given managing systems.
+	ManagingSystems []string `json:"managing_systems,omitempty"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -3845,6 +4952,8 @@ type ListManagedKeysOptions struct {
 // The algorithm of the key.
 const (
 	ListManagedKeysOptions_Algorithm_Aes = "aes"
+	ListManagedKeysOptions_Algorithm_Des = "des"
+	ListManagedKeysOptions_Algorithm_Dilithium = "dilithium"
 	ListManagedKeysOptions_Algorithm_Ec = "ec"
 	ListManagedKeysOptions_Algorithm_Hmac = "hmac"
 	ListManagedKeysOptions_Algorithm_Rsa = "rsa"
@@ -3854,8 +4963,10 @@ const (
 // The state of the key.
 const (
 	ListManagedKeysOptions_State_Active = "active"
+	ListManagedKeysOptions_State_Compromised = "compromised"
 	ListManagedKeysOptions_State_Deactivated = "deactivated"
 	ListManagedKeysOptions_State_Destroyed = "destroyed"
+	ListManagedKeysOptions_State_DestroyedCompromised = "destroyed_compromised"
 	ListManagedKeysOptions_State_PreActivation = "pre_activation"
 )
 
@@ -3864,6 +4975,7 @@ const (
 const (
 	ListManagedKeysOptions_ReferencedKeystoresType_AwsKms = "aws_kms"
 	ListManagedKeysOptions_ReferencedKeystoresType_AzureKeyVault = "azure_key_vault"
+	ListManagedKeysOptions_ReferencedKeystoresType_Cca = "cca"
 	ListManagedKeysOptions_ReferencedKeystoresType_GoogleKms = "google_kms"
 	ListManagedKeysOptions_ReferencedKeystoresType_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -3873,13 +4985,36 @@ const (
 const (
 	ListManagedKeysOptions_InstancesKeystoreType_AwsKms = "aws_kms"
 	ListManagedKeysOptions_InstancesKeystoreType_AzureKeyVault = "azure_key_vault"
+	ListManagedKeysOptions_InstancesKeystoreType_Cca = "cca"
 	ListManagedKeysOptions_InstancesKeystoreType_GoogleKms = "google_kms"
 	ListManagedKeysOptions_InstancesKeystoreType_IbmCloudKms = "ibm_cloud_kms"
+)
+
+// Constants associated with the ListManagedKeysOptions.TemplateType property.
+// Type of the template which determines template origins. Ones created by user are 'user_defined' where 'shadow' means
+// it was created under the hood by the UKO.
+const (
+	ListManagedKeysOptions_TemplateType_Shadow = "shadow"
+	ListManagedKeysOptions_TemplateType_System = "system"
+	ListManagedKeysOptions_TemplateType_UserDefined = "user_defined"
+)
+
+// Constants associated with the ListManagedKeysOptions.ManagingSystems property.
+// Managing system of templates and keys.
+const (
+	ListManagedKeysOptions_ManagingSystems_Web = "web"
+	ListManagedKeysOptions_ManagingSystems_Workstation = "workstation"
 )
 
 // NewListManagedKeysOptions : Instantiate ListManagedKeysOptions
 func (*UkoV4) NewListManagedKeysOptions() *ListManagedKeysOptions {
 	return &ListManagedKeysOptions{}
+}
+
+// SetAccept : Allow user to set Accept
+func (_options *ListManagedKeysOptions) SetAccept(accept string) *ListManagedKeysOptions {
+	_options.Accept = core.StringPtr(accept)
+	return _options
 }
 
 // SetVaultID : Allow user to set VaultID
@@ -4014,21 +5149,33 @@ func (_options *ListManagedKeysOptions) SetUpdatedAtMax(updatedAtMax string) *Li
 	return _options
 }
 
+// SetRotatedAtMin : Allow user to set RotatedAtMin
+func (_options *ListManagedKeysOptions) SetRotatedAtMin(rotatedAtMin string) *ListManagedKeysOptions {
+	_options.RotatedAtMin = core.StringPtr(rotatedAtMin)
+	return _options
+}
+
+// SetRotatedAtMax : Allow user to set RotatedAtMax
+func (_options *ListManagedKeysOptions) SetRotatedAtMax(rotatedAtMax string) *ListManagedKeysOptions {
+	_options.RotatedAtMax = core.StringPtr(rotatedAtMax)
+	return _options
+}
+
 // SetSize : Allow user to set Size
-func (_options *ListManagedKeysOptions) SetSize(size int64) *ListManagedKeysOptions {
-	_options.Size = core.Int64Ptr(size)
+func (_options *ListManagedKeysOptions) SetSize(size string) *ListManagedKeysOptions {
+	_options.Size = core.StringPtr(size)
 	return _options
 }
 
 // SetSizeMin : Allow user to set SizeMin
-func (_options *ListManagedKeysOptions) SetSizeMin(sizeMin int64) *ListManagedKeysOptions {
-	_options.SizeMin = core.Int64Ptr(sizeMin)
+func (_options *ListManagedKeysOptions) SetSizeMin(sizeMin string) *ListManagedKeysOptions {
+	_options.SizeMin = core.StringPtr(sizeMin)
 	return _options
 }
 
 // SetSizeMax : Allow user to set SizeMax
-func (_options *ListManagedKeysOptions) SetSizeMax(sizeMax int64) *ListManagedKeysOptions {
-	_options.SizeMax = core.Int64Ptr(sizeMax)
+func (_options *ListManagedKeysOptions) SetSizeMax(sizeMax string) *ListManagedKeysOptions {
+	_options.SizeMax = core.StringPtr(sizeMax)
 	return _options
 }
 
@@ -4050,6 +5197,30 @@ func (_options *ListManagedKeysOptions) SetInstancesKeystoreType(instancesKeysto
 	return _options
 }
 
+// SetTemplateName : Allow user to set TemplateName
+func (_options *ListManagedKeysOptions) SetTemplateName(templateName string) *ListManagedKeysOptions {
+	_options.TemplateName = core.StringPtr(templateName)
+	return _options
+}
+
+// SetTemplateID : Allow user to set TemplateID
+func (_options *ListManagedKeysOptions) SetTemplateID(templateID []string) *ListManagedKeysOptions {
+	_options.TemplateID = templateID
+	return _options
+}
+
+// SetTemplateType : Allow user to set TemplateType
+func (_options *ListManagedKeysOptions) SetTemplateType(templateType []string) *ListManagedKeysOptions {
+	_options.TemplateType = templateType
+	return _options
+}
+
+// SetManagingSystems : Allow user to set ManagingSystems
+func (_options *ListManagedKeysOptions) SetManagingSystems(managingSystems []string) *ListManagedKeysOptions {
+	_options.ManagingSystems = managingSystems
+	return _options
+}
+
 // SetHeaders : Allow user to set Headers
 func (options *ListManagedKeysOptions) SetHeaders(param map[string]string) *ListManagedKeysOptions {
 	options.Headers = param
@@ -4058,6 +5229,10 @@ func (options *ListManagedKeysOptions) SetHeaders(param map[string]string) *List
 
 // ListVaultsOptions : The ListVaults options.
 type ListVaultsOptions struct {
+	// The type of the response: application/json, application/vnd.ibm.uko.vault-list.v4.1+json,
+	// application/vnd.ibm.uko.vault-list.v4.1.json+zip, or application/vnd.ibm.uko.vault-list.v4.1.csv+zip.
+	Accept *string `json:"Accept,omitempty"`
+
 	// The number of resources to retrieve.
 	Limit *int64 `json:"limit,omitempty"`
 
@@ -4067,7 +5242,7 @@ type ListVaultsOptions struct {
 	// Define sorting order.
 	Sort []string `json:"sort,omitempty"`
 
-	// Return only vaults whose names begin with the string.
+	// Return only vaults whose name begin with the string.
 	Name *string `json:"name,omitempty"`
 
 	// Return only vaults whose description contains the string.
@@ -4080,6 +5255,12 @@ type ListVaultsOptions struct {
 // NewListVaultsOptions : Instantiate ListVaultsOptions
 func (*UkoV4) NewListVaultsOptions() *ListVaultsOptions {
 	return &ListVaultsOptions{}
+}
+
+// SetAccept : Allow user to set Accept
+func (_options *ListVaultsOptions) SetAccept(accept string) *ListVaultsOptions {
+	_options.Accept = core.StringPtr(accept)
+	return _options
 }
 
 // SetLimit : Allow user to set Limit
@@ -4118,13 +5299,48 @@ func (options *ListVaultsOptions) SetHeaders(param map[string]string) *ListVault
 	return options
 }
 
+// RotateManagedKeyOptions : The RotateManagedKey options.
+type RotateManagedKeyOptions struct {
+	// UUID of the key.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// Precondition of the update; Value of the ETag from the header on a GET request.
+	IfMatch *string `json:"If-Match" validate:"required"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewRotateManagedKeyOptions : Instantiate RotateManagedKeyOptions
+func (*UkoV4) NewRotateManagedKeyOptions(id string, ifMatch string) *RotateManagedKeyOptions {
+	return &RotateManagedKeyOptions{
+		ID: core.StringPtr(id),
+		IfMatch: core.StringPtr(ifMatch),
+	}
+}
+
+// SetID : Allow user to set ID
+func (_options *RotateManagedKeyOptions) SetID(id string) *RotateManagedKeyOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetIfMatch : Allow user to set IfMatch
+func (_options *RotateManagedKeyOptions) SetIfMatch(ifMatch string) *RotateManagedKeyOptions {
+	_options.IfMatch = core.StringPtr(ifMatch)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *RotateManagedKeyOptions) SetHeaders(param map[string]string) *RotateManagedKeyOptions {
+	options.Headers = param
+	return options
+}
+
 // SyncManagedKeyOptions : The SyncManagedKey options.
 type SyncManagedKeyOptions struct {
 	// UUID of the key.
 	ID *string `json:"id" validate:"required,ne="`
-
-	// The UUID of the Vault in which the update is to take place.
-	UKOVault *string `json:"UKO-Vault" validate:"required"`
 
 	// Precondition of the update; Value of the ETag from the header on a GET request.
 	IfMatch *string `json:"If-Match" validate:"required"`
@@ -4134,10 +5350,9 @@ type SyncManagedKeyOptions struct {
 }
 
 // NewSyncManagedKeyOptions : Instantiate SyncManagedKeyOptions
-func (*UkoV4) NewSyncManagedKeyOptions(id string, uKOVault string, ifMatch string) *SyncManagedKeyOptions {
+func (*UkoV4) NewSyncManagedKeyOptions(id string, ifMatch string) *SyncManagedKeyOptions {
 	return &SyncManagedKeyOptions{
 		ID: core.StringPtr(id),
-		UKOVault: core.StringPtr(uKOVault),
 		IfMatch: core.StringPtr(ifMatch),
 	}
 }
@@ -4145,12 +5360,6 @@ func (*UkoV4) NewSyncManagedKeyOptions(id string, uKOVault string, ifMatch strin
 // SetID : Allow user to set ID
 func (_options *SyncManagedKeyOptions) SetID(id string) *SyncManagedKeyOptions {
 	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetUKOVault : Allow user to set UKOVault
-func (_options *SyncManagedKeyOptions) SetUKOVault(uKOVault string) *SyncManagedKeyOptions {
-	_options.UKOVault = core.StringPtr(uKOVault)
 	return _options
 }
 
@@ -4166,16 +5375,54 @@ func (options *SyncManagedKeyOptions) SetHeaders(param map[string]string) *SyncM
 	return options
 }
 
+// UnarchiveKeyTemplateOptions : The UnarchiveKeyTemplate options.
+type UnarchiveKeyTemplateOptions struct {
+	// UUID of the template.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// Precondition of the update; Value of the ETag from the header on a GET request.
+	IfMatch *string `json:"If-Match" validate:"required"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewUnarchiveKeyTemplateOptions : Instantiate UnarchiveKeyTemplateOptions
+func (*UkoV4) NewUnarchiveKeyTemplateOptions(id string, ifMatch string) *UnarchiveKeyTemplateOptions {
+	return &UnarchiveKeyTemplateOptions{
+		ID: core.StringPtr(id),
+		IfMatch: core.StringPtr(ifMatch),
+	}
+}
+
+// SetID : Allow user to set ID
+func (_options *UnarchiveKeyTemplateOptions) SetID(id string) *UnarchiveKeyTemplateOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetIfMatch : Allow user to set IfMatch
+func (_options *UnarchiveKeyTemplateOptions) SetIfMatch(ifMatch string) *UnarchiveKeyTemplateOptions {
+	_options.IfMatch = core.StringPtr(ifMatch)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UnarchiveKeyTemplateOptions) SetHeaders(param map[string]string) *UnarchiveKeyTemplateOptions {
+	options.Headers = param
+	return options
+}
+
 // UpdateKeyTemplateOptions : The UpdateKeyTemplate options.
 type UpdateKeyTemplateOptions struct {
 	// UUID of the template.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// The UUID of the Vault in which the update is to take place.
-	UKOVault *string `json:"UKO-Vault" validate:"required"`
-
 	// Precondition of the update; Value of the ETag from the header on a GET request.
 	IfMatch *string `json:"If-Match" validate:"required"`
+
+	// A human-readable name to assign to your template.
+	Name *string `json:"name,omitempty"`
 
 	// Updated keystore related properties.
 	Keystores []KeystoresPropertiesUpdateIntf `json:"keystores,omitempty"`
@@ -4191,10 +5438,9 @@ type UpdateKeyTemplateOptions struct {
 }
 
 // NewUpdateKeyTemplateOptions : Instantiate UpdateKeyTemplateOptions
-func (*UkoV4) NewUpdateKeyTemplateOptions(id string, uKOVault string, ifMatch string) *UpdateKeyTemplateOptions {
+func (*UkoV4) NewUpdateKeyTemplateOptions(id string, ifMatch string) *UpdateKeyTemplateOptions {
 	return &UpdateKeyTemplateOptions{
 		ID: core.StringPtr(id),
-		UKOVault: core.StringPtr(uKOVault),
 		IfMatch: core.StringPtr(ifMatch),
 	}
 }
@@ -4205,15 +5451,15 @@ func (_options *UpdateKeyTemplateOptions) SetID(id string) *UpdateKeyTemplateOpt
 	return _options
 }
 
-// SetUKOVault : Allow user to set UKOVault
-func (_options *UpdateKeyTemplateOptions) SetUKOVault(uKOVault string) *UpdateKeyTemplateOptions {
-	_options.UKOVault = core.StringPtr(uKOVault)
-	return _options
-}
-
 // SetIfMatch : Allow user to set IfMatch
 func (_options *UpdateKeyTemplateOptions) SetIfMatch(ifMatch string) *UpdateKeyTemplateOptions {
 	_options.IfMatch = core.StringPtr(ifMatch)
+	return _options
+}
+
+// SetName : Allow user to set Name
+func (_options *UpdateKeyTemplateOptions) SetName(name string) *UpdateKeyTemplateOptions {
+	_options.Name = core.StringPtr(name)
 	return _options
 }
 
@@ -4246,9 +5492,6 @@ type UpdateKeystoreOptions struct {
 	// UUID of the keystore.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// The UUID of the Vault in which the update is to take place.
-	UKOVault *string `json:"UKO-Vault" validate:"required"`
-
 	// Precondition of the update; Value of the ETag from the header on a GET request.
 	IfMatch *string `json:"If-Match" validate:"required"`
 
@@ -4260,10 +5503,9 @@ type UpdateKeystoreOptions struct {
 }
 
 // NewUpdateKeystoreOptions : Instantiate UpdateKeystoreOptions
-func (*UkoV4) NewUpdateKeystoreOptions(id string, uKOVault string, ifMatch string, keystoreBody KeystoreUpdateRequestIntf) *UpdateKeystoreOptions {
+func (*UkoV4) NewUpdateKeystoreOptions(id string, ifMatch string, keystoreBody KeystoreUpdateRequestIntf) *UpdateKeystoreOptions {
 	return &UpdateKeystoreOptions{
 		ID: core.StringPtr(id),
-		UKOVault: core.StringPtr(uKOVault),
 		IfMatch: core.StringPtr(ifMatch),
 		KeystoreBody: keystoreBody,
 	}
@@ -4272,12 +5514,6 @@ func (*UkoV4) NewUpdateKeystoreOptions(id string, uKOVault string, ifMatch strin
 // SetID : Allow user to set ID
 func (_options *UpdateKeystoreOptions) SetID(id string) *UpdateKeystoreOptions {
 	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetUKOVault : Allow user to set UKOVault
-func (_options *UpdateKeystoreOptions) SetUKOVault(uKOVault string) *UpdateKeystoreOptions {
-	_options.UKOVault = core.StringPtr(uKOVault)
 	return _options
 }
 
@@ -4304,21 +5540,21 @@ type UpdateManagedKeyFromTemplateOptions struct {
 	// UUID of the key.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// The UUID of the Vault in which the update is to take place.
-	UKOVault *string `json:"UKO-Vault" validate:"required"`
-
 	// Precondition of the update; Value of the ETag from the header on a GET request.
 	IfMatch *string `json:"If-Match" validate:"required"`
+
+	// Do not create/update/delete a resource, only verify and validate if resource can be created/updated/deleted with
+	// given request successfully.
+	DryRun *bool `json:"dry_run,omitempty"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
 // NewUpdateManagedKeyFromTemplateOptions : Instantiate UpdateManagedKeyFromTemplateOptions
-func (*UkoV4) NewUpdateManagedKeyFromTemplateOptions(id string, uKOVault string, ifMatch string) *UpdateManagedKeyFromTemplateOptions {
+func (*UkoV4) NewUpdateManagedKeyFromTemplateOptions(id string, ifMatch string) *UpdateManagedKeyFromTemplateOptions {
 	return &UpdateManagedKeyFromTemplateOptions{
 		ID: core.StringPtr(id),
-		UKOVault: core.StringPtr(uKOVault),
 		IfMatch: core.StringPtr(ifMatch),
 	}
 }
@@ -4329,15 +5565,15 @@ func (_options *UpdateManagedKeyFromTemplateOptions) SetID(id string) *UpdateMan
 	return _options
 }
 
-// SetUKOVault : Allow user to set UKOVault
-func (_options *UpdateManagedKeyFromTemplateOptions) SetUKOVault(uKOVault string) *UpdateManagedKeyFromTemplateOptions {
-	_options.UKOVault = core.StringPtr(uKOVault)
-	return _options
-}
-
 // SetIfMatch : Allow user to set IfMatch
 func (_options *UpdateManagedKeyFromTemplateOptions) SetIfMatch(ifMatch string) *UpdateManagedKeyFromTemplateOptions {
 	_options.IfMatch = core.StringPtr(ifMatch)
+	return _options
+}
+
+// SetDryRun : Allow user to set DryRun
+func (_options *UpdateManagedKeyFromTemplateOptions) SetDryRun(dryRun bool) *UpdateManagedKeyFromTemplateOptions {
+	_options.DryRun = core.BoolPtr(dryRun)
 	return _options
 }
 
@@ -4352,9 +5588,6 @@ type UpdateManagedKeyOptions struct {
 	// UUID of the key.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// The UUID of the Vault in which the update is to take place.
-	UKOVault *string `json:"UKO-Vault" validate:"required"`
-
 	// Precondition of the update; Value of the ETag from the header on a GET request.
 	IfMatch *string `json:"If-Match" validate:"required"`
 
@@ -4367,9 +5600,6 @@ type UpdateManagedKeyOptions struct {
 	// Expiration date provided in format: YYYY-MM-DD.
 	ExpirationDate *strfmt.Date `json:"expiration_date,omitempty"`
 
-	// Key-value pairs associated with the key.
-	Tags []Tag `json:"tags,omitempty"`
-
 	// Updated description of the managed key.
 	Description *string `json:"description,omitempty"`
 
@@ -4378,10 +5608,9 @@ type UpdateManagedKeyOptions struct {
 }
 
 // NewUpdateManagedKeyOptions : Instantiate UpdateManagedKeyOptions
-func (*UkoV4) NewUpdateManagedKeyOptions(id string, uKOVault string, ifMatch string) *UpdateManagedKeyOptions {
+func (*UkoV4) NewUpdateManagedKeyOptions(id string, ifMatch string) *UpdateManagedKeyOptions {
 	return &UpdateManagedKeyOptions{
 		ID: core.StringPtr(id),
-		UKOVault: core.StringPtr(uKOVault),
 		IfMatch: core.StringPtr(ifMatch),
 	}
 }
@@ -4389,12 +5618,6 @@ func (*UkoV4) NewUpdateManagedKeyOptions(id string, uKOVault string, ifMatch str
 // SetID : Allow user to set ID
 func (_options *UpdateManagedKeyOptions) SetID(id string) *UpdateManagedKeyOptions {
 	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetUKOVault : Allow user to set UKOVault
-func (_options *UpdateManagedKeyOptions) SetUKOVault(uKOVault string) *UpdateManagedKeyOptions {
-	_options.UKOVault = core.StringPtr(uKOVault)
 	return _options
 }
 
@@ -4419,12 +5642,6 @@ func (_options *UpdateManagedKeyOptions) SetActivationDate(activationDate *strfm
 // SetExpirationDate : Allow user to set ExpirationDate
 func (_options *UpdateManagedKeyOptions) SetExpirationDate(expirationDate *strfmt.Date) *UpdateManagedKeyOptions {
 	_options.ExpirationDate = expirationDate
-	return _options
-}
-
-// SetTags : Allow user to set Tags
-func (_options *UpdateManagedKeyOptions) SetTags(tags []Tag) *UpdateManagedKeyOptions {
-	_options.Tags = tags
 	return _options
 }
 
@@ -4453,6 +5670,9 @@ type UpdateVaultOptions struct {
 
 	// Updated description of the vault.
 	Description *string `json:"description,omitempty"`
+
+	// The label of the recovery key to use for this vault.
+	RecoveryKeyLabel *string `json:"recovery_key_label,omitempty"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4487,6 +5707,12 @@ func (_options *UpdateVaultOptions) SetName(name string) *UpdateVaultOptions {
 // SetDescription : Allow user to set Description
 func (_options *UpdateVaultOptions) SetDescription(description string) *UpdateVaultOptions {
 	_options.Description = core.StringPtr(description)
+	return _options
+}
+
+// SetRecoveryKeyLabel : Allow user to set RecoveryKeyLabel
+func (_options *UpdateVaultOptions) SetRecoveryKeyLabel(recoveryKeyLabel string) *UpdateVaultOptions {
+	_options.RecoveryKeyLabel = core.StringPtr(recoveryKeyLabel)
 	return _options
 }
 
@@ -4618,7 +5844,7 @@ type AssociatedResourceList struct {
 	// URL of a resource.
 	Next *HrefObject `json:"next,omitempty"`
 
-	// A list of target keystores.
+	// A list of associated resources.
 	AssociatedResources []AssociatedResource `json:"associated_resources" validate:"required"`
 }
 
@@ -4803,6 +6029,7 @@ type InstanceInKeystore struct {
 const (
 	InstanceInKeystore_Type_AwsKms = "aws_kms"
 	InstanceInKeystore_Type_AzureKeyVault = "azure_key_vault"
+	InstanceInKeystore_Type_Cca = "cca"
 	InstanceInKeystore_Type_GoogleKms = "google_kms"
 	InstanceInKeystore_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -4828,6 +6055,7 @@ func UnmarshalInstanceInKeystore(m map[string]json.RawMessage, result interface{
 // - KeyInstanceAwsKms
 // - KeyInstanceIbmCloudKms
 // - KeyInstanceAzure
+// - KeyInstanceCca
 type KeyInstance struct {
 	// The v4 UUID used to uniquely identify the resource, as specified by RFC 4122.
 	ID *string `json:"id,omitempty"`
@@ -4846,6 +6074,17 @@ type KeyInstance struct {
 	GoogleKeyPurpose *string `json:"google_key_purpose,omitempty"`
 
 	GoogleKmsAlgorithm *string `json:"google_kms_algorithm,omitempty"`
+
+	AzureKeyProtectionLevel *string `json:"azure_key_protection_level,omitempty"`
+
+	AzureKeyOperations []string `json:"azure_key_operations,omitempty"`
+
+	CcaUsageControl *string `json:"cca_usage_control,omitempty"`
+
+	CcaKeyType *string `json:"cca_key_type,omitempty"`
+
+	// A list of CCA key words.
+	CcaKeyWords []string `json:"cca_key_words,omitempty"`
 }
 
 // Constants associated with the KeyInstance.Type property.
@@ -4897,6 +6136,37 @@ const (
 	KeyInstance_GoogleKmsAlgorithm_RsaSignRawPkcs13072 = "rsa_sign_raw_pkcs1_3072"
 	KeyInstance_GoogleKmsAlgorithm_RsaSignRawPkcs14096 = "rsa_sign_raw_pkcs1_4096"
 )
+
+// Constants associated with the KeyInstance.AzureKeyProtectionLevel property.
+const (
+	KeyInstance_AzureKeyProtectionLevel_Hsm = "hsm"
+	KeyInstance_AzureKeyProtectionLevel_Software = "software"
+)
+
+// Constants associated with the KeyInstance.AzureKeyOperations property.
+const (
+	KeyInstance_AzureKeyOperations_Decrypt = "decrypt"
+	KeyInstance_AzureKeyOperations_Encrypt = "encrypt"
+	KeyInstance_AzureKeyOperations_Sign = "sign"
+	KeyInstance_AzureKeyOperations_UnwrapKey = "unwrap_key"
+	KeyInstance_AzureKeyOperations_Verify = "verify"
+	KeyInstance_AzureKeyOperations_WrapKey = "wrap_key"
+)
+
+// Constants associated with the KeyInstance.CcaUsageControl property.
+const (
+	KeyInstance_CcaUsageControl_KeyManagementOnly = "key_management_only"
+	KeyInstance_CcaUsageControl_SignatureAndKeyManagement = "signature_and_key_management"
+	KeyInstance_CcaUsageControl_SignatureOnly = "signature_only"
+)
+
+// Constants associated with the KeyInstance.CcaKeyType property.
+const (
+	KeyInstance_CcaKeyType_Cipher = "cipher"
+	KeyInstance_CcaKeyType_Data = "data"
+	KeyInstance_CcaKeyType_Exporter = "exporter"
+	KeyInstance_CcaKeyType_Importer = "importer"
+)
 func (*KeyInstance) isaKeyInstance() bool {
 	return true
 }
@@ -4936,6 +6206,26 @@ func UnmarshalKeyInstance(m map[string]json.RawMessage, result interface{}) (err
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "azure_key_protection_level", &obj.AzureKeyProtectionLevel)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "azure_key_operations", &obj.AzureKeyOperations)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_usage_control", &obj.CcaUsageControl)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_key_type", &obj.CcaKeyType)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_key_words", &obj.CcaKeyWords)
+	if err != nil {
+		return
+	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
@@ -4948,20 +6238,25 @@ type KeyProperties struct {
 	// The algorithm of the key.
 	Algorithm *string `json:"algorithm" validate:"required"`
 
-	// Key activation date can be provided as a period definition (e.g. PY1 means 1 year).
+	// Key activation date can be provided as a period definition (e.g. P1Y means 1 year).
 	ActivationDate *string `json:"activation_date" validate:"required"`
 
-	// Key expiration date can be provided as a period definition (e.g. PY1 means 1 year).
+	// Key expiration date can be provided as a period definition (e.g. P1Y means 1 year).
 	ExpirationDate *string `json:"expiration_date" validate:"required"`
 
 	// The state that the key will be in after generation.
 	State *string `json:"state" validate:"required"`
+
+	// indicates whether to deactivate older versions of a key on rotation.
+	DeactivateOnRotation *bool `json:"deactivate_on_rotation,omitempty"`
 }
 
 // Constants associated with the KeyProperties.Algorithm property.
 // The algorithm of the key.
 const (
 	KeyProperties_Algorithm_Aes = "aes"
+	KeyProperties_Algorithm_Des = "des"
+	KeyProperties_Algorithm_Dilithium = "dilithium"
 	KeyProperties_Algorithm_Ec = "ec"
 	KeyProperties_Algorithm_Hmac = "hmac"
 	KeyProperties_Algorithm_Rsa = "rsa"
@@ -5010,6 +6305,10 @@ func UnmarshalKeyProperties(m map[string]json.RawMessage, result interface{}) (e
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "deactivate_on_rotation", &obj.DeactivateOnRotation)
+	if err != nil {
+		return
+	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
@@ -5019,14 +6318,17 @@ type KeyPropertiesUpdate struct {
 	// The size of the underlying cryptographic key or key pair. E.g. "256" for AES keys, or "2048" for RSA.
 	Size *string `json:"size,omitempty"`
 
-	// Key activation date can be provided as a period definition (e.g. PY1 means 1 year).
+	// Key activation date can be provided as a period definition (e.g. P1Y means 1 year).
 	ActivationDate *string `json:"activation_date,omitempty"`
 
-	// Key expiration date can be provided as a period definition (e.g. PY1 means 1 year).
+	// Key expiration date can be provided as a period definition (e.g. P1Y means 1 year).
 	ExpirationDate *string `json:"expiration_date,omitempty"`
 
 	// The state that the key will be in after generation.
 	State *string `json:"state,omitempty"`
+
+	// indicates whether to deactivate older versions of a key on rotation.
+	DeactivateOnRotation *bool `json:"deactivate_on_rotation,omitempty"`
 }
 
 // Constants associated with the KeyPropertiesUpdate.State property.
@@ -5052,6 +6354,10 @@ func UnmarshalKeyPropertiesUpdate(m map[string]json.RawMessage, result interface
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "state", &obj.State)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "deactivate_on_rotation", &obj.DeactivateOnRotation)
 	if err != nil {
 		return
 	}
@@ -5091,6 +6397,7 @@ func UnmarshalKeyVerificationPattern(m map[string]json.RawMessage, result interf
 // - KeystoreTypeAwsKms
 // - KeystoreTypeAzure
 // - KeystoreTypeIbmCloudKms
+// - KeystoreTypeCca
 type Keystore struct {
 	// Reference to a vault.
 	Vault *VaultReference `json:"vault,omitempty"`
@@ -5127,6 +6434,9 @@ type Keystore struct {
 
 	// A URL that uniquely identifies your cloud resource.
 	Href *string `json:"href,omitempty"`
+
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy,omitempty"`
 
 	// The value of the JSON key represented in the Base64 format.
 	GoogleCredentials *string `json:"google_credentials,omitempty"`
@@ -5195,6 +6505,21 @@ type Keystore struct {
 
 	// The key ring of an IBM Cloud KMS Keystore.
 	IbmKeyRing *string `json:"ibm_key_ring,omitempty"`
+
+	// indicates whether to use TLS when connecting to an EKMF agent.
+	CcaUseTls *bool `json:"cca_use_tls,omitempty"`
+
+	// Base64 encoded PEM representation of a trusted issuer when using TLS.
+	CcaTrustedIssuer *string `json:"cca_trusted_issuer,omitempty"`
+
+	// a host of the keystore.
+	CcaHost *string `json:"cca_host,omitempty"`
+
+	// a port of the keystore.
+	CcaPort *int64 `json:"cca_port,omitempty"`
+
+	// HEX encoded string contained hash of signature key.
+	CcaPublicKeyHash *string `json:"cca_public_key_hash,omitempty"`
 }
 
 // Constants associated with the Keystore.Type property.
@@ -5202,42 +6527,9 @@ type Keystore struct {
 const (
 	Keystore_Type_AwsKms = "aws_kms"
 	Keystore_Type_AzureKeyVault = "azure_key_vault"
+	Keystore_Type_Cca = "cca"
 	Keystore_Type_GoogleKms = "google_kms"
 	Keystore_Type_IbmCloudKms = "ibm_cloud_kms"
-)
-
-// Constants associated with the Keystore.AwsRegion property.
-// AWS Region.
-const (
-	Keystore_AwsRegion_AfSouth1 = "af_south_1"
-	Keystore_AwsRegion_ApEast1 = "ap_east_1"
-	Keystore_AwsRegion_ApNortheast1 = "ap_northeast_1"
-	Keystore_AwsRegion_ApNortheast2 = "ap_northeast_2"
-	Keystore_AwsRegion_ApSouth1 = "ap_south_1"
-	Keystore_AwsRegion_ApSoutheast1 = "ap_southeast_1"
-	Keystore_AwsRegion_ApSoutheast2 = "ap_southeast_2"
-	Keystore_AwsRegion_AwsCnGlobal = "aws_cn_global"
-	Keystore_AwsRegion_AwsGlobal = "aws_global"
-	Keystore_AwsRegion_AwsIsoBGlobal = "aws_iso_b_global"
-	Keystore_AwsRegion_AwsIsoGlobal = "aws_iso_global"
-	Keystore_AwsRegion_AwsUsGovGlobal = "aws_us_gov_global"
-	Keystore_AwsRegion_CaCentral1 = "ca_central_1"
-	Keystore_AwsRegion_CnNorth1 = "cn_north_1"
-	Keystore_AwsRegion_CnNorthwest1 = "cn_northwest_1"
-	Keystore_AwsRegion_EuCentral1 = "eu_central_1"
-	Keystore_AwsRegion_EuWest1 = "eu_west_1"
-	Keystore_AwsRegion_EuWest2 = "eu_west_2"
-	Keystore_AwsRegion_EuWest3 = "eu_west_3"
-	Keystore_AwsRegion_MeSouth1 = "me_south_1"
-	Keystore_AwsRegion_SaEast1 = "sa_east_1"
-	Keystore_AwsRegion_UsEast1 = "us_east_1"
-	Keystore_AwsRegion_UsEast2 = "us_east_2"
-	Keystore_AwsRegion_UsGovEast1 = "us_gov_east_1"
-	Keystore_AwsRegion_UsGovWest1 = "us_gov_west_1"
-	Keystore_AwsRegion_UsIsoEast1 = "us_iso_east_1"
-	Keystore_AwsRegion_UsIsobEast1 = "us_isob_east_1"
-	Keystore_AwsRegion_UsWest1 = "us_west_1"
-	Keystore_AwsRegion_UsWest2 = "us_west_2"
 )
 
 // Constants associated with the Keystore.AzureLocation property.
@@ -5364,6 +6656,10 @@ func UnmarshalKeystore(m map[string]json.RawMessage, result interface{}) (err er
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "google_credentials", &obj.GoogleCredentials)
 	if err != nil {
 		return
@@ -5452,6 +6748,26 @@ func UnmarshalKeystore(m map[string]json.RawMessage, result interface{}) (err er
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "cca_use_tls", &obj.CcaUseTls)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_trusted_issuer", &obj.CcaTrustedIssuer)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_host", &obj.CcaHost)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_port", &obj.CcaPort)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_public_key_hash", &obj.CcaPublicKeyHash)
+	if err != nil {
+		return
+	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
@@ -5462,6 +6778,7 @@ func UnmarshalKeystore(m map[string]json.RawMessage, result interface{}) (err er
 // - KeystoreCreationRequestKeystoreTypeGoogleKmsCreate
 // - KeystoreCreationRequestKeystoreTypeAzureCreate
 // - KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate
+// - KeystoreCreationRequestKeystoreTypeCcaCreate
 type KeystoreCreationRequest struct {
 	// Type of keystore.
 	Type *string `json:"type" validate:"required"`
@@ -5474,6 +6791,9 @@ type KeystoreCreationRequest struct {
 
 	// Description of the keystore.
 	Description *string `json:"description,omitempty"`
+
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy,omitempty"`
 
 	// A list of groups that this keystore belongs to.
 	Groups []string `json:"groups,omitempty"`
@@ -5545,6 +6865,21 @@ type KeystoreCreationRequest struct {
 
 	// The key ring of an IBM Cloud KMS Keystore.
 	IbmKeyRing *string `json:"ibm_key_ring,omitempty"`
+
+	// indicates whether to use TLS when connecting to an EKMF agent.
+	CcaUseTls *bool `json:"cca_use_tls,omitempty"`
+
+	// Base64 encoded PEM representation of a trusted issuer when using TLS.
+	CcaTrustedIssuer *string `json:"cca_trusted_issuer,omitempty"`
+
+	// a host of the keystore.
+	CcaHost *string `json:"cca_host,omitempty"`
+
+	// a port of the keystore.
+	CcaPort *int64 `json:"cca_port,omitempty"`
+
+	// HEX encoded string contained hash of signature key.
+	CcaPublicKeyHash *string `json:"cca_public_key_hash,omitempty"`
 }
 
 // Constants associated with the KeystoreCreationRequest.Type property.
@@ -5552,42 +6887,9 @@ type KeystoreCreationRequest struct {
 const (
 	KeystoreCreationRequest_Type_AwsKms = "aws_kms"
 	KeystoreCreationRequest_Type_AzureKeyVault = "azure_key_vault"
+	KeystoreCreationRequest_Type_Cca = "cca"
 	KeystoreCreationRequest_Type_GoogleKms = "google_kms"
 	KeystoreCreationRequest_Type_IbmCloudKms = "ibm_cloud_kms"
-)
-
-// Constants associated with the KeystoreCreationRequest.AwsRegion property.
-// AWS Region.
-const (
-	KeystoreCreationRequest_AwsRegion_AfSouth1 = "af_south_1"
-	KeystoreCreationRequest_AwsRegion_ApEast1 = "ap_east_1"
-	KeystoreCreationRequest_AwsRegion_ApNortheast1 = "ap_northeast_1"
-	KeystoreCreationRequest_AwsRegion_ApNortheast2 = "ap_northeast_2"
-	KeystoreCreationRequest_AwsRegion_ApSouth1 = "ap_south_1"
-	KeystoreCreationRequest_AwsRegion_ApSoutheast1 = "ap_southeast_1"
-	KeystoreCreationRequest_AwsRegion_ApSoutheast2 = "ap_southeast_2"
-	KeystoreCreationRequest_AwsRegion_AwsCnGlobal = "aws_cn_global"
-	KeystoreCreationRequest_AwsRegion_AwsGlobal = "aws_global"
-	KeystoreCreationRequest_AwsRegion_AwsIsoBGlobal = "aws_iso_b_global"
-	KeystoreCreationRequest_AwsRegion_AwsIsoGlobal = "aws_iso_global"
-	KeystoreCreationRequest_AwsRegion_AwsUsGovGlobal = "aws_us_gov_global"
-	KeystoreCreationRequest_AwsRegion_CaCentral1 = "ca_central_1"
-	KeystoreCreationRequest_AwsRegion_CnNorth1 = "cn_north_1"
-	KeystoreCreationRequest_AwsRegion_CnNorthwest1 = "cn_northwest_1"
-	KeystoreCreationRequest_AwsRegion_EuCentral1 = "eu_central_1"
-	KeystoreCreationRequest_AwsRegion_EuWest1 = "eu_west_1"
-	KeystoreCreationRequest_AwsRegion_EuWest2 = "eu_west_2"
-	KeystoreCreationRequest_AwsRegion_EuWest3 = "eu_west_3"
-	KeystoreCreationRequest_AwsRegion_MeSouth1 = "me_south_1"
-	KeystoreCreationRequest_AwsRegion_SaEast1 = "sa_east_1"
-	KeystoreCreationRequest_AwsRegion_UsEast1 = "us_east_1"
-	KeystoreCreationRequest_AwsRegion_UsEast2 = "us_east_2"
-	KeystoreCreationRequest_AwsRegion_UsGovEast1 = "us_gov_east_1"
-	KeystoreCreationRequest_AwsRegion_UsGovWest1 = "us_gov_west_1"
-	KeystoreCreationRequest_AwsRegion_UsIsoEast1 = "us_iso_east_1"
-	KeystoreCreationRequest_AwsRegion_UsIsobEast1 = "us_isob_east_1"
-	KeystoreCreationRequest_AwsRegion_UsWest1 = "us_west_1"
-	KeystoreCreationRequest_AwsRegion_UsWest2 = "us_west_2"
 )
 
 // Constants associated with the KeystoreCreationRequest.AzureLocation property.
@@ -5684,6 +6986,8 @@ func UnmarshalKeystoreCreationRequest(m map[string]json.RawMessage, result inter
 		err = core.UnmarshalModel(m, "", result, UnmarshalKeystoreCreationRequestKeystoreTypeAzureCreate)
 	} else if discValue == "ibm_cloud_kms" {
 		err = core.UnmarshalModel(m, "", result, UnmarshalKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate)
+	} else if discValue == "cca" {
+		err = core.UnmarshalModel(m, "", result, UnmarshalKeystoreCreationRequestKeystoreTypeCcaCreate)
 	} else {
 		err = fmt.Errorf("unrecognized value for discriminator property 'type': %s", discValue)
 	}
@@ -5819,12 +7123,16 @@ func UnmarshalKeystoreStatus(m map[string]json.RawMessage, result interface{}) (
 // - KeystoreUpdateRequestKeystoreTypeAzureUpdate
 // - KeystoreUpdateRequestKeystoreTypeIbmCloudKmsUpdate
 // - KeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdate
+// - KeystoreUpdateRequestKeystoreTypeCcaUpdate
 type KeystoreUpdateRequest struct {
 	// Name of a target keystore.
 	Name *string `json:"name,omitempty"`
 
 	// Description of the keystore.
 	Description *string `json:"description,omitempty"`
+
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy,omitempty"`
 
 	// A list of groups that this keystore belongs to.
 	Groups []string `json:"groups,omitempty"`
@@ -5893,41 +7201,22 @@ type KeystoreUpdateRequest struct {
 
 	// The key ring of an IBM Cloud KMS Keystore.
 	IbmKeyRing *string `json:"ibm_key_ring,omitempty"`
-}
 
-// Constants associated with the KeystoreUpdateRequest.AwsRegion property.
-// AWS Region.
-const (
-	KeystoreUpdateRequest_AwsRegion_AfSouth1 = "af_south_1"
-	KeystoreUpdateRequest_AwsRegion_ApEast1 = "ap_east_1"
-	KeystoreUpdateRequest_AwsRegion_ApNortheast1 = "ap_northeast_1"
-	KeystoreUpdateRequest_AwsRegion_ApNortheast2 = "ap_northeast_2"
-	KeystoreUpdateRequest_AwsRegion_ApSouth1 = "ap_south_1"
-	KeystoreUpdateRequest_AwsRegion_ApSoutheast1 = "ap_southeast_1"
-	KeystoreUpdateRequest_AwsRegion_ApSoutheast2 = "ap_southeast_2"
-	KeystoreUpdateRequest_AwsRegion_AwsCnGlobal = "aws_cn_global"
-	KeystoreUpdateRequest_AwsRegion_AwsGlobal = "aws_global"
-	KeystoreUpdateRequest_AwsRegion_AwsIsoBGlobal = "aws_iso_b_global"
-	KeystoreUpdateRequest_AwsRegion_AwsIsoGlobal = "aws_iso_global"
-	KeystoreUpdateRequest_AwsRegion_AwsUsGovGlobal = "aws_us_gov_global"
-	KeystoreUpdateRequest_AwsRegion_CaCentral1 = "ca_central_1"
-	KeystoreUpdateRequest_AwsRegion_CnNorth1 = "cn_north_1"
-	KeystoreUpdateRequest_AwsRegion_CnNorthwest1 = "cn_northwest_1"
-	KeystoreUpdateRequest_AwsRegion_EuCentral1 = "eu_central_1"
-	KeystoreUpdateRequest_AwsRegion_EuWest1 = "eu_west_1"
-	KeystoreUpdateRequest_AwsRegion_EuWest2 = "eu_west_2"
-	KeystoreUpdateRequest_AwsRegion_EuWest3 = "eu_west_3"
-	KeystoreUpdateRequest_AwsRegion_MeSouth1 = "me_south_1"
-	KeystoreUpdateRequest_AwsRegion_SaEast1 = "sa_east_1"
-	KeystoreUpdateRequest_AwsRegion_UsEast1 = "us_east_1"
-	KeystoreUpdateRequest_AwsRegion_UsEast2 = "us_east_2"
-	KeystoreUpdateRequest_AwsRegion_UsGovEast1 = "us_gov_east_1"
-	KeystoreUpdateRequest_AwsRegion_UsGovWest1 = "us_gov_west_1"
-	KeystoreUpdateRequest_AwsRegion_UsIsoEast1 = "us_iso_east_1"
-	KeystoreUpdateRequest_AwsRegion_UsIsobEast1 = "us_isob_east_1"
-	KeystoreUpdateRequest_AwsRegion_UsWest1 = "us_west_1"
-	KeystoreUpdateRequest_AwsRegion_UsWest2 = "us_west_2"
-)
+	// indicates whether to use TLS when connecting to an EKMF agent.
+	CcaUseTls *bool `json:"cca_use_tls,omitempty"`
+
+	// Base64 encoded PEM representation of a trusted issuer when using TLS.
+	CcaTrustedIssuer *string `json:"cca_trusted_issuer,omitempty"`
+
+	// a host of the keystore.
+	CcaHost *string `json:"cca_host,omitempty"`
+
+	// a port of the keystore.
+	CcaPort *int64 `json:"cca_port,omitempty"`
+
+	// HEX encoded string contained hash of signature key.
+	CcaPublicKeyHash *string `json:"cca_public_key_hash,omitempty"`
+}
 
 // Constants associated with the KeystoreUpdateRequest.AzureLocation property.
 // Location of the Azure Key Vault.
@@ -6002,6 +7291,10 @@ func UnmarshalKeystoreUpdateRequest(m map[string]json.RawMessage, result interfa
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
 	if err != nil {
 		return
 	}
@@ -6093,6 +7386,26 @@ func UnmarshalKeystoreUpdateRequest(m map[string]json.RawMessage, result interfa
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "cca_use_tls", &obj.CcaUseTls)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_trusted_issuer", &obj.CcaTrustedIssuer)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_host", &obj.CcaHost)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_port", &obj.CcaPort)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_public_key_hash", &obj.CcaPublicKeyHash)
+	if err != nil {
+		return
+	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
@@ -6103,9 +7416,15 @@ func UnmarshalKeystoreUpdateRequest(m map[string]json.RawMessage, result interfa
 // - KeystoresPropertiesCreateAwsKms
 // - KeystoresPropertiesCreateIbmCloudKms
 // - KeystoresPropertiesCreateAzure
+// - KeystoresPropertiesCreateCca
 type KeystoresPropertiesCreate struct {
 	// Which keystore group to distribute the key to.
 	Group *string `json:"group,omitempty"`
+
+	// Managed key naming scheme which will be applied to every key created with this template. Every tag in the naming
+	// scheme must be enclosed in angle brackets. For Every tag in the naming scheme, a value will need to be either
+	// provided by the user during key creation or computed by the service for the set of special tags.
+	NamingScheme *string `json:"naming_scheme,omitempty"`
 
 	// Type of keystore.
 	Type *string `json:"type,omitempty"`
@@ -6115,6 +7434,17 @@ type KeystoresPropertiesCreate struct {
 	GoogleKeyPurpose *string `json:"google_key_purpose,omitempty"`
 
 	GoogleKmsAlgorithm *string `json:"google_kms_algorithm,omitempty"`
+
+	AzureKeyProtectionLevel *string `json:"azure_key_protection_level,omitempty"`
+
+	AzureKeyOperations []string `json:"azure_key_operations,omitempty"`
+
+	CcaUsageControl *string `json:"cca_usage_control,omitempty"`
+
+	CcaKeyType *string `json:"cca_key_type,omitempty"`
+
+	// A list of CCA key words.
+	CcaKeyWords []string `json:"cca_key_words,omitempty"`
 }
 
 // Constants associated with the KeystoresPropertiesCreate.Type property.
@@ -6122,6 +7452,7 @@ type KeystoresPropertiesCreate struct {
 const (
 	KeystoresPropertiesCreate_Type_AwsKms = "aws_kms"
 	KeystoresPropertiesCreate_Type_AzureKeyVault = "azure_key_vault"
+	KeystoresPropertiesCreate_Type_Cca = "cca"
 	KeystoresPropertiesCreate_Type_GoogleKms = "google_kms"
 	KeystoresPropertiesCreate_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -6166,6 +7497,37 @@ const (
 	KeystoresPropertiesCreate_GoogleKmsAlgorithm_RsaSignRawPkcs13072 = "rsa_sign_raw_pkcs1_3072"
 	KeystoresPropertiesCreate_GoogleKmsAlgorithm_RsaSignRawPkcs14096 = "rsa_sign_raw_pkcs1_4096"
 )
+
+// Constants associated with the KeystoresPropertiesCreate.AzureKeyProtectionLevel property.
+const (
+	KeystoresPropertiesCreate_AzureKeyProtectionLevel_Hsm = "hsm"
+	KeystoresPropertiesCreate_AzureKeyProtectionLevel_Software = "software"
+)
+
+// Constants associated with the KeystoresPropertiesCreate.AzureKeyOperations property.
+const (
+	KeystoresPropertiesCreate_AzureKeyOperations_Decrypt = "decrypt"
+	KeystoresPropertiesCreate_AzureKeyOperations_Encrypt = "encrypt"
+	KeystoresPropertiesCreate_AzureKeyOperations_Sign = "sign"
+	KeystoresPropertiesCreate_AzureKeyOperations_UnwrapKey = "unwrap_key"
+	KeystoresPropertiesCreate_AzureKeyOperations_Verify = "verify"
+	KeystoresPropertiesCreate_AzureKeyOperations_WrapKey = "wrap_key"
+)
+
+// Constants associated with the KeystoresPropertiesCreate.CcaUsageControl property.
+const (
+	KeystoresPropertiesCreate_CcaUsageControl_KeyManagementOnly = "key_management_only"
+	KeystoresPropertiesCreate_CcaUsageControl_SignatureAndKeyManagement = "signature_and_key_management"
+	KeystoresPropertiesCreate_CcaUsageControl_SignatureOnly = "signature_only"
+)
+
+// Constants associated with the KeystoresPropertiesCreate.CcaKeyType property.
+const (
+	KeystoresPropertiesCreate_CcaKeyType_Cipher = "cipher"
+	KeystoresPropertiesCreate_CcaKeyType_Data = "data"
+	KeystoresPropertiesCreate_CcaKeyType_Exporter = "exporter"
+	KeystoresPropertiesCreate_CcaKeyType_Importer = "importer"
+)
 func (*KeystoresPropertiesCreate) isaKeystoresPropertiesCreate() bool {
 	return true
 }
@@ -6178,6 +7540,10 @@ type KeystoresPropertiesCreateIntf interface {
 func UnmarshalKeystoresPropertiesCreate(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(KeystoresPropertiesCreate)
 	err = core.UnmarshalPrimitive(m, "group", &obj.Group)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "naming_scheme", &obj.NamingScheme)
 	if err != nil {
 		return
 	}
@@ -6197,6 +7563,26 @@ func UnmarshalKeystoresPropertiesCreate(m map[string]json.RawMessage, result int
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "azure_key_protection_level", &obj.AzureKeyProtectionLevel)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "azure_key_operations", &obj.AzureKeyOperations)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_usage_control", &obj.CcaUsageControl)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_key_type", &obj.CcaKeyType)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_key_words", &obj.CcaKeyWords)
+	if err != nil {
+		return
+	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
@@ -6207,6 +7593,7 @@ func UnmarshalKeystoresPropertiesCreate(m map[string]json.RawMessage, result int
 // - KeystoresPropertiesUpdateAwsKms
 // - KeystoresPropertiesUpdateIbmCloudKms
 // - KeystoresPropertiesUpdateAzure
+// - KeystoresPropertiesUpdateCca
 type KeystoresPropertiesUpdate struct {
 	// Which keystore group to distribute the key to.
 	Group *string `json:"group,omitempty"`
@@ -6216,6 +7603,13 @@ type KeystoresPropertiesUpdate struct {
 	GoogleKeyPurpose *string `json:"google_key_purpose,omitempty"`
 
 	GoogleKmsAlgorithm *string `json:"google_kms_algorithm,omitempty"`
+
+	CcaUsageControl *string `json:"cca_usage_control,omitempty"`
+
+	CcaKeyType *string `json:"cca_key_type,omitempty"`
+
+	// A list of CCA key words.
+	CcaKeyWords []string `json:"cca_key_words,omitempty"`
 }
 
 // Constants associated with the KeystoresPropertiesUpdate.GoogleKeyProtectionLevel property.
@@ -6258,6 +7652,21 @@ const (
 	KeystoresPropertiesUpdate_GoogleKmsAlgorithm_RsaSignRawPkcs13072 = "rsa_sign_raw_pkcs1_3072"
 	KeystoresPropertiesUpdate_GoogleKmsAlgorithm_RsaSignRawPkcs14096 = "rsa_sign_raw_pkcs1_4096"
 )
+
+// Constants associated with the KeystoresPropertiesUpdate.CcaUsageControl property.
+const (
+	KeystoresPropertiesUpdate_CcaUsageControl_KeyManagementOnly = "key_management_only"
+	KeystoresPropertiesUpdate_CcaUsageControl_SignatureAndKeyManagement = "signature_and_key_management"
+	KeystoresPropertiesUpdate_CcaUsageControl_SignatureOnly = "signature_only"
+)
+
+// Constants associated with the KeystoresPropertiesUpdate.CcaKeyType property.
+const (
+	KeystoresPropertiesUpdate_CcaKeyType_Cipher = "cipher"
+	KeystoresPropertiesUpdate_CcaKeyType_Data = "data"
+	KeystoresPropertiesUpdate_CcaKeyType_Exporter = "exporter"
+	KeystoresPropertiesUpdate_CcaKeyType_Importer = "importer"
+)
 func (*KeystoresPropertiesUpdate) isaKeystoresPropertiesUpdate() bool {
 	return true
 }
@@ -6285,6 +7694,18 @@ func UnmarshalKeystoresPropertiesUpdate(m map[string]json.RawMessage, result int
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "cca_usage_control", &obj.CcaUsageControl)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_key_type", &obj.CcaKeyType)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_key_words", &obj.CcaKeyWords)
+	if err != nil {
+		return
+	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
@@ -6303,6 +7724,8 @@ type ManagedKey struct {
 
 	// Reference to a key template.
 	Template *TemplateReference `json:"template,omitempty"`
+
+	Version *int64 `json:"version,omitempty"`
 
 	// Description of the managed key.
 	Description *string `json:"description,omitempty"`
@@ -6328,7 +7751,8 @@ type ManagedKey struct {
 	// Last day when the key is active.
 	ExpirationDate *strfmt.Date `json:"expiration_date,omitempty"`
 
-	// Key-value pairs associated with the key.
+	LabelTags []Tag `json:"label_tags,omitempty"`
+
 	Tags []Tag `json:"tags,omitempty"`
 
 	// Date and time when the key was created.
@@ -6351,14 +7775,28 @@ type ManagedKey struct {
 
 	// A URL that uniquely identifies your cloud resource.
 	Href *string `json:"href,omitempty"`
+
+	// Date and time when the key was rotated.
+	RotatedAt *strfmt.DateTime `json:"rotated_at,omitempty"`
+
+	// list of key statuses in keystores.
+	StatusInKeystores []StatusInKeystore `json:"status_in_keystores" validate:"required"`
+
+	// indicates whether to deactivate older versions of a key on rotation.
+	DeactivateOnRotation *bool `json:"deactivate_on_rotation,omitempty"`
+
+	// Managing systems of templates and keys.
+	ManagingSystems []string `json:"managing_systems,omitempty"`
 }
 
 // Constants associated with the ManagedKey.State property.
 // The state of the key.
 const (
 	ManagedKey_State_Active = "active"
+	ManagedKey_State_Compromised = "compromised"
 	ManagedKey_State_Deactivated = "deactivated"
 	ManagedKey_State_Destroyed = "destroyed"
+	ManagedKey_State_DestroyedCompromised = "destroyed_compromised"
 	ManagedKey_State_PreActivation = "pre_activation"
 )
 
@@ -6366,9 +7804,18 @@ const (
 // The algorithm of the key.
 const (
 	ManagedKey_Algorithm_Aes = "aes"
+	ManagedKey_Algorithm_Des = "des"
+	ManagedKey_Algorithm_Dilithium = "dilithium"
 	ManagedKey_Algorithm_Ec = "ec"
 	ManagedKey_Algorithm_Hmac = "hmac"
 	ManagedKey_Algorithm_Rsa = "rsa"
+)
+
+// Constants associated with the ManagedKey.ManagingSystems property.
+// Managing system of templates and keys.
+const (
+	ManagedKey_ManagingSystems_Web = "web"
+	ManagedKey_ManagingSystems_Workstation = "workstation"
 )
 
 // UnmarshalManagedKey unmarshals an instance of ManagedKey from the specified map of raw messages.
@@ -6383,6 +7830,10 @@ func UnmarshalManagedKey(m map[string]json.RawMessage, result interface{}) (err 
 		return
 	}
 	err = core.UnmarshalModel(m, "template", &obj.Template, UnmarshalTemplateReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "version", &obj.Version)
 	if err != nil {
 		return
 	}
@@ -6418,6 +7869,10 @@ func UnmarshalManagedKey(m map[string]json.RawMessage, result interface{}) (err 
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalModel(m, "label_tags", &obj.LabelTags, UnmarshalTag)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalModel(m, "tags", &obj.Tags, UnmarshalTag)
 	if err != nil {
 		return
@@ -6447,6 +7902,22 @@ func UnmarshalManagedKey(m map[string]json.RawMessage, result interface{}) (err 
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "rotated_at", &obj.RotatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "status_in_keystores", &obj.StatusInKeystores, UnmarshalStatusInKeystore)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "deactivate_on_rotation", &obj.DeactivateOnRotation)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "managing_systems", &obj.ManagingSystems)
 	if err != nil {
 		return
 	}
@@ -6761,6 +8232,7 @@ type TargetKeystoreReference struct {
 const (
 	TargetKeystoreReference_Type_AwsKms = "aws_kms"
 	TargetKeystoreReference_Type_AzureKeyVault = "azure_key_vault"
+	TargetKeystoreReference_Type_Cca = "cca"
 	TargetKeystoreReference_Type_GoogleKms = "google_kms"
 	TargetKeystoreReference_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -6802,6 +8274,19 @@ type Template struct {
 	// Name of the key template.
 	Name *string `json:"name,omitempty"`
 
+	// Managed key naming scheme which will be applied to every key created with this template. Every tag in the naming
+	// scheme must be enclosed in angle brackets. For Every tag in the naming scheme, a value will need to be either
+	// provided by the user during key creation or computed by the service for the set of special tags.
+	NamingScheme *string `json:"naming_scheme,omitempty"`
+
+	Type []string `json:"type" validate:"required"`
+
+	// State of the template which determines if the template is archived or unarchived.
+	State *string `json:"state" validate:"required"`
+
+	// The total count of keys created with this template.
+	KeysCount *int64 `json:"keys_count" validate:"required"`
+
 	// Properties describing the properties of the managed key.
 	Key *KeyProperties `json:"key" validate:"required"`
 
@@ -6824,7 +8309,33 @@ type Template struct {
 
 	// A URL that uniquely identifies your cloud resource.
 	Href *string `json:"href,omitempty"`
+
+	// Managing systems of templates and keys.
+	ManagingSystems []string `json:"managing_systems,omitempty"`
 }
+
+// Constants associated with the Template.Type property.
+// Type of the template which determines template origins. Ones created by user are 'user_defined' where 'shadow' means
+// it was created under the hood by the UKO.
+const (
+	Template_Type_Shadow = "shadow"
+	Template_Type_System = "system"
+	Template_Type_UserDefined = "user_defined"
+)
+
+// Constants associated with the Template.State property.
+// State of the template which determines if the template is archived or unarchived.
+const (
+	Template_State_Archived = "archived"
+	Template_State_Unarchived = "unarchived"
+)
+
+// Constants associated with the Template.ManagingSystems property.
+// Managing system of templates and keys.
+const (
+	Template_ManagingSystems_Web = "web"
+	Template_ManagingSystems_Workstation = "workstation"
+)
 
 // UnmarshalTemplate unmarshals an instance of Template from the specified map of raw messages.
 func UnmarshalTemplate(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -6842,6 +8353,22 @@ func UnmarshalTemplate(m map[string]json.RawMessage, result interface{}) (err er
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "naming_scheme", &obj.NamingScheme)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "state", &obj.State)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "keys_count", &obj.KeysCount)
 	if err != nil {
 		return
 	}
@@ -6874,6 +8401,10 @@ func UnmarshalTemplate(m map[string]json.RawMessage, result interface{}) (err er
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "managing_systems", &obj.ManagingSystems)
 	if err != nil {
 		return
 	}
@@ -6972,9 +8503,20 @@ type TemplateReference struct {
 	// Name of the key template.
 	Name *string `json:"name,omitempty"`
 
+	Type []string `json:"type,omitempty"`
+
 	// A URL that uniquely identifies your cloud resource.
 	Href *string `json:"href,omitempty"`
 }
+
+// Constants associated with the TemplateReference.Type property.
+// Type of the template which determines template origins. Ones created by user are 'user_defined' where 'shadow' means
+// it was created under the hood by the UKO.
+const (
+	TemplateReference_Type_Shadow = "shadow"
+	TemplateReference_Type_System = "system"
+	TemplateReference_Type_UserDefined = "user_defined"
+)
 
 // UnmarshalTemplateReference unmarshals an instance of TemplateReference from the specified map of raw messages.
 func UnmarshalTemplateReference(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -6984,6 +8526,10 @@ func UnmarshalTemplateReference(m map[string]json.RawMessage, result interface{}
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
 		return
 	}
@@ -7019,8 +8565,20 @@ type Vault struct {
 	// ID of the user that last updated the vault.
 	UpdatedBy *string `json:"updated_by,omitempty"`
 
+	// The label of the recovery key for this vault.
+	RecoveryKeyLabel *string `json:"recovery_key_label,omitempty"`
+
 	// A URL that uniquely identifies your cloud resource.
 	Href *string `json:"href,omitempty"`
+
+	// The number of keys inside the vault.
+	KeysCount *int64 `json:"keys_count" validate:"required"`
+
+	// The number of key templates inside the vault.
+	KeyTemplatesCount *int64 `json:"key_templates_count" validate:"required"`
+
+	// The number of keystores inside the vault.
+	KeystoresCount *int64 `json:"keystores_count" validate:"required"`
 }
 
 // UnmarshalVault unmarshals an instance of Vault from the specified map of raw messages.
@@ -7054,7 +8612,23 @@ func UnmarshalVault(m map[string]json.RawMessage, result interface{}) (err error
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "recovery_key_label", &obj.RecoveryKeyLabel)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "keys_count", &obj.KeysCount)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "key_templates_count", &obj.KeyTemplatesCount)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "keystores_count", &obj.KeystoresCount)
 	if err != nil {
 		return
 	}
@@ -7268,6 +8842,10 @@ type KeyInstanceAzure struct {
 
 	// Description of properties of a key within the context of keystores.
 	Keystore *InstanceInKeystore `json:"keystore" validate:"required"`
+
+	AzureKeyProtectionLevel *string `json:"azure_key_protection_level,omitempty"`
+
+	AzureKeyOperations []string `json:"azure_key_operations,omitempty"`
 }
 
 // Constants associated with the KeyInstanceAzure.Type property.
@@ -7277,6 +8855,22 @@ const (
 	KeyInstanceAzure_Type_PrivateKey = "private_key"
 	KeyInstanceAzure_Type_PublicKey = "public_key"
 	KeyInstanceAzure_Type_SecretKey = "secret_key"
+)
+
+// Constants associated with the KeyInstanceAzure.AzureKeyProtectionLevel property.
+const (
+	KeyInstanceAzure_AzureKeyProtectionLevel_Hsm = "hsm"
+	KeyInstanceAzure_AzureKeyProtectionLevel_Software = "software"
+)
+
+// Constants associated with the KeyInstanceAzure.AzureKeyOperations property.
+const (
+	KeyInstanceAzure_AzureKeyOperations_Decrypt = "decrypt"
+	KeyInstanceAzure_AzureKeyOperations_Encrypt = "encrypt"
+	KeyInstanceAzure_AzureKeyOperations_Sign = "sign"
+	KeyInstanceAzure_AzureKeyOperations_UnwrapKey = "unwrap_key"
+	KeyInstanceAzure_AzureKeyOperations_Verify = "verify"
+	KeyInstanceAzure_AzureKeyOperations_WrapKey = "wrap_key"
 )
 
 func (*KeyInstanceAzure) isaKeyInstance() bool {
@@ -7299,6 +8893,100 @@ func UnmarshalKeyInstanceAzure(m map[string]json.RawMessage, result interface{})
 		return
 	}
 	err = core.UnmarshalModel(m, "keystore", &obj.Keystore, UnmarshalInstanceInKeystore)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "azure_key_protection_level", &obj.AzureKeyProtectionLevel)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "azure_key_operations", &obj.AzureKeyOperations)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// KeyInstanceCca : The instance of a managed key for a specific keystore.
+// This model "extends" KeyInstance
+type KeyInstanceCca struct {
+	// The v4 UUID used to uniquely identify the resource, as specified by RFC 4122.
+	ID *string `json:"id" validate:"required"`
+
+	// The label of the key.
+	LabelInKeystore *string `json:"label_in_keystore" validate:"required"`
+
+	// Type of the key instance.
+	Type *string `json:"type,omitempty"`
+
+	// Description of properties of a key within the context of keystores.
+	Keystore *InstanceInKeystore `json:"keystore" validate:"required"`
+
+	CcaUsageControl *string `json:"cca_usage_control,omitempty"`
+
+	CcaKeyType *string `json:"cca_key_type,omitempty"`
+
+	// A list of CCA key words.
+	CcaKeyWords []string `json:"cca_key_words,omitempty"`
+}
+
+// Constants associated with the KeyInstanceCca.Type property.
+// Type of the key instance.
+const (
+	KeyInstanceCca_Type_KeyPair = "key_pair"
+	KeyInstanceCca_Type_PrivateKey = "private_key"
+	KeyInstanceCca_Type_PublicKey = "public_key"
+	KeyInstanceCca_Type_SecretKey = "secret_key"
+)
+
+// Constants associated with the KeyInstanceCca.CcaUsageControl property.
+const (
+	KeyInstanceCca_CcaUsageControl_KeyManagementOnly = "key_management_only"
+	KeyInstanceCca_CcaUsageControl_SignatureAndKeyManagement = "signature_and_key_management"
+	KeyInstanceCca_CcaUsageControl_SignatureOnly = "signature_only"
+)
+
+// Constants associated with the KeyInstanceCca.CcaKeyType property.
+const (
+	KeyInstanceCca_CcaKeyType_Cipher = "cipher"
+	KeyInstanceCca_CcaKeyType_Data = "data"
+	KeyInstanceCca_CcaKeyType_Exporter = "exporter"
+	KeyInstanceCca_CcaKeyType_Importer = "importer"
+)
+
+func (*KeyInstanceCca) isaKeyInstance() bool {
+	return true
+}
+
+// UnmarshalKeyInstanceCca unmarshals an instance of KeyInstanceCca from the specified map of raw messages.
+func UnmarshalKeyInstanceCca(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(KeyInstanceCca)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "label_in_keystore", &obj.LabelInKeystore)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "keystore", &obj.Keystore, UnmarshalInstanceInKeystore)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_usage_control", &obj.CcaUsageControl)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_key_type", &obj.CcaKeyType)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_key_words", &obj.CcaKeyWords)
 	if err != nil {
 		return
 	}
@@ -7483,6 +9171,9 @@ type KeystoreCreationRequestKeystoreTypeAwsKmsCreate struct {
 	// Description of the keystore.
 	Description *string `json:"description,omitempty"`
 
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy,omitempty"`
+
 	// A list of groups that this keystore belongs to.
 	Groups []string `json:"groups,omitempty"`
 
@@ -7501,42 +9192,9 @@ type KeystoreCreationRequestKeystoreTypeAwsKmsCreate struct {
 const (
 	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_Type_AwsKms = "aws_kms"
 	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_Type_AzureKeyVault = "azure_key_vault"
+	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_Type_Cca = "cca"
 	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_Type_GoogleKms = "google_kms"
 	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_Type_IbmCloudKms = "ibm_cloud_kms"
-)
-
-// Constants associated with the KeystoreCreationRequestKeystoreTypeAwsKmsCreate.AwsRegion property.
-// AWS Region.
-const (
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_AfSouth1 = "af_south_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_ApEast1 = "ap_east_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_ApNortheast1 = "ap_northeast_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_ApNortheast2 = "ap_northeast_2"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_ApSouth1 = "ap_south_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_ApSoutheast1 = "ap_southeast_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_ApSoutheast2 = "ap_southeast_2"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_AwsCnGlobal = "aws_cn_global"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_AwsGlobal = "aws_global"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_AwsIsoBGlobal = "aws_iso_b_global"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_AwsIsoGlobal = "aws_iso_global"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_AwsUsGovGlobal = "aws_us_gov_global"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_CaCentral1 = "ca_central_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_CnNorth1 = "cn_north_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_CnNorthwest1 = "cn_northwest_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_EuCentral1 = "eu_central_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_EuWest1 = "eu_west_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_EuWest2 = "eu_west_2"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_EuWest3 = "eu_west_3"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_MeSouth1 = "me_south_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_SaEast1 = "sa_east_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsEast1 = "us_east_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsEast2 = "us_east_2"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsGovEast1 = "us_gov_east_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsGovWest1 = "us_gov_west_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsIsoEast1 = "us_iso_east_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsIsobEast1 = "us_isob_east_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsWest1 = "us_west_1"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_AwsRegion_UsWest2 = "us_west_2"
 )
 
 // NewKeystoreCreationRequestKeystoreTypeAwsKmsCreate : Instantiate KeystoreCreationRequestKeystoreTypeAwsKmsCreate (Generic Model Constructor)
@@ -7576,6 +9234,10 @@ func UnmarshalKeystoreCreationRequestKeystoreTypeAwsKmsCreate(m map[string]json.
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "groups", &obj.Groups)
 	if err != nil {
 		return
@@ -7611,6 +9273,9 @@ type KeystoreCreationRequestKeystoreTypeAzureCreate struct {
 	// Description of the keystore.
 	Description *string `json:"description,omitempty"`
 
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy,omitempty"`
+
 	// A list of groups that this keystore belongs to.
 	Groups []string `json:"groups,omitempty"`
 
@@ -7644,6 +9309,7 @@ type KeystoreCreationRequestKeystoreTypeAzureCreate struct {
 const (
 	KeystoreCreationRequestKeystoreTypeAzureCreate_Type_AwsKms = "aws_kms"
 	KeystoreCreationRequestKeystoreTypeAzureCreate_Type_AzureKeyVault = "azure_key_vault"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_Type_Cca = "cca"
 	KeystoreCreationRequestKeystoreTypeAzureCreate_Type_GoogleKms = "google_kms"
 	KeystoreCreationRequestKeystoreTypeAzureCreate_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -7747,6 +9413,10 @@ func UnmarshalKeystoreCreationRequestKeystoreTypeAzureCreate(m map[string]json.R
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "groups", &obj.Groups)
 	if err != nil {
 		return
@@ -7787,6 +9457,121 @@ func UnmarshalKeystoreCreationRequestKeystoreTypeAzureCreate(m map[string]json.R
 	return
 }
 
+// KeystoreCreationRequestKeystoreTypeCcaCreate : Properties related to CCA keystore.
+// This model "extends" KeystoreCreationRequest
+type KeystoreCreationRequestKeystoreTypeCcaCreate struct {
+	// Type of keystore.
+	Type *string `json:"type" validate:"required"`
+
+	Vault *VaultReferenceInCreationRequest `json:"vault" validate:"required"`
+
+	// Name of a target keystore.
+	Name *string `json:"name" validate:"required"`
+
+	// Description of the keystore.
+	Description *string `json:"description,omitempty"`
+
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy,omitempty"`
+
+	// A list of groups that this keystore belongs to.
+	Groups []string `json:"groups,omitempty"`
+
+	// indicates whether to use TLS when connecting to an EKMF agent.
+	CcaUseTls *bool `json:"cca_use_tls,omitempty"`
+
+	// Base64 encoded PEM representation of a trusted issuer when using TLS.
+	CcaTrustedIssuer *string `json:"cca_trusted_issuer,omitempty"`
+
+	// a host of the keystore.
+	CcaHost *string `json:"cca_host" validate:"required"`
+
+	// a port of the keystore.
+	CcaPort *int64 `json:"cca_port" validate:"required"`
+
+	// HEX encoded string contained hash of signature key.
+	CcaPublicKeyHash *string `json:"cca_public_key_hash" validate:"required"`
+}
+
+// Constants associated with the KeystoreCreationRequestKeystoreTypeCcaCreate.Type property.
+// Type of keystore.
+const (
+	KeystoreCreationRequestKeystoreTypeCcaCreate_Type_AwsKms = "aws_kms"
+	KeystoreCreationRequestKeystoreTypeCcaCreate_Type_AzureKeyVault = "azure_key_vault"
+	KeystoreCreationRequestKeystoreTypeCcaCreate_Type_Cca = "cca"
+	KeystoreCreationRequestKeystoreTypeCcaCreate_Type_GoogleKms = "google_kms"
+	KeystoreCreationRequestKeystoreTypeCcaCreate_Type_IbmCloudKms = "ibm_cloud_kms"
+)
+
+// NewKeystoreCreationRequestKeystoreTypeCcaCreate : Instantiate KeystoreCreationRequestKeystoreTypeCcaCreate (Generic Model Constructor)
+func (*UkoV4) NewKeystoreCreationRequestKeystoreTypeCcaCreate(typeVar string, vault *VaultReferenceInCreationRequest, name string, ccaHost string, ccaPort int64, ccaPublicKeyHash string) (_model *KeystoreCreationRequestKeystoreTypeCcaCreate, err error) {
+	_model = &KeystoreCreationRequestKeystoreTypeCcaCreate{
+		Type: core.StringPtr(typeVar),
+		Vault: vault,
+		Name: core.StringPtr(name),
+		CcaHost: core.StringPtr(ccaHost),
+		CcaPort: core.Int64Ptr(ccaPort),
+		CcaPublicKeyHash: core.StringPtr(ccaPublicKeyHash),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	return
+}
+
+func (*KeystoreCreationRequestKeystoreTypeCcaCreate) isaKeystoreCreationRequest() bool {
+	return true
+}
+
+// UnmarshalKeystoreCreationRequestKeystoreTypeCcaCreate unmarshals an instance of KeystoreCreationRequestKeystoreTypeCcaCreate from the specified map of raw messages.
+func UnmarshalKeystoreCreationRequestKeystoreTypeCcaCreate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(KeystoreCreationRequestKeystoreTypeCcaCreate)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "vault", &obj.Vault, UnmarshalVaultReferenceInCreationRequest)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "groups", &obj.Groups)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_use_tls", &obj.CcaUseTls)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_trusted_issuer", &obj.CcaTrustedIssuer)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_host", &obj.CcaHost)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_port", &obj.CcaPort)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_public_key_hash", &obj.CcaPublicKeyHash)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // KeystoreCreationRequestKeystoreTypeGoogleKmsCreate : Google Cloud KMS is a managed service for you to create and manage cryptographic keys across a wide range of Google
 // Cloud services.
 // This model "extends" KeystoreCreationRequest
@@ -7801,6 +9586,9 @@ type KeystoreCreationRequestKeystoreTypeGoogleKmsCreate struct {
 
 	// Description of the keystore.
 	Description *string `json:"description,omitempty"`
+
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy,omitempty"`
 
 	// A list of groups that this keystore belongs to.
 	Groups []string `json:"groups,omitempty"`
@@ -7828,6 +9616,7 @@ type KeystoreCreationRequestKeystoreTypeGoogleKmsCreate struct {
 const (
 	KeystoreCreationRequestKeystoreTypeGoogleKmsCreate_Type_AwsKms = "aws_kms"
 	KeystoreCreationRequestKeystoreTypeGoogleKmsCreate_Type_AzureKeyVault = "azure_key_vault"
+	KeystoreCreationRequestKeystoreTypeGoogleKmsCreate_Type_Cca = "cca"
 	KeystoreCreationRequestKeystoreTypeGoogleKmsCreate_Type_GoogleKms = "google_kms"
 	KeystoreCreationRequestKeystoreTypeGoogleKmsCreate_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -7864,6 +9653,10 @@ func UnmarshalKeystoreCreationRequestKeystoreTypeGoogleKmsCreate(m map[string]js
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
 	if err != nil {
 		return
 	}
@@ -7915,6 +9708,9 @@ type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate struct
 	// Description of the keystore.
 	Description *string `json:"description,omitempty"`
 
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy,omitempty"`
+
 	// A list of groups that this keystore belongs to.
 	Groups []string `json:"groups,omitempty"`
 
@@ -7939,6 +9735,7 @@ type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate struct
 const (
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate_Type_AwsKms = "aws_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate_Type_AzureKeyVault = "azure_key_vault"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate_Type_Cca = "cca"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate_Type_GoogleKms = "google_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -7983,6 +9780,10 @@ func UnmarshalKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCrea
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
 	if err != nil {
 		return
 	}
@@ -8053,6 +9854,9 @@ type KeystoreTypeAwsKms struct {
 	// A URL that uniquely identifies your cloud resource.
 	Href *string `json:"href,omitempty"`
 
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy" validate:"required"`
+
 	// AWS Region.
 	AwsRegion *string `json:"aws_region" validate:"required"`
 
@@ -8068,42 +9872,9 @@ type KeystoreTypeAwsKms struct {
 const (
 	KeystoreTypeAwsKms_Type_AwsKms = "aws_kms"
 	KeystoreTypeAwsKms_Type_AzureKeyVault = "azure_key_vault"
+	KeystoreTypeAwsKms_Type_Cca = "cca"
 	KeystoreTypeAwsKms_Type_GoogleKms = "google_kms"
 	KeystoreTypeAwsKms_Type_IbmCloudKms = "ibm_cloud_kms"
-)
-
-// Constants associated with the KeystoreTypeAwsKms.AwsRegion property.
-// AWS Region.
-const (
-	KeystoreTypeAwsKms_AwsRegion_AfSouth1 = "af_south_1"
-	KeystoreTypeAwsKms_AwsRegion_ApEast1 = "ap_east_1"
-	KeystoreTypeAwsKms_AwsRegion_ApNortheast1 = "ap_northeast_1"
-	KeystoreTypeAwsKms_AwsRegion_ApNortheast2 = "ap_northeast_2"
-	KeystoreTypeAwsKms_AwsRegion_ApSouth1 = "ap_south_1"
-	KeystoreTypeAwsKms_AwsRegion_ApSoutheast1 = "ap_southeast_1"
-	KeystoreTypeAwsKms_AwsRegion_ApSoutheast2 = "ap_southeast_2"
-	KeystoreTypeAwsKms_AwsRegion_AwsCnGlobal = "aws_cn_global"
-	KeystoreTypeAwsKms_AwsRegion_AwsGlobal = "aws_global"
-	KeystoreTypeAwsKms_AwsRegion_AwsIsoBGlobal = "aws_iso_b_global"
-	KeystoreTypeAwsKms_AwsRegion_AwsIsoGlobal = "aws_iso_global"
-	KeystoreTypeAwsKms_AwsRegion_AwsUsGovGlobal = "aws_us_gov_global"
-	KeystoreTypeAwsKms_AwsRegion_CaCentral1 = "ca_central_1"
-	KeystoreTypeAwsKms_AwsRegion_CnNorth1 = "cn_north_1"
-	KeystoreTypeAwsKms_AwsRegion_CnNorthwest1 = "cn_northwest_1"
-	KeystoreTypeAwsKms_AwsRegion_EuCentral1 = "eu_central_1"
-	KeystoreTypeAwsKms_AwsRegion_EuWest1 = "eu_west_1"
-	KeystoreTypeAwsKms_AwsRegion_EuWest2 = "eu_west_2"
-	KeystoreTypeAwsKms_AwsRegion_EuWest3 = "eu_west_3"
-	KeystoreTypeAwsKms_AwsRegion_MeSouth1 = "me_south_1"
-	KeystoreTypeAwsKms_AwsRegion_SaEast1 = "sa_east_1"
-	KeystoreTypeAwsKms_AwsRegion_UsEast1 = "us_east_1"
-	KeystoreTypeAwsKms_AwsRegion_UsEast2 = "us_east_2"
-	KeystoreTypeAwsKms_AwsRegion_UsGovEast1 = "us_gov_east_1"
-	KeystoreTypeAwsKms_AwsRegion_UsGovWest1 = "us_gov_west_1"
-	KeystoreTypeAwsKms_AwsRegion_UsIsoEast1 = "us_iso_east_1"
-	KeystoreTypeAwsKms_AwsRegion_UsIsobEast1 = "us_isob_east_1"
-	KeystoreTypeAwsKms_AwsRegion_UsWest1 = "us_west_1"
-	KeystoreTypeAwsKms_AwsRegion_UsWest2 = "us_west_2"
 )
 
 func (*KeystoreTypeAwsKms) isaKeystore() bool {
@@ -8158,6 +9929,10 @@ func UnmarshalKeystoreTypeAwsKms(m map[string]json.RawMessage, result interface{
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
 	if err != nil {
 		return
 	}
@@ -8216,6 +9991,9 @@ type KeystoreTypeAzure struct {
 	// A URL that uniquely identifies your cloud resource.
 	Href *string `json:"href,omitempty"`
 
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy" validate:"required"`
+
 	// Service name of the key vault instance from the Azure portal.
 	AzureServiceName *string `json:"azure_service_name" validate:"required"`
 
@@ -8246,6 +10024,7 @@ type KeystoreTypeAzure struct {
 const (
 	KeystoreTypeAzure_Type_AwsKms = "aws_kms"
 	KeystoreTypeAzure_Type_AzureKeyVault = "azure_key_vault"
+	KeystoreTypeAzure_Type_Cca = "cca"
 	KeystoreTypeAzure_Type_GoogleKms = "google_kms"
 	KeystoreTypeAzure_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -8363,6 +10142,10 @@ func UnmarshalKeystoreTypeAzure(m map[string]json.RawMessage, result interface{}
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "azure_service_name", &obj.AzureServiceName)
 	if err != nil {
 		return
@@ -8392,6 +10175,157 @@ func UnmarshalKeystoreTypeAzure(m map[string]json.RawMessage, result interface{}
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "azure_environment", &obj.AzureEnvironment)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// KeystoreTypeCca : Properties related to CCA keystore.
+// This model "extends" Keystore
+type KeystoreTypeCca struct {
+	// Reference to a vault.
+	Vault *VaultReference `json:"vault,omitempty"`
+
+	// The v4 UUID used to uniquely identify the resource, as specified by RFC 4122.
+	ID *string `json:"id,omitempty"`
+
+	// Name of the target keystore. It can be changed in the future.
+	Name *string `json:"name" validate:"required"`
+
+	// Geographic location of the keystore, if available.
+	Location *string `json:"location" validate:"required"`
+
+	// Description of the keystore.
+	Description *string `json:"description" validate:"required"`
+
+	// List of groups that this keystore belongs to.
+	Groups []string `json:"groups" validate:"required"`
+
+	// Type of keystore.
+	Type *string `json:"type" validate:"required"`
+
+	// Date and time when the target keystore was created.
+	CreatedAt *strfmt.DateTime `json:"created_at,omitempty"`
+
+	// Date and time when the target keystore was last updated.
+	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
+
+	// ID of the user that created the key.
+	CreatedBy *string `json:"created_by,omitempty"`
+
+	// ID of the user that last updated the key.
+	UpdatedBy *string `json:"updated_by,omitempty"`
+
+	// A URL that uniquely identifies your cloud resource.
+	Href *string `json:"href,omitempty"`
+
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy" validate:"required"`
+
+	// indicates whether to use TLS when connecting to an EKMF agent.
+	CcaUseTls *bool `json:"cca_use_tls" validate:"required"`
+
+	// Base64 encoded PEM representation of a trusted issuer when using TLS.
+	CcaTrustedIssuer *string `json:"cca_trusted_issuer,omitempty"`
+
+	// a host of the keystore.
+	CcaHost *string `json:"cca_host" validate:"required"`
+
+	// a port of the keystore.
+	CcaPort *int64 `json:"cca_port" validate:"required"`
+
+	// HEX encoded string contained hash of signature key.
+	CcaPublicKeyHash *string `json:"cca_public_key_hash" validate:"required"`
+}
+
+// Constants associated with the KeystoreTypeCca.Type property.
+// Type of keystore.
+const (
+	KeystoreTypeCca_Type_AwsKms = "aws_kms"
+	KeystoreTypeCca_Type_AzureKeyVault = "azure_key_vault"
+	KeystoreTypeCca_Type_Cca = "cca"
+	KeystoreTypeCca_Type_GoogleKms = "google_kms"
+	KeystoreTypeCca_Type_IbmCloudKms = "ibm_cloud_kms"
+)
+
+func (*KeystoreTypeCca) isaKeystore() bool {
+	return true
+}
+
+// UnmarshalKeystoreTypeCca unmarshals an instance of KeystoreTypeCca from the specified map of raw messages.
+func UnmarshalKeystoreTypeCca(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(KeystoreTypeCca)
+	err = core.UnmarshalModel(m, "vault", &obj.Vault, UnmarshalVaultReference)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "groups", &obj.Groups)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_by", &obj.CreatedBy)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "updated_by", &obj.UpdatedBy)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_use_tls", &obj.CcaUseTls)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_trusted_issuer", &obj.CcaTrustedIssuer)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_host", &obj.CcaHost)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_port", &obj.CcaPort)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_public_key_hash", &obj.CcaPublicKeyHash)
 	if err != nil {
 		return
 	}
@@ -8438,6 +10372,9 @@ type KeystoreTypeGoogleKms struct {
 	// A URL that uniquely identifies your cloud resource.
 	Href *string `json:"href,omitempty"`
 
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy" validate:"required"`
+
 	// The value of the JSON key represented in the Base64 format.
 	GoogleCredentials *string `json:"google_credentials" validate:"required"`
 
@@ -8461,6 +10398,7 @@ type KeystoreTypeGoogleKms struct {
 const (
 	KeystoreTypeGoogleKms_Type_AwsKms = "aws_kms"
 	KeystoreTypeGoogleKms_Type_AzureKeyVault = "azure_key_vault"
+	KeystoreTypeGoogleKms_Type_Cca = "cca"
 	KeystoreTypeGoogleKms_Type_GoogleKms = "google_kms"
 	KeystoreTypeGoogleKms_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -8517,6 +10455,10 @@ func UnmarshalKeystoreTypeGoogleKms(m map[string]json.RawMessage, result interfa
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
 	if err != nil {
 		return
 	}
@@ -8583,6 +10525,9 @@ type KeystoreTypeIbmCloudKms struct {
 	// A URL that uniquely identifies your cloud resource.
 	Href *string `json:"href,omitempty"`
 
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy" validate:"required"`
+
 	// API endpoint of the IBM Cloud keystore.
 	IbmApiEndpoint *string `json:"ibm_api_endpoint" validate:"required"`
 
@@ -8607,6 +10552,7 @@ type KeystoreTypeIbmCloudKms struct {
 const (
 	KeystoreTypeIbmCloudKms_Type_AwsKms = "aws_kms"
 	KeystoreTypeIbmCloudKms_Type_AzureKeyVault = "azure_key_vault"
+	KeystoreTypeIbmCloudKms_Type_Cca = "cca"
 	KeystoreTypeIbmCloudKms_Type_GoogleKms = "google_kms"
 	KeystoreTypeIbmCloudKms_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -8674,6 +10620,10 @@ func UnmarshalKeystoreTypeIbmCloudKms(m map[string]json.RawMessage, result inter
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "ibm_api_endpoint", &obj.IbmApiEndpoint)
 	if err != nil {
 		return
@@ -8711,6 +10661,9 @@ type KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate struct {
 	// Description of the keystore.
 	Description *string `json:"description,omitempty"`
 
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy,omitempty"`
+
 	// A list of groups that this keystore belongs to.
 	Groups []string `json:"groups,omitempty"`
 
@@ -8724,40 +10677,6 @@ type KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate struct {
 	AwsSecretAccessKey *string `json:"aws_secret_access_key,omitempty"`
 }
 
-// Constants associated with the KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate.AwsRegion property.
-// AWS Region.
-const (
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_AfSouth1 = "af_south_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_ApEast1 = "ap_east_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_ApNortheast1 = "ap_northeast_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_ApNortheast2 = "ap_northeast_2"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_ApSouth1 = "ap_south_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_ApSoutheast1 = "ap_southeast_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_ApSoutheast2 = "ap_southeast_2"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_AwsCnGlobal = "aws_cn_global"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_AwsGlobal = "aws_global"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_AwsIsoBGlobal = "aws_iso_b_global"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_AwsIsoGlobal = "aws_iso_global"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_AwsUsGovGlobal = "aws_us_gov_global"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_CaCentral1 = "ca_central_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_CnNorth1 = "cn_north_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_CnNorthwest1 = "cn_northwest_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_EuCentral1 = "eu_central_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_EuWest1 = "eu_west_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_EuWest2 = "eu_west_2"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_EuWest3 = "eu_west_3"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_MeSouth1 = "me_south_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_SaEast1 = "sa_east_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsEast1 = "us_east_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsEast2 = "us_east_2"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsGovEast1 = "us_gov_east_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsGovWest1 = "us_gov_west_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsIsoEast1 = "us_iso_east_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsIsobEast1 = "us_isob_east_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsWest1 = "us_west_1"
-	KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate_AwsRegion_UsWest2 = "us_west_2"
-)
-
 func (*KeystoreUpdateRequestKeystoreTypeAwsKmsUpdate) isaKeystoreUpdateRequest() bool {
 	return true
 }
@@ -8770,6 +10689,10 @@ func UnmarshalKeystoreUpdateRequestKeystoreTypeAwsKmsUpdate(m map[string]json.Ra
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
 	if err != nil {
 		return
 	}
@@ -8802,6 +10725,9 @@ type KeystoreUpdateRequestKeystoreTypeAzureUpdate struct {
 
 	// Description of the keystore.
 	Description *string `json:"description,omitempty"`
+
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy,omitempty"`
 
 	// A list of groups that this keystore belongs to.
 	Groups []string `json:"groups,omitempty"`
@@ -8904,6 +10830,10 @@ func UnmarshalKeystoreUpdateRequestKeystoreTypeAzureUpdate(m map[string]json.Raw
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "groups", &obj.Groups)
 	if err != nil {
 		return
@@ -8944,6 +10874,84 @@ func UnmarshalKeystoreUpdateRequestKeystoreTypeAzureUpdate(m map[string]json.Raw
 	return
 }
 
+// KeystoreUpdateRequestKeystoreTypeCcaUpdate : Properties related to CCA keystore.
+// This model "extends" KeystoreUpdateRequest
+type KeystoreUpdateRequestKeystoreTypeCcaUpdate struct {
+	// Name of a target keystore.
+	Name *string `json:"name,omitempty"`
+
+	// Description of the keystore.
+	Description *string `json:"description,omitempty"`
+
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy,omitempty"`
+
+	// A list of groups that this keystore belongs to.
+	Groups []string `json:"groups,omitempty"`
+
+	// indicates whether to use TLS when connecting to an EKMF agent.
+	CcaUseTls *bool `json:"cca_use_tls,omitempty"`
+
+	// Base64 encoded PEM representation of a trusted issuer when using TLS.
+	CcaTrustedIssuer *string `json:"cca_trusted_issuer,omitempty"`
+
+	// a host of the keystore.
+	CcaHost *string `json:"cca_host,omitempty"`
+
+	// a port of the keystore.
+	CcaPort *int64 `json:"cca_port,omitempty"`
+
+	// HEX encoded string contained hash of signature key.
+	CcaPublicKeyHash *string `json:"cca_public_key_hash,omitempty"`
+}
+
+func (*KeystoreUpdateRequestKeystoreTypeCcaUpdate) isaKeystoreUpdateRequest() bool {
+	return true
+}
+
+// UnmarshalKeystoreUpdateRequestKeystoreTypeCcaUpdate unmarshals an instance of KeystoreUpdateRequestKeystoreTypeCcaUpdate from the specified map of raw messages.
+func UnmarshalKeystoreUpdateRequestKeystoreTypeCcaUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(KeystoreUpdateRequestKeystoreTypeCcaUpdate)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "groups", &obj.Groups)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_use_tls", &obj.CcaUseTls)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_trusted_issuer", &obj.CcaTrustedIssuer)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_host", &obj.CcaHost)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_port", &obj.CcaPort)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_public_key_hash", &obj.CcaPublicKeyHash)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // KeystoreUpdateRequestKeystoreTypeGoogleKmsUpdate : Google Cloud KMS is a managed service for you to create and manage cryptographic keys across a wide range of Google
 // Cloud services.
 // This model "extends" KeystoreUpdateRequest
@@ -8953,6 +10961,9 @@ type KeystoreUpdateRequestKeystoreTypeGoogleKmsUpdate struct {
 
 	// Description of the keystore.
 	Description *string `json:"description,omitempty"`
+
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy,omitempty"`
 
 	// A list of groups that this keystore belongs to.
 	Groups []string `json:"groups,omitempty"`
@@ -8987,6 +10998,10 @@ func UnmarshalKeystoreUpdateRequestKeystoreTypeGoogleKmsUpdate(m map[string]json
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
 	if err != nil {
 		return
 	}
@@ -9029,6 +11044,9 @@ type KeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdate struct {
 	// Description of the keystore.
 	Description *string `json:"description,omitempty"`
 
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy,omitempty"`
+
 	// A list of groups that this keystore belongs to.
 	Groups []string `json:"groups,omitempty"`
 }
@@ -9056,6 +11074,10 @@ func UnmarshalKeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdate(m map[s
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "groups", &obj.Groups)
 	if err != nil {
 		return
@@ -9073,6 +11095,9 @@ type KeystoreUpdateRequestKeystoreTypeIbmCloudKmsUpdate struct {
 
 	// Description of the keystore.
 	Description *string `json:"description,omitempty"`
+
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy,omitempty"`
 
 	// A list of groups that this keystore belongs to.
 	Groups []string `json:"groups,omitempty"`
@@ -9105,6 +11130,10 @@ func UnmarshalKeystoreUpdateRequestKeystoreTypeIbmCloudKmsUpdate(m map[string]js
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
 	if err != nil {
 		return
 	}
@@ -9142,6 +11171,11 @@ type KeystoresPropertiesCreateAwsKms struct {
 	// Which keystore group to distribute the key to.
 	Group *string `json:"group,omitempty"`
 
+	// Managed key naming scheme which will be applied to every key created with this template. Every tag in the naming
+	// scheme must be enclosed in angle brackets. For Every tag in the naming scheme, a value will need to be either
+	// provided by the user during key creation or computed by the service for the set of special tags.
+	NamingScheme *string `json:"naming_scheme,omitempty"`
+
 	// Type of keystore.
 	Type *string `json:"type,omitempty"`
 }
@@ -9151,6 +11185,7 @@ type KeystoresPropertiesCreateAwsKms struct {
 const (
 	KeystoresPropertiesCreateAwsKms_Type_AwsKms = "aws_kms"
 	KeystoresPropertiesCreateAwsKms_Type_AzureKeyVault = "azure_key_vault"
+	KeystoresPropertiesCreateAwsKms_Type_Cca = "cca"
 	KeystoresPropertiesCreateAwsKms_Type_GoogleKms = "google_kms"
 	KeystoresPropertiesCreateAwsKms_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -9163,6 +11198,10 @@ func (*KeystoresPropertiesCreateAwsKms) isaKeystoresPropertiesCreate() bool {
 func UnmarshalKeystoresPropertiesCreateAwsKms(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(KeystoresPropertiesCreateAwsKms)
 	err = core.UnmarshalPrimitive(m, "group", &obj.Group)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "naming_scheme", &obj.NamingScheme)
 	if err != nil {
 		return
 	}
@@ -9180,8 +11219,17 @@ type KeystoresPropertiesCreateAzure struct {
 	// Which keystore group to distribute the key to.
 	Group *string `json:"group,omitempty"`
 
+	// Managed key naming scheme which will be applied to every key created with this template. Every tag in the naming
+	// scheme must be enclosed in angle brackets. For Every tag in the naming scheme, a value will need to be either
+	// provided by the user during key creation or computed by the service for the set of special tags.
+	NamingScheme *string `json:"naming_scheme,omitempty"`
+
 	// Type of keystore.
 	Type *string `json:"type,omitempty"`
+
+	AzureKeyProtectionLevel *string `json:"azure_key_protection_level,omitempty"`
+
+	AzureKeyOperations []string `json:"azure_key_operations,omitempty"`
 }
 
 // Constants associated with the KeystoresPropertiesCreateAzure.Type property.
@@ -9189,8 +11237,25 @@ type KeystoresPropertiesCreateAzure struct {
 const (
 	KeystoresPropertiesCreateAzure_Type_AwsKms = "aws_kms"
 	KeystoresPropertiesCreateAzure_Type_AzureKeyVault = "azure_key_vault"
+	KeystoresPropertiesCreateAzure_Type_Cca = "cca"
 	KeystoresPropertiesCreateAzure_Type_GoogleKms = "google_kms"
 	KeystoresPropertiesCreateAzure_Type_IbmCloudKms = "ibm_cloud_kms"
+)
+
+// Constants associated with the KeystoresPropertiesCreateAzure.AzureKeyProtectionLevel property.
+const (
+	KeystoresPropertiesCreateAzure_AzureKeyProtectionLevel_Hsm = "hsm"
+	KeystoresPropertiesCreateAzure_AzureKeyProtectionLevel_Software = "software"
+)
+
+// Constants associated with the KeystoresPropertiesCreateAzure.AzureKeyOperations property.
+const (
+	KeystoresPropertiesCreateAzure_AzureKeyOperations_Decrypt = "decrypt"
+	KeystoresPropertiesCreateAzure_AzureKeyOperations_Encrypt = "encrypt"
+	KeystoresPropertiesCreateAzure_AzureKeyOperations_Sign = "sign"
+	KeystoresPropertiesCreateAzure_AzureKeyOperations_UnwrapKey = "unwrap_key"
+	KeystoresPropertiesCreateAzure_AzureKeyOperations_Verify = "verify"
+	KeystoresPropertiesCreateAzure_AzureKeyOperations_WrapKey = "wrap_key"
 )
 
 func (*KeystoresPropertiesCreateAzure) isaKeystoresPropertiesCreate() bool {
@@ -9204,7 +11269,101 @@ func UnmarshalKeystoresPropertiesCreateAzure(m map[string]json.RawMessage, resul
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "naming_scheme", &obj.NamingScheme)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "azure_key_protection_level", &obj.AzureKeyProtectionLevel)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "azure_key_operations", &obj.AzureKeyOperations)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// KeystoresPropertiesCreateCca : KeystoresPropertiesCreateCca struct
+// This model "extends" KeystoresPropertiesCreate
+type KeystoresPropertiesCreateCca struct {
+	// Which keystore group to distribute the key to.
+	Group *string `json:"group,omitempty"`
+
+	// Managed key naming scheme which will be applied to every key created with this template. Every tag in the naming
+	// scheme must be enclosed in angle brackets. For Every tag in the naming scheme, a value will need to be either
+	// provided by the user during key creation or computed by the service for the set of special tags.
+	NamingScheme *string `json:"naming_scheme,omitempty"`
+
+	// Type of keystore.
+	Type *string `json:"type,omitempty"`
+
+	CcaUsageControl *string `json:"cca_usage_control,omitempty"`
+
+	CcaKeyType *string `json:"cca_key_type,omitempty"`
+
+	// A list of CCA key words.
+	CcaKeyWords []string `json:"cca_key_words,omitempty"`
+}
+
+// Constants associated with the KeystoresPropertiesCreateCca.Type property.
+// Type of keystore.
+const (
+	KeystoresPropertiesCreateCca_Type_AwsKms = "aws_kms"
+	KeystoresPropertiesCreateCca_Type_AzureKeyVault = "azure_key_vault"
+	KeystoresPropertiesCreateCca_Type_Cca = "cca"
+	KeystoresPropertiesCreateCca_Type_GoogleKms = "google_kms"
+	KeystoresPropertiesCreateCca_Type_IbmCloudKms = "ibm_cloud_kms"
+)
+
+// Constants associated with the KeystoresPropertiesCreateCca.CcaUsageControl property.
+const (
+	KeystoresPropertiesCreateCca_CcaUsageControl_KeyManagementOnly = "key_management_only"
+	KeystoresPropertiesCreateCca_CcaUsageControl_SignatureAndKeyManagement = "signature_and_key_management"
+	KeystoresPropertiesCreateCca_CcaUsageControl_SignatureOnly = "signature_only"
+)
+
+// Constants associated with the KeystoresPropertiesCreateCca.CcaKeyType property.
+const (
+	KeystoresPropertiesCreateCca_CcaKeyType_Cipher = "cipher"
+	KeystoresPropertiesCreateCca_CcaKeyType_Data = "data"
+	KeystoresPropertiesCreateCca_CcaKeyType_Exporter = "exporter"
+	KeystoresPropertiesCreateCca_CcaKeyType_Importer = "importer"
+)
+
+func (*KeystoresPropertiesCreateCca) isaKeystoresPropertiesCreate() bool {
+	return true
+}
+
+// UnmarshalKeystoresPropertiesCreateCca unmarshals an instance of KeystoresPropertiesCreateCca from the specified map of raw messages.
+func UnmarshalKeystoresPropertiesCreateCca(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(KeystoresPropertiesCreateCca)
+	err = core.UnmarshalPrimitive(m, "group", &obj.Group)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "naming_scheme", &obj.NamingScheme)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_usage_control", &obj.CcaUsageControl)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_key_type", &obj.CcaKeyType)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_key_words", &obj.CcaKeyWords)
 	if err != nil {
 		return
 	}
@@ -9217,6 +11376,11 @@ func UnmarshalKeystoresPropertiesCreateAzure(m map[string]json.RawMessage, resul
 type KeystoresPropertiesCreateGoogleKms struct {
 	// Which keystore group to distribute the key to.
 	Group *string `json:"group,omitempty"`
+
+	// Managed key naming scheme which will be applied to every key created with this template. Every tag in the naming
+	// scheme must be enclosed in angle brackets. For Every tag in the naming scheme, a value will need to be either
+	// provided by the user during key creation or computed by the service for the set of special tags.
+	NamingScheme *string `json:"naming_scheme,omitempty"`
 
 	// Type of keystore.
 	Type *string `json:"type,omitempty"`
@@ -9233,6 +11397,7 @@ type KeystoresPropertiesCreateGoogleKms struct {
 const (
 	KeystoresPropertiesCreateGoogleKms_Type_AwsKms = "aws_kms"
 	KeystoresPropertiesCreateGoogleKms_Type_AzureKeyVault = "azure_key_vault"
+	KeystoresPropertiesCreateGoogleKms_Type_Cca = "cca"
 	KeystoresPropertiesCreateGoogleKms_Type_GoogleKms = "google_kms"
 	KeystoresPropertiesCreateGoogleKms_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -9289,6 +11454,10 @@ func UnmarshalKeystoresPropertiesCreateGoogleKms(m map[string]json.RawMessage, r
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "naming_scheme", &obj.NamingScheme)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
 		return
@@ -9315,6 +11484,11 @@ type KeystoresPropertiesCreateIbmCloudKms struct {
 	// Which keystore group to distribute the key to.
 	Group *string `json:"group,omitempty"`
 
+	// Managed key naming scheme which will be applied to every key created with this template. Every tag in the naming
+	// scheme must be enclosed in angle brackets. For Every tag in the naming scheme, a value will need to be either
+	// provided by the user during key creation or computed by the service for the set of special tags.
+	NamingScheme *string `json:"naming_scheme,omitempty"`
+
 	// Type of keystore.
 	Type *string `json:"type,omitempty"`
 }
@@ -9324,6 +11498,7 @@ type KeystoresPropertiesCreateIbmCloudKms struct {
 const (
 	KeystoresPropertiesCreateIbmCloudKms_Type_AwsKms = "aws_kms"
 	KeystoresPropertiesCreateIbmCloudKms_Type_AzureKeyVault = "azure_key_vault"
+	KeystoresPropertiesCreateIbmCloudKms_Type_Cca = "cca"
 	KeystoresPropertiesCreateIbmCloudKms_Type_GoogleKms = "google_kms"
 	KeystoresPropertiesCreateIbmCloudKms_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -9336,6 +11511,10 @@ func (*KeystoresPropertiesCreateIbmCloudKms) isaKeystoresPropertiesCreate() bool
 func UnmarshalKeystoresPropertiesCreateIbmCloudKms(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(KeystoresPropertiesCreateIbmCloudKms)
 	err = core.UnmarshalPrimitive(m, "group", &obj.Group)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "naming_scheme", &obj.NamingScheme)
 	if err != nil {
 		return
 	}
@@ -9384,6 +11563,62 @@ func (*KeystoresPropertiesUpdateAzure) isaKeystoresPropertiesUpdate() bool {
 func UnmarshalKeystoresPropertiesUpdateAzure(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(KeystoresPropertiesUpdateAzure)
 	err = core.UnmarshalPrimitive(m, "group", &obj.Group)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// KeystoresPropertiesUpdateCca : KeystoresPropertiesUpdateCca struct
+// This model "extends" KeystoresPropertiesUpdate
+type KeystoresPropertiesUpdateCca struct {
+	// Which keystore group to distribute the key to.
+	Group *string `json:"group,omitempty"`
+
+	CcaUsageControl *string `json:"cca_usage_control,omitempty"`
+
+	CcaKeyType *string `json:"cca_key_type,omitempty"`
+
+	// A list of CCA key words.
+	CcaKeyWords []string `json:"cca_key_words,omitempty"`
+}
+
+// Constants associated with the KeystoresPropertiesUpdateCca.CcaUsageControl property.
+const (
+	KeystoresPropertiesUpdateCca_CcaUsageControl_KeyManagementOnly = "key_management_only"
+	KeystoresPropertiesUpdateCca_CcaUsageControl_SignatureAndKeyManagement = "signature_and_key_management"
+	KeystoresPropertiesUpdateCca_CcaUsageControl_SignatureOnly = "signature_only"
+)
+
+// Constants associated with the KeystoresPropertiesUpdateCca.CcaKeyType property.
+const (
+	KeystoresPropertiesUpdateCca_CcaKeyType_Cipher = "cipher"
+	KeystoresPropertiesUpdateCca_CcaKeyType_Data = "data"
+	KeystoresPropertiesUpdateCca_CcaKeyType_Exporter = "exporter"
+	KeystoresPropertiesUpdateCca_CcaKeyType_Importer = "importer"
+)
+
+func (*KeystoresPropertiesUpdateCca) isaKeystoresPropertiesUpdate() bool {
+	return true
+}
+
+// UnmarshalKeystoresPropertiesUpdateCca unmarshals an instance of KeystoresPropertiesUpdateCca from the specified map of raw messages.
+func UnmarshalKeystoresPropertiesUpdateCca(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(KeystoresPropertiesUpdateCca)
+	err = core.UnmarshalPrimitive(m, "group", &obj.Group)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_usage_control", &obj.CcaUsageControl)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_key_type", &obj.CcaKeyType)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cca_key_words", &obj.CcaKeyWords)
 	if err != nil {
 		return
 	}
@@ -9509,6 +11744,9 @@ type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystor
 	// Description of the keystore.
 	Description *string `json:"description,omitempty"`
 
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy,omitempty"`
+
 	// A list of groups that this keystore belongs to.
 	Groups []string `json:"groups,omitempty"`
 
@@ -9536,6 +11774,7 @@ type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystor
 const (
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate_Type_AwsKms = "aws_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate_Type_AzureKeyVault = "azure_key_vault"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate_Type_Cca = "cca"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate_Type_GoogleKms = "google_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -9591,6 +11830,10 @@ func UnmarshalKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCrea
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "groups", &obj.Groups)
 	if err != nil {
 		return
@@ -9643,6 +11886,9 @@ type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystor
 	// Description of the keystore.
 	Description *string `json:"description,omitempty"`
 
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy,omitempty"`
+
 	// A list of groups that this keystore belongs to.
 	Groups []string `json:"groups,omitempty"`
 }
@@ -9652,6 +11898,7 @@ type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystor
 const (
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate_Type_AwsKms = "aws_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate_Type_AzureKeyVault = "azure_key_vault"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate_Type_Cca = "cca"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate_Type_GoogleKms = "google_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -9703,6 +11950,10 @@ func UnmarshalKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCrea
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "groups", &obj.Groups)
 	if err != nil {
 		return
@@ -9719,6 +11970,9 @@ type KeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCl
 
 	// Description of the keystore.
 	Description *string `json:"description,omitempty"`
+
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy,omitempty"`
 
 	// A list of groups that this keystore belongs to.
 	Groups []string `json:"groups,omitempty"`
@@ -9740,6 +11994,10 @@ func UnmarshalKeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdateKeystore
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
 	if err != nil {
 		return
 	}
@@ -9770,6 +12028,9 @@ type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystor
 	// Description of the keystore.
 	Description *string `json:"description,omitempty"`
 
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy,omitempty"`
+
 	// A list of groups that this keystore belongs to.
 	Groups []string `json:"groups,omitempty"`
 }
@@ -9779,6 +12040,7 @@ type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystor
 const (
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate_Type_AwsKms = "aws_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate_Type_AzureKeyVault = "azure_key_vault"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate_Type_Cca = "cca"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate_Type_GoogleKms = "google_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -9834,6 +12096,10 @@ func UnmarshalKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCrea
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "groups", &obj.Groups)
 	if err != nil {
 		return
@@ -9859,6 +12125,9 @@ type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystor
 	// Description of the keystore.
 	Description *string `json:"description,omitempty"`
 
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy,omitempty"`
+
 	// A list of groups that this keystore belongs to.
 	Groups []string `json:"groups,omitempty"`
 }
@@ -9868,6 +12137,7 @@ type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystor
 const (
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_AwsKms = "aws_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_AzureKeyVault = "azure_key_vault"
+	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_Cca = "cca"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_GoogleKms = "google_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -9927,6 +12197,10 @@ func UnmarshalKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCrea
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
 	if err != nil {
 		return
 	}
@@ -10109,6 +12383,93 @@ func (pager *AssociatedResourcesForManagedKeyPager) GetNext() (page []Associated
 
 // GetAll invokes GetAllWithContext() using context.Background() as the Context parameter.
 func (pager *AssociatedResourcesForManagedKeyPager) GetAll() (allItems []AssociatedResource, err error) {
+	return pager.GetAllWithContext(context.Background())
+}
+
+//
+// ManagedKeyVersionsPager can be used to simplify the use of the "ListManagedKeyVersions" method.
+//
+type ManagedKeyVersionsPager struct {
+	hasNext bool
+	options *ListManagedKeyVersionsOptions
+	client  *UkoV4
+	pageContext struct {
+		next *int64
+	}
+}
+
+// NewManagedKeyVersionsPager returns a new ManagedKeyVersionsPager instance.
+func (uko *UkoV4) NewManagedKeyVersionsPager(options *ListManagedKeyVersionsOptions) (pager *ManagedKeyVersionsPager, err error) {
+	if options.Offset != nil && *options.Offset != 0 {
+		err = fmt.Errorf("the 'options.Offset' field should not be set")
+		return
+	}
+
+	var optionsCopy ListManagedKeyVersionsOptions = *options
+	pager = &ManagedKeyVersionsPager{
+		hasNext: true,
+		options: &optionsCopy,
+		client:  uko,
+	}
+	return
+}
+
+// HasNext returns true if there are potentially more results to be retrieved.
+func (pager *ManagedKeyVersionsPager) HasNext() bool {
+	return pager.hasNext
+}
+
+// GetNextWithContext returns the next page of results using the specified Context.
+func (pager *ManagedKeyVersionsPager) GetNextWithContext(ctx context.Context) (page []ManagedKey, err error) {
+	if !pager.HasNext() {
+		return nil, fmt.Errorf("no more results available")
+	}
+
+	pager.options.Offset = pager.pageContext.next
+
+	result, _, err := pager.client.ListManagedKeyVersionsWithContext(ctx, pager.options)
+	if err != nil {
+		return
+	}
+
+	var next *int64
+	if result.Next != nil {
+		var offset *int64
+		offset, err = core.GetQueryParamAsInt(result.Next.Href, "offset")
+		if err != nil {
+			err = fmt.Errorf("error retrieving 'offset' query parameter from URL '%s': %s", *result.Next.Href, err.Error())
+			return
+		}
+		next = offset
+	}
+	pager.pageContext.next = next
+	pager.hasNext = (pager.pageContext.next != nil)
+	page = result.ManagedKeys
+
+	return
+}
+
+// GetAllWithContext returns all results by invoking GetNextWithContext() repeatedly
+// until all pages of results have been retrieved.
+func (pager *ManagedKeyVersionsPager) GetAllWithContext(ctx context.Context) (allItems []ManagedKey, err error) {
+	for pager.HasNext() {
+		var nextPage []ManagedKey
+		nextPage, err = pager.GetNextWithContext(ctx)
+		if err != nil {
+			return
+		}
+		allItems = append(allItems, nextPage...)
+	}
+	return
+}
+
+// GetNext invokes GetNextWithContext() using context.Background() as the Context parameter.
+func (pager *ManagedKeyVersionsPager) GetNext() (page []ManagedKey, err error) {
+	return pager.GetNextWithContext(context.Background())
+}
+
+// GetAll invokes GetAllWithContext() using context.Background() as the Context parameter.
+func (pager *ManagedKeyVersionsPager) GetAll() (allItems []ManagedKey, err error) {
 	return pager.GetAllWithContext(context.Background())
 }
 
