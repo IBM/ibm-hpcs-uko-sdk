@@ -38,7 +38,7 @@ import (
 
 // UkoV4 : API for UKO used for key management.
 //
-// API Version: 4.12.6
+// API Version: 4.12.7
 type UkoV4 struct {
 	Service *core.BaseService
 }
