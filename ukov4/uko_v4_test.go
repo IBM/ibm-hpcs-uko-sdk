@@ -634,14 +634,14 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com?offset=135")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
 			})
 			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
 				responseObject := new(ukov4.ManagedKeyList)
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -651,7 +651,7 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -661,7 +661,7 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).NotTo(BeNil())
 				Expect(value).To(BeNil())
@@ -1884,14 +1884,14 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com?offset=135")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
 			})
 			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
 				responseObject := new(ukov4.AssociatedResourceList)
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -1901,7 +1901,7 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -1911,7 +1911,7 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).NotTo(BeNil())
 				Expect(value).To(BeNil())
@@ -2454,14 +2454,14 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com?offset=135")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
 			})
 			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
 				responseObject := new(ukov4.ManagedKeyList)
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -2471,7 +2471,7 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -2481,7 +2481,7 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).NotTo(BeNil())
 				Expect(value).To(BeNil())
@@ -4542,14 +4542,14 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com?offset=135")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
 			})
 			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
 				responseObject := new(ukov4.TemplateList)
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -4559,7 +4559,7 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -4569,7 +4569,7 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).NotTo(BeNil())
 				Expect(value).To(BeNil())
@@ -5998,14 +5998,14 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com?offset=135")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
 			})
 			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
 				responseObject := new(ukov4.KeystoreList)
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -6015,7 +6015,7 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -6025,7 +6025,7 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).NotTo(BeNil())
 				Expect(value).To(BeNil())
@@ -7289,14 +7289,14 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com?offset=135")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
 			})
 			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
 				responseObject := new(ukov4.AssociatedResourceList)
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -7306,7 +7306,7 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -7316,7 +7316,7 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).NotTo(BeNil())
 				Expect(value).To(BeNil())
@@ -8067,14 +8067,14 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com?offset=135")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
 			})
 			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
 				responseObject := new(ukov4.ManagedKeyList)
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -8084,7 +8084,7 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -8094,7 +8094,7 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).NotTo(BeNil())
 				Expect(value).To(BeNil())
@@ -8486,14 +8486,14 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com?offset=135")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(Equal(core.Int64Ptr(int64(135))))
 			})
 			It(`Invoke GetNextOffset without a "Next" property in the response`, func() {
 				responseObject := new(ukov4.VaultList)
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -8503,7 +8503,7 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).To(BeNil())
 				Expect(value).To(BeNil())
@@ -8513,7 +8513,7 @@ var _ = Describe(`UkoV4`, func() {
 				nextObject := new(ukov4.HrefObject)
 				nextObject.Href = core.StringPtr("ibm.com?offset=tiger")
 				responseObject.Next = nextObject
-	
+
 				value, err := responseObject.GetNextOffset()
 				Expect(err).NotTo(BeNil())
 				Expect(value).To(BeNil())
