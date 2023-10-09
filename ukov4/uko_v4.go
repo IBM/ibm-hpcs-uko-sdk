@@ -38,10 +38,13 @@ import (
 
 // UkoV4 : API for UKO used for key management.
 //
-// API Version: 4.12.7
+// API Version: 4.13.0-beta.17
 type UkoV4 struct {
 	Service *core.BaseService
 }
+
+// DefaultServiceURL is the default URL to make service requests to.
+const DefaultServiceURL = "https://uko.cloud.ibm.com/api"
 
 // DefaultServiceName is the default key used to find external configuration information.
 const DefaultServiceName = "uko"
@@ -85,6 +88,7 @@ func NewUkoV4UsingExternalConfig(options *UkoV4Options) (uko *UkoV4, err error) 
 // NewUkoV4 : constructs an instance of UkoV4 with passed in options.
 func NewUkoV4(options *UkoV4Options) (service *UkoV4, err error) {
 	serviceOptions := &core.ServiceOptions{
+		URL:           DefaultServiceURL,
 		Authenticator: options.Authenticator,
 	}
 
@@ -175,7 +179,7 @@ func (uko *UkoV4) ListManagedKeysWithContext(ctx context.Context, listManagedKey
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys`, nil)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys`, nil)
 	if err != nil {
 		return
 	}
@@ -292,8 +296,11 @@ func (uko *UkoV4) ListManagedKeysWithContext(ctx context.Context, listManagedKey
 	if listManagedKeysOptions.TemplateType != nil {
 		builder.AddQuery("template.type[]", strings.Join(listManagedKeysOptions.TemplateType, ","))
 	}
-	if listManagedKeysOptions.ManagingSystems != nil {
-		builder.AddQuery("managing_systems", strings.Join(listManagedKeysOptions.ManagingSystems, ","))
+	if listManagedKeysOptions.StatusInKeystoresKeystoreSyncFlag != nil {
+		builder.AddQuery("status_in_keystores[].keystore_sync_flag", strings.Join(listManagedKeysOptions.StatusInKeystoresKeystoreSyncFlag, ","))
+	}
+	if listManagedKeysOptions.TemplateAlignmentStatus != nil {
+		builder.AddQuery("template.alignment_status", fmt.Sprint(*listManagedKeysOptions.TemplateAlignmentStatus))
 	}
 
 	request, err := builder.Build()
@@ -337,7 +344,7 @@ func (uko *UkoV4) CreateManagedKeyWithContext(ctx context.Context, createManaged
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys`, nil)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys`, nil)
 	if err != nil {
 		return
 	}
@@ -416,7 +423,7 @@ func (uko *UkoV4) DeleteManagedKeyWithContext(ctx context.Context, deleteManaged
 	builder := core.NewRequestBuilder(core.DELETE)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -467,7 +474,7 @@ func (uko *UkoV4) GetManagedKeyWithContext(ctx context.Context, getManagedKeyOpt
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -528,7 +535,7 @@ func (uko *UkoV4) UpdateManagedKeyWithContext(ctx context.Context, updateManaged
 	builder := core.NewRequestBuilder(core.PATCH)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -611,7 +618,7 @@ func (uko *UkoV4) ListAssociatedResourcesForManagedKeyWithContext(ctx context.Co
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys/{id}/associated_resources`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys/{id}/associated_resources`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -681,7 +688,7 @@ func (uko *UkoV4) ListManagedKeyVersionsWithContext(ctx context.Context, listMan
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys/{id}/versions`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys/{id}/versions`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -792,6 +799,12 @@ func (uko *UkoV4) ListManagedKeyVersionsWithContext(ctx context.Context, listMan
 	if listManagedKeyVersionsOptions.TemplateType != nil {
 		builder.AddQuery("template.type[]", strings.Join(listManagedKeyVersionsOptions.TemplateType, ","))
 	}
+	if listManagedKeyVersionsOptions.StatusInKeystoresKeystoreSyncFlag != nil {
+		builder.AddQuery("status_in_keystores[].keystore_sync_flag", strings.Join(listManagedKeyVersionsOptions.StatusInKeystoresKeystoreSyncFlag, ","))
+	}
+	if listManagedKeyVersionsOptions.TemplateAlignmentStatus != nil {
+		builder.AddQuery("template.alignment_status", fmt.Sprint(*listManagedKeyVersionsOptions.TemplateAlignmentStatus))
+	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -840,7 +853,7 @@ func (uko *UkoV4) GetKeyDistributionStatusForKeystoresWithContext(ctx context.Co
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys/{id}/status_in_keystores`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys/{id}/status_in_keystores`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -901,7 +914,7 @@ func (uko *UkoV4) UpdateManagedKeyFromTemplateWithContext(ctx context.Context, u
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys/{id}/update_from_template`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys/{id}/update_from_template`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -969,7 +982,7 @@ func (uko *UkoV4) ActivateManagedKeyWithContext(ctx context.Context, activateMan
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys/{id}/activate`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys/{id}/activate`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1033,7 +1046,7 @@ func (uko *UkoV4) DeactivateManagedKeyWithContext(ctx context.Context, deactivat
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys/{id}/deactivate`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys/{id}/deactivate`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1097,7 +1110,7 @@ func (uko *UkoV4) DestroyManagedKeyWithContext(ctx context.Context, destroyManag
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys/{id}/destroy`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys/{id}/destroy`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1160,7 +1173,7 @@ func (uko *UkoV4) SyncManagedKeyWithContext(ctx context.Context, syncManagedKeyO
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys/{id}/sync_status_in_keystores`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys/{id}/sync_status_in_keystores`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1223,7 +1236,7 @@ func (uko *UkoV4) RotateManagedKeyWithContext(ctx context.Context, rotateManaged
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/managed_keys/{id}/rotate`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/managed_keys/{id}/rotate`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1278,7 +1291,7 @@ func (uko *UkoV4) ListKeyTemplatesWithContext(ctx context.Context, listKeyTempla
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/templates`, nil)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/templates`, nil)
 	if err != nil {
 		return
 	}
@@ -1356,9 +1369,6 @@ func (uko *UkoV4) ListKeyTemplatesWithContext(ctx context.Context, listKeyTempla
 	if listKeyTemplatesOptions.Offset != nil {
 		builder.AddQuery("offset", fmt.Sprint(*listKeyTemplatesOptions.Offset))
 	}
-	if listKeyTemplatesOptions.ManagingSystems != nil {
-		builder.AddQuery("managing_systems", strings.Join(listKeyTemplatesOptions.ManagingSystems, ","))
-	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -1402,7 +1412,7 @@ func (uko *UkoV4) CreateKeyTemplateWithContext(ctx context.Context, createKeyTem
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/templates`, nil)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/templates`, nil)
 	if err != nil {
 		return
 	}
@@ -1494,7 +1504,7 @@ func (uko *UkoV4) DeleteKeyTemplateWithContext(ctx context.Context, deleteKeyTem
 	builder := core.NewRequestBuilder(core.DELETE)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/templates/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/templates/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1545,7 +1555,7 @@ func (uko *UkoV4) GetKeyTemplateWithContext(ctx context.Context, getKeyTemplateO
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/templates/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/templates/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1605,7 +1615,7 @@ func (uko *UkoV4) UpdateKeyTemplateWithContext(ctx context.Context, updateKeyTem
 	builder := core.NewRequestBuilder(core.PATCH)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/templates/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/templates/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1679,7 +1689,7 @@ func (uko *UkoV4) ListKeystoresWithContext(ctx context.Context, listKeystoresOpt
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/keystores`, nil)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/keystores`, nil)
 	if err != nil {
 		return
 	}
@@ -1727,6 +1737,9 @@ func (uko *UkoV4) ListKeystoresWithContext(ctx context.Context, listKeystoresOpt
 	if listKeystoresOptions.Sort != nil {
 		builder.AddQuery("sort", strings.Join(listKeystoresOptions.Sort, ","))
 	}
+	if listKeystoresOptions.StatusHealthStatus != nil {
+		builder.AddQuery("status.health_status", strings.Join(listKeystoresOptions.StatusHealthStatus, ","))
+	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -1772,7 +1785,7 @@ func (uko *UkoV4) CreateKeystoreWithContext(ctx context.Context, createKeystoreO
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/keystores`, nil)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/keystores`, nil)
 	if err != nil {
 		return
 	}
@@ -1843,7 +1856,7 @@ func (uko *UkoV4) DeleteKeystoreWithContext(ctx context.Context, deleteKeystoreO
 	builder := core.NewRequestBuilder(core.DELETE)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/keystores/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/keystores/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1855,13 +1868,6 @@ func (uko *UkoV4) DeleteKeystoreWithContext(ctx context.Context, deleteKeystoreO
 	sdkHeaders := common.GetSdkHeaders("uko", "V4", "DeleteKeystore")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
-	}
-	if deleteKeystoreOptions.IfMatch != nil {
-		builder.AddHeader("If-Match", fmt.Sprint(*deleteKeystoreOptions.IfMatch))
-	}
-
-	if deleteKeystoreOptions.Mode != nil {
-		builder.AddQuery("mode", fmt.Sprint(*deleteKeystoreOptions.Mode))
 	}
 
 	request, err := builder.Build()
@@ -1899,7 +1905,7 @@ func (uko *UkoV4) GetKeystoreWithContext(ctx context.Context, getKeystoreOptions
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/keystores/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/keystores/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1959,7 +1965,7 @@ func (uko *UkoV4) UpdateKeystoreWithContext(ctx context.Context, updateKeystoreO
 	builder := core.NewRequestBuilder(core.PATCH)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/keystores/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/keystores/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -2028,7 +2034,7 @@ func (uko *UkoV4) ListAssociatedResourcesForTargetKeystoreWithContext(ctx contex
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/keystores/{id}/associated_resources`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/keystores/{id}/associated_resources`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -2098,7 +2104,7 @@ func (uko *UkoV4) GetKeystoreStatusWithContext(ctx context.Context, getKeystoreS
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/keystores/{id}/status`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/keystores/{id}/status`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -2159,7 +2165,7 @@ func (uko *UkoV4) ListManagedKeysFromKeystoreWithContext(ctx context.Context, li
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/keystores/{id}/managed_keys`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/keystores/{id}/managed_keys`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -2264,6 +2270,12 @@ func (uko *UkoV4) ListManagedKeysFromKeystoreWithContext(ctx context.Context, li
 	if listManagedKeysFromKeystoreOptions.TemplateType != nil {
 		builder.AddQuery("template.type[]", strings.Join(listManagedKeysFromKeystoreOptions.TemplateType, ","))
 	}
+	if listManagedKeysFromKeystoreOptions.StatusInKeystoresKeystoreSyncFlag != nil {
+		builder.AddQuery("status_in_keystores[].keystore_sync_flag", strings.Join(listManagedKeysFromKeystoreOptions.StatusInKeystoresKeystoreSyncFlag, ","))
+	}
+	if listManagedKeysFromKeystoreOptions.TemplateAlignmentStatus != nil {
+		builder.AddQuery("template.alignment_status", fmt.Sprint(*listManagedKeysFromKeystoreOptions.TemplateAlignmentStatus))
+	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -2302,7 +2314,7 @@ func (uko *UkoV4) ListVaultsWithContext(ctx context.Context, listVaultsOptions *
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/vaults`, nil)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/vaults`, nil)
 	if err != nil {
 		return
 	}
@@ -2377,7 +2389,7 @@ func (uko *UkoV4) CreateVaultWithContext(ctx context.Context, createVaultOptions
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/vaults`, nil)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/vaults`, nil)
 	if err != nil {
 		return
 	}
@@ -2454,7 +2466,7 @@ func (uko *UkoV4) DeleteVaultWithContext(ctx context.Context, deleteVaultOptions
 	builder := core.NewRequestBuilder(core.DELETE)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/vaults/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/vaults/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -2505,7 +2517,7 @@ func (uko *UkoV4) GetVaultWithContext(ctx context.Context, getVaultOptions *GetV
 	builder := core.NewRequestBuilder(core.GET)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/vaults/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/vaults/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -2565,7 +2577,7 @@ func (uko *UkoV4) UpdateVaultWithContext(ctx context.Context, updateVaultOptions
 	builder := core.NewRequestBuilder(core.PATCH)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/vaults/{id}`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/vaults/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -2644,7 +2656,7 @@ func (uko *UkoV4) UnarchiveKeyTemplateWithContext(ctx context.Context, unarchive
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/templates/{id}/unarchive`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/templates/{id}/unarchive`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -2707,7 +2719,7 @@ func (uko *UkoV4) ArchiveKeyTemplateWithContext(ctx context.Context, archiveKeyT
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/templates/{id}/archive`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/templates/{id}/archive`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -2770,7 +2782,7 @@ func (uko *UkoV4) ExposeKeyTemplateWithContext(ctx context.Context, exposeKeyTem
 	builder := core.NewRequestBuilder(core.POST)
 	builder = builder.WithContext(ctx)
 	builder.EnableGzipCompression = uko.GetEnableGzipCompression()
-	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/api/v4/templates/{id}/expose`, pathParamsMap)
+	_, err = builder.ResolveRequestURL(uko.Service.Options.URL, `/v4/templates/{id}/expose`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -3218,48 +3230,20 @@ type DeleteKeystoreOptions struct {
 	// UUID of the keystore.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// Precondition of the update; Value of the ETag from the header on a GET request.
-	IfMatch *string `json:"If-Match" validate:"required"`
-
-	// Mode of disconnecting from keystore.
-	Mode *string `json:"mode,omitempty"`
-
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
 
-// Constants associated with the DeleteKeystoreOptions.Mode property.
-// Mode of disconnecting from keystore.
-const (
-	DeleteKeystoreOptions_Mode_Deactivate = "deactivate"
-	DeleteKeystoreOptions_Mode_Destroy = "destroy"
-	DeleteKeystoreOptions_Mode_Disconnect = "disconnect"
-	DeleteKeystoreOptions_Mode_Restrict = "restrict"
-)
-
 // NewDeleteKeystoreOptions : Instantiate DeleteKeystoreOptions
-func (*UkoV4) NewDeleteKeystoreOptions(id string, ifMatch string) *DeleteKeystoreOptions {
+func (*UkoV4) NewDeleteKeystoreOptions(id string) *DeleteKeystoreOptions {
 	return &DeleteKeystoreOptions{
 		ID: core.StringPtr(id),
-		IfMatch: core.StringPtr(ifMatch),
 	}
 }
 
 // SetID : Allow user to set ID
 func (_options *DeleteKeystoreOptions) SetID(id string) *DeleteKeystoreOptions {
 	_options.ID = core.StringPtr(id)
-	return _options
-}
-
-// SetIfMatch : Allow user to set IfMatch
-func (_options *DeleteKeystoreOptions) SetIfMatch(ifMatch string) *DeleteKeystoreOptions {
-	_options.IfMatch = core.StringPtr(ifMatch)
-	return _options
-}
-
-// SetMode : Allow user to set Mode
-func (_options *DeleteKeystoreOptions) SetMode(mode string) *DeleteKeystoreOptions {
-	_options.Mode = core.StringPtr(mode)
 	return _options
 }
 
@@ -3769,9 +3753,6 @@ type ListKeyTemplatesOptions struct {
 	// The number of resources to skip.
 	Offset *int64 `json:"offset,omitempty"`
 
-	// Return only managed keys with the given managing systems.
-	ManagingSystems []string `json:"managing_systems,omitempty"`
-
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -3780,8 +3761,6 @@ type ListKeyTemplatesOptions struct {
 // The algorithm of the key.
 const (
 	ListKeyTemplatesOptions_KeyAlgorithm_Aes = "aes"
-	ListKeyTemplatesOptions_KeyAlgorithm_Des = "des"
-	ListKeyTemplatesOptions_KeyAlgorithm_Dilithium = "dilithium"
 	ListKeyTemplatesOptions_KeyAlgorithm_Ec = "ec"
 	ListKeyTemplatesOptions_KeyAlgorithm_Hmac = "hmac"
 	ListKeyTemplatesOptions_KeyAlgorithm_Rsa = "rsa"
@@ -3792,7 +3771,6 @@ const (
 const (
 	ListKeyTemplatesOptions_KeystoresType_AwsKms = "aws_kms"
 	ListKeyTemplatesOptions_KeystoresType_AzureKeyVault = "azure_key_vault"
-	ListKeyTemplatesOptions_KeystoresType_Cca = "cca"
 	ListKeyTemplatesOptions_KeystoresType_GoogleKms = "google_kms"
 	ListKeyTemplatesOptions_KeystoresType_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -3811,13 +3789,6 @@ const (
 const (
 	ListKeyTemplatesOptions_State_Archived = "archived"
 	ListKeyTemplatesOptions_State_Unarchived = "unarchived"
-)
-
-// Constants associated with the ListKeyTemplatesOptions.ManagingSystems property.
-// Managing system of templates and keys.
-const (
-	ListKeyTemplatesOptions_ManagingSystems_Web = "web"
-	ListKeyTemplatesOptions_ManagingSystems_Workstation = "workstation"
 )
 
 // NewListKeyTemplatesOptions : Instantiate ListKeyTemplatesOptions
@@ -3951,12 +3922,6 @@ func (_options *ListKeyTemplatesOptions) SetOffset(offset int64) *ListKeyTemplat
 	return _options
 }
 
-// SetManagingSystems : Allow user to set ManagingSystems
-func (_options *ListKeyTemplatesOptions) SetManagingSystems(managingSystems []string) *ListKeyTemplatesOptions {
-	_options.ManagingSystems = managingSystems
-	return _options
-}
-
 // SetHeaders : Allow user to set Headers
 func (options *ListKeyTemplatesOptions) SetHeaders(param map[string]string) *ListKeyTemplatesOptions {
 	options.Headers = param
@@ -3999,6 +3964,9 @@ type ListKeystoresOptions struct {
 	// Define sorting order.
 	Sort []string `json:"sort,omitempty"`
 
+	// Keystore Health status.
+	StatusHealthStatus []string `json:"status.health_status,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -4008,9 +3976,17 @@ type ListKeystoresOptions struct {
 const (
 	ListKeystoresOptions_Type_AwsKms = "aws_kms"
 	ListKeystoresOptions_Type_AzureKeyVault = "azure_key_vault"
-	ListKeystoresOptions_Type_Cca = "cca"
 	ListKeystoresOptions_Type_GoogleKms = "google_kms"
 	ListKeystoresOptions_Type_IbmCloudKms = "ibm_cloud_kms"
+)
+
+// Constants associated with the ListKeystoresOptions.StatusHealthStatus property.
+// Possible states of a keystore.
+const (
+	ListKeystoresOptions_StatusHealthStatus_ConfigurationError = "configuration_error"
+	ListKeystoresOptions_StatusHealthStatus_NotResponding = "not_responding"
+	ListKeystoresOptions_StatusHealthStatus_Ok = "ok"
+	ListKeystoresOptions_StatusHealthStatus_PendingCheck = "pending_check"
 )
 
 // NewListKeystoresOptions : Instantiate ListKeystoresOptions
@@ -4081,6 +4057,12 @@ func (_options *ListKeystoresOptions) SetOffset(offset int64) *ListKeystoresOpti
 // SetSort : Allow user to set Sort
 func (_options *ListKeystoresOptions) SetSort(sort []string) *ListKeystoresOptions {
 	_options.Sort = sort
+	return _options
+}
+
+// SetStatusHealthStatus : Allow user to set StatusHealthStatus
+func (_options *ListKeystoresOptions) SetStatusHealthStatus(statusHealthStatus []string) *ListKeystoresOptions {
+	_options.StatusHealthStatus = statusHealthStatus
 	return _options
 }
 
@@ -4208,6 +4190,12 @@ type ListManagedKeyVersionsOptions struct {
 	// Return only managed keys with the given template type.
 	TemplateType []string `json:"template.type[],omitempty"`
 
+	// Return only Managed Keys whose status_in_keystores contains one of the specified keystore_sync_flag.
+	StatusInKeystoresKeystoreSyncFlag []string `json:"status_in_keystores[].keystore_sync_flag,omitempty"`
+
+	// Return only managed keys with the given alignment status.
+	TemplateAlignmentStatus *string `json:"template.alignment_status,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -4216,8 +4204,6 @@ type ListManagedKeyVersionsOptions struct {
 // The algorithm of the key.
 const (
 	ListManagedKeyVersionsOptions_Algorithm_Aes = "aes"
-	ListManagedKeyVersionsOptions_Algorithm_Des = "des"
-	ListManagedKeyVersionsOptions_Algorithm_Dilithium = "dilithium"
 	ListManagedKeyVersionsOptions_Algorithm_Ec = "ec"
 	ListManagedKeyVersionsOptions_Algorithm_Hmac = "hmac"
 	ListManagedKeyVersionsOptions_Algorithm_Rsa = "rsa"
@@ -4239,7 +4225,6 @@ const (
 const (
 	ListManagedKeyVersionsOptions_ReferencedKeystoresType_AwsKms = "aws_kms"
 	ListManagedKeyVersionsOptions_ReferencedKeystoresType_AzureKeyVault = "azure_key_vault"
-	ListManagedKeyVersionsOptions_ReferencedKeystoresType_Cca = "cca"
 	ListManagedKeyVersionsOptions_ReferencedKeystoresType_GoogleKms = "google_kms"
 	ListManagedKeyVersionsOptions_ReferencedKeystoresType_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -4249,7 +4234,6 @@ const (
 const (
 	ListManagedKeyVersionsOptions_InstancesKeystoreType_AwsKms = "aws_kms"
 	ListManagedKeyVersionsOptions_InstancesKeystoreType_AzureKeyVault = "azure_key_vault"
-	ListManagedKeyVersionsOptions_InstancesKeystoreType_Cca = "cca"
 	ListManagedKeyVersionsOptions_InstancesKeystoreType_GoogleKms = "google_kms"
 	ListManagedKeyVersionsOptions_InstancesKeystoreType_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -4261,6 +4245,24 @@ const (
 	ListManagedKeyVersionsOptions_TemplateType_Shadow = "shadow"
 	ListManagedKeyVersionsOptions_TemplateType_System = "system"
 	ListManagedKeyVersionsOptions_TemplateType_UserDefined = "user_defined"
+)
+
+// Constants associated with the ListManagedKeyVersionsOptions.StatusInKeystoresKeystoreSyncFlag property.
+// Flag to represent synchronization status between UKO Managed Key and Target Keystore. Possible status flags. ok:
+// managed key state is the same as target keystore state, out_of_sync: managed key state is different than target
+// keystore state.
+const (
+	ListManagedKeyVersionsOptions_StatusInKeystoresKeystoreSyncFlag_Error = "error"
+	ListManagedKeyVersionsOptions_StatusInKeystoresKeystoreSyncFlag_Ok = "ok"
+	ListManagedKeyVersionsOptions_StatusInKeystoresKeystoreSyncFlag_OutOfSync = "out_of_sync"
+	ListManagedKeyVersionsOptions_StatusInKeystoresKeystoreSyncFlag_Pending = "pending"
+)
+
+// Constants associated with the ListManagedKeyVersionsOptions.TemplateAlignmentStatus property.
+// Return only managed keys with the given alignment status.
+const (
+	ListManagedKeyVersionsOptions_TemplateAlignmentStatus_Aligned = "aligned"
+	ListManagedKeyVersionsOptions_TemplateAlignmentStatus_Unaligned = "unaligned"
 )
 
 // NewListManagedKeyVersionsOptions : Instantiate ListManagedKeyVersionsOptions
@@ -4468,6 +4470,18 @@ func (_options *ListManagedKeyVersionsOptions) SetTemplateType(templateType []st
 	return _options
 }
 
+// SetStatusInKeystoresKeystoreSyncFlag : Allow user to set StatusInKeystoresKeystoreSyncFlag
+func (_options *ListManagedKeyVersionsOptions) SetStatusInKeystoresKeystoreSyncFlag(statusInKeystoresKeystoreSyncFlag []string) *ListManagedKeyVersionsOptions {
+	_options.StatusInKeystoresKeystoreSyncFlag = statusInKeystoresKeystoreSyncFlag
+	return _options
+}
+
+// SetTemplateAlignmentStatus : Allow user to set TemplateAlignmentStatus
+func (_options *ListManagedKeyVersionsOptions) SetTemplateAlignmentStatus(templateAlignmentStatus string) *ListManagedKeyVersionsOptions {
+	_options.TemplateAlignmentStatus = core.StringPtr(templateAlignmentStatus)
+	return _options
+}
+
 // SetHeaders : Allow user to set Headers
 func (options *ListManagedKeyVersionsOptions) SetHeaders(param map[string]string) *ListManagedKeyVersionsOptions {
 	options.Headers = param
@@ -4585,6 +4599,12 @@ type ListManagedKeysFromKeystoreOptions struct {
 	// Return only managed keys with the given template type.
 	TemplateType []string `json:"template.type[],omitempty"`
 
+	// Return only Managed Keys whose status_in_keystores contains one of the specified keystore_sync_flag.
+	StatusInKeystoresKeystoreSyncFlag []string `json:"status_in_keystores[].keystore_sync_flag,omitempty"`
+
+	// Return only managed keys with the given alignment status.
+	TemplateAlignmentStatus *string `json:"template.alignment_status,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -4593,8 +4613,6 @@ type ListManagedKeysFromKeystoreOptions struct {
 // The algorithm of the key.
 const (
 	ListManagedKeysFromKeystoreOptions_Algorithm_Aes = "aes"
-	ListManagedKeysFromKeystoreOptions_Algorithm_Des = "des"
-	ListManagedKeysFromKeystoreOptions_Algorithm_Dilithium = "dilithium"
 	ListManagedKeysFromKeystoreOptions_Algorithm_Ec = "ec"
 	ListManagedKeysFromKeystoreOptions_Algorithm_Hmac = "hmac"
 	ListManagedKeysFromKeystoreOptions_Algorithm_Rsa = "rsa"
@@ -4618,6 +4636,24 @@ const (
 	ListManagedKeysFromKeystoreOptions_TemplateType_Shadow = "shadow"
 	ListManagedKeysFromKeystoreOptions_TemplateType_System = "system"
 	ListManagedKeysFromKeystoreOptions_TemplateType_UserDefined = "user_defined"
+)
+
+// Constants associated with the ListManagedKeysFromKeystoreOptions.StatusInKeystoresKeystoreSyncFlag property.
+// Flag to represent synchronization status between UKO Managed Key and Target Keystore. Possible status flags. ok:
+// managed key state is the same as target keystore state, out_of_sync: managed key state is different than target
+// keystore state.
+const (
+	ListManagedKeysFromKeystoreOptions_StatusInKeystoresKeystoreSyncFlag_Error = "error"
+	ListManagedKeysFromKeystoreOptions_StatusInKeystoresKeystoreSyncFlag_Ok = "ok"
+	ListManagedKeysFromKeystoreOptions_StatusInKeystoresKeystoreSyncFlag_OutOfSync = "out_of_sync"
+	ListManagedKeysFromKeystoreOptions_StatusInKeystoresKeystoreSyncFlag_Pending = "pending"
+)
+
+// Constants associated with the ListManagedKeysFromKeystoreOptions.TemplateAlignmentStatus property.
+// Return only managed keys with the given alignment status.
+const (
+	ListManagedKeysFromKeystoreOptions_TemplateAlignmentStatus_Aligned = "aligned"
+	ListManagedKeysFromKeystoreOptions_TemplateAlignmentStatus_Unaligned = "unaligned"
 )
 
 // NewListManagedKeysFromKeystoreOptions : Instantiate ListManagedKeysFromKeystoreOptions
@@ -4813,6 +4849,18 @@ func (_options *ListManagedKeysFromKeystoreOptions) SetTemplateType(templateType
 	return _options
 }
 
+// SetStatusInKeystoresKeystoreSyncFlag : Allow user to set StatusInKeystoresKeystoreSyncFlag
+func (_options *ListManagedKeysFromKeystoreOptions) SetStatusInKeystoresKeystoreSyncFlag(statusInKeystoresKeystoreSyncFlag []string) *ListManagedKeysFromKeystoreOptions {
+	_options.StatusInKeystoresKeystoreSyncFlag = statusInKeystoresKeystoreSyncFlag
+	return _options
+}
+
+// SetTemplateAlignmentStatus : Allow user to set TemplateAlignmentStatus
+func (_options *ListManagedKeysFromKeystoreOptions) SetTemplateAlignmentStatus(templateAlignmentStatus string) *ListManagedKeysFromKeystoreOptions {
+	_options.TemplateAlignmentStatus = core.StringPtr(templateAlignmentStatus)
+	return _options
+}
+
 // SetHeaders : Allow user to set Headers
 func (options *ListManagedKeysFromKeystoreOptions) SetHeaders(param map[string]string) *ListManagedKeysFromKeystoreOptions {
 	options.Headers = param
@@ -4941,8 +4989,11 @@ type ListManagedKeysOptions struct {
 	// Return only managed keys with the given template type.
 	TemplateType []string `json:"template.type[],omitempty"`
 
-	// Return only managed keys with the given managing systems.
-	ManagingSystems []string `json:"managing_systems,omitempty"`
+	// Return only Managed Keys whose status_in_keystores contains one of the specified keystore_sync_flag.
+	StatusInKeystoresKeystoreSyncFlag []string `json:"status_in_keystores[].keystore_sync_flag,omitempty"`
+
+	// Return only managed keys with the given alignment status.
+	TemplateAlignmentStatus *string `json:"template.alignment_status,omitempty"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -4952,8 +5003,6 @@ type ListManagedKeysOptions struct {
 // The algorithm of the key.
 const (
 	ListManagedKeysOptions_Algorithm_Aes = "aes"
-	ListManagedKeysOptions_Algorithm_Des = "des"
-	ListManagedKeysOptions_Algorithm_Dilithium = "dilithium"
 	ListManagedKeysOptions_Algorithm_Ec = "ec"
 	ListManagedKeysOptions_Algorithm_Hmac = "hmac"
 	ListManagedKeysOptions_Algorithm_Rsa = "rsa"
@@ -4975,7 +5024,6 @@ const (
 const (
 	ListManagedKeysOptions_ReferencedKeystoresType_AwsKms = "aws_kms"
 	ListManagedKeysOptions_ReferencedKeystoresType_AzureKeyVault = "azure_key_vault"
-	ListManagedKeysOptions_ReferencedKeystoresType_Cca = "cca"
 	ListManagedKeysOptions_ReferencedKeystoresType_GoogleKms = "google_kms"
 	ListManagedKeysOptions_ReferencedKeystoresType_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -4985,7 +5033,6 @@ const (
 const (
 	ListManagedKeysOptions_InstancesKeystoreType_AwsKms = "aws_kms"
 	ListManagedKeysOptions_InstancesKeystoreType_AzureKeyVault = "azure_key_vault"
-	ListManagedKeysOptions_InstancesKeystoreType_Cca = "cca"
 	ListManagedKeysOptions_InstancesKeystoreType_GoogleKms = "google_kms"
 	ListManagedKeysOptions_InstancesKeystoreType_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -4999,11 +5046,22 @@ const (
 	ListManagedKeysOptions_TemplateType_UserDefined = "user_defined"
 )
 
-// Constants associated with the ListManagedKeysOptions.ManagingSystems property.
-// Managing system of templates and keys.
+// Constants associated with the ListManagedKeysOptions.StatusInKeystoresKeystoreSyncFlag property.
+// Flag to represent synchronization status between UKO Managed Key and Target Keystore. Possible status flags. ok:
+// managed key state is the same as target keystore state, out_of_sync: managed key state is different than target
+// keystore state.
 const (
-	ListManagedKeysOptions_ManagingSystems_Web = "web"
-	ListManagedKeysOptions_ManagingSystems_Workstation = "workstation"
+	ListManagedKeysOptions_StatusInKeystoresKeystoreSyncFlag_Error = "error"
+	ListManagedKeysOptions_StatusInKeystoresKeystoreSyncFlag_Ok = "ok"
+	ListManagedKeysOptions_StatusInKeystoresKeystoreSyncFlag_OutOfSync = "out_of_sync"
+	ListManagedKeysOptions_StatusInKeystoresKeystoreSyncFlag_Pending = "pending"
+)
+
+// Constants associated with the ListManagedKeysOptions.TemplateAlignmentStatus property.
+// Return only managed keys with the given alignment status.
+const (
+	ListManagedKeysOptions_TemplateAlignmentStatus_Aligned = "aligned"
+	ListManagedKeysOptions_TemplateAlignmentStatus_Unaligned = "unaligned"
 )
 
 // NewListManagedKeysOptions : Instantiate ListManagedKeysOptions
@@ -5215,9 +5273,15 @@ func (_options *ListManagedKeysOptions) SetTemplateType(templateType []string) *
 	return _options
 }
 
-// SetManagingSystems : Allow user to set ManagingSystems
-func (_options *ListManagedKeysOptions) SetManagingSystems(managingSystems []string) *ListManagedKeysOptions {
-	_options.ManagingSystems = managingSystems
+// SetStatusInKeystoresKeystoreSyncFlag : Allow user to set StatusInKeystoresKeystoreSyncFlag
+func (_options *ListManagedKeysOptions) SetStatusInKeystoresKeystoreSyncFlag(statusInKeystoresKeystoreSyncFlag []string) *ListManagedKeysOptions {
+	_options.StatusInKeystoresKeystoreSyncFlag = statusInKeystoresKeystoreSyncFlag
+	return _options
+}
+
+// SetTemplateAlignmentStatus : Allow user to set TemplateAlignmentStatus
+func (_options *ListManagedKeysOptions) SetTemplateAlignmentStatus(templateAlignmentStatus string) *ListManagedKeysOptions {
+	_options.TemplateAlignmentStatus = core.StringPtr(templateAlignmentStatus)
 	return _options
 }
 
@@ -6029,7 +6093,6 @@ type InstanceInKeystore struct {
 const (
 	InstanceInKeystore_Type_AwsKms = "aws_kms"
 	InstanceInKeystore_Type_AzureKeyVault = "azure_key_vault"
-	InstanceInKeystore_Type_Cca = "cca"
 	InstanceInKeystore_Type_GoogleKms = "google_kms"
 	InstanceInKeystore_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -6055,7 +6118,6 @@ func UnmarshalInstanceInKeystore(m map[string]json.RawMessage, result interface{
 // - KeyInstanceAwsKms
 // - KeyInstanceIbmCloudKms
 // - KeyInstanceAzure
-// - KeyInstanceCca
 type KeyInstance struct {
 	// The v4 UUID used to uniquely identify the resource, as specified by RFC 4122.
 	ID *string `json:"id,omitempty"`
@@ -6078,13 +6140,6 @@ type KeyInstance struct {
 	AzureKeyProtectionLevel *string `json:"azure_key_protection_level,omitempty"`
 
 	AzureKeyOperations []string `json:"azure_key_operations,omitempty"`
-
-	CcaUsageControl *string `json:"cca_usage_control,omitempty"`
-
-	CcaKeyType *string `json:"cca_key_type,omitempty"`
-
-	// A list of CCA key words.
-	CcaKeyWords []string `json:"cca_key_words,omitempty"`
 }
 
 // Constants associated with the KeyInstance.Type property.
@@ -6152,21 +6207,6 @@ const (
 	KeyInstance_AzureKeyOperations_Verify = "verify"
 	KeyInstance_AzureKeyOperations_WrapKey = "wrap_key"
 )
-
-// Constants associated with the KeyInstance.CcaUsageControl property.
-const (
-	KeyInstance_CcaUsageControl_KeyManagementOnly = "key_management_only"
-	KeyInstance_CcaUsageControl_SignatureAndKeyManagement = "signature_and_key_management"
-	KeyInstance_CcaUsageControl_SignatureOnly = "signature_only"
-)
-
-// Constants associated with the KeyInstance.CcaKeyType property.
-const (
-	KeyInstance_CcaKeyType_Cipher = "cipher"
-	KeyInstance_CcaKeyType_Data = "data"
-	KeyInstance_CcaKeyType_Exporter = "exporter"
-	KeyInstance_CcaKeyType_Importer = "importer"
-)
 func (*KeyInstance) isaKeyInstance() bool {
 	return true
 }
@@ -6214,18 +6254,6 @@ func UnmarshalKeyInstance(m map[string]json.RawMessage, result interface{}) (err
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "cca_usage_control", &obj.CcaUsageControl)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_key_type", &obj.CcaKeyType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_key_words", &obj.CcaKeyWords)
-	if err != nil {
-		return
-	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
@@ -6255,8 +6283,6 @@ type KeyProperties struct {
 // The algorithm of the key.
 const (
 	KeyProperties_Algorithm_Aes = "aes"
-	KeyProperties_Algorithm_Des = "des"
-	KeyProperties_Algorithm_Dilithium = "dilithium"
 	KeyProperties_Algorithm_Ec = "ec"
 	KeyProperties_Algorithm_Hmac = "hmac"
 	KeyProperties_Algorithm_Rsa = "rsa"
@@ -6397,7 +6423,6 @@ func UnmarshalKeyVerificationPattern(m map[string]json.RawMessage, result interf
 // - KeystoreTypeAwsKms
 // - KeystoreTypeAzure
 // - KeystoreTypeIbmCloudKms
-// - KeystoreTypeCca
 type Keystore struct {
 	// Reference to a vault.
 	Vault *VaultReference `json:"vault,omitempty"`
@@ -6435,8 +6460,8 @@ type Keystore struct {
 	// A URL that uniquely identifies your cloud resource.
 	Href *string `json:"href,omitempty"`
 
-	// URL of a TLS proxy to use for connecting to private endpoints.
-	TlsProxy *string `json:"tls_proxy,omitempty"`
+	// The status of the connection to the keystore.
+	Status *KeystoreStatus `json:"status,omitempty"`
 
 	// The value of the JSON key represented in the Base64 format.
 	GoogleCredentials *string `json:"google_credentials,omitempty"`
@@ -6488,6 +6513,12 @@ type Keystore struct {
 	// Azure environment, usually 'Azure'.
 	AzureEnvironment *string `json:"azure_environment,omitempty"`
 
+	// Variant of the Azure Key Vault.
+	AzureVariant *string `json:"azure_variant,omitempty"`
+
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy,omitempty"`
+
 	// API endpoint of the IBM Cloud keystore.
 	IbmApiEndpoint *string `json:"ibm_api_endpoint,omitempty"`
 
@@ -6505,21 +6536,6 @@ type Keystore struct {
 
 	// The key ring of an IBM Cloud KMS Keystore.
 	IbmKeyRing *string `json:"ibm_key_ring,omitempty"`
-
-	// indicates whether to use TLS when connecting to an EKMF agent.
-	CcaUseTls *bool `json:"cca_use_tls,omitempty"`
-
-	// Base64 encoded PEM representation of a trusted issuer when using TLS.
-	CcaTrustedIssuer *string `json:"cca_trusted_issuer,omitempty"`
-
-	// a host of the keystore.
-	CcaHost *string `json:"cca_host,omitempty"`
-
-	// a port of the keystore.
-	CcaPort *int64 `json:"cca_port,omitempty"`
-
-	// HEX encoded string contained hash of signature key.
-	CcaPublicKeyHash *string `json:"cca_public_key_hash,omitempty"`
 }
 
 // Constants associated with the Keystore.Type property.
@@ -6527,58 +6543,8 @@ type Keystore struct {
 const (
 	Keystore_Type_AwsKms = "aws_kms"
 	Keystore_Type_AzureKeyVault = "azure_key_vault"
-	Keystore_Type_Cca = "cca"
 	Keystore_Type_GoogleKms = "google_kms"
 	Keystore_Type_IbmCloudKms = "ibm_cloud_kms"
-)
-
-// Constants associated with the Keystore.AzureLocation property.
-// Location of the Azure Key Vault.
-const (
-	Keystore_AzureLocation_AsiaEast = "asia_east"
-	Keystore_AzureLocation_AsiaSoutheast = "asia_southeast"
-	Keystore_AzureLocation_AustraliaCentral = "australia_central"
-	Keystore_AzureLocation_AustraliaCentral2 = "australia_central_2"
-	Keystore_AzureLocation_AustraliaEast = "australia_east"
-	Keystore_AzureLocation_AustraliaSoutheast = "australia_southeast"
-	Keystore_AzureLocation_BrazilSouth = "brazil_south"
-	Keystore_AzureLocation_CanadaCentral = "canada_central"
-	Keystore_AzureLocation_CanadaEast = "canada_east"
-	Keystore_AzureLocation_ChinaEast = "china_east"
-	Keystore_AzureLocation_ChinaEast2 = "china_east_2"
-	Keystore_AzureLocation_ChinaNorth = "china_north"
-	Keystore_AzureLocation_ChinaNorth2 = "china_north_2"
-	Keystore_AzureLocation_EuropeNorth = "europe_north"
-	Keystore_AzureLocation_EuropeWest = "europe_west"
-	Keystore_AzureLocation_FranceCentral = "france_central"
-	Keystore_AzureLocation_FranceSouth = "france_south"
-	Keystore_AzureLocation_GermanyCentral = "germany_central"
-	Keystore_AzureLocation_GermanyNortheast = "germany_northeast"
-	Keystore_AzureLocation_IndiaCentral = "india_central"
-	Keystore_AzureLocation_IndiaSouth = "india_south"
-	Keystore_AzureLocation_IndiaWest = "india_west"
-	Keystore_AzureLocation_JapanEast = "japan_east"
-	Keystore_AzureLocation_JapanWest = "japan_west"
-	Keystore_AzureLocation_KoreaCentral = "korea_central"
-	Keystore_AzureLocation_KoreaSouth = "korea_south"
-	Keystore_AzureLocation_SouthAfricaNorth = "south_africa_north"
-	Keystore_AzureLocation_SouthAfricaWest = "south_africa_west"
-	Keystore_AzureLocation_UkSouth = "uk_south"
-	Keystore_AzureLocation_UkWest = "uk_west"
-	Keystore_AzureLocation_UsCentral = "us_central"
-	Keystore_AzureLocation_UsDodCentral = "us_dod_central"
-	Keystore_AzureLocation_UsDodEast = "us_dod_east"
-	Keystore_AzureLocation_UsEast = "us_east"
-	Keystore_AzureLocation_UsEast2 = "us_east_2"
-	Keystore_AzureLocation_UsGovArizona = "us_gov_arizona"
-	Keystore_AzureLocation_UsGovIowa = "us_gov_iowa"
-	Keystore_AzureLocation_UsGovTexas = "us_gov_texas"
-	Keystore_AzureLocation_UsGovVirginia = "us_gov_virginia"
-	Keystore_AzureLocation_UsNorthCentral = "us_north_central"
-	Keystore_AzureLocation_UsSouthCentral = "us_south_central"
-	Keystore_AzureLocation_UsWest = "us_west"
-	Keystore_AzureLocation_UsWest2 = "us_west_2"
-	Keystore_AzureLocation_UsWestCentral = "us_west_central"
 )
 
 // Constants associated with the Keystore.AzureEnvironment property.
@@ -6588,6 +6554,13 @@ const (
 	Keystore_AzureEnvironment_AzureChina = "azure_china"
 	Keystore_AzureEnvironment_AzureGermany = "azure_germany"
 	Keystore_AzureEnvironment_AzureUsGovernment = "azure_us_government"
+)
+
+// Constants associated with the Keystore.AzureVariant property.
+// Variant of the Azure Key Vault.
+const (
+	Keystore_AzureVariant_Premium = "premium"
+	Keystore_AzureVariant_Standard = "standard"
 )
 
 // Constants associated with the Keystore.IbmVariant property.
@@ -6656,7 +6629,7 @@ func UnmarshalKeystore(m map[string]json.RawMessage, result interface{}) (err er
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	err = core.UnmarshalModel(m, "status", &obj.Status, UnmarshalKeystoreStatus)
 	if err != nil {
 		return
 	}
@@ -6724,6 +6697,14 @@ func UnmarshalKeystore(m map[string]json.RawMessage, result interface{}) (err er
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "azure_variant", &obj.AzureVariant)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "ibm_api_endpoint", &obj.IbmApiEndpoint)
 	if err != nil {
 		return
@@ -6748,26 +6729,6 @@ func UnmarshalKeystore(m map[string]json.RawMessage, result interface{}) (err er
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "cca_use_tls", &obj.CcaUseTls)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_trusted_issuer", &obj.CcaTrustedIssuer)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_host", &obj.CcaHost)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_port", &obj.CcaPort)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_public_key_hash", &obj.CcaPublicKeyHash)
-	if err != nil {
-		return
-	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
@@ -6778,7 +6739,6 @@ func UnmarshalKeystore(m map[string]json.RawMessage, result interface{}) (err er
 // - KeystoreCreationRequestKeystoreTypeGoogleKmsCreate
 // - KeystoreCreationRequestKeystoreTypeAzureCreate
 // - KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate
-// - KeystoreCreationRequestKeystoreTypeCcaCreate
 type KeystoreCreationRequest struct {
 	// Type of keystore.
 	Type *string `json:"type" validate:"required"`
@@ -6848,6 +6808,9 @@ type KeystoreCreationRequest struct {
 	// Azure environment, usually 'Azure'.
 	AzureEnvironment *string `json:"azure_environment,omitempty"`
 
+	// Variant of the Azure Key Vault.
+	AzureVariant *string `json:"azure_variant,omitempty"`
+
 	// Possible IBM Cloud KMS variants.
 	IbmVariant *string `json:"ibm_variant,omitempty"`
 
@@ -6865,21 +6828,6 @@ type KeystoreCreationRequest struct {
 
 	// The key ring of an IBM Cloud KMS Keystore.
 	IbmKeyRing *string `json:"ibm_key_ring,omitempty"`
-
-	// indicates whether to use TLS when connecting to an EKMF agent.
-	CcaUseTls *bool `json:"cca_use_tls,omitempty"`
-
-	// Base64 encoded PEM representation of a trusted issuer when using TLS.
-	CcaTrustedIssuer *string `json:"cca_trusted_issuer,omitempty"`
-
-	// a host of the keystore.
-	CcaHost *string `json:"cca_host,omitempty"`
-
-	// a port of the keystore.
-	CcaPort *int64 `json:"cca_port,omitempty"`
-
-	// HEX encoded string contained hash of signature key.
-	CcaPublicKeyHash *string `json:"cca_public_key_hash,omitempty"`
 }
 
 // Constants associated with the KeystoreCreationRequest.Type property.
@@ -6887,58 +6835,8 @@ type KeystoreCreationRequest struct {
 const (
 	KeystoreCreationRequest_Type_AwsKms = "aws_kms"
 	KeystoreCreationRequest_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreCreationRequest_Type_Cca = "cca"
 	KeystoreCreationRequest_Type_GoogleKms = "google_kms"
 	KeystoreCreationRequest_Type_IbmCloudKms = "ibm_cloud_kms"
-)
-
-// Constants associated with the KeystoreCreationRequest.AzureLocation property.
-// Location of the Azure Key Vault.
-const (
-	KeystoreCreationRequest_AzureLocation_AsiaEast = "asia_east"
-	KeystoreCreationRequest_AzureLocation_AsiaSoutheast = "asia_southeast"
-	KeystoreCreationRequest_AzureLocation_AustraliaCentral = "australia_central"
-	KeystoreCreationRequest_AzureLocation_AustraliaCentral2 = "australia_central_2"
-	KeystoreCreationRequest_AzureLocation_AustraliaEast = "australia_east"
-	KeystoreCreationRequest_AzureLocation_AustraliaSoutheast = "australia_southeast"
-	KeystoreCreationRequest_AzureLocation_BrazilSouth = "brazil_south"
-	KeystoreCreationRequest_AzureLocation_CanadaCentral = "canada_central"
-	KeystoreCreationRequest_AzureLocation_CanadaEast = "canada_east"
-	KeystoreCreationRequest_AzureLocation_ChinaEast = "china_east"
-	KeystoreCreationRequest_AzureLocation_ChinaEast2 = "china_east_2"
-	KeystoreCreationRequest_AzureLocation_ChinaNorth = "china_north"
-	KeystoreCreationRequest_AzureLocation_ChinaNorth2 = "china_north_2"
-	KeystoreCreationRequest_AzureLocation_EuropeNorth = "europe_north"
-	KeystoreCreationRequest_AzureLocation_EuropeWest = "europe_west"
-	KeystoreCreationRequest_AzureLocation_FranceCentral = "france_central"
-	KeystoreCreationRequest_AzureLocation_FranceSouth = "france_south"
-	KeystoreCreationRequest_AzureLocation_GermanyCentral = "germany_central"
-	KeystoreCreationRequest_AzureLocation_GermanyNortheast = "germany_northeast"
-	KeystoreCreationRequest_AzureLocation_IndiaCentral = "india_central"
-	KeystoreCreationRequest_AzureLocation_IndiaSouth = "india_south"
-	KeystoreCreationRequest_AzureLocation_IndiaWest = "india_west"
-	KeystoreCreationRequest_AzureLocation_JapanEast = "japan_east"
-	KeystoreCreationRequest_AzureLocation_JapanWest = "japan_west"
-	KeystoreCreationRequest_AzureLocation_KoreaCentral = "korea_central"
-	KeystoreCreationRequest_AzureLocation_KoreaSouth = "korea_south"
-	KeystoreCreationRequest_AzureLocation_SouthAfricaNorth = "south_africa_north"
-	KeystoreCreationRequest_AzureLocation_SouthAfricaWest = "south_africa_west"
-	KeystoreCreationRequest_AzureLocation_UkSouth = "uk_south"
-	KeystoreCreationRequest_AzureLocation_UkWest = "uk_west"
-	KeystoreCreationRequest_AzureLocation_UsCentral = "us_central"
-	KeystoreCreationRequest_AzureLocation_UsDodCentral = "us_dod_central"
-	KeystoreCreationRequest_AzureLocation_UsDodEast = "us_dod_east"
-	KeystoreCreationRequest_AzureLocation_UsEast = "us_east"
-	KeystoreCreationRequest_AzureLocation_UsEast2 = "us_east_2"
-	KeystoreCreationRequest_AzureLocation_UsGovArizona = "us_gov_arizona"
-	KeystoreCreationRequest_AzureLocation_UsGovIowa = "us_gov_iowa"
-	KeystoreCreationRequest_AzureLocation_UsGovTexas = "us_gov_texas"
-	KeystoreCreationRequest_AzureLocation_UsGovVirginia = "us_gov_virginia"
-	KeystoreCreationRequest_AzureLocation_UsNorthCentral = "us_north_central"
-	KeystoreCreationRequest_AzureLocation_UsSouthCentral = "us_south_central"
-	KeystoreCreationRequest_AzureLocation_UsWest = "us_west"
-	KeystoreCreationRequest_AzureLocation_UsWest2 = "us_west_2"
-	KeystoreCreationRequest_AzureLocation_UsWestCentral = "us_west_central"
 )
 
 // Constants associated with the KeystoreCreationRequest.AzureEnvironment property.
@@ -6948,6 +6846,13 @@ const (
 	KeystoreCreationRequest_AzureEnvironment_AzureChina = "azure_china"
 	KeystoreCreationRequest_AzureEnvironment_AzureGermany = "azure_germany"
 	KeystoreCreationRequest_AzureEnvironment_AzureUsGovernment = "azure_us_government"
+)
+
+// Constants associated with the KeystoreCreationRequest.AzureVariant property.
+// Variant of the Azure Key Vault.
+const (
+	KeystoreCreationRequest_AzureVariant_Premium = "premium"
+	KeystoreCreationRequest_AzureVariant_Standard = "standard"
 )
 
 // Constants associated with the KeystoreCreationRequest.IbmVariant property.
@@ -6986,8 +6891,6 @@ func UnmarshalKeystoreCreationRequest(m map[string]json.RawMessage, result inter
 		err = core.UnmarshalModel(m, "", result, UnmarshalKeystoreCreationRequestKeystoreTypeAzureCreate)
 	} else if discValue == "ibm_cloud_kms" {
 		err = core.UnmarshalModel(m, "", result, UnmarshalKeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate)
-	} else if discValue == "cca" {
-		err = core.UnmarshalModel(m, "", result, UnmarshalKeystoreCreationRequestKeystoreTypeCcaCreate)
 	} else {
 		err = fmt.Errorf("unrecognized value for discriminator property 'type': %s", discValue)
 	}
@@ -7095,6 +6998,7 @@ const (
 	KeystoreStatus_HealthStatus_ConfigurationError = "configuration_error"
 	KeystoreStatus_HealthStatus_NotResponding = "not_responding"
 	KeystoreStatus_HealthStatus_Ok = "ok"
+	KeystoreStatus_HealthStatus_PendingCheck = "pending_check"
 )
 
 // UnmarshalKeystoreStatus unmarshals an instance of KeystoreStatus from the specified map of raw messages.
@@ -7123,7 +7027,6 @@ func UnmarshalKeystoreStatus(m map[string]json.RawMessage, result interface{}) (
 // - KeystoreUpdateRequestKeystoreTypeAzureUpdate
 // - KeystoreUpdateRequestKeystoreTypeIbmCloudKmsUpdate
 // - KeystoreUpdateRequestKeystoreTypeIbmCloudKmsInternalUpdate
-// - KeystoreUpdateRequestKeystoreTypeCcaUpdate
 type KeystoreUpdateRequest struct {
 	// Name of a target keystore.
 	Name *string `json:"name,omitempty"`
@@ -7187,6 +7090,9 @@ type KeystoreUpdateRequest struct {
 	// Azure environment, usually 'Azure'.
 	AzureEnvironment *string `json:"azure_environment,omitempty"`
 
+	// Variant of the Azure Key Vault.
+	AzureVariant *string `json:"azure_variant,omitempty"`
+
 	// API endpoint of the IBM Cloud keystore.
 	IbmApiEndpoint *string `json:"ibm_api_endpoint,omitempty"`
 
@@ -7201,71 +7107,7 @@ type KeystoreUpdateRequest struct {
 
 	// The key ring of an IBM Cloud KMS Keystore.
 	IbmKeyRing *string `json:"ibm_key_ring,omitempty"`
-
-	// indicates whether to use TLS when connecting to an EKMF agent.
-	CcaUseTls *bool `json:"cca_use_tls,omitempty"`
-
-	// Base64 encoded PEM representation of a trusted issuer when using TLS.
-	CcaTrustedIssuer *string `json:"cca_trusted_issuer,omitempty"`
-
-	// a host of the keystore.
-	CcaHost *string `json:"cca_host,omitempty"`
-
-	// a port of the keystore.
-	CcaPort *int64 `json:"cca_port,omitempty"`
-
-	// HEX encoded string contained hash of signature key.
-	CcaPublicKeyHash *string `json:"cca_public_key_hash,omitempty"`
 }
-
-// Constants associated with the KeystoreUpdateRequest.AzureLocation property.
-// Location of the Azure Key Vault.
-const (
-	KeystoreUpdateRequest_AzureLocation_AsiaEast = "asia_east"
-	KeystoreUpdateRequest_AzureLocation_AsiaSoutheast = "asia_southeast"
-	KeystoreUpdateRequest_AzureLocation_AustraliaCentral = "australia_central"
-	KeystoreUpdateRequest_AzureLocation_AustraliaCentral2 = "australia_central_2"
-	KeystoreUpdateRequest_AzureLocation_AustraliaEast = "australia_east"
-	KeystoreUpdateRequest_AzureLocation_AustraliaSoutheast = "australia_southeast"
-	KeystoreUpdateRequest_AzureLocation_BrazilSouth = "brazil_south"
-	KeystoreUpdateRequest_AzureLocation_CanadaCentral = "canada_central"
-	KeystoreUpdateRequest_AzureLocation_CanadaEast = "canada_east"
-	KeystoreUpdateRequest_AzureLocation_ChinaEast = "china_east"
-	KeystoreUpdateRequest_AzureLocation_ChinaEast2 = "china_east_2"
-	KeystoreUpdateRequest_AzureLocation_ChinaNorth = "china_north"
-	KeystoreUpdateRequest_AzureLocation_ChinaNorth2 = "china_north_2"
-	KeystoreUpdateRequest_AzureLocation_EuropeNorth = "europe_north"
-	KeystoreUpdateRequest_AzureLocation_EuropeWest = "europe_west"
-	KeystoreUpdateRequest_AzureLocation_FranceCentral = "france_central"
-	KeystoreUpdateRequest_AzureLocation_FranceSouth = "france_south"
-	KeystoreUpdateRequest_AzureLocation_GermanyCentral = "germany_central"
-	KeystoreUpdateRequest_AzureLocation_GermanyNortheast = "germany_northeast"
-	KeystoreUpdateRequest_AzureLocation_IndiaCentral = "india_central"
-	KeystoreUpdateRequest_AzureLocation_IndiaSouth = "india_south"
-	KeystoreUpdateRequest_AzureLocation_IndiaWest = "india_west"
-	KeystoreUpdateRequest_AzureLocation_JapanEast = "japan_east"
-	KeystoreUpdateRequest_AzureLocation_JapanWest = "japan_west"
-	KeystoreUpdateRequest_AzureLocation_KoreaCentral = "korea_central"
-	KeystoreUpdateRequest_AzureLocation_KoreaSouth = "korea_south"
-	KeystoreUpdateRequest_AzureLocation_SouthAfricaNorth = "south_africa_north"
-	KeystoreUpdateRequest_AzureLocation_SouthAfricaWest = "south_africa_west"
-	KeystoreUpdateRequest_AzureLocation_UkSouth = "uk_south"
-	KeystoreUpdateRequest_AzureLocation_UkWest = "uk_west"
-	KeystoreUpdateRequest_AzureLocation_UsCentral = "us_central"
-	KeystoreUpdateRequest_AzureLocation_UsDodCentral = "us_dod_central"
-	KeystoreUpdateRequest_AzureLocation_UsDodEast = "us_dod_east"
-	KeystoreUpdateRequest_AzureLocation_UsEast = "us_east"
-	KeystoreUpdateRequest_AzureLocation_UsEast2 = "us_east_2"
-	KeystoreUpdateRequest_AzureLocation_UsGovArizona = "us_gov_arizona"
-	KeystoreUpdateRequest_AzureLocation_UsGovIowa = "us_gov_iowa"
-	KeystoreUpdateRequest_AzureLocation_UsGovTexas = "us_gov_texas"
-	KeystoreUpdateRequest_AzureLocation_UsGovVirginia = "us_gov_virginia"
-	KeystoreUpdateRequest_AzureLocation_UsNorthCentral = "us_north_central"
-	KeystoreUpdateRequest_AzureLocation_UsSouthCentral = "us_south_central"
-	KeystoreUpdateRequest_AzureLocation_UsWest = "us_west"
-	KeystoreUpdateRequest_AzureLocation_UsWest2 = "us_west_2"
-	KeystoreUpdateRequest_AzureLocation_UsWestCentral = "us_west_central"
-)
 
 // Constants associated with the KeystoreUpdateRequest.AzureEnvironment property.
 // Azure environment, usually 'Azure'.
@@ -7274,6 +7116,13 @@ const (
 	KeystoreUpdateRequest_AzureEnvironment_AzureChina = "azure_china"
 	KeystoreUpdateRequest_AzureEnvironment_AzureGermany = "azure_germany"
 	KeystoreUpdateRequest_AzureEnvironment_AzureUsGovernment = "azure_us_government"
+)
+
+// Constants associated with the KeystoreUpdateRequest.AzureVariant property.
+// Variant of the Azure Key Vault.
+const (
+	KeystoreUpdateRequest_AzureVariant_Premium = "premium"
+	KeystoreUpdateRequest_AzureVariant_Standard = "standard"
 )
 func (*KeystoreUpdateRequest) isaKeystoreUpdateRequest() bool {
 	return true
@@ -7366,6 +7215,10 @@ func UnmarshalKeystoreUpdateRequest(m map[string]json.RawMessage, result interfa
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "azure_variant", &obj.AzureVariant)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "ibm_api_endpoint", &obj.IbmApiEndpoint)
 	if err != nil {
 		return
@@ -7386,26 +7239,6 @@ func UnmarshalKeystoreUpdateRequest(m map[string]json.RawMessage, result interfa
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "cca_use_tls", &obj.CcaUseTls)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_trusted_issuer", &obj.CcaTrustedIssuer)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_host", &obj.CcaHost)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_port", &obj.CcaPort)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_public_key_hash", &obj.CcaPublicKeyHash)
-	if err != nil {
-		return
-	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
@@ -7416,7 +7249,6 @@ func UnmarshalKeystoreUpdateRequest(m map[string]json.RawMessage, result interfa
 // - KeystoresPropertiesCreateAwsKms
 // - KeystoresPropertiesCreateIbmCloudKms
 // - KeystoresPropertiesCreateAzure
-// - KeystoresPropertiesCreateCca
 type KeystoresPropertiesCreate struct {
 	// Which keystore group to distribute the key to.
 	Group *string `json:"group,omitempty"`
@@ -7438,13 +7270,6 @@ type KeystoresPropertiesCreate struct {
 	AzureKeyProtectionLevel *string `json:"azure_key_protection_level,omitempty"`
 
 	AzureKeyOperations []string `json:"azure_key_operations,omitempty"`
-
-	CcaUsageControl *string `json:"cca_usage_control,omitempty"`
-
-	CcaKeyType *string `json:"cca_key_type,omitempty"`
-
-	// A list of CCA key words.
-	CcaKeyWords []string `json:"cca_key_words,omitempty"`
 }
 
 // Constants associated with the KeystoresPropertiesCreate.Type property.
@@ -7452,7 +7277,6 @@ type KeystoresPropertiesCreate struct {
 const (
 	KeystoresPropertiesCreate_Type_AwsKms = "aws_kms"
 	KeystoresPropertiesCreate_Type_AzureKeyVault = "azure_key_vault"
-	KeystoresPropertiesCreate_Type_Cca = "cca"
 	KeystoresPropertiesCreate_Type_GoogleKms = "google_kms"
 	KeystoresPropertiesCreate_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -7513,21 +7337,6 @@ const (
 	KeystoresPropertiesCreate_AzureKeyOperations_Verify = "verify"
 	KeystoresPropertiesCreate_AzureKeyOperations_WrapKey = "wrap_key"
 )
-
-// Constants associated with the KeystoresPropertiesCreate.CcaUsageControl property.
-const (
-	KeystoresPropertiesCreate_CcaUsageControl_KeyManagementOnly = "key_management_only"
-	KeystoresPropertiesCreate_CcaUsageControl_SignatureAndKeyManagement = "signature_and_key_management"
-	KeystoresPropertiesCreate_CcaUsageControl_SignatureOnly = "signature_only"
-)
-
-// Constants associated with the KeystoresPropertiesCreate.CcaKeyType property.
-const (
-	KeystoresPropertiesCreate_CcaKeyType_Cipher = "cipher"
-	KeystoresPropertiesCreate_CcaKeyType_Data = "data"
-	KeystoresPropertiesCreate_CcaKeyType_Exporter = "exporter"
-	KeystoresPropertiesCreate_CcaKeyType_Importer = "importer"
-)
 func (*KeystoresPropertiesCreate) isaKeystoresPropertiesCreate() bool {
 	return true
 }
@@ -7571,18 +7380,6 @@ func UnmarshalKeystoresPropertiesCreate(m map[string]json.RawMessage, result int
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "cca_usage_control", &obj.CcaUsageControl)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_key_type", &obj.CcaKeyType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_key_words", &obj.CcaKeyWords)
-	if err != nil {
-		return
-	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
 	return
 }
@@ -7593,7 +7390,6 @@ func UnmarshalKeystoresPropertiesCreate(m map[string]json.RawMessage, result int
 // - KeystoresPropertiesUpdateAwsKms
 // - KeystoresPropertiesUpdateIbmCloudKms
 // - KeystoresPropertiesUpdateAzure
-// - KeystoresPropertiesUpdateCca
 type KeystoresPropertiesUpdate struct {
 	// Which keystore group to distribute the key to.
 	Group *string `json:"group,omitempty"`
@@ -7603,13 +7399,6 @@ type KeystoresPropertiesUpdate struct {
 	GoogleKeyPurpose *string `json:"google_key_purpose,omitempty"`
 
 	GoogleKmsAlgorithm *string `json:"google_kms_algorithm,omitempty"`
-
-	CcaUsageControl *string `json:"cca_usage_control,omitempty"`
-
-	CcaKeyType *string `json:"cca_key_type,omitempty"`
-
-	// A list of CCA key words.
-	CcaKeyWords []string `json:"cca_key_words,omitempty"`
 }
 
 // Constants associated with the KeystoresPropertiesUpdate.GoogleKeyProtectionLevel property.
@@ -7652,21 +7441,6 @@ const (
 	KeystoresPropertiesUpdate_GoogleKmsAlgorithm_RsaSignRawPkcs13072 = "rsa_sign_raw_pkcs1_3072"
 	KeystoresPropertiesUpdate_GoogleKmsAlgorithm_RsaSignRawPkcs14096 = "rsa_sign_raw_pkcs1_4096"
 )
-
-// Constants associated with the KeystoresPropertiesUpdate.CcaUsageControl property.
-const (
-	KeystoresPropertiesUpdate_CcaUsageControl_KeyManagementOnly = "key_management_only"
-	KeystoresPropertiesUpdate_CcaUsageControl_SignatureAndKeyManagement = "signature_and_key_management"
-	KeystoresPropertiesUpdate_CcaUsageControl_SignatureOnly = "signature_only"
-)
-
-// Constants associated with the KeystoresPropertiesUpdate.CcaKeyType property.
-const (
-	KeystoresPropertiesUpdate_CcaKeyType_Cipher = "cipher"
-	KeystoresPropertiesUpdate_CcaKeyType_Data = "data"
-	KeystoresPropertiesUpdate_CcaKeyType_Exporter = "exporter"
-	KeystoresPropertiesUpdate_CcaKeyType_Importer = "importer"
-)
 func (*KeystoresPropertiesUpdate) isaKeystoresPropertiesUpdate() bool {
 	return true
 }
@@ -7691,18 +7465,6 @@ func UnmarshalKeystoresPropertiesUpdate(m map[string]json.RawMessage, result int
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "google_kms_algorithm", &obj.GoogleKmsAlgorithm)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_usage_control", &obj.CcaUsageControl)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_key_type", &obj.CcaKeyType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_key_words", &obj.CcaKeyWords)
 	if err != nil {
 		return
 	}
@@ -7755,6 +7517,9 @@ type ManagedKey struct {
 
 	Tags []Tag `json:"tags,omitempty"`
 
+	// Boolean value which indicates if key can be rotated.
+	IsRotatable *bool `json:"is_rotatable,omitempty"`
+
 	// Date and time when the key was created.
 	CreatedAt *strfmt.DateTime `json:"created_at,omitempty"`
 
@@ -7784,9 +7549,6 @@ type ManagedKey struct {
 
 	// indicates whether to deactivate older versions of a key on rotation.
 	DeactivateOnRotation *bool `json:"deactivate_on_rotation,omitempty"`
-
-	// Managing systems of templates and keys.
-	ManagingSystems []string `json:"managing_systems,omitempty"`
 }
 
 // Constants associated with the ManagedKey.State property.
@@ -7804,18 +7566,9 @@ const (
 // The algorithm of the key.
 const (
 	ManagedKey_Algorithm_Aes = "aes"
-	ManagedKey_Algorithm_Des = "des"
-	ManagedKey_Algorithm_Dilithium = "dilithium"
 	ManagedKey_Algorithm_Ec = "ec"
 	ManagedKey_Algorithm_Hmac = "hmac"
 	ManagedKey_Algorithm_Rsa = "rsa"
-)
-
-// Constants associated with the ManagedKey.ManagingSystems property.
-// Managing system of templates and keys.
-const (
-	ManagedKey_ManagingSystems_Web = "web"
-	ManagedKey_ManagingSystems_Workstation = "workstation"
 )
 
 // UnmarshalManagedKey unmarshals an instance of ManagedKey from the specified map of raw messages.
@@ -7877,6 +7630,10 @@ func UnmarshalManagedKey(m map[string]json.RawMessage, result interface{}) (err 
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "is_rotatable", &obj.IsRotatable)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
 	if err != nil {
 		return
@@ -7914,10 +7671,6 @@ func UnmarshalManagedKey(m map[string]json.RawMessage, result interface{}) (err 
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "deactivate_on_rotation", &obj.DeactivateOnRotation)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "managing_systems", &obj.ManagingSystems)
 	if err != nil {
 		return
 	}
@@ -8076,6 +7829,7 @@ const (
 	StatusInKeystore_Status_Error = "error"
 	StatusInKeystore_Status_NotActive = "not_active"
 	StatusInKeystore_Status_NotPresent = "not_present"
+	StatusInKeystore_Status_Unknown = "unknown"
 	StatusInKeystore_Status_WrongKey = "wrong_key"
 )
 
@@ -8087,6 +7841,7 @@ const (
 	StatusInKeystore_KeystoreSyncFlag_Error = "error"
 	StatusInKeystore_KeystoreSyncFlag_Ok = "ok"
 	StatusInKeystore_KeystoreSyncFlag_OutOfSync = "out_of_sync"
+	StatusInKeystore_KeystoreSyncFlag_Pending = "pending"
 )
 
 // Constants associated with the StatusInKeystore.KeystoreSyncFlagDetail property.
@@ -8104,6 +7859,7 @@ const (
 	StatusInKeystore_KeystoreSyncFlagDetail_PreActiveKeyIsPresentInKeystore = "pre_active_key_is_present_in_keystore"
 	StatusInKeystore_KeystoreSyncFlagDetail_TargetKeystoreRemovedByUser = "target_keystore_removed_by_user"
 	StatusInKeystore_KeystoreSyncFlagDetail_TargetKeystoreRemovedByUserContainsAnActiveKey = "target_keystore_removed_by_user_contains_an_active_key"
+	StatusInKeystore_KeystoreSyncFlagDetail_Unknown = "unknown"
 )
 
 // UnmarshalStatusInKeystore unmarshals an instance of StatusInKeystore from the specified map of raw messages.
@@ -8232,7 +7988,6 @@ type TargetKeystoreReference struct {
 const (
 	TargetKeystoreReference_Type_AwsKms = "aws_kms"
 	TargetKeystoreReference_Type_AzureKeyVault = "azure_key_vault"
-	TargetKeystoreReference_Type_Cca = "cca"
 	TargetKeystoreReference_Type_GoogleKms = "google_kms"
 	TargetKeystoreReference_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -8309,9 +8064,6 @@ type Template struct {
 
 	// A URL that uniquely identifies your cloud resource.
 	Href *string `json:"href,omitempty"`
-
-	// Managing systems of templates and keys.
-	ManagingSystems []string `json:"managing_systems,omitempty"`
 }
 
 // Constants associated with the Template.Type property.
@@ -8328,13 +8080,6 @@ const (
 const (
 	Template_State_Archived = "archived"
 	Template_State_Unarchived = "unarchived"
-)
-
-// Constants associated with the Template.ManagingSystems property.
-// Managing system of templates and keys.
-const (
-	Template_ManagingSystems_Web = "web"
-	Template_ManagingSystems_Workstation = "workstation"
 )
 
 // UnmarshalTemplate unmarshals an instance of Template from the specified map of raw messages.
@@ -8401,10 +8146,6 @@ func UnmarshalTemplate(m map[string]json.RawMessage, result interface{}) (err er
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "managing_systems", &obj.ManagingSystems)
 	if err != nil {
 		return
 	}
@@ -8507,6 +8248,9 @@ type TemplateReference struct {
 
 	// A URL that uniquely identifies your cloud resource.
 	Href *string `json:"href,omitempty"`
+
+	// Status describing if a key is aligned with the latest key template version.
+	AlignmentStatus *string `json:"alignment_status" validate:"required"`
 }
 
 // Constants associated with the TemplateReference.Type property.
@@ -8516,6 +8260,13 @@ const (
 	TemplateReference_Type_Shadow = "shadow"
 	TemplateReference_Type_System = "system"
 	TemplateReference_Type_UserDefined = "user_defined"
+)
+
+// Constants associated with the TemplateReference.AlignmentStatus property.
+// Status describing if a key is aligned with the latest key template version.
+const (
+	TemplateReference_AlignmentStatus_Aligned = "aligned"
+	TemplateReference_AlignmentStatus_Unaligned = "unaligned"
 )
 
 // UnmarshalTemplateReference unmarshals an instance of TemplateReference from the specified map of raw messages.
@@ -8534,6 +8285,10 @@ func UnmarshalTemplateReference(m map[string]json.RawMessage, result interface{}
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "alignment_status", &obj.AlignmentStatus)
 	if err != nil {
 		return
 	}
@@ -8908,92 +8663,6 @@ func UnmarshalKeyInstanceAzure(m map[string]json.RawMessage, result interface{})
 	return
 }
 
-// KeyInstanceCca : The instance of a managed key for a specific keystore.
-// This model "extends" KeyInstance
-type KeyInstanceCca struct {
-	// The v4 UUID used to uniquely identify the resource, as specified by RFC 4122.
-	ID *string `json:"id" validate:"required"`
-
-	// The label of the key.
-	LabelInKeystore *string `json:"label_in_keystore" validate:"required"`
-
-	// Type of the key instance.
-	Type *string `json:"type,omitempty"`
-
-	// Description of properties of a key within the context of keystores.
-	Keystore *InstanceInKeystore `json:"keystore" validate:"required"`
-
-	CcaUsageControl *string `json:"cca_usage_control,omitempty"`
-
-	CcaKeyType *string `json:"cca_key_type,omitempty"`
-
-	// A list of CCA key words.
-	CcaKeyWords []string `json:"cca_key_words,omitempty"`
-}
-
-// Constants associated with the KeyInstanceCca.Type property.
-// Type of the key instance.
-const (
-	KeyInstanceCca_Type_KeyPair = "key_pair"
-	KeyInstanceCca_Type_PrivateKey = "private_key"
-	KeyInstanceCca_Type_PublicKey = "public_key"
-	KeyInstanceCca_Type_SecretKey = "secret_key"
-)
-
-// Constants associated with the KeyInstanceCca.CcaUsageControl property.
-const (
-	KeyInstanceCca_CcaUsageControl_KeyManagementOnly = "key_management_only"
-	KeyInstanceCca_CcaUsageControl_SignatureAndKeyManagement = "signature_and_key_management"
-	KeyInstanceCca_CcaUsageControl_SignatureOnly = "signature_only"
-)
-
-// Constants associated with the KeyInstanceCca.CcaKeyType property.
-const (
-	KeyInstanceCca_CcaKeyType_Cipher = "cipher"
-	KeyInstanceCca_CcaKeyType_Data = "data"
-	KeyInstanceCca_CcaKeyType_Exporter = "exporter"
-	KeyInstanceCca_CcaKeyType_Importer = "importer"
-)
-
-func (*KeyInstanceCca) isaKeyInstance() bool {
-	return true
-}
-
-// UnmarshalKeyInstanceCca unmarshals an instance of KeyInstanceCca from the specified map of raw messages.
-func UnmarshalKeyInstanceCca(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(KeyInstanceCca)
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "label_in_keystore", &obj.LabelInKeystore)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "keystore", &obj.Keystore, UnmarshalInstanceInKeystore)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_usage_control", &obj.CcaUsageControl)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_key_type", &obj.CcaKeyType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_key_words", &obj.CcaKeyWords)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // KeyInstanceGoogleKms : The instance of a managed key for a specific keystore.
 // This model "extends" KeyInstance
 type KeyInstanceGoogleKms struct {
@@ -9192,7 +8861,6 @@ type KeystoreCreationRequestKeystoreTypeAwsKmsCreate struct {
 const (
 	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_Type_AwsKms = "aws_kms"
 	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_Type_Cca = "cca"
 	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_Type_GoogleKms = "google_kms"
 	KeystoreCreationRequestKeystoreTypeAwsKmsCreate_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -9286,7 +8954,7 @@ type KeystoreCreationRequestKeystoreTypeAzureCreate struct {
 	AzureResourceGroup *string `json:"azure_resource_group" validate:"required"`
 
 	// Location of the Azure Key Vault.
-	AzureLocation *string `json:"azure_location" validate:"required"`
+	AzureLocation *string `json:"azure_location,omitempty"`
 
 	// Azure service principal client ID.
 	AzureServicePrincipalClientID *string `json:"azure_service_principal_client_id" validate:"required"`
@@ -9301,7 +8969,10 @@ type KeystoreCreationRequestKeystoreTypeAzureCreate struct {
 	AzureSubscriptionID *string `json:"azure_subscription_id" validate:"required"`
 
 	// Azure environment, usually 'Azure'.
-	AzureEnvironment *string `json:"azure_environment" validate:"required"`
+	AzureEnvironment *string `json:"azure_environment,omitempty"`
+
+	// Variant of the Azure Key Vault.
+	AzureVariant *string `json:"azure_variant,omitempty"`
 }
 
 // Constants associated with the KeystoreCreationRequestKeystoreTypeAzureCreate.Type property.
@@ -9309,58 +8980,8 @@ type KeystoreCreationRequestKeystoreTypeAzureCreate struct {
 const (
 	KeystoreCreationRequestKeystoreTypeAzureCreate_Type_AwsKms = "aws_kms"
 	KeystoreCreationRequestKeystoreTypeAzureCreate_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_Type_Cca = "cca"
 	KeystoreCreationRequestKeystoreTypeAzureCreate_Type_GoogleKms = "google_kms"
 	KeystoreCreationRequestKeystoreTypeAzureCreate_Type_IbmCloudKms = "ibm_cloud_kms"
-)
-
-// Constants associated with the KeystoreCreationRequestKeystoreTypeAzureCreate.AzureLocation property.
-// Location of the Azure Key Vault.
-const (
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_AsiaEast = "asia_east"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_AsiaSoutheast = "asia_southeast"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_AustraliaCentral = "australia_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_AustraliaCentral2 = "australia_central_2"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_AustraliaEast = "australia_east"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_AustraliaSoutheast = "australia_southeast"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_BrazilSouth = "brazil_south"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_CanadaCentral = "canada_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_CanadaEast = "canada_east"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_ChinaEast = "china_east"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_ChinaEast2 = "china_east_2"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_ChinaNorth = "china_north"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_ChinaNorth2 = "china_north_2"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_EuropeNorth = "europe_north"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_EuropeWest = "europe_west"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_FranceCentral = "france_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_FranceSouth = "france_south"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_GermanyCentral = "germany_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_GermanyNortheast = "germany_northeast"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_IndiaCentral = "india_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_IndiaSouth = "india_south"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_IndiaWest = "india_west"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_JapanEast = "japan_east"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_JapanWest = "japan_west"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_KoreaCentral = "korea_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_KoreaSouth = "korea_south"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_SouthAfricaNorth = "south_africa_north"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_SouthAfricaWest = "south_africa_west"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UkSouth = "uk_south"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UkWest = "uk_west"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsCentral = "us_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsDodCentral = "us_dod_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsDodEast = "us_dod_east"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsEast = "us_east"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsEast2 = "us_east_2"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsGovArizona = "us_gov_arizona"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsGovIowa = "us_gov_iowa"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsGovTexas = "us_gov_texas"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsGovVirginia = "us_gov_virginia"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsNorthCentral = "us_north_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsSouthCentral = "us_south_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsWest = "us_west"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsWest2 = "us_west_2"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsWestCentral = "us_west_central"
 )
 
 // Constants associated with the KeystoreCreationRequestKeystoreTypeAzureCreate.AzureEnvironment property.
@@ -9372,19 +8993,24 @@ const (
 	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureEnvironment_AzureUsGovernment = "azure_us_government"
 )
 
+// Constants associated with the KeystoreCreationRequestKeystoreTypeAzureCreate.AzureVariant property.
+// Variant of the Azure Key Vault.
+const (
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureVariant_Premium = "premium"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureVariant_Standard = "standard"
+)
+
 // NewKeystoreCreationRequestKeystoreTypeAzureCreate : Instantiate KeystoreCreationRequestKeystoreTypeAzureCreate (Generic Model Constructor)
-func (*UkoV4) NewKeystoreCreationRequestKeystoreTypeAzureCreate(typeVar string, vault *VaultReferenceInCreationRequest, azureServiceName string, azureResourceGroup string, azureLocation string, azureServicePrincipalClientID string, azureServicePrincipalPassword string, azureTenant string, azureSubscriptionID string, azureEnvironment string) (_model *KeystoreCreationRequestKeystoreTypeAzureCreate, err error) {
+func (*UkoV4) NewKeystoreCreationRequestKeystoreTypeAzureCreate(typeVar string, vault *VaultReferenceInCreationRequest, azureServiceName string, azureResourceGroup string, azureServicePrincipalClientID string, azureServicePrincipalPassword string, azureTenant string, azureSubscriptionID string) (_model *KeystoreCreationRequestKeystoreTypeAzureCreate, err error) {
 	_model = &KeystoreCreationRequestKeystoreTypeAzureCreate{
 		Type: core.StringPtr(typeVar),
 		Vault: vault,
 		AzureServiceName: core.StringPtr(azureServiceName),
 		AzureResourceGroup: core.StringPtr(azureResourceGroup),
-		AzureLocation: core.StringPtr(azureLocation),
 		AzureServicePrincipalClientID: core.StringPtr(azureServicePrincipalClientID),
 		AzureServicePrincipalPassword: core.StringPtr(azureServicePrincipalPassword),
 		AzureTenant: core.StringPtr(azureTenant),
 		AzureSubscriptionID: core.StringPtr(azureSubscriptionID),
-		AzureEnvironment: core.StringPtr(azureEnvironment),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	return
@@ -9453,118 +9079,7 @@ func UnmarshalKeystoreCreationRequestKeystoreTypeAzureCreate(m map[string]json.R
 	if err != nil {
 		return
 	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// KeystoreCreationRequestKeystoreTypeCcaCreate : Properties related to CCA keystore.
-// This model "extends" KeystoreCreationRequest
-type KeystoreCreationRequestKeystoreTypeCcaCreate struct {
-	// Type of keystore.
-	Type *string `json:"type" validate:"required"`
-
-	Vault *VaultReferenceInCreationRequest `json:"vault" validate:"required"`
-
-	// Name of a target keystore.
-	Name *string `json:"name" validate:"required"`
-
-	// Description of the keystore.
-	Description *string `json:"description,omitempty"`
-
-	// URL of a TLS proxy to use for connecting to private endpoints.
-	TlsProxy *string `json:"tls_proxy,omitempty"`
-
-	// A list of groups that this keystore belongs to.
-	Groups []string `json:"groups,omitempty"`
-
-	// indicates whether to use TLS when connecting to an EKMF agent.
-	CcaUseTls *bool `json:"cca_use_tls,omitempty"`
-
-	// Base64 encoded PEM representation of a trusted issuer when using TLS.
-	CcaTrustedIssuer *string `json:"cca_trusted_issuer,omitempty"`
-
-	// a host of the keystore.
-	CcaHost *string `json:"cca_host" validate:"required"`
-
-	// a port of the keystore.
-	CcaPort *int64 `json:"cca_port" validate:"required"`
-
-	// HEX encoded string contained hash of signature key.
-	CcaPublicKeyHash *string `json:"cca_public_key_hash" validate:"required"`
-}
-
-// Constants associated with the KeystoreCreationRequestKeystoreTypeCcaCreate.Type property.
-// Type of keystore.
-const (
-	KeystoreCreationRequestKeystoreTypeCcaCreate_Type_AwsKms = "aws_kms"
-	KeystoreCreationRequestKeystoreTypeCcaCreate_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreCreationRequestKeystoreTypeCcaCreate_Type_Cca = "cca"
-	KeystoreCreationRequestKeystoreTypeCcaCreate_Type_GoogleKms = "google_kms"
-	KeystoreCreationRequestKeystoreTypeCcaCreate_Type_IbmCloudKms = "ibm_cloud_kms"
-)
-
-// NewKeystoreCreationRequestKeystoreTypeCcaCreate : Instantiate KeystoreCreationRequestKeystoreTypeCcaCreate (Generic Model Constructor)
-func (*UkoV4) NewKeystoreCreationRequestKeystoreTypeCcaCreate(typeVar string, vault *VaultReferenceInCreationRequest, name string, ccaHost string, ccaPort int64, ccaPublicKeyHash string) (_model *KeystoreCreationRequestKeystoreTypeCcaCreate, err error) {
-	_model = &KeystoreCreationRequestKeystoreTypeCcaCreate{
-		Type: core.StringPtr(typeVar),
-		Vault: vault,
-		Name: core.StringPtr(name),
-		CcaHost: core.StringPtr(ccaHost),
-		CcaPort: core.Int64Ptr(ccaPort),
-		CcaPublicKeyHash: core.StringPtr(ccaPublicKeyHash),
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	return
-}
-
-func (*KeystoreCreationRequestKeystoreTypeCcaCreate) isaKeystoreCreationRequest() bool {
-	return true
-}
-
-// UnmarshalKeystoreCreationRequestKeystoreTypeCcaCreate unmarshals an instance of KeystoreCreationRequestKeystoreTypeCcaCreate from the specified map of raw messages.
-func UnmarshalKeystoreCreationRequestKeystoreTypeCcaCreate(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(KeystoreCreationRequestKeystoreTypeCcaCreate)
-	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalModel(m, "vault", &obj.Vault, UnmarshalVaultReferenceInCreationRequest)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "groups", &obj.Groups)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_use_tls", &obj.CcaUseTls)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_trusted_issuer", &obj.CcaTrustedIssuer)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_host", &obj.CcaHost)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_port", &obj.CcaPort)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_public_key_hash", &obj.CcaPublicKeyHash)
+	err = core.UnmarshalPrimitive(m, "azure_variant", &obj.AzureVariant)
 	if err != nil {
 		return
 	}
@@ -9616,7 +9131,6 @@ type KeystoreCreationRequestKeystoreTypeGoogleKmsCreate struct {
 const (
 	KeystoreCreationRequestKeystoreTypeGoogleKmsCreate_Type_AwsKms = "aws_kms"
 	KeystoreCreationRequestKeystoreTypeGoogleKmsCreate_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreCreationRequestKeystoreTypeGoogleKmsCreate_Type_Cca = "cca"
 	KeystoreCreationRequestKeystoreTypeGoogleKmsCreate_Type_GoogleKms = "google_kms"
 	KeystoreCreationRequestKeystoreTypeGoogleKmsCreate_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -9735,7 +9249,6 @@ type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate struct
 const (
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate_Type_AwsKms = "aws_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate_Type_Cca = "cca"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate_Type_GoogleKms = "google_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreate_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -9854,8 +9367,8 @@ type KeystoreTypeAwsKms struct {
 	// A URL that uniquely identifies your cloud resource.
 	Href *string `json:"href,omitempty"`
 
-	// URL of a TLS proxy to use for connecting to private endpoints.
-	TlsProxy *string `json:"tls_proxy" validate:"required"`
+	// The status of the connection to the keystore.
+	Status *KeystoreStatus `json:"status" validate:"required"`
 
 	// AWS Region.
 	AwsRegion *string `json:"aws_region" validate:"required"`
@@ -9872,7 +9385,6 @@ type KeystoreTypeAwsKms struct {
 const (
 	KeystoreTypeAwsKms_Type_AwsKms = "aws_kms"
 	KeystoreTypeAwsKms_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreTypeAwsKms_Type_Cca = "cca"
 	KeystoreTypeAwsKms_Type_GoogleKms = "google_kms"
 	KeystoreTypeAwsKms_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -9932,7 +9444,7 @@ func UnmarshalKeystoreTypeAwsKms(m map[string]json.RawMessage, result interface{
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	err = core.UnmarshalModel(m, "status", &obj.Status, UnmarshalKeystoreStatus)
 	if err != nil {
 		return
 	}
@@ -9952,7 +9464,7 @@ func UnmarshalKeystoreTypeAwsKms(m map[string]json.RawMessage, result interface{
 	return
 }
 
-// KeystoreTypeAzure : Properties related to Azure Key Vaults.
+// KeystoreTypeAzure : Proxy for connecting to keystore.
 // This model "extends" Keystore
 type KeystoreTypeAzure struct {
 	// Reference to a vault.
@@ -9991,8 +9503,8 @@ type KeystoreTypeAzure struct {
 	// A URL that uniquely identifies your cloud resource.
 	Href *string `json:"href,omitempty"`
 
-	// URL of a TLS proxy to use for connecting to private endpoints.
-	TlsProxy *string `json:"tls_proxy" validate:"required"`
+	// The status of the connection to the keystore.
+	Status *KeystoreStatus `json:"status" validate:"required"`
 
 	// Service name of the key vault instance from the Azure portal.
 	AzureServiceName *string `json:"azure_service_name" validate:"required"`
@@ -10001,7 +9513,7 @@ type KeystoreTypeAzure struct {
 	AzureResourceGroup *string `json:"azure_resource_group" validate:"required"`
 
 	// Location of the Azure Key Vault.
-	AzureLocation *string `json:"azure_location" validate:"required"`
+	AzureLocation *string `json:"azure_location,omitempty"`
 
 	// Azure service principal client ID.
 	AzureServicePrincipalClientID *string `json:"azure_service_principal_client_id" validate:"required"`
@@ -10016,7 +9528,13 @@ type KeystoreTypeAzure struct {
 	AzureSubscriptionID *string `json:"azure_subscription_id" validate:"required"`
 
 	// Azure environment, usually 'Azure'.
-	AzureEnvironment *string `json:"azure_environment" validate:"required"`
+	AzureEnvironment *string `json:"azure_environment,omitempty"`
+
+	// Variant of the Azure Key Vault.
+	AzureVariant *string `json:"azure_variant,omitempty"`
+
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy,omitempty"`
 }
 
 // Constants associated with the KeystoreTypeAzure.Type property.
@@ -10024,58 +9542,8 @@ type KeystoreTypeAzure struct {
 const (
 	KeystoreTypeAzure_Type_AwsKms = "aws_kms"
 	KeystoreTypeAzure_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreTypeAzure_Type_Cca = "cca"
 	KeystoreTypeAzure_Type_GoogleKms = "google_kms"
 	KeystoreTypeAzure_Type_IbmCloudKms = "ibm_cloud_kms"
-)
-
-// Constants associated with the KeystoreTypeAzure.AzureLocation property.
-// Location of the Azure Key Vault.
-const (
-	KeystoreTypeAzure_AzureLocation_AsiaEast = "asia_east"
-	KeystoreTypeAzure_AzureLocation_AsiaSoutheast = "asia_southeast"
-	KeystoreTypeAzure_AzureLocation_AustraliaCentral = "australia_central"
-	KeystoreTypeAzure_AzureLocation_AustraliaCentral2 = "australia_central_2"
-	KeystoreTypeAzure_AzureLocation_AustraliaEast = "australia_east"
-	KeystoreTypeAzure_AzureLocation_AustraliaSoutheast = "australia_southeast"
-	KeystoreTypeAzure_AzureLocation_BrazilSouth = "brazil_south"
-	KeystoreTypeAzure_AzureLocation_CanadaCentral = "canada_central"
-	KeystoreTypeAzure_AzureLocation_CanadaEast = "canada_east"
-	KeystoreTypeAzure_AzureLocation_ChinaEast = "china_east"
-	KeystoreTypeAzure_AzureLocation_ChinaEast2 = "china_east_2"
-	KeystoreTypeAzure_AzureLocation_ChinaNorth = "china_north"
-	KeystoreTypeAzure_AzureLocation_ChinaNorth2 = "china_north_2"
-	KeystoreTypeAzure_AzureLocation_EuropeNorth = "europe_north"
-	KeystoreTypeAzure_AzureLocation_EuropeWest = "europe_west"
-	KeystoreTypeAzure_AzureLocation_FranceCentral = "france_central"
-	KeystoreTypeAzure_AzureLocation_FranceSouth = "france_south"
-	KeystoreTypeAzure_AzureLocation_GermanyCentral = "germany_central"
-	KeystoreTypeAzure_AzureLocation_GermanyNortheast = "germany_northeast"
-	KeystoreTypeAzure_AzureLocation_IndiaCentral = "india_central"
-	KeystoreTypeAzure_AzureLocation_IndiaSouth = "india_south"
-	KeystoreTypeAzure_AzureLocation_IndiaWest = "india_west"
-	KeystoreTypeAzure_AzureLocation_JapanEast = "japan_east"
-	KeystoreTypeAzure_AzureLocation_JapanWest = "japan_west"
-	KeystoreTypeAzure_AzureLocation_KoreaCentral = "korea_central"
-	KeystoreTypeAzure_AzureLocation_KoreaSouth = "korea_south"
-	KeystoreTypeAzure_AzureLocation_SouthAfricaNorth = "south_africa_north"
-	KeystoreTypeAzure_AzureLocation_SouthAfricaWest = "south_africa_west"
-	KeystoreTypeAzure_AzureLocation_UkSouth = "uk_south"
-	KeystoreTypeAzure_AzureLocation_UkWest = "uk_west"
-	KeystoreTypeAzure_AzureLocation_UsCentral = "us_central"
-	KeystoreTypeAzure_AzureLocation_UsDodCentral = "us_dod_central"
-	KeystoreTypeAzure_AzureLocation_UsDodEast = "us_dod_east"
-	KeystoreTypeAzure_AzureLocation_UsEast = "us_east"
-	KeystoreTypeAzure_AzureLocation_UsEast2 = "us_east_2"
-	KeystoreTypeAzure_AzureLocation_UsGovArizona = "us_gov_arizona"
-	KeystoreTypeAzure_AzureLocation_UsGovIowa = "us_gov_iowa"
-	KeystoreTypeAzure_AzureLocation_UsGovTexas = "us_gov_texas"
-	KeystoreTypeAzure_AzureLocation_UsGovVirginia = "us_gov_virginia"
-	KeystoreTypeAzure_AzureLocation_UsNorthCentral = "us_north_central"
-	KeystoreTypeAzure_AzureLocation_UsSouthCentral = "us_south_central"
-	KeystoreTypeAzure_AzureLocation_UsWest = "us_west"
-	KeystoreTypeAzure_AzureLocation_UsWest2 = "us_west_2"
-	KeystoreTypeAzure_AzureLocation_UsWestCentral = "us_west_central"
 )
 
 // Constants associated with the KeystoreTypeAzure.AzureEnvironment property.
@@ -10085,6 +9553,13 @@ const (
 	KeystoreTypeAzure_AzureEnvironment_AzureChina = "azure_china"
 	KeystoreTypeAzure_AzureEnvironment_AzureGermany = "azure_germany"
 	KeystoreTypeAzure_AzureEnvironment_AzureUsGovernment = "azure_us_government"
+)
+
+// Constants associated with the KeystoreTypeAzure.AzureVariant property.
+// Variant of the Azure Key Vault.
+const (
+	KeystoreTypeAzure_AzureVariant_Premium = "premium"
+	KeystoreTypeAzure_AzureVariant_Standard = "standard"
 )
 
 func (*KeystoreTypeAzure) isaKeystore() bool {
@@ -10142,7 +9617,7 @@ func UnmarshalKeystoreTypeAzure(m map[string]json.RawMessage, result interface{}
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	err = core.UnmarshalModel(m, "status", &obj.Status, UnmarshalKeystoreStatus)
 	if err != nil {
 		return
 	}
@@ -10178,154 +9653,11 @@ func UnmarshalKeystoreTypeAzure(m map[string]json.RawMessage, result interface{}
 	if err != nil {
 		return
 	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// KeystoreTypeCca : Properties related to CCA keystore.
-// This model "extends" Keystore
-type KeystoreTypeCca struct {
-	// Reference to a vault.
-	Vault *VaultReference `json:"vault,omitempty"`
-
-	// The v4 UUID used to uniquely identify the resource, as specified by RFC 4122.
-	ID *string `json:"id,omitempty"`
-
-	// Name of the target keystore. It can be changed in the future.
-	Name *string `json:"name" validate:"required"`
-
-	// Geographic location of the keystore, if available.
-	Location *string `json:"location" validate:"required"`
-
-	// Description of the keystore.
-	Description *string `json:"description" validate:"required"`
-
-	// List of groups that this keystore belongs to.
-	Groups []string `json:"groups" validate:"required"`
-
-	// Type of keystore.
-	Type *string `json:"type" validate:"required"`
-
-	// Date and time when the target keystore was created.
-	CreatedAt *strfmt.DateTime `json:"created_at,omitempty"`
-
-	// Date and time when the target keystore was last updated.
-	UpdatedAt *strfmt.DateTime `json:"updated_at,omitempty"`
-
-	// ID of the user that created the key.
-	CreatedBy *string `json:"created_by,omitempty"`
-
-	// ID of the user that last updated the key.
-	UpdatedBy *string `json:"updated_by,omitempty"`
-
-	// A URL that uniquely identifies your cloud resource.
-	Href *string `json:"href,omitempty"`
-
-	// URL of a TLS proxy to use for connecting to private endpoints.
-	TlsProxy *string `json:"tls_proxy" validate:"required"`
-
-	// indicates whether to use TLS when connecting to an EKMF agent.
-	CcaUseTls *bool `json:"cca_use_tls" validate:"required"`
-
-	// Base64 encoded PEM representation of a trusted issuer when using TLS.
-	CcaTrustedIssuer *string `json:"cca_trusted_issuer,omitempty"`
-
-	// a host of the keystore.
-	CcaHost *string `json:"cca_host" validate:"required"`
-
-	// a port of the keystore.
-	CcaPort *int64 `json:"cca_port" validate:"required"`
-
-	// HEX encoded string contained hash of signature key.
-	CcaPublicKeyHash *string `json:"cca_public_key_hash" validate:"required"`
-}
-
-// Constants associated with the KeystoreTypeCca.Type property.
-// Type of keystore.
-const (
-	KeystoreTypeCca_Type_AwsKms = "aws_kms"
-	KeystoreTypeCca_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreTypeCca_Type_Cca = "cca"
-	KeystoreTypeCca_Type_GoogleKms = "google_kms"
-	KeystoreTypeCca_Type_IbmCloudKms = "ibm_cloud_kms"
-)
-
-func (*KeystoreTypeCca) isaKeystore() bool {
-	return true
-}
-
-// UnmarshalKeystoreTypeCca unmarshals an instance of KeystoreTypeCca from the specified map of raw messages.
-func UnmarshalKeystoreTypeCca(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(KeystoreTypeCca)
-	err = core.UnmarshalModel(m, "vault", &obj.Vault, UnmarshalVaultReference)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "location", &obj.Location)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "groups", &obj.Groups)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "updated_at", &obj.UpdatedAt)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "created_by", &obj.CreatedBy)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "updated_by", &obj.UpdatedBy)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	err = core.UnmarshalPrimitive(m, "azure_variant", &obj.AzureVariant)
 	if err != nil {
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_use_tls", &obj.CcaUseTls)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_trusted_issuer", &obj.CcaTrustedIssuer)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_host", &obj.CcaHost)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_port", &obj.CcaPort)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_public_key_hash", &obj.CcaPublicKeyHash)
 	if err != nil {
 		return
 	}
@@ -10372,8 +9704,8 @@ type KeystoreTypeGoogleKms struct {
 	// A URL that uniquely identifies your cloud resource.
 	Href *string `json:"href,omitempty"`
 
-	// URL of a TLS proxy to use for connecting to private endpoints.
-	TlsProxy *string `json:"tls_proxy" validate:"required"`
+	// The status of the connection to the keystore.
+	Status *KeystoreStatus `json:"status" validate:"required"`
 
 	// The value of the JSON key represented in the Base64 format.
 	GoogleCredentials *string `json:"google_credentials" validate:"required"`
@@ -10398,7 +9730,6 @@ type KeystoreTypeGoogleKms struct {
 const (
 	KeystoreTypeGoogleKms_Type_AwsKms = "aws_kms"
 	KeystoreTypeGoogleKms_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreTypeGoogleKms_Type_Cca = "cca"
 	KeystoreTypeGoogleKms_Type_GoogleKms = "google_kms"
 	KeystoreTypeGoogleKms_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -10458,7 +9789,7 @@ func UnmarshalKeystoreTypeGoogleKms(m map[string]json.RawMessage, result interfa
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	err = core.UnmarshalModel(m, "status", &obj.Status, UnmarshalKeystoreStatus)
 	if err != nil {
 		return
 	}
@@ -10525,8 +9856,8 @@ type KeystoreTypeIbmCloudKms struct {
 	// A URL that uniquely identifies your cloud resource.
 	Href *string `json:"href,omitempty"`
 
-	// URL of a TLS proxy to use for connecting to private endpoints.
-	TlsProxy *string `json:"tls_proxy" validate:"required"`
+	// The status of the connection to the keystore.
+	Status *KeystoreStatus `json:"status" validate:"required"`
 
 	// API endpoint of the IBM Cloud keystore.
 	IbmApiEndpoint *string `json:"ibm_api_endpoint" validate:"required"`
@@ -10552,7 +9883,6 @@ type KeystoreTypeIbmCloudKms struct {
 const (
 	KeystoreTypeIbmCloudKms_Type_AwsKms = "aws_kms"
 	KeystoreTypeIbmCloudKms_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreTypeIbmCloudKms_Type_Cca = "cca"
 	KeystoreTypeIbmCloudKms_Type_GoogleKms = "google_kms"
 	KeystoreTypeIbmCloudKms_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -10620,7 +9950,7 @@ func UnmarshalKeystoreTypeIbmCloudKms(m map[string]json.RawMessage, result inter
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	err = core.UnmarshalModel(m, "status", &obj.Status, UnmarshalKeystoreStatus)
 	if err != nil {
 		return
 	}
@@ -10755,56 +10085,10 @@ type KeystoreUpdateRequestKeystoreTypeAzureUpdate struct {
 
 	// Azure environment, usually 'Azure'.
 	AzureEnvironment *string `json:"azure_environment,omitempty"`
-}
 
-// Constants associated with the KeystoreUpdateRequestKeystoreTypeAzureUpdate.AzureLocation property.
-// Location of the Azure Key Vault.
-const (
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_AsiaEast = "asia_east"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_AsiaSoutheast = "asia_southeast"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_AustraliaCentral = "australia_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_AustraliaCentral2 = "australia_central_2"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_AustraliaEast = "australia_east"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_AustraliaSoutheast = "australia_southeast"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_BrazilSouth = "brazil_south"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_CanadaCentral = "canada_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_CanadaEast = "canada_east"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_ChinaEast = "china_east"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_ChinaEast2 = "china_east_2"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_ChinaNorth = "china_north"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_ChinaNorth2 = "china_north_2"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_EuropeNorth = "europe_north"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_EuropeWest = "europe_west"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_FranceCentral = "france_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_FranceSouth = "france_south"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_GermanyCentral = "germany_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_GermanyNortheast = "germany_northeast"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_IndiaCentral = "india_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_IndiaSouth = "india_south"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_IndiaWest = "india_west"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_JapanEast = "japan_east"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_JapanWest = "japan_west"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_KoreaCentral = "korea_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_KoreaSouth = "korea_south"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_SouthAfricaNorth = "south_africa_north"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_SouthAfricaWest = "south_africa_west"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UkSouth = "uk_south"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UkWest = "uk_west"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsCentral = "us_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsDodCentral = "us_dod_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsDodEast = "us_dod_east"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsEast = "us_east"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsEast2 = "us_east_2"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsGovArizona = "us_gov_arizona"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsGovIowa = "us_gov_iowa"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsGovTexas = "us_gov_texas"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsGovVirginia = "us_gov_virginia"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsNorthCentral = "us_north_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsSouthCentral = "us_south_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsWest = "us_west"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsWest2 = "us_west_2"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsWestCentral = "us_west_central"
-)
+	// Variant of the Azure Key Vault.
+	AzureVariant *string `json:"azure_variant,omitempty"`
+}
 
 // Constants associated with the KeystoreUpdateRequestKeystoreTypeAzureUpdate.AzureEnvironment property.
 // Azure environment, usually 'Azure'.
@@ -10813,6 +10097,13 @@ const (
 	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureEnvironment_AzureChina = "azure_china"
 	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureEnvironment_AzureGermany = "azure_germany"
 	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureEnvironment_AzureUsGovernment = "azure_us_government"
+)
+
+// Constants associated with the KeystoreUpdateRequestKeystoreTypeAzureUpdate.AzureVariant property.
+// Variant of the Azure Key Vault.
+const (
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureVariant_Premium = "premium"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureVariant_Standard = "standard"
 )
 
 func (*KeystoreUpdateRequestKeystoreTypeAzureUpdate) isaKeystoreUpdateRequest() bool {
@@ -10870,81 +10161,7 @@ func UnmarshalKeystoreUpdateRequestKeystoreTypeAzureUpdate(m map[string]json.Raw
 	if err != nil {
 		return
 	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// KeystoreUpdateRequestKeystoreTypeCcaUpdate : Properties related to CCA keystore.
-// This model "extends" KeystoreUpdateRequest
-type KeystoreUpdateRequestKeystoreTypeCcaUpdate struct {
-	// Name of a target keystore.
-	Name *string `json:"name,omitempty"`
-
-	// Description of the keystore.
-	Description *string `json:"description,omitempty"`
-
-	// URL of a TLS proxy to use for connecting to private endpoints.
-	TlsProxy *string `json:"tls_proxy,omitempty"`
-
-	// A list of groups that this keystore belongs to.
-	Groups []string `json:"groups,omitempty"`
-
-	// indicates whether to use TLS when connecting to an EKMF agent.
-	CcaUseTls *bool `json:"cca_use_tls,omitempty"`
-
-	// Base64 encoded PEM representation of a trusted issuer when using TLS.
-	CcaTrustedIssuer *string `json:"cca_trusted_issuer,omitempty"`
-
-	// a host of the keystore.
-	CcaHost *string `json:"cca_host,omitempty"`
-
-	// a port of the keystore.
-	CcaPort *int64 `json:"cca_port,omitempty"`
-
-	// HEX encoded string contained hash of signature key.
-	CcaPublicKeyHash *string `json:"cca_public_key_hash,omitempty"`
-}
-
-func (*KeystoreUpdateRequestKeystoreTypeCcaUpdate) isaKeystoreUpdateRequest() bool {
-	return true
-}
-
-// UnmarshalKeystoreUpdateRequestKeystoreTypeCcaUpdate unmarshals an instance of KeystoreUpdateRequestKeystoreTypeCcaUpdate from the specified map of raw messages.
-func UnmarshalKeystoreUpdateRequestKeystoreTypeCcaUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(KeystoreUpdateRequestKeystoreTypeCcaUpdate)
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "description", &obj.Description)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "groups", &obj.Groups)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_use_tls", &obj.CcaUseTls)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_trusted_issuer", &obj.CcaTrustedIssuer)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_host", &obj.CcaHost)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_port", &obj.CcaPort)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_public_key_hash", &obj.CcaPublicKeyHash)
+	err = core.UnmarshalPrimitive(m, "azure_variant", &obj.AzureVariant)
 	if err != nil {
 		return
 	}
@@ -11185,7 +10402,6 @@ type KeystoresPropertiesCreateAwsKms struct {
 const (
 	KeystoresPropertiesCreateAwsKms_Type_AwsKms = "aws_kms"
 	KeystoresPropertiesCreateAwsKms_Type_AzureKeyVault = "azure_key_vault"
-	KeystoresPropertiesCreateAwsKms_Type_Cca = "cca"
 	KeystoresPropertiesCreateAwsKms_Type_GoogleKms = "google_kms"
 	KeystoresPropertiesCreateAwsKms_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -11237,7 +10453,6 @@ type KeystoresPropertiesCreateAzure struct {
 const (
 	KeystoresPropertiesCreateAzure_Type_AwsKms = "aws_kms"
 	KeystoresPropertiesCreateAzure_Type_AzureKeyVault = "azure_key_vault"
-	KeystoresPropertiesCreateAzure_Type_Cca = "cca"
 	KeystoresPropertiesCreateAzure_Type_GoogleKms = "google_kms"
 	KeystoresPropertiesCreateAzure_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -11289,88 +10504,6 @@ func UnmarshalKeystoresPropertiesCreateAzure(m map[string]json.RawMessage, resul
 	return
 }
 
-// KeystoresPropertiesCreateCca : KeystoresPropertiesCreateCca struct
-// This model "extends" KeystoresPropertiesCreate
-type KeystoresPropertiesCreateCca struct {
-	// Which keystore group to distribute the key to.
-	Group *string `json:"group,omitempty"`
-
-	// Managed key naming scheme which will be applied to every key created with this template. Every tag in the naming
-	// scheme must be enclosed in angle brackets. For Every tag in the naming scheme, a value will need to be either
-	// provided by the user during key creation or computed by the service for the set of special tags.
-	NamingScheme *string `json:"naming_scheme,omitempty"`
-
-	// Type of keystore.
-	Type *string `json:"type,omitempty"`
-
-	CcaUsageControl *string `json:"cca_usage_control,omitempty"`
-
-	CcaKeyType *string `json:"cca_key_type,omitempty"`
-
-	// A list of CCA key words.
-	CcaKeyWords []string `json:"cca_key_words,omitempty"`
-}
-
-// Constants associated with the KeystoresPropertiesCreateCca.Type property.
-// Type of keystore.
-const (
-	KeystoresPropertiesCreateCca_Type_AwsKms = "aws_kms"
-	KeystoresPropertiesCreateCca_Type_AzureKeyVault = "azure_key_vault"
-	KeystoresPropertiesCreateCca_Type_Cca = "cca"
-	KeystoresPropertiesCreateCca_Type_GoogleKms = "google_kms"
-	KeystoresPropertiesCreateCca_Type_IbmCloudKms = "ibm_cloud_kms"
-)
-
-// Constants associated with the KeystoresPropertiesCreateCca.CcaUsageControl property.
-const (
-	KeystoresPropertiesCreateCca_CcaUsageControl_KeyManagementOnly = "key_management_only"
-	KeystoresPropertiesCreateCca_CcaUsageControl_SignatureAndKeyManagement = "signature_and_key_management"
-	KeystoresPropertiesCreateCca_CcaUsageControl_SignatureOnly = "signature_only"
-)
-
-// Constants associated with the KeystoresPropertiesCreateCca.CcaKeyType property.
-const (
-	KeystoresPropertiesCreateCca_CcaKeyType_Cipher = "cipher"
-	KeystoresPropertiesCreateCca_CcaKeyType_Data = "data"
-	KeystoresPropertiesCreateCca_CcaKeyType_Exporter = "exporter"
-	KeystoresPropertiesCreateCca_CcaKeyType_Importer = "importer"
-)
-
-func (*KeystoresPropertiesCreateCca) isaKeystoresPropertiesCreate() bool {
-	return true
-}
-
-// UnmarshalKeystoresPropertiesCreateCca unmarshals an instance of KeystoresPropertiesCreateCca from the specified map of raw messages.
-func UnmarshalKeystoresPropertiesCreateCca(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(KeystoresPropertiesCreateCca)
-	err = core.UnmarshalPrimitive(m, "group", &obj.Group)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "naming_scheme", &obj.NamingScheme)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_usage_control", &obj.CcaUsageControl)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_key_type", &obj.CcaKeyType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_key_words", &obj.CcaKeyWords)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // KeystoresPropertiesCreateGoogleKms : KeystoresPropertiesCreateGoogleKms struct
 // This model "extends" KeystoresPropertiesCreate
 type KeystoresPropertiesCreateGoogleKms struct {
@@ -11397,7 +10530,6 @@ type KeystoresPropertiesCreateGoogleKms struct {
 const (
 	KeystoresPropertiesCreateGoogleKms_Type_AwsKms = "aws_kms"
 	KeystoresPropertiesCreateGoogleKms_Type_AzureKeyVault = "azure_key_vault"
-	KeystoresPropertiesCreateGoogleKms_Type_Cca = "cca"
 	KeystoresPropertiesCreateGoogleKms_Type_GoogleKms = "google_kms"
 	KeystoresPropertiesCreateGoogleKms_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -11498,7 +10630,6 @@ type KeystoresPropertiesCreateIbmCloudKms struct {
 const (
 	KeystoresPropertiesCreateIbmCloudKms_Type_AwsKms = "aws_kms"
 	KeystoresPropertiesCreateIbmCloudKms_Type_AzureKeyVault = "azure_key_vault"
-	KeystoresPropertiesCreateIbmCloudKms_Type_Cca = "cca"
 	KeystoresPropertiesCreateIbmCloudKms_Type_GoogleKms = "google_kms"
 	KeystoresPropertiesCreateIbmCloudKms_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -11563,62 +10694,6 @@ func (*KeystoresPropertiesUpdateAzure) isaKeystoresPropertiesUpdate() bool {
 func UnmarshalKeystoresPropertiesUpdateAzure(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(KeystoresPropertiesUpdateAzure)
 	err = core.UnmarshalPrimitive(m, "group", &obj.Group)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// KeystoresPropertiesUpdateCca : KeystoresPropertiesUpdateCca struct
-// This model "extends" KeystoresPropertiesUpdate
-type KeystoresPropertiesUpdateCca struct {
-	// Which keystore group to distribute the key to.
-	Group *string `json:"group,omitempty"`
-
-	CcaUsageControl *string `json:"cca_usage_control,omitempty"`
-
-	CcaKeyType *string `json:"cca_key_type,omitempty"`
-
-	// A list of CCA key words.
-	CcaKeyWords []string `json:"cca_key_words,omitempty"`
-}
-
-// Constants associated with the KeystoresPropertiesUpdateCca.CcaUsageControl property.
-const (
-	KeystoresPropertiesUpdateCca_CcaUsageControl_KeyManagementOnly = "key_management_only"
-	KeystoresPropertiesUpdateCca_CcaUsageControl_SignatureAndKeyManagement = "signature_and_key_management"
-	KeystoresPropertiesUpdateCca_CcaUsageControl_SignatureOnly = "signature_only"
-)
-
-// Constants associated with the KeystoresPropertiesUpdateCca.CcaKeyType property.
-const (
-	KeystoresPropertiesUpdateCca_CcaKeyType_Cipher = "cipher"
-	KeystoresPropertiesUpdateCca_CcaKeyType_Data = "data"
-	KeystoresPropertiesUpdateCca_CcaKeyType_Exporter = "exporter"
-	KeystoresPropertiesUpdateCca_CcaKeyType_Importer = "importer"
-)
-
-func (*KeystoresPropertiesUpdateCca) isaKeystoresPropertiesUpdate() bool {
-	return true
-}
-
-// UnmarshalKeystoresPropertiesUpdateCca unmarshals an instance of KeystoresPropertiesUpdateCca from the specified map of raw messages.
-func UnmarshalKeystoresPropertiesUpdateCca(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(KeystoresPropertiesUpdateCca)
-	err = core.UnmarshalPrimitive(m, "group", &obj.Group)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_usage_control", &obj.CcaUsageControl)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_key_type", &obj.CcaKeyType)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "cca_key_words", &obj.CcaKeyWords)
 	if err != nil {
 		return
 	}
@@ -11774,7 +10849,6 @@ type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystor
 const (
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate_Type_AwsKms = "aws_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate_Type_Cca = "cca"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate_Type_GoogleKms = "google_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsCreate_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -11898,7 +10972,6 @@ type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystor
 const (
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate_Type_AwsKms = "aws_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate_Type_Cca = "cca"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate_Type_GoogleKms = "google_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreate_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -12040,7 +11113,6 @@ type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystor
 const (
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate_Type_AwsKms = "aws_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate_Type_Cca = "cca"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate_Type_GoogleKms = "google_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdate_Type_IbmCloudKms = "ibm_cloud_kms"
 )
@@ -12137,7 +11209,6 @@ type KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystor
 const (
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_AwsKms = "aws_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_AzureKeyVault = "azure_key_vault"
-	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_Cca = "cca"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_GoogleKms = "google_kms"
 	KeystoreCreationRequestKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalExternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalCreateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeIbmCloudKmsInternalUpdateKeystoreTypeBaseUpdate_Type_IbmCloudKms = "ibm_cloud_kms"
 )
