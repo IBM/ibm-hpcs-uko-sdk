@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.80.0-29334a73-20230925-151553
+ * IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-${buildNumber}-20231012-102724
  */
 
 // Package ukov4 : Operations and models for the UkoV4 service
@@ -38,7 +38,7 @@ import (
 
 // UkoV4 : API for UKO used for key management.
 //
-// API Version: 4.13.0
+// API Version: 4.13.2
 type UkoV4 struct {
 	Service *core.BaseService
 }
@@ -4316,7 +4316,7 @@ const (
 	ListManagedKeyVersionsOptions_StatusInKeystoresKeystoreSyncFlag_Error = "error"
 	ListManagedKeyVersionsOptions_StatusInKeystoresKeystoreSyncFlag_Ok = "ok"
 	ListManagedKeyVersionsOptions_StatusInKeystoresKeystoreSyncFlag_OutOfSync = "out_of_sync"
-	ListManagedKeyVersionsOptions_StatusInKeystoresKeystoreSyncFlag_Pending = "pending"
+	ListManagedKeyVersionsOptions_StatusInKeystoresKeystoreSyncFlag_VerifyingSync = "verifying_sync"
 )
 
 // Constants associated with the ListManagedKeyVersionsOptions.TemplateAlignmentStatus property.
@@ -4709,7 +4709,7 @@ const (
 	ListManagedKeysFromKeystoreOptions_StatusInKeystoresKeystoreSyncFlag_Error = "error"
 	ListManagedKeysFromKeystoreOptions_StatusInKeystoresKeystoreSyncFlag_Ok = "ok"
 	ListManagedKeysFromKeystoreOptions_StatusInKeystoresKeystoreSyncFlag_OutOfSync = "out_of_sync"
-	ListManagedKeysFromKeystoreOptions_StatusInKeystoresKeystoreSyncFlag_Pending = "pending"
+	ListManagedKeysFromKeystoreOptions_StatusInKeystoresKeystoreSyncFlag_VerifyingSync = "verifying_sync"
 )
 
 // Constants associated with the ListManagedKeysFromKeystoreOptions.TemplateAlignmentStatus property.
@@ -5124,7 +5124,7 @@ const (
 	ListManagedKeysOptions_StatusInKeystoresKeystoreSyncFlag_Error = "error"
 	ListManagedKeysOptions_StatusInKeystoresKeystoreSyncFlag_Ok = "ok"
 	ListManagedKeysOptions_StatusInKeystoresKeystoreSyncFlag_OutOfSync = "out_of_sync"
-	ListManagedKeysOptions_StatusInKeystoresKeystoreSyncFlag_Pending = "pending"
+	ListManagedKeysOptions_StatusInKeystoresKeystoreSyncFlag_VerifyingSync = "verifying_sync"
 )
 
 // Constants associated with the ListManagedKeysOptions.TemplateAlignmentStatus property.
@@ -8141,7 +8141,7 @@ const (
 	StatusInKeystore_KeystoreSyncFlag_Error = "error"
 	StatusInKeystore_KeystoreSyncFlag_Ok = "ok"
 	StatusInKeystore_KeystoreSyncFlag_OutOfSync = "out_of_sync"
-	StatusInKeystore_KeystoreSyncFlag_Pending = "pending"
+	StatusInKeystore_KeystoreSyncFlag_VerifyingSync = "verifying_sync"
 )
 
 // Constants associated with the StatusInKeystore.KeystoreSyncFlagDetail property.
