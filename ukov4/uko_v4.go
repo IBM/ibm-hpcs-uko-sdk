@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.62.2-e5d4c32b-20221214-193750
+ * IBM OpenAPI SDK Code Generator Version: 3.80.0-29334a73-20230925-151553
  */
 
 // Package ukov4 : Operations and models for the UkoV4 service
@@ -38,7 +38,7 @@ import (
 
 // UkoV4 : API for UKO used for key management.
 //
-// API Version: 4.12.7
+// API Version: 4.14.4
 type UkoV4 struct {
 	Service *core.BaseService
 }
@@ -292,6 +292,15 @@ func (uko *UkoV4) ListManagedKeysWithContext(ctx context.Context, listManagedKey
 	if listManagedKeysOptions.TemplateType != nil {
 		builder.AddQuery("template.type[]", strings.Join(listManagedKeysOptions.TemplateType, ","))
 	}
+	if listManagedKeysOptions.StatusInKeystoresKeystoreSyncFlag != nil {
+		builder.AddQuery("status_in_keystores[].keystore_sync_flag", strings.Join(listManagedKeysOptions.StatusInKeystoresKeystoreSyncFlag, ","))
+	}
+	if listManagedKeysOptions.TemplateAlignmentStatus != nil {
+		builder.AddQuery("template.alignment_status", fmt.Sprint(*listManagedKeysOptions.TemplateAlignmentStatus))
+	}
+	if listManagedKeysOptions.KeyMaterialPresent != nil {
+		builder.AddQuery("key_material_present", strings.Join(listManagedKeysOptions.KeyMaterialPresent, ","))
+	}
 	if listManagedKeysOptions.ManagingSystems != nil {
 		builder.AddQuery("managing_systems", strings.Join(listManagedKeysOptions.ManagingSystems, ","))
 	}
@@ -431,6 +440,10 @@ func (uko *UkoV4) DeleteManagedKeyWithContext(ctx context.Context, deleteManaged
 	}
 	if deleteManagedKeyOptions.IfMatch != nil {
 		builder.AddHeader("If-Match", fmt.Sprint(*deleteManagedKeyOptions.IfMatch))
+	}
+
+	if deleteManagedKeyOptions.Force != nil {
+		builder.AddQuery("force", fmt.Sprint(*deleteManagedKeyOptions.Force))
 	}
 
 	request, err := builder.Build()
@@ -791,6 +804,15 @@ func (uko *UkoV4) ListManagedKeyVersionsWithContext(ctx context.Context, listMan
 	}
 	if listManagedKeyVersionsOptions.TemplateType != nil {
 		builder.AddQuery("template.type[]", strings.Join(listManagedKeyVersionsOptions.TemplateType, ","))
+	}
+	if listManagedKeyVersionsOptions.StatusInKeystoresKeystoreSyncFlag != nil {
+		builder.AddQuery("status_in_keystores[].keystore_sync_flag", strings.Join(listManagedKeyVersionsOptions.StatusInKeystoresKeystoreSyncFlag, ","))
+	}
+	if listManagedKeyVersionsOptions.TemplateAlignmentStatus != nil {
+		builder.AddQuery("template.alignment_status", fmt.Sprint(*listManagedKeyVersionsOptions.TemplateAlignmentStatus))
+	}
+	if listManagedKeyVersionsOptions.KeyMaterialPresent != nil {
+		builder.AddQuery("key_material_present", strings.Join(listManagedKeyVersionsOptions.KeyMaterialPresent, ","))
 	}
 
 	request, err := builder.Build()
@@ -1727,6 +1749,9 @@ func (uko *UkoV4) ListKeystoresWithContext(ctx context.Context, listKeystoresOpt
 	if listKeystoresOptions.Sort != nil {
 		builder.AddQuery("sort", strings.Join(listKeystoresOptions.Sort, ","))
 	}
+	if listKeystoresOptions.StatusHealthStatus != nil {
+		builder.AddQuery("status.health_status", strings.Join(listKeystoresOptions.StatusHealthStatus, ","))
+	}
 
 	request, err := builder.Build()
 	if err != nil {
@@ -2263,6 +2288,15 @@ func (uko *UkoV4) ListManagedKeysFromKeystoreWithContext(ctx context.Context, li
 	}
 	if listManagedKeysFromKeystoreOptions.TemplateType != nil {
 		builder.AddQuery("template.type[]", strings.Join(listManagedKeysFromKeystoreOptions.TemplateType, ","))
+	}
+	if listManagedKeysFromKeystoreOptions.StatusInKeystoresKeystoreSyncFlag != nil {
+		builder.AddQuery("status_in_keystores[].keystore_sync_flag", strings.Join(listManagedKeysFromKeystoreOptions.StatusInKeystoresKeystoreSyncFlag, ","))
+	}
+	if listManagedKeysFromKeystoreOptions.TemplateAlignmentStatus != nil {
+		builder.AddQuery("template.alignment_status", fmt.Sprint(*listManagedKeysFromKeystoreOptions.TemplateAlignmentStatus))
+	}
+	if listManagedKeysFromKeystoreOptions.KeyMaterialPresent != nil {
+		builder.AddQuery("key_material_present", strings.Join(listManagedKeysFromKeystoreOptions.KeyMaterialPresent, ","))
 	}
 
 	request, err := builder.Build()
@@ -3277,6 +3311,9 @@ type DeleteManagedKeyOptions struct {
 	// Precondition of the update; Value of the ETag from the header on a GET request.
 	IfMatch *string `json:"If-Match" validate:"required"`
 
+	// Remove Managed Key from UKO even if it's still pending destruction.
+	Force *bool `json:"force,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -3298,6 +3335,12 @@ func (_options *DeleteManagedKeyOptions) SetID(id string) *DeleteManagedKeyOptio
 // SetIfMatch : Allow user to set IfMatch
 func (_options *DeleteManagedKeyOptions) SetIfMatch(ifMatch string) *DeleteManagedKeyOptions {
 	_options.IfMatch = core.StringPtr(ifMatch)
+	return _options
+}
+
+// SetForce : Allow user to set Force
+func (_options *DeleteManagedKeyOptions) SetForce(force bool) *DeleteManagedKeyOptions {
+	_options.Force = core.BoolPtr(force)
 	return _options
 }
 
@@ -3999,6 +4042,9 @@ type ListKeystoresOptions struct {
 	// Define sorting order.
 	Sort []string `json:"sort,omitempty"`
 
+	// Keystore Health status.
+	StatusHealthStatus []string `json:"status.health_status,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -4011,6 +4057,15 @@ const (
 	ListKeystoresOptions_Type_Cca = "cca"
 	ListKeystoresOptions_Type_GoogleKms = "google_kms"
 	ListKeystoresOptions_Type_IbmCloudKms = "ibm_cloud_kms"
+)
+
+// Constants associated with the ListKeystoresOptions.StatusHealthStatus property.
+// Possible states of a keystore.
+const (
+	ListKeystoresOptions_StatusHealthStatus_ConfigurationError = "configuration_error"
+	ListKeystoresOptions_StatusHealthStatus_NotResponding = "not_responding"
+	ListKeystoresOptions_StatusHealthStatus_Ok = "ok"
+	ListKeystoresOptions_StatusHealthStatus_PendingCheck = "pending_check"
 )
 
 // NewListKeystoresOptions : Instantiate ListKeystoresOptions
@@ -4081,6 +4136,12 @@ func (_options *ListKeystoresOptions) SetOffset(offset int64) *ListKeystoresOpti
 // SetSort : Allow user to set Sort
 func (_options *ListKeystoresOptions) SetSort(sort []string) *ListKeystoresOptions {
 	_options.Sort = sort
+	return _options
+}
+
+// SetStatusHealthStatus : Allow user to set StatusHealthStatus
+func (_options *ListKeystoresOptions) SetStatusHealthStatus(statusHealthStatus []string) *ListKeystoresOptions {
+	_options.StatusHealthStatus = statusHealthStatus
 	return _options
 }
 
@@ -4208,6 +4269,15 @@ type ListManagedKeyVersionsOptions struct {
 	// Return only managed keys with the given template type.
 	TemplateType []string `json:"template.type[],omitempty"`
 
+	// Return only Managed Keys whose status_in_keystores contains one of the specified keystore_sync_flag.
+	StatusInKeystoresKeystoreSyncFlag []string `json:"status_in_keystores[].keystore_sync_flag,omitempty"`
+
+	// Return only managed keys with the given alignment status.
+	TemplateAlignmentStatus *string `json:"template.alignment_status,omitempty"`
+
+	// Return only managed keys which key material is present on given set locations.
+	KeyMaterialPresent []string `json:"key_material_present,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -4261,6 +4331,31 @@ const (
 	ListManagedKeyVersionsOptions_TemplateType_Shadow = "shadow"
 	ListManagedKeyVersionsOptions_TemplateType_System = "system"
 	ListManagedKeyVersionsOptions_TemplateType_UserDefined = "user_defined"
+)
+
+// Constants associated with the ListManagedKeyVersionsOptions.StatusInKeystoresKeystoreSyncFlag property.
+// Flag to represent synchronization status between UKO Managed Key and Target Keystore. Possible status flags. ok:
+// managed key state is the same as target keystore state, out_of_sync: managed key state is different than target
+// keystore state.
+const (
+	ListManagedKeyVersionsOptions_StatusInKeystoresKeystoreSyncFlag_Error = "error"
+	ListManagedKeyVersionsOptions_StatusInKeystoresKeystoreSyncFlag_Ok = "ok"
+	ListManagedKeyVersionsOptions_StatusInKeystoresKeystoreSyncFlag_OutOfSync = "out_of_sync"
+	ListManagedKeyVersionsOptions_StatusInKeystoresKeystoreSyncFlag_VerifyingSync = "verifying_sync"
+)
+
+// Constants associated with the ListManagedKeyVersionsOptions.TemplateAlignmentStatus property.
+// Return only managed keys with the given alignment status.
+const (
+	ListManagedKeyVersionsOptions_TemplateAlignmentStatus_Aligned = "aligned"
+	ListManagedKeyVersionsOptions_TemplateAlignmentStatus_Unaligned = "unaligned"
+)
+
+// Constants associated with the ListManagedKeyVersionsOptions.KeyMaterialPresent property.
+// Location where key material is present.
+const (
+	ListManagedKeyVersionsOptions_KeyMaterialPresent_Keystores = "keystores"
+	ListManagedKeyVersionsOptions_KeyMaterialPresent_Repository = "repository"
 )
 
 // NewListManagedKeyVersionsOptions : Instantiate ListManagedKeyVersionsOptions
@@ -4468,6 +4563,24 @@ func (_options *ListManagedKeyVersionsOptions) SetTemplateType(templateType []st
 	return _options
 }
 
+// SetStatusInKeystoresKeystoreSyncFlag : Allow user to set StatusInKeystoresKeystoreSyncFlag
+func (_options *ListManagedKeyVersionsOptions) SetStatusInKeystoresKeystoreSyncFlag(statusInKeystoresKeystoreSyncFlag []string) *ListManagedKeyVersionsOptions {
+	_options.StatusInKeystoresKeystoreSyncFlag = statusInKeystoresKeystoreSyncFlag
+	return _options
+}
+
+// SetTemplateAlignmentStatus : Allow user to set TemplateAlignmentStatus
+func (_options *ListManagedKeyVersionsOptions) SetTemplateAlignmentStatus(templateAlignmentStatus string) *ListManagedKeyVersionsOptions {
+	_options.TemplateAlignmentStatus = core.StringPtr(templateAlignmentStatus)
+	return _options
+}
+
+// SetKeyMaterialPresent : Allow user to set KeyMaterialPresent
+func (_options *ListManagedKeyVersionsOptions) SetKeyMaterialPresent(keyMaterialPresent []string) *ListManagedKeyVersionsOptions {
+	_options.KeyMaterialPresent = keyMaterialPresent
+	return _options
+}
+
 // SetHeaders : Allow user to set Headers
 func (options *ListManagedKeyVersionsOptions) SetHeaders(param map[string]string) *ListManagedKeyVersionsOptions {
 	options.Headers = param
@@ -4585,6 +4698,15 @@ type ListManagedKeysFromKeystoreOptions struct {
 	// Return only managed keys with the given template type.
 	TemplateType []string `json:"template.type[],omitempty"`
 
+	// Return only Managed Keys whose status_in_keystores contains one of the specified keystore_sync_flag.
+	StatusInKeystoresKeystoreSyncFlag []string `json:"status_in_keystores[].keystore_sync_flag,omitempty"`
+
+	// Return only managed keys with the given alignment status.
+	TemplateAlignmentStatus *string `json:"template.alignment_status,omitempty"`
+
+	// Return only managed keys which key material is present on given set locations.
+	KeyMaterialPresent []string `json:"key_material_present,omitempty"`
+
 	// Allows users to set headers on API requests
 	Headers map[string]string
 }
@@ -4618,6 +4740,31 @@ const (
 	ListManagedKeysFromKeystoreOptions_TemplateType_Shadow = "shadow"
 	ListManagedKeysFromKeystoreOptions_TemplateType_System = "system"
 	ListManagedKeysFromKeystoreOptions_TemplateType_UserDefined = "user_defined"
+)
+
+// Constants associated with the ListManagedKeysFromKeystoreOptions.StatusInKeystoresKeystoreSyncFlag property.
+// Flag to represent synchronization status between UKO Managed Key and Target Keystore. Possible status flags. ok:
+// managed key state is the same as target keystore state, out_of_sync: managed key state is different than target
+// keystore state.
+const (
+	ListManagedKeysFromKeystoreOptions_StatusInKeystoresKeystoreSyncFlag_Error = "error"
+	ListManagedKeysFromKeystoreOptions_StatusInKeystoresKeystoreSyncFlag_Ok = "ok"
+	ListManagedKeysFromKeystoreOptions_StatusInKeystoresKeystoreSyncFlag_OutOfSync = "out_of_sync"
+	ListManagedKeysFromKeystoreOptions_StatusInKeystoresKeystoreSyncFlag_VerifyingSync = "verifying_sync"
+)
+
+// Constants associated with the ListManagedKeysFromKeystoreOptions.TemplateAlignmentStatus property.
+// Return only managed keys with the given alignment status.
+const (
+	ListManagedKeysFromKeystoreOptions_TemplateAlignmentStatus_Aligned = "aligned"
+	ListManagedKeysFromKeystoreOptions_TemplateAlignmentStatus_Unaligned = "unaligned"
+)
+
+// Constants associated with the ListManagedKeysFromKeystoreOptions.KeyMaterialPresent property.
+// Location where key material is present.
+const (
+	ListManagedKeysFromKeystoreOptions_KeyMaterialPresent_Keystores = "keystores"
+	ListManagedKeysFromKeystoreOptions_KeyMaterialPresent_Repository = "repository"
 )
 
 // NewListManagedKeysFromKeystoreOptions : Instantiate ListManagedKeysFromKeystoreOptions
@@ -4813,6 +4960,24 @@ func (_options *ListManagedKeysFromKeystoreOptions) SetTemplateType(templateType
 	return _options
 }
 
+// SetStatusInKeystoresKeystoreSyncFlag : Allow user to set StatusInKeystoresKeystoreSyncFlag
+func (_options *ListManagedKeysFromKeystoreOptions) SetStatusInKeystoresKeystoreSyncFlag(statusInKeystoresKeystoreSyncFlag []string) *ListManagedKeysFromKeystoreOptions {
+	_options.StatusInKeystoresKeystoreSyncFlag = statusInKeystoresKeystoreSyncFlag
+	return _options
+}
+
+// SetTemplateAlignmentStatus : Allow user to set TemplateAlignmentStatus
+func (_options *ListManagedKeysFromKeystoreOptions) SetTemplateAlignmentStatus(templateAlignmentStatus string) *ListManagedKeysFromKeystoreOptions {
+	_options.TemplateAlignmentStatus = core.StringPtr(templateAlignmentStatus)
+	return _options
+}
+
+// SetKeyMaterialPresent : Allow user to set KeyMaterialPresent
+func (_options *ListManagedKeysFromKeystoreOptions) SetKeyMaterialPresent(keyMaterialPresent []string) *ListManagedKeysFromKeystoreOptions {
+	_options.KeyMaterialPresent = keyMaterialPresent
+	return _options
+}
+
 // SetHeaders : Allow user to set Headers
 func (options *ListManagedKeysFromKeystoreOptions) SetHeaders(param map[string]string) *ListManagedKeysFromKeystoreOptions {
 	options.Headers = param
@@ -4941,6 +5106,15 @@ type ListManagedKeysOptions struct {
 	// Return only managed keys with the given template type.
 	TemplateType []string `json:"template.type[],omitempty"`
 
+	// Return only Managed Keys whose status_in_keystores contains one of the specified keystore_sync_flag.
+	StatusInKeystoresKeystoreSyncFlag []string `json:"status_in_keystores[].keystore_sync_flag,omitempty"`
+
+	// Return only managed keys with the given alignment status.
+	TemplateAlignmentStatus *string `json:"template.alignment_status,omitempty"`
+
+	// Return only managed keys which key material is present on given set locations.
+	KeyMaterialPresent []string `json:"key_material_present,omitempty"`
+
 	// Return only managed keys with the given managing systems.
 	ManagingSystems []string `json:"managing_systems,omitempty"`
 
@@ -4997,6 +5171,31 @@ const (
 	ListManagedKeysOptions_TemplateType_Shadow = "shadow"
 	ListManagedKeysOptions_TemplateType_System = "system"
 	ListManagedKeysOptions_TemplateType_UserDefined = "user_defined"
+)
+
+// Constants associated with the ListManagedKeysOptions.StatusInKeystoresKeystoreSyncFlag property.
+// Flag to represent synchronization status between UKO Managed Key and Target Keystore. Possible status flags. ok:
+// managed key state is the same as target keystore state, out_of_sync: managed key state is different than target
+// keystore state.
+const (
+	ListManagedKeysOptions_StatusInKeystoresKeystoreSyncFlag_Error = "error"
+	ListManagedKeysOptions_StatusInKeystoresKeystoreSyncFlag_Ok = "ok"
+	ListManagedKeysOptions_StatusInKeystoresKeystoreSyncFlag_OutOfSync = "out_of_sync"
+	ListManagedKeysOptions_StatusInKeystoresKeystoreSyncFlag_VerifyingSync = "verifying_sync"
+)
+
+// Constants associated with the ListManagedKeysOptions.TemplateAlignmentStatus property.
+// Return only managed keys with the given alignment status.
+const (
+	ListManagedKeysOptions_TemplateAlignmentStatus_Aligned = "aligned"
+	ListManagedKeysOptions_TemplateAlignmentStatus_Unaligned = "unaligned"
+)
+
+// Constants associated with the ListManagedKeysOptions.KeyMaterialPresent property.
+// Location where key material is present.
+const (
+	ListManagedKeysOptions_KeyMaterialPresent_Keystores = "keystores"
+	ListManagedKeysOptions_KeyMaterialPresent_Repository = "repository"
 )
 
 // Constants associated with the ListManagedKeysOptions.ManagingSystems property.
@@ -5212,6 +5411,24 @@ func (_options *ListManagedKeysOptions) SetTemplateID(templateID []string) *List
 // SetTemplateType : Allow user to set TemplateType
 func (_options *ListManagedKeysOptions) SetTemplateType(templateType []string) *ListManagedKeysOptions {
 	_options.TemplateType = templateType
+	return _options
+}
+
+// SetStatusInKeystoresKeystoreSyncFlag : Allow user to set StatusInKeystoresKeystoreSyncFlag
+func (_options *ListManagedKeysOptions) SetStatusInKeystoresKeystoreSyncFlag(statusInKeystoresKeystoreSyncFlag []string) *ListManagedKeysOptions {
+	_options.StatusInKeystoresKeystoreSyncFlag = statusInKeystoresKeystoreSyncFlag
+	return _options
+}
+
+// SetTemplateAlignmentStatus : Allow user to set TemplateAlignmentStatus
+func (_options *ListManagedKeysOptions) SetTemplateAlignmentStatus(templateAlignmentStatus string) *ListManagedKeysOptions {
+	_options.TemplateAlignmentStatus = core.StringPtr(templateAlignmentStatus)
+	return _options
+}
+
+// SetKeyMaterialPresent : Allow user to set KeyMaterialPresent
+func (_options *ListManagedKeysOptions) SetKeyMaterialPresent(keyMaterialPresent []string) *ListManagedKeysOptions {
+	_options.KeyMaterialPresent = keyMaterialPresent
 	return _options
 }
 
@@ -6049,6 +6266,23 @@ func UnmarshalInstanceInKeystore(m map[string]json.RawMessage, result interface{
 	return
 }
 
+// InstanceReference : InstanceReference struct
+type InstanceReference struct {
+	// The v4 UUID used to uniquely identify the resource, as specified by RFC 4122.
+	ID *string `json:"id,omitempty"`
+}
+
+// UnmarshalInstanceReference unmarshals an instance of InstanceReference from the specified map of raw messages.
+func UnmarshalInstanceReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(InstanceReference)
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // KeyInstance : KeyInstance struct
 // Models which "extend" this model:
 // - KeyInstanceGoogleKms
@@ -6435,8 +6669,8 @@ type Keystore struct {
 	// A URL that uniquely identifies your cloud resource.
 	Href *string `json:"href,omitempty"`
 
-	// URL of a TLS proxy to use for connecting to private endpoints.
-	TlsProxy *string `json:"tls_proxy,omitempty"`
+	// The status of the connection to the keystore.
+	Status *KeystoreStatus `json:"status,omitempty"`
 
 	// The value of the JSON key represented in the Base64 format.
 	GoogleCredentials *string `json:"google_credentials,omitempty"`
@@ -6488,6 +6722,12 @@ type Keystore struct {
 	// Azure environment, usually 'Azure'.
 	AzureEnvironment *string `json:"azure_environment,omitempty"`
 
+	// Variant of the Azure Key Vault.
+	AzureVariant *string `json:"azure_variant,omitempty"`
+
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy,omitempty"`
+
 	// API endpoint of the IBM Cloud keystore.
 	IbmApiEndpoint *string `json:"ibm_api_endpoint,omitempty"`
 
@@ -6532,55 +6772,6 @@ const (
 	Keystore_Type_IbmCloudKms = "ibm_cloud_kms"
 )
 
-// Constants associated with the Keystore.AzureLocation property.
-// Location of the Azure Key Vault.
-const (
-	Keystore_AzureLocation_AsiaEast = "asia_east"
-	Keystore_AzureLocation_AsiaSoutheast = "asia_southeast"
-	Keystore_AzureLocation_AustraliaCentral = "australia_central"
-	Keystore_AzureLocation_AustraliaCentral2 = "australia_central_2"
-	Keystore_AzureLocation_AustraliaEast = "australia_east"
-	Keystore_AzureLocation_AustraliaSoutheast = "australia_southeast"
-	Keystore_AzureLocation_BrazilSouth = "brazil_south"
-	Keystore_AzureLocation_CanadaCentral = "canada_central"
-	Keystore_AzureLocation_CanadaEast = "canada_east"
-	Keystore_AzureLocation_ChinaEast = "china_east"
-	Keystore_AzureLocation_ChinaEast2 = "china_east_2"
-	Keystore_AzureLocation_ChinaNorth = "china_north"
-	Keystore_AzureLocation_ChinaNorth2 = "china_north_2"
-	Keystore_AzureLocation_EuropeNorth = "europe_north"
-	Keystore_AzureLocation_EuropeWest = "europe_west"
-	Keystore_AzureLocation_FranceCentral = "france_central"
-	Keystore_AzureLocation_FranceSouth = "france_south"
-	Keystore_AzureLocation_GermanyCentral = "germany_central"
-	Keystore_AzureLocation_GermanyNortheast = "germany_northeast"
-	Keystore_AzureLocation_IndiaCentral = "india_central"
-	Keystore_AzureLocation_IndiaSouth = "india_south"
-	Keystore_AzureLocation_IndiaWest = "india_west"
-	Keystore_AzureLocation_JapanEast = "japan_east"
-	Keystore_AzureLocation_JapanWest = "japan_west"
-	Keystore_AzureLocation_KoreaCentral = "korea_central"
-	Keystore_AzureLocation_KoreaSouth = "korea_south"
-	Keystore_AzureLocation_SouthAfricaNorth = "south_africa_north"
-	Keystore_AzureLocation_SouthAfricaWest = "south_africa_west"
-	Keystore_AzureLocation_UkSouth = "uk_south"
-	Keystore_AzureLocation_UkWest = "uk_west"
-	Keystore_AzureLocation_UsCentral = "us_central"
-	Keystore_AzureLocation_UsDodCentral = "us_dod_central"
-	Keystore_AzureLocation_UsDodEast = "us_dod_east"
-	Keystore_AzureLocation_UsEast = "us_east"
-	Keystore_AzureLocation_UsEast2 = "us_east_2"
-	Keystore_AzureLocation_UsGovArizona = "us_gov_arizona"
-	Keystore_AzureLocation_UsGovIowa = "us_gov_iowa"
-	Keystore_AzureLocation_UsGovTexas = "us_gov_texas"
-	Keystore_AzureLocation_UsGovVirginia = "us_gov_virginia"
-	Keystore_AzureLocation_UsNorthCentral = "us_north_central"
-	Keystore_AzureLocation_UsSouthCentral = "us_south_central"
-	Keystore_AzureLocation_UsWest = "us_west"
-	Keystore_AzureLocation_UsWest2 = "us_west_2"
-	Keystore_AzureLocation_UsWestCentral = "us_west_central"
-)
-
 // Constants associated with the Keystore.AzureEnvironment property.
 // Azure environment, usually 'Azure'.
 const (
@@ -6588,6 +6779,13 @@ const (
 	Keystore_AzureEnvironment_AzureChina = "azure_china"
 	Keystore_AzureEnvironment_AzureGermany = "azure_germany"
 	Keystore_AzureEnvironment_AzureUsGovernment = "azure_us_government"
+)
+
+// Constants associated with the Keystore.AzureVariant property.
+// Variant of the Azure Key Vault.
+const (
+	Keystore_AzureVariant_Premium = "premium"
+	Keystore_AzureVariant_Standard = "standard"
 )
 
 // Constants associated with the Keystore.IbmVariant property.
@@ -6656,7 +6854,7 @@ func UnmarshalKeystore(m map[string]json.RawMessage, result interface{}) (err er
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	err = core.UnmarshalModel(m, "status", &obj.Status, UnmarshalKeystoreStatus)
 	if err != nil {
 		return
 	}
@@ -6721,6 +6919,14 @@ func UnmarshalKeystore(m map[string]json.RawMessage, result interface{}) (err er
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "azure_environment", &obj.AzureEnvironment)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "azure_variant", &obj.AzureVariant)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
 	if err != nil {
 		return
 	}
@@ -6848,6 +7054,9 @@ type KeystoreCreationRequest struct {
 	// Azure environment, usually 'Azure'.
 	AzureEnvironment *string `json:"azure_environment,omitempty"`
 
+	// Variant of the Azure Key Vault.
+	AzureVariant *string `json:"azure_variant,omitempty"`
+
 	// Possible IBM Cloud KMS variants.
 	IbmVariant *string `json:"ibm_variant,omitempty"`
 
@@ -6892,55 +7101,6 @@ const (
 	KeystoreCreationRequest_Type_IbmCloudKms = "ibm_cloud_kms"
 )
 
-// Constants associated with the KeystoreCreationRequest.AzureLocation property.
-// Location of the Azure Key Vault.
-const (
-	KeystoreCreationRequest_AzureLocation_AsiaEast = "asia_east"
-	KeystoreCreationRequest_AzureLocation_AsiaSoutheast = "asia_southeast"
-	KeystoreCreationRequest_AzureLocation_AustraliaCentral = "australia_central"
-	KeystoreCreationRequest_AzureLocation_AustraliaCentral2 = "australia_central_2"
-	KeystoreCreationRequest_AzureLocation_AustraliaEast = "australia_east"
-	KeystoreCreationRequest_AzureLocation_AustraliaSoutheast = "australia_southeast"
-	KeystoreCreationRequest_AzureLocation_BrazilSouth = "brazil_south"
-	KeystoreCreationRequest_AzureLocation_CanadaCentral = "canada_central"
-	KeystoreCreationRequest_AzureLocation_CanadaEast = "canada_east"
-	KeystoreCreationRequest_AzureLocation_ChinaEast = "china_east"
-	KeystoreCreationRequest_AzureLocation_ChinaEast2 = "china_east_2"
-	KeystoreCreationRequest_AzureLocation_ChinaNorth = "china_north"
-	KeystoreCreationRequest_AzureLocation_ChinaNorth2 = "china_north_2"
-	KeystoreCreationRequest_AzureLocation_EuropeNorth = "europe_north"
-	KeystoreCreationRequest_AzureLocation_EuropeWest = "europe_west"
-	KeystoreCreationRequest_AzureLocation_FranceCentral = "france_central"
-	KeystoreCreationRequest_AzureLocation_FranceSouth = "france_south"
-	KeystoreCreationRequest_AzureLocation_GermanyCentral = "germany_central"
-	KeystoreCreationRequest_AzureLocation_GermanyNortheast = "germany_northeast"
-	KeystoreCreationRequest_AzureLocation_IndiaCentral = "india_central"
-	KeystoreCreationRequest_AzureLocation_IndiaSouth = "india_south"
-	KeystoreCreationRequest_AzureLocation_IndiaWest = "india_west"
-	KeystoreCreationRequest_AzureLocation_JapanEast = "japan_east"
-	KeystoreCreationRequest_AzureLocation_JapanWest = "japan_west"
-	KeystoreCreationRequest_AzureLocation_KoreaCentral = "korea_central"
-	KeystoreCreationRequest_AzureLocation_KoreaSouth = "korea_south"
-	KeystoreCreationRequest_AzureLocation_SouthAfricaNorth = "south_africa_north"
-	KeystoreCreationRequest_AzureLocation_SouthAfricaWest = "south_africa_west"
-	KeystoreCreationRequest_AzureLocation_UkSouth = "uk_south"
-	KeystoreCreationRequest_AzureLocation_UkWest = "uk_west"
-	KeystoreCreationRequest_AzureLocation_UsCentral = "us_central"
-	KeystoreCreationRequest_AzureLocation_UsDodCentral = "us_dod_central"
-	KeystoreCreationRequest_AzureLocation_UsDodEast = "us_dod_east"
-	KeystoreCreationRequest_AzureLocation_UsEast = "us_east"
-	KeystoreCreationRequest_AzureLocation_UsEast2 = "us_east_2"
-	KeystoreCreationRequest_AzureLocation_UsGovArizona = "us_gov_arizona"
-	KeystoreCreationRequest_AzureLocation_UsGovIowa = "us_gov_iowa"
-	KeystoreCreationRequest_AzureLocation_UsGovTexas = "us_gov_texas"
-	KeystoreCreationRequest_AzureLocation_UsGovVirginia = "us_gov_virginia"
-	KeystoreCreationRequest_AzureLocation_UsNorthCentral = "us_north_central"
-	KeystoreCreationRequest_AzureLocation_UsSouthCentral = "us_south_central"
-	KeystoreCreationRequest_AzureLocation_UsWest = "us_west"
-	KeystoreCreationRequest_AzureLocation_UsWest2 = "us_west_2"
-	KeystoreCreationRequest_AzureLocation_UsWestCentral = "us_west_central"
-)
-
 // Constants associated with the KeystoreCreationRequest.AzureEnvironment property.
 // Azure environment, usually 'Azure'.
 const (
@@ -6948,6 +7108,13 @@ const (
 	KeystoreCreationRequest_AzureEnvironment_AzureChina = "azure_china"
 	KeystoreCreationRequest_AzureEnvironment_AzureGermany = "azure_germany"
 	KeystoreCreationRequest_AzureEnvironment_AzureUsGovernment = "azure_us_government"
+)
+
+// Constants associated with the KeystoreCreationRequest.AzureVariant property.
+// Variant of the Azure Key Vault.
+const (
+	KeystoreCreationRequest_AzureVariant_Premium = "premium"
+	KeystoreCreationRequest_AzureVariant_Standard = "standard"
 )
 
 // Constants associated with the KeystoreCreationRequest.IbmVariant property.
@@ -7095,6 +7262,7 @@ const (
 	KeystoreStatus_HealthStatus_ConfigurationError = "configuration_error"
 	KeystoreStatus_HealthStatus_NotResponding = "not_responding"
 	KeystoreStatus_HealthStatus_Ok = "ok"
+	KeystoreStatus_HealthStatus_PendingCheck = "pending_check"
 )
 
 // UnmarshalKeystoreStatus unmarshals an instance of KeystoreStatus from the specified map of raw messages.
@@ -7187,6 +7355,9 @@ type KeystoreUpdateRequest struct {
 	// Azure environment, usually 'Azure'.
 	AzureEnvironment *string `json:"azure_environment,omitempty"`
 
+	// Variant of the Azure Key Vault.
+	AzureVariant *string `json:"azure_variant,omitempty"`
+
 	// API endpoint of the IBM Cloud keystore.
 	IbmApiEndpoint *string `json:"ibm_api_endpoint,omitempty"`
 
@@ -7218,55 +7389,6 @@ type KeystoreUpdateRequest struct {
 	CcaPublicKeyHash *string `json:"cca_public_key_hash,omitempty"`
 }
 
-// Constants associated with the KeystoreUpdateRequest.AzureLocation property.
-// Location of the Azure Key Vault.
-const (
-	KeystoreUpdateRequest_AzureLocation_AsiaEast = "asia_east"
-	KeystoreUpdateRequest_AzureLocation_AsiaSoutheast = "asia_southeast"
-	KeystoreUpdateRequest_AzureLocation_AustraliaCentral = "australia_central"
-	KeystoreUpdateRequest_AzureLocation_AustraliaCentral2 = "australia_central_2"
-	KeystoreUpdateRequest_AzureLocation_AustraliaEast = "australia_east"
-	KeystoreUpdateRequest_AzureLocation_AustraliaSoutheast = "australia_southeast"
-	KeystoreUpdateRequest_AzureLocation_BrazilSouth = "brazil_south"
-	KeystoreUpdateRequest_AzureLocation_CanadaCentral = "canada_central"
-	KeystoreUpdateRequest_AzureLocation_CanadaEast = "canada_east"
-	KeystoreUpdateRequest_AzureLocation_ChinaEast = "china_east"
-	KeystoreUpdateRequest_AzureLocation_ChinaEast2 = "china_east_2"
-	KeystoreUpdateRequest_AzureLocation_ChinaNorth = "china_north"
-	KeystoreUpdateRequest_AzureLocation_ChinaNorth2 = "china_north_2"
-	KeystoreUpdateRequest_AzureLocation_EuropeNorth = "europe_north"
-	KeystoreUpdateRequest_AzureLocation_EuropeWest = "europe_west"
-	KeystoreUpdateRequest_AzureLocation_FranceCentral = "france_central"
-	KeystoreUpdateRequest_AzureLocation_FranceSouth = "france_south"
-	KeystoreUpdateRequest_AzureLocation_GermanyCentral = "germany_central"
-	KeystoreUpdateRequest_AzureLocation_GermanyNortheast = "germany_northeast"
-	KeystoreUpdateRequest_AzureLocation_IndiaCentral = "india_central"
-	KeystoreUpdateRequest_AzureLocation_IndiaSouth = "india_south"
-	KeystoreUpdateRequest_AzureLocation_IndiaWest = "india_west"
-	KeystoreUpdateRequest_AzureLocation_JapanEast = "japan_east"
-	KeystoreUpdateRequest_AzureLocation_JapanWest = "japan_west"
-	KeystoreUpdateRequest_AzureLocation_KoreaCentral = "korea_central"
-	KeystoreUpdateRequest_AzureLocation_KoreaSouth = "korea_south"
-	KeystoreUpdateRequest_AzureLocation_SouthAfricaNorth = "south_africa_north"
-	KeystoreUpdateRequest_AzureLocation_SouthAfricaWest = "south_africa_west"
-	KeystoreUpdateRequest_AzureLocation_UkSouth = "uk_south"
-	KeystoreUpdateRequest_AzureLocation_UkWest = "uk_west"
-	KeystoreUpdateRequest_AzureLocation_UsCentral = "us_central"
-	KeystoreUpdateRequest_AzureLocation_UsDodCentral = "us_dod_central"
-	KeystoreUpdateRequest_AzureLocation_UsDodEast = "us_dod_east"
-	KeystoreUpdateRequest_AzureLocation_UsEast = "us_east"
-	KeystoreUpdateRequest_AzureLocation_UsEast2 = "us_east_2"
-	KeystoreUpdateRequest_AzureLocation_UsGovArizona = "us_gov_arizona"
-	KeystoreUpdateRequest_AzureLocation_UsGovIowa = "us_gov_iowa"
-	KeystoreUpdateRequest_AzureLocation_UsGovTexas = "us_gov_texas"
-	KeystoreUpdateRequest_AzureLocation_UsGovVirginia = "us_gov_virginia"
-	KeystoreUpdateRequest_AzureLocation_UsNorthCentral = "us_north_central"
-	KeystoreUpdateRequest_AzureLocation_UsSouthCentral = "us_south_central"
-	KeystoreUpdateRequest_AzureLocation_UsWest = "us_west"
-	KeystoreUpdateRequest_AzureLocation_UsWest2 = "us_west_2"
-	KeystoreUpdateRequest_AzureLocation_UsWestCentral = "us_west_central"
-)
-
 // Constants associated with the KeystoreUpdateRequest.AzureEnvironment property.
 // Azure environment, usually 'Azure'.
 const (
@@ -7274,6 +7396,13 @@ const (
 	KeystoreUpdateRequest_AzureEnvironment_AzureChina = "azure_china"
 	KeystoreUpdateRequest_AzureEnvironment_AzureGermany = "azure_germany"
 	KeystoreUpdateRequest_AzureEnvironment_AzureUsGovernment = "azure_us_government"
+)
+
+// Constants associated with the KeystoreUpdateRequest.AzureVariant property.
+// Variant of the Azure Key Vault.
+const (
+	KeystoreUpdateRequest_AzureVariant_Premium = "premium"
+	KeystoreUpdateRequest_AzureVariant_Standard = "standard"
 )
 func (*KeystoreUpdateRequest) isaKeystoreUpdateRequest() bool {
 	return true
@@ -7363,6 +7492,10 @@ func UnmarshalKeystoreUpdateRequest(m map[string]json.RawMessage, result interfa
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "azure_environment", &obj.AzureEnvironment)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "azure_variant", &obj.AzureVariant)
 	if err != nil {
 		return
 	}
@@ -7736,6 +7869,9 @@ type ManagedKey struct {
 	// The state of the key.
 	State *string `json:"state" validate:"required"`
 
+	// Array of locations where key material is present.
+	KeyMaterialPresent []string `json:"key_material_present,omitempty"`
+
 	// The size of the underlying cryptographic key or key pair. E.g. "256" for AES keys, or "2048" for RSA.
 	Size *string `json:"size,omitempty"`
 
@@ -7754,6 +7890,9 @@ type ManagedKey struct {
 	LabelTags []Tag `json:"label_tags,omitempty"`
 
 	Tags []Tag `json:"tags,omitempty"`
+
+	// Boolean value which indicates if key can be rotated.
+	IsRotatable *bool `json:"is_rotatable,omitempty"`
 
 	// Date and time when the key was created.
 	CreatedAt *strfmt.DateTime `json:"created_at,omitempty"`
@@ -7798,6 +7937,13 @@ const (
 	ManagedKey_State_Destroyed = "destroyed"
 	ManagedKey_State_DestroyedCompromised = "destroyed_compromised"
 	ManagedKey_State_PreActivation = "pre_activation"
+)
+
+// Constants associated with the ManagedKey.KeyMaterialPresent property.
+// Location where key material is present.
+const (
+	ManagedKey_KeyMaterialPresent_Keystores = "keystores"
+	ManagedKey_KeyMaterialPresent_Repository = "repository"
 )
 
 // Constants associated with the ManagedKey.Algorithm property.
@@ -7849,6 +7995,10 @@ func UnmarshalManagedKey(m map[string]json.RawMessage, result interface{}) (err 
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "key_material_present", &obj.KeyMaterialPresent)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "size", &obj.Size)
 	if err != nil {
 		return
@@ -7874,6 +8024,10 @@ func UnmarshalManagedKey(m map[string]json.RawMessage, result interface{}) (err 
 		return
 	}
 	err = core.UnmarshalModel(m, "tags", &obj.Tags, UnmarshalTag)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "is_rotatable", &obj.IsRotatable)
 	if err != nil {
 		return
 	}
@@ -8044,11 +8198,21 @@ type StatusInKeystore struct {
 	// Reference to a target keystore.
 	Keystore *TargetKeystoreReference `json:"keystore,omitempty"`
 
+	Instance *InstanceReference `json:"instance,omitempty"`
+
 	// Possible states of a key in keystore.  not_present: the key is not in the target keystore at all,  active: the key
 	// is in the target keystore, and can be used for its intended purpose not_active: the key is in the target keystore,
 	// but cannot be used for its intended purpose wrong_key: there is a key in the target keystore, but it doesn't have
 	// the value that is expected error: there was an error checking the status of the key in the target keystore.
 	Status *string `json:"status" validate:"required"`
+
+	// Destruction policy for this key in this keystore expressed as a duration (e.g. PT24H means 24 hours). If not
+	// possible to determine, an empty string is returned.
+	DestructionPolicyDuration *string `json:"destruction_policy_duration,omitempty"`
+
+	// If present, indicates when the key will be destroyed in the target keystore, as a timestamp in UTC. If not possible
+	// to determine, or does not apply, an empty string is returned.
+	DestructionAt *string `json:"destruction_at,omitempty"`
 
 	// Flag to represent synchronization status between UKO Managed Key and Target Keystore. Possible status flags. ok:
 	// managed key state is the same as target keystore state, out_of_sync: managed key state is different than target
@@ -8076,6 +8240,8 @@ const (
 	StatusInKeystore_Status_Error = "error"
 	StatusInKeystore_Status_NotActive = "not_active"
 	StatusInKeystore_Status_NotPresent = "not_present"
+	StatusInKeystore_Status_PendingDestruction = "pending_destruction"
+	StatusInKeystore_Status_Unknown = "unknown"
 	StatusInKeystore_Status_WrongKey = "wrong_key"
 )
 
@@ -8087,6 +8253,7 @@ const (
 	StatusInKeystore_KeystoreSyncFlag_Error = "error"
 	StatusInKeystore_KeystoreSyncFlag_Ok = "ok"
 	StatusInKeystore_KeystoreSyncFlag_OutOfSync = "out_of_sync"
+	StatusInKeystore_KeystoreSyncFlag_VerifyingSync = "verifying_sync"
 )
 
 // Constants associated with the StatusInKeystore.KeystoreSyncFlagDetail property.
@@ -8100,10 +8267,13 @@ const (
 	StatusInKeystore_KeystoreSyncFlagDetail_DeactivatedKeyIsNotDeactivatedInKeystore = "deactivated_key_is_not_deactivated_in_keystore"
 	StatusInKeystore_KeystoreSyncFlagDetail_DestroyedKeyIsNotPresentInKeystore = "destroyed_key_is_not_present_in_keystore"
 	StatusInKeystore_KeystoreSyncFlagDetail_DestroyedKeyIsPresentInKeystore = "destroyed_key_is_present_in_keystore"
+	StatusInKeystore_KeystoreSyncFlagDetail_DestroyedPendingKeyIsNotPresentInKeystore = "destroyed_pending_key_is_not_present_in_keystore"
+	StatusInKeystore_KeystoreSyncFlagDetail_DestroyedPendingKeyIsPendingDestructionInKeystore = "destroyed_pending_key_is_pending_destruction_in_keystore"
 	StatusInKeystore_KeystoreSyncFlagDetail_PreActiveKeyIsNotPresentInKeystore = "pre_active_key_is_not_present_in_keystore"
 	StatusInKeystore_KeystoreSyncFlagDetail_PreActiveKeyIsPresentInKeystore = "pre_active_key_is_present_in_keystore"
 	StatusInKeystore_KeystoreSyncFlagDetail_TargetKeystoreRemovedByUser = "target_keystore_removed_by_user"
 	StatusInKeystore_KeystoreSyncFlagDetail_TargetKeystoreRemovedByUserContainsAnActiveKey = "target_keystore_removed_by_user_contains_an_active_key"
+	StatusInKeystore_KeystoreSyncFlagDetail_Unknown = "unknown"
 )
 
 // UnmarshalStatusInKeystore unmarshals an instance of StatusInKeystore from the specified map of raw messages.
@@ -8113,7 +8283,19 @@ func UnmarshalStatusInKeystore(m map[string]json.RawMessage, result interface{})
 	if err != nil {
 		return
 	}
+	err = core.UnmarshalModel(m, "instance", &obj.Instance, UnmarshalInstanceReference)
+	if err != nil {
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "status", &obj.Status)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "destruction_policy_duration", &obj.DestructionPolicyDuration)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "destruction_at", &obj.DestructionAt)
 	if err != nil {
 		return
 	}
@@ -8507,6 +8689,9 @@ type TemplateReference struct {
 
 	// A URL that uniquely identifies your cloud resource.
 	Href *string `json:"href,omitempty"`
+
+	// Status describing if a key is aligned with the latest key template version.
+	AlignmentStatus *string `json:"alignment_status" validate:"required"`
 }
 
 // Constants associated with the TemplateReference.Type property.
@@ -8516,6 +8701,13 @@ const (
 	TemplateReference_Type_Shadow = "shadow"
 	TemplateReference_Type_System = "system"
 	TemplateReference_Type_UserDefined = "user_defined"
+)
+
+// Constants associated with the TemplateReference.AlignmentStatus property.
+// Status describing if a key is aligned with the latest key template version.
+const (
+	TemplateReference_AlignmentStatus_Aligned = "aligned"
+	TemplateReference_AlignmentStatus_Unaligned = "unaligned"
 )
 
 // UnmarshalTemplateReference unmarshals an instance of TemplateReference from the specified map of raw messages.
@@ -8534,6 +8726,10 @@ func UnmarshalTemplateReference(m map[string]json.RawMessage, result interface{}
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "alignment_status", &obj.AlignmentStatus)
 	if err != nil {
 		return
 	}
@@ -9286,7 +9482,7 @@ type KeystoreCreationRequestKeystoreTypeAzureCreate struct {
 	AzureResourceGroup *string `json:"azure_resource_group" validate:"required"`
 
 	// Location of the Azure Key Vault.
-	AzureLocation *string `json:"azure_location" validate:"required"`
+	AzureLocation *string `json:"azure_location,omitempty"`
 
 	// Azure service principal client ID.
 	AzureServicePrincipalClientID *string `json:"azure_service_principal_client_id" validate:"required"`
@@ -9301,7 +9497,10 @@ type KeystoreCreationRequestKeystoreTypeAzureCreate struct {
 	AzureSubscriptionID *string `json:"azure_subscription_id" validate:"required"`
 
 	// Azure environment, usually 'Azure'.
-	AzureEnvironment *string `json:"azure_environment" validate:"required"`
+	AzureEnvironment *string `json:"azure_environment,omitempty"`
+
+	// Variant of the Azure Key Vault.
+	AzureVariant *string `json:"azure_variant,omitempty"`
 }
 
 // Constants associated with the KeystoreCreationRequestKeystoreTypeAzureCreate.Type property.
@@ -9314,55 +9513,6 @@ const (
 	KeystoreCreationRequestKeystoreTypeAzureCreate_Type_IbmCloudKms = "ibm_cloud_kms"
 )
 
-// Constants associated with the KeystoreCreationRequestKeystoreTypeAzureCreate.AzureLocation property.
-// Location of the Azure Key Vault.
-const (
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_AsiaEast = "asia_east"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_AsiaSoutheast = "asia_southeast"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_AustraliaCentral = "australia_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_AustraliaCentral2 = "australia_central_2"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_AustraliaEast = "australia_east"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_AustraliaSoutheast = "australia_southeast"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_BrazilSouth = "brazil_south"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_CanadaCentral = "canada_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_CanadaEast = "canada_east"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_ChinaEast = "china_east"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_ChinaEast2 = "china_east_2"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_ChinaNorth = "china_north"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_ChinaNorth2 = "china_north_2"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_EuropeNorth = "europe_north"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_EuropeWest = "europe_west"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_FranceCentral = "france_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_FranceSouth = "france_south"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_GermanyCentral = "germany_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_GermanyNortheast = "germany_northeast"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_IndiaCentral = "india_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_IndiaSouth = "india_south"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_IndiaWest = "india_west"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_JapanEast = "japan_east"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_JapanWest = "japan_west"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_KoreaCentral = "korea_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_KoreaSouth = "korea_south"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_SouthAfricaNorth = "south_africa_north"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_SouthAfricaWest = "south_africa_west"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UkSouth = "uk_south"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UkWest = "uk_west"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsCentral = "us_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsDodCentral = "us_dod_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsDodEast = "us_dod_east"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsEast = "us_east"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsEast2 = "us_east_2"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsGovArizona = "us_gov_arizona"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsGovIowa = "us_gov_iowa"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsGovTexas = "us_gov_texas"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsGovVirginia = "us_gov_virginia"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsNorthCentral = "us_north_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsSouthCentral = "us_south_central"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsWest = "us_west"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsWest2 = "us_west_2"
-	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureLocation_UsWestCentral = "us_west_central"
-)
-
 // Constants associated with the KeystoreCreationRequestKeystoreTypeAzureCreate.AzureEnvironment property.
 // Azure environment, usually 'Azure'.
 const (
@@ -9372,19 +9522,24 @@ const (
 	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureEnvironment_AzureUsGovernment = "azure_us_government"
 )
 
+// Constants associated with the KeystoreCreationRequestKeystoreTypeAzureCreate.AzureVariant property.
+// Variant of the Azure Key Vault.
+const (
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureVariant_Premium = "premium"
+	KeystoreCreationRequestKeystoreTypeAzureCreate_AzureVariant_Standard = "standard"
+)
+
 // NewKeystoreCreationRequestKeystoreTypeAzureCreate : Instantiate KeystoreCreationRequestKeystoreTypeAzureCreate (Generic Model Constructor)
-func (*UkoV4) NewKeystoreCreationRequestKeystoreTypeAzureCreate(typeVar string, vault *VaultReferenceInCreationRequest, azureServiceName string, azureResourceGroup string, azureLocation string, azureServicePrincipalClientID string, azureServicePrincipalPassword string, azureTenant string, azureSubscriptionID string, azureEnvironment string) (_model *KeystoreCreationRequestKeystoreTypeAzureCreate, err error) {
+func (*UkoV4) NewKeystoreCreationRequestKeystoreTypeAzureCreate(typeVar string, vault *VaultReferenceInCreationRequest, azureServiceName string, azureResourceGroup string, azureServicePrincipalClientID string, azureServicePrincipalPassword string, azureTenant string, azureSubscriptionID string) (_model *KeystoreCreationRequestKeystoreTypeAzureCreate, err error) {
 	_model = &KeystoreCreationRequestKeystoreTypeAzureCreate{
 		Type: core.StringPtr(typeVar),
 		Vault: vault,
 		AzureServiceName: core.StringPtr(azureServiceName),
 		AzureResourceGroup: core.StringPtr(azureResourceGroup),
-		AzureLocation: core.StringPtr(azureLocation),
 		AzureServicePrincipalClientID: core.StringPtr(azureServicePrincipalClientID),
 		AzureServicePrincipalPassword: core.StringPtr(azureServicePrincipalPassword),
 		AzureTenant: core.StringPtr(azureTenant),
 		AzureSubscriptionID: core.StringPtr(azureSubscriptionID),
-		AzureEnvironment: core.StringPtr(azureEnvironment),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	return
@@ -9450,6 +9605,10 @@ func UnmarshalKeystoreCreationRequestKeystoreTypeAzureCreate(m map[string]json.R
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "azure_environment", &obj.AzureEnvironment)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "azure_variant", &obj.AzureVariant)
 	if err != nil {
 		return
 	}
@@ -9854,8 +10013,8 @@ type KeystoreTypeAwsKms struct {
 	// A URL that uniquely identifies your cloud resource.
 	Href *string `json:"href,omitempty"`
 
-	// URL of a TLS proxy to use for connecting to private endpoints.
-	TlsProxy *string `json:"tls_proxy" validate:"required"`
+	// The status of the connection to the keystore.
+	Status *KeystoreStatus `json:"status" validate:"required"`
 
 	// AWS Region.
 	AwsRegion *string `json:"aws_region" validate:"required"`
@@ -9932,7 +10091,7 @@ func UnmarshalKeystoreTypeAwsKms(m map[string]json.RawMessage, result interface{
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	err = core.UnmarshalModel(m, "status", &obj.Status, UnmarshalKeystoreStatus)
 	if err != nil {
 		return
 	}
@@ -9952,7 +10111,7 @@ func UnmarshalKeystoreTypeAwsKms(m map[string]json.RawMessage, result interface{
 	return
 }
 
-// KeystoreTypeAzure : Properties related to Azure Key Vaults.
+// KeystoreTypeAzure : Proxy for connecting to keystore.
 // This model "extends" Keystore
 type KeystoreTypeAzure struct {
 	// Reference to a vault.
@@ -9991,8 +10150,8 @@ type KeystoreTypeAzure struct {
 	// A URL that uniquely identifies your cloud resource.
 	Href *string `json:"href,omitempty"`
 
-	// URL of a TLS proxy to use for connecting to private endpoints.
-	TlsProxy *string `json:"tls_proxy" validate:"required"`
+	// The status of the connection to the keystore.
+	Status *KeystoreStatus `json:"status" validate:"required"`
 
 	// Service name of the key vault instance from the Azure portal.
 	AzureServiceName *string `json:"azure_service_name" validate:"required"`
@@ -10001,7 +10160,7 @@ type KeystoreTypeAzure struct {
 	AzureResourceGroup *string `json:"azure_resource_group" validate:"required"`
 
 	// Location of the Azure Key Vault.
-	AzureLocation *string `json:"azure_location" validate:"required"`
+	AzureLocation *string `json:"azure_location,omitempty"`
 
 	// Azure service principal client ID.
 	AzureServicePrincipalClientID *string `json:"azure_service_principal_client_id" validate:"required"`
@@ -10016,7 +10175,13 @@ type KeystoreTypeAzure struct {
 	AzureSubscriptionID *string `json:"azure_subscription_id" validate:"required"`
 
 	// Azure environment, usually 'Azure'.
-	AzureEnvironment *string `json:"azure_environment" validate:"required"`
+	AzureEnvironment *string `json:"azure_environment,omitempty"`
+
+	// Variant of the Azure Key Vault.
+	AzureVariant *string `json:"azure_variant,omitempty"`
+
+	// URL of a TLS proxy to use for connecting to private endpoints.
+	TlsProxy *string `json:"tls_proxy,omitempty"`
 }
 
 // Constants associated with the KeystoreTypeAzure.Type property.
@@ -10029,55 +10194,6 @@ const (
 	KeystoreTypeAzure_Type_IbmCloudKms = "ibm_cloud_kms"
 )
 
-// Constants associated with the KeystoreTypeAzure.AzureLocation property.
-// Location of the Azure Key Vault.
-const (
-	KeystoreTypeAzure_AzureLocation_AsiaEast = "asia_east"
-	KeystoreTypeAzure_AzureLocation_AsiaSoutheast = "asia_southeast"
-	KeystoreTypeAzure_AzureLocation_AustraliaCentral = "australia_central"
-	KeystoreTypeAzure_AzureLocation_AustraliaCentral2 = "australia_central_2"
-	KeystoreTypeAzure_AzureLocation_AustraliaEast = "australia_east"
-	KeystoreTypeAzure_AzureLocation_AustraliaSoutheast = "australia_southeast"
-	KeystoreTypeAzure_AzureLocation_BrazilSouth = "brazil_south"
-	KeystoreTypeAzure_AzureLocation_CanadaCentral = "canada_central"
-	KeystoreTypeAzure_AzureLocation_CanadaEast = "canada_east"
-	KeystoreTypeAzure_AzureLocation_ChinaEast = "china_east"
-	KeystoreTypeAzure_AzureLocation_ChinaEast2 = "china_east_2"
-	KeystoreTypeAzure_AzureLocation_ChinaNorth = "china_north"
-	KeystoreTypeAzure_AzureLocation_ChinaNorth2 = "china_north_2"
-	KeystoreTypeAzure_AzureLocation_EuropeNorth = "europe_north"
-	KeystoreTypeAzure_AzureLocation_EuropeWest = "europe_west"
-	KeystoreTypeAzure_AzureLocation_FranceCentral = "france_central"
-	KeystoreTypeAzure_AzureLocation_FranceSouth = "france_south"
-	KeystoreTypeAzure_AzureLocation_GermanyCentral = "germany_central"
-	KeystoreTypeAzure_AzureLocation_GermanyNortheast = "germany_northeast"
-	KeystoreTypeAzure_AzureLocation_IndiaCentral = "india_central"
-	KeystoreTypeAzure_AzureLocation_IndiaSouth = "india_south"
-	KeystoreTypeAzure_AzureLocation_IndiaWest = "india_west"
-	KeystoreTypeAzure_AzureLocation_JapanEast = "japan_east"
-	KeystoreTypeAzure_AzureLocation_JapanWest = "japan_west"
-	KeystoreTypeAzure_AzureLocation_KoreaCentral = "korea_central"
-	KeystoreTypeAzure_AzureLocation_KoreaSouth = "korea_south"
-	KeystoreTypeAzure_AzureLocation_SouthAfricaNorth = "south_africa_north"
-	KeystoreTypeAzure_AzureLocation_SouthAfricaWest = "south_africa_west"
-	KeystoreTypeAzure_AzureLocation_UkSouth = "uk_south"
-	KeystoreTypeAzure_AzureLocation_UkWest = "uk_west"
-	KeystoreTypeAzure_AzureLocation_UsCentral = "us_central"
-	KeystoreTypeAzure_AzureLocation_UsDodCentral = "us_dod_central"
-	KeystoreTypeAzure_AzureLocation_UsDodEast = "us_dod_east"
-	KeystoreTypeAzure_AzureLocation_UsEast = "us_east"
-	KeystoreTypeAzure_AzureLocation_UsEast2 = "us_east_2"
-	KeystoreTypeAzure_AzureLocation_UsGovArizona = "us_gov_arizona"
-	KeystoreTypeAzure_AzureLocation_UsGovIowa = "us_gov_iowa"
-	KeystoreTypeAzure_AzureLocation_UsGovTexas = "us_gov_texas"
-	KeystoreTypeAzure_AzureLocation_UsGovVirginia = "us_gov_virginia"
-	KeystoreTypeAzure_AzureLocation_UsNorthCentral = "us_north_central"
-	KeystoreTypeAzure_AzureLocation_UsSouthCentral = "us_south_central"
-	KeystoreTypeAzure_AzureLocation_UsWest = "us_west"
-	KeystoreTypeAzure_AzureLocation_UsWest2 = "us_west_2"
-	KeystoreTypeAzure_AzureLocation_UsWestCentral = "us_west_central"
-)
-
 // Constants associated with the KeystoreTypeAzure.AzureEnvironment property.
 // Azure environment, usually 'Azure'.
 const (
@@ -10085,6 +10201,13 @@ const (
 	KeystoreTypeAzure_AzureEnvironment_AzureChina = "azure_china"
 	KeystoreTypeAzure_AzureEnvironment_AzureGermany = "azure_germany"
 	KeystoreTypeAzure_AzureEnvironment_AzureUsGovernment = "azure_us_government"
+)
+
+// Constants associated with the KeystoreTypeAzure.AzureVariant property.
+// Variant of the Azure Key Vault.
+const (
+	KeystoreTypeAzure_AzureVariant_Premium = "premium"
+	KeystoreTypeAzure_AzureVariant_Standard = "standard"
 )
 
 func (*KeystoreTypeAzure) isaKeystore() bool {
@@ -10142,7 +10265,7 @@ func UnmarshalKeystoreTypeAzure(m map[string]json.RawMessage, result interface{}
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	err = core.UnmarshalModel(m, "status", &obj.Status, UnmarshalKeystoreStatus)
 	if err != nil {
 		return
 	}
@@ -10175,6 +10298,14 @@ func UnmarshalKeystoreTypeAzure(m map[string]json.RawMessage, result interface{}
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "azure_environment", &obj.AzureEnvironment)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "azure_variant", &obj.AzureVariant)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
 	if err != nil {
 		return
 	}
@@ -10221,8 +10352,8 @@ type KeystoreTypeCca struct {
 	// A URL that uniquely identifies your cloud resource.
 	Href *string `json:"href,omitempty"`
 
-	// URL of a TLS proxy to use for connecting to private endpoints.
-	TlsProxy *string `json:"tls_proxy" validate:"required"`
+	// The status of the connection to the keystore.
+	Status *KeystoreStatus `json:"status" validate:"required"`
 
 	// indicates whether to use TLS when connecting to an EKMF agent.
 	CcaUseTls *bool `json:"cca_use_tls" validate:"required"`
@@ -10305,7 +10436,7 @@ func UnmarshalKeystoreTypeCca(m map[string]json.RawMessage, result interface{}) 
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	err = core.UnmarshalModel(m, "status", &obj.Status, UnmarshalKeystoreStatus)
 	if err != nil {
 		return
 	}
@@ -10372,8 +10503,8 @@ type KeystoreTypeGoogleKms struct {
 	// A URL that uniquely identifies your cloud resource.
 	Href *string `json:"href,omitempty"`
 
-	// URL of a TLS proxy to use for connecting to private endpoints.
-	TlsProxy *string `json:"tls_proxy" validate:"required"`
+	// The status of the connection to the keystore.
+	Status *KeystoreStatus `json:"status" validate:"required"`
 
 	// The value of the JSON key represented in the Base64 format.
 	GoogleCredentials *string `json:"google_credentials" validate:"required"`
@@ -10458,7 +10589,7 @@ func UnmarshalKeystoreTypeGoogleKms(m map[string]json.RawMessage, result interfa
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	err = core.UnmarshalModel(m, "status", &obj.Status, UnmarshalKeystoreStatus)
 	if err != nil {
 		return
 	}
@@ -10525,8 +10656,8 @@ type KeystoreTypeIbmCloudKms struct {
 	// A URL that uniquely identifies your cloud resource.
 	Href *string `json:"href,omitempty"`
 
-	// URL of a TLS proxy to use for connecting to private endpoints.
-	TlsProxy *string `json:"tls_proxy" validate:"required"`
+	// The status of the connection to the keystore.
+	Status *KeystoreStatus `json:"status" validate:"required"`
 
 	// API endpoint of the IBM Cloud keystore.
 	IbmApiEndpoint *string `json:"ibm_api_endpoint" validate:"required"`
@@ -10620,7 +10751,7 @@ func UnmarshalKeystoreTypeIbmCloudKms(m map[string]json.RawMessage, result inter
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "tls_proxy", &obj.TlsProxy)
+	err = core.UnmarshalModel(m, "status", &obj.Status, UnmarshalKeystoreStatus)
 	if err != nil {
 		return
 	}
@@ -10755,56 +10886,10 @@ type KeystoreUpdateRequestKeystoreTypeAzureUpdate struct {
 
 	// Azure environment, usually 'Azure'.
 	AzureEnvironment *string `json:"azure_environment,omitempty"`
-}
 
-// Constants associated with the KeystoreUpdateRequestKeystoreTypeAzureUpdate.AzureLocation property.
-// Location of the Azure Key Vault.
-const (
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_AsiaEast = "asia_east"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_AsiaSoutheast = "asia_southeast"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_AustraliaCentral = "australia_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_AustraliaCentral2 = "australia_central_2"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_AustraliaEast = "australia_east"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_AustraliaSoutheast = "australia_southeast"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_BrazilSouth = "brazil_south"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_CanadaCentral = "canada_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_CanadaEast = "canada_east"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_ChinaEast = "china_east"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_ChinaEast2 = "china_east_2"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_ChinaNorth = "china_north"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_ChinaNorth2 = "china_north_2"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_EuropeNorth = "europe_north"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_EuropeWest = "europe_west"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_FranceCentral = "france_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_FranceSouth = "france_south"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_GermanyCentral = "germany_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_GermanyNortheast = "germany_northeast"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_IndiaCentral = "india_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_IndiaSouth = "india_south"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_IndiaWest = "india_west"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_JapanEast = "japan_east"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_JapanWest = "japan_west"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_KoreaCentral = "korea_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_KoreaSouth = "korea_south"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_SouthAfricaNorth = "south_africa_north"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_SouthAfricaWest = "south_africa_west"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UkSouth = "uk_south"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UkWest = "uk_west"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsCentral = "us_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsDodCentral = "us_dod_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsDodEast = "us_dod_east"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsEast = "us_east"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsEast2 = "us_east_2"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsGovArizona = "us_gov_arizona"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsGovIowa = "us_gov_iowa"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsGovTexas = "us_gov_texas"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsGovVirginia = "us_gov_virginia"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsNorthCentral = "us_north_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsSouthCentral = "us_south_central"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsWest = "us_west"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsWest2 = "us_west_2"
-	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureLocation_UsWestCentral = "us_west_central"
-)
+	// Variant of the Azure Key Vault.
+	AzureVariant *string `json:"azure_variant,omitempty"`
+}
 
 // Constants associated with the KeystoreUpdateRequestKeystoreTypeAzureUpdate.AzureEnvironment property.
 // Azure environment, usually 'Azure'.
@@ -10813,6 +10898,13 @@ const (
 	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureEnvironment_AzureChina = "azure_china"
 	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureEnvironment_AzureGermany = "azure_germany"
 	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureEnvironment_AzureUsGovernment = "azure_us_government"
+)
+
+// Constants associated with the KeystoreUpdateRequestKeystoreTypeAzureUpdate.AzureVariant property.
+// Variant of the Azure Key Vault.
+const (
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureVariant_Premium = "premium"
+	KeystoreUpdateRequestKeystoreTypeAzureUpdate_AzureVariant_Standard = "standard"
 )
 
 func (*KeystoreUpdateRequestKeystoreTypeAzureUpdate) isaKeystoreUpdateRequest() bool {
@@ -10867,6 +10959,10 @@ func UnmarshalKeystoreUpdateRequestKeystoreTypeAzureUpdate(m map[string]json.Raw
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "azure_environment", &obj.AzureEnvironment)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "azure_variant", &obj.AzureVariant)
 	if err != nil {
 		return
 	}
